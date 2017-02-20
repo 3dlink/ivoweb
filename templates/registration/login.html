@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+
+{% block content %}
+<div class='row'>
+<div class='col-sm-6 col-sm-offset-3'>
+<h1>Login</h1>
+<form method="post" action="post">
+  {% csrf_token %}
+  <div class="control-group">
+      <div class="controls">
+          <div class="main_input_box">
+              <input type="text" name="username" required = "required" class="form-control" placeholder="Usuario" />
+          </div>
+      </div>
+  </div>
+  <div class="control-group">
+      <div class="controls">
+          <div class="main_input_box">
+              <input type="password" name="password" class="form-control" required = "required" placeholder="Contraseña" />
+          </div>
+      </div>
+  </div>
+
+  <input class='btn btn-block btn-primary' type="submit" value="{% trans 'Submit' %}" />
+  <input type="hidden" name="next" value="{{ next }}" />
+</form>
+</div>
+
+</div>
+<hr/>
+<div class='row'>
+<div class='col-sm-6 col-sm-offset-3 text-align-center'>
+
+</div>
+</div>
+
+{% endblock %}

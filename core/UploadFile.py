@@ -1,0 +1,101 @@
+import os
+from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
+from django.utils import timezone
+import hashlib
+import base64 
+from PIL import Image
+
+
+class UploadFile:
+    __file = ''
+    __fileExtension = ''
+    __fileType = ''
+    __fileName = ''
+    __folder_culter = ''
+    mensaje = ''
+
+    def __init__(self, file, fileName, folder_cluster):
+        self.__file = file
+        tipo_archivo = self.__file.content_type.split('/')
+        self.__fileExtension = '.'+tipo_archivo[1]
+        self.__fileType = tipo_archivo[0]
+        self.__fileName = fileName
+        self.__folder_culter = folder_cluster + '/'
+
+        '''valida si el director para el cluster que quieren usar esta creado en el sistema '''
+
+        if not os.path.isdir(settings.MEDIA_ROOT + '/' + folder_cluster):
+            os.mkdir(settings.MEDIA_ROOT + '/' + folder_cluster)
+
+        if self.__fileType != 'image':
+            self.__verficarExtensionArchivo()
+    def __verficarExtensionArchivo(self):
+        if self.__fileType == 'audio':
+            if self.__fileExtension == '.mpeg' or self.__fileExtension == '.MPA' or self.__fileExtension == '.mpa-robust':
+                self.__fileExtension = '.mp3'
+
+    def __encrypName(self):
+        return hashlib.sha1(str(str(timezone.now())).encode('utf-8')).hexdigest()
+
+    def upload(self):
+        if len(self.__fileName) == 0:
+            self.__fileName = self.__encrypName()
+
+        try:
+            destination = open(settings.MEDIA_ROOT +'/'+self.__folder_culter + self.__fileName + self.__fileExtension, 'wb+')
+
+
+            for chunk in self.__file.chunks():
+                destination.write(chunk)
+
+            if self.__fileType == 'image':
+                self.setResize(960)
+                self.setResize(480,'md')
+                self.setResize(320,'sm')
+            return True
+
+        except (OSError, IOError) as e:
+            self.mensaje = _('Disculpe no se logro subir la imagen')
+            print(e.errno)
+            print(e.filename)
+            print(e.strerror)
+
+    def getFile(self):
+        return self.__folder_culter + self.__fileName + self.__fileExtension
+
+    def getNameFile(self):
+        return self.__fileName + self.__fileExtension
+
+    def getCluster(self):
+        return self.__folder_culter
+    '''
+    @staticmethod
+    def setDeleteFile(fileName):
+        photo = settings.MEDIA_ROOT + '/' + fileName
+        thumb = fileName.split('/')
+        photoThumb = settings.MEDIA_ROOT + '/' + thumb[0] + '/thumb_' + thumb[1]
+        try:
+            os.remove(photo)
+            os.remove(photoThumb)
+            return True
+        except OSError:
+            return False
+    '''
+
+    def setResize(self, width, name=''):
+        origin = settings.MEDIA_ROOT +'/'+self.__folder_culter + self.__fileName + self.__fileExtension
+        im1 = Image.open(origin)
+
+        wpercent = float(width / im1.size[0])
+        hsize = int(im1.size[1] * wpercent)
+        img = im1.resize((width, hsize), Image.ANTIALIAS)      # use nearest neighbour
+
+        if name == '':
+            new_img = settings.MEDIA_ROOT +'/'+self.__folder_culter +self.__fileName + self.__fileExtension
+        else:
+            new_img = settings.MEDIA_ROOT +'/'+self.__folder_culter + name +'_'+self.__fileName + self.__fileExtension
+
+        img.save(new_img)
+
+

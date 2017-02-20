@@ -1,0 +1,497 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+    {% block javascript %}
+
+        <!--
+        <script type="text/javascript" src="{% static 'js/lightgallery.js' %}"></script>
+        -->
+
+        <script type="text/javascript" src="{% static 'js/jquery.blueimp-gallery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/bootstrap-image-gallery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/perfil.js' %}"></script>
+
+
+        <script>
+        	$(function(){
+        		var foto = '{{datos_personales.avatar}}';
+        		foto = foto.split('/');
+        		foto  = '/media/avatar/md_'+foto[1];
+
+        		$('#foto_perfil').css({'background-image':'url('+foto+')'});
+
+                $('#send_form_eduacion').click(function(){
+
+                });
+        	});
+        </script>
+
+    {% endblock %}
+
+    {% block cssblock %}
+    	<!--<link rel="stylesheet" href="{% static 'css/galeria.css' %}"> -->
+		<!-- Gallery -->
+		<!-- Gallery -->
+		<!-- Css ivo-talents -->
+
+		<!-- |*| -->
+        <link rel="stylesheet" href="https://blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
+        <link rel="stylesheet" href="{% static 'css/bootstrap-image-gallery.min.css' %}">
+		<style type="text/css">
+			.carousel-caption {
+				bottom: 0px;
+    			top:180px;
+			}
+			{% if tema == 'azul' %}
+			.ivo-perfil-informacionPrf >li> h4,.ivo-perfil-intereses>li>h4, p{color:white}
+
+			{% endif %}
+			.ivo-noticias {margin-bottom: 40px;}
+
+			.ivo-casting-imagen1 { background-image: url({% static 'img/incubus1.jpg' %});}
+
+			.ivo-casting-imagen2 { background-image: url( {% static 'img/incubus2.jpg' %});}
+
+			.ivo-casting-industriaBck {background-image: url( {% static 'img/casting-concierto.jpg' %});}
+
+			.ivo-perfil-imgPerfil {
+				background-image: url({% static 'img/avatar-ivo.jpg' %});
+			}
+
+			@media (max-width: 768px) {
+				.carousel-caption {
+				    left: 15%;
+				    right: 15%;
+				}
+			}
+		</style>
+
+    {% endblock %}
+
+		{% block content %}
+
+		<!-- Full Page Image Background Carousel Header -->
+	    <header id="myCarousel" class="carousel slide ivo-casting-headerContenedor ivo-borde-{{tema}} ivo-perfil-header">
+	        <!-- Wrapper for Slides -->
+	        <div class="carousel-inner">
+	            <div class="item active">
+	            	<div class="ivo-layer-gry"></div>
+	                <!-- Set the first background image using inline CSS below. -->
+	                <div class="fill" style="background-image:url( '{% static "img/header-casting.jpg" %}');"></div>
+	                <div class="carousel-caption ivo-casting-header ivo-casting-header-anchoCaja" style="text-align:left;">
+						<div class="row">
+							<div class="col-xs-12 visible-xs">
+								<div class="ivo-perfil-imgPerfil ivo-perfil-imgPerfil-tope" style="background-image: url({{datos_personales.avatar}})"></div>
+							</div>
+							<!-- Informacion Basica del Perfil -->
+							<div class="col-sm-10 col-md-5 col-md-offset-4 col-sm-offset-4">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info">
+									<li><span class="ivo-etiqueta-titulo ivo-font-{{tema}} ivo-perfil-etiqueta">M&uacute;sica</span></li>
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre">{{datos_personales.first_name}} {{datos_personales.last_name}}</li>
+									<li class="ivo-perfil-talento">Violinista</li>
+									<li style="margin-bottom: 5px !important;">
+										<span class="glyphicon glyphicon-heart ivo-font-naranja ivo-perfil-like"></span>
+										<font class="ivo-perfil-fans ivo-perfil-fans-ver">500 fans</font>
+									</li>
+									<li class="ivo-perfil-estrellas">
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
+									</li>
+								</ul>
+							</div>
+							<!-- Compartir en Redes Sociales -->
+							<div class="col-md-3 col-md-offset-0 visible-md visible-lg">
+								<div class="row ivo-casting-headerDer text-right ivo-perfil-socialH">
+									<div class="col-md-12">
+										<a href="#" class="ivo-boton-fondo ivo-casting-botonP ivo-perfil-botonH" data-toggle="modal" data-target="#ModalPortada">Cambiar Cover Foto</a>
+									</div>
+									<div class="col-md-12">
+										<ul class="ivo-casting-socialR ivo-perfil-socialM ">
+											<li class="titulo">Compartir</li>
+											<li><a href="{{datos_personales.facebook}}"><span class="social_facebook_circle"></span></a></li>
+											<li><a href="{{datos_personales.twitter}}"><span class="social_twitter_circle"></span></a></li>
+											<li><a href="{{datos_personales.instagram}}"><span class="social_instagram_circle"></span></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="ivo-contador"></div>
+						<div class="ivo-white-box"></div>
+	                </div>
+	            </div>
+	        </div>
+	    </header>
+	    <!-- Perfil -->
+		{% if tema == 'azul' %}
+	    	<div class="container-fluid ivo-perfil-panel" style="background:black">
+		{% else %}
+				<div class="container-fluid ivo-perfil-panel">
+		{% endif %}
+	    	<div class="container">
+	    		<!-- Caja 1 -->
+	    		<div class="row ivo-perfil-caja1">
+		    		<div class="col-md-3">
+			    		<div class="row " style="padding: 0 10%;">
+			   				<ul class="ivo-casting-socialR ivo-perfil-panelSocial">
+								<li class="titulo">Sigue a {{datos_personales.first_name}}</li>
+								<li class="redes"><a class="ivo-font-{{tema}}" href="{{datos_personales.facebook}}"><span class="social_facebook_circle"></span></a></li>
+								<li class="redes"><a class="ivo-font-{{tema}}" href="{{datos_personales.twitter}}"><span class="social_twitter_circle"></span></a></li>
+								<li class="redes"><a class="ivo-font-{{tema}}" href="{{datos_personales.instagram}}"><span class="social_instagram_circle"></span></a></li>
+								<li class="enlace">
+									<a class="ivo-font-{{tema}}" href="{{datos_personales.website}}">Web Oficial</a>
+								</li>
+							</ul>
+							<ul class="ivo-perfil-infoComplemento">
+								<li><span class="icon-map-marker"></span> {{datos_personales.ciudad}},  {{datos_personales.pais}}</li>
+								<li><span class="icon-exit"></span> Registrado {{datos_personales.date_joined|date:"M d, Y"}}</li>
+							</ul>
+			    		</div>
+			    	</div>
+		    		<div class="col-md-9 ivo-perfil-bio">
+						{% if tema == 'azul' %}
+		    				<div class="flag ivo-back-azul ivo-dashboard-flag-ind"></div>
+
+						{% else %}
+							<div class="flag ivo-back-naranja"></div>
+						{% endif %}
+		    			<span class="ivo-etiqueta-titulo ivo-back-{{tema}} ivo-perfil-bioEtq">Bio</span>
+		    			<p>
+		    				{{datos_personales.biografia}}
+		    			</p>
+		    		</div>
+				</div>
+				<!-- Caja 2 -->
+				<div class="row ivo-perfil-caja2">
+		    		<div class="col-md-3 ivo-perfil-caja2-lateral">
+			    		<div class="row" style="padding: 0 10%;">
+			    			<ul class="ivo-perfil-enlaces">
+			    				<li>
+			    					<a class="ivo-boton-fondo ivo-font-azulClaro ivo-perfil-enlaces-seguir" href="#">Seguir</a>
+			    				</li>
+			    				<li>
+			    					<a class="ivo-font-{{tema}} ivo-perfil-enlaces-mensaje" href="#">
+			    						<span class="icon-envelope"></span> Enviar Mensaje
+			    					</a>
+			    				</li>
+			    			</ul>
+							<ul class="ivo-perfil-informacionPrf">
+								<li>
+									<h4>Nacionalidad</h4>
+									<h6>{{datos_personales.nacionalidad}}</h6>
+								</li>
+								<li>
+									<h4>Pais de Residencia</h4>
+									<h6>{{datos_personales.pais}}</h6>
+								</li>
+								<li>
+									<h4>Ciudad de Residencia</h4>
+									<h6>{{datos_personales.ciudad}}</h6>
+								</li>
+								<li>
+									<h4>Pasaporte</h4>
+									<h6>{{datos_personales.pasaporte}}</h6>
+								</li>
+								<li>
+									<h4>Visas</h4>
+									{%  if datos_personales.visa == 'None' %}
+										<h6>No</h6>
+									{% else %}
+										<h6>Si</h6>
+									{% endif %}
+								</li>
+								<li>
+									<h4>Telefono</h4>
+									<h6>{{datos_personales.telefono}}</h6>
+								</li>
+								<li>
+									<h4>Agencia o Manager</h4>
+									<h6>{{datos_personales.agencia}}</h6>
+								</li>
+							</ul>
+							<ul class="ivo-perfil-intereses">
+								<li class="titulo">
+
+									{% if tema == 'azul' %}
+									<div class="flag ivo-back-azul ivo-dashboard-flag-ind"></div>
+									{% else %}
+									<div class="flag ivo-back-naranja ivo-dashboard-flag-art"></div>
+									{% endif %}
+									<div class="ivo-etiqueta-titulo ivo-back-{{tema}} ivo-perfil-bioEtq ivo-font-blanco ivo-dashboard-etiqueta-titulo">
+										Intereses
+									</div>
+								</li>
+								<li>
+									<img src="{% static 'img/musica.png' %}">
+									<h4>Musica</h4>
+								</li>
+								<li>
+									<img src="{% static 'img/conciertos-eventos.png' %}">
+									<h4>Conciertos y Eventos</h4>
+								</li>
+								<li>
+									<img src="{% static 'img/industria-musical.png' %}">
+									<h4>Industria Musical</h4>
+								</li>
+							</ul>
+			    		</div>
+			    	</div>
+		    		<div class="col-md-9">
+		    			<div class="row text-center">
+							{% if datos_personales.tipo_usuario != 'I' %}
+		    					<div class="col-md-12 ivo-perfil-menuSp">
+							{% else %}
+								<div class="col-md-12 ivo-perfil-menuSp ivo-perfil-menuSp-ind">
+							{% endif %}
+				    				<div id="image" class="col-xs-12 col-sm-3 col-md-3 inicio activo link_galeria">
+				    					<h3><a>Fotos</a></h3>
+				    				</div>
+				    				<div id="audio" class="col-xs-12 col-sm-3 col-md-3 link_galeria">
+				    					<h3><a>Audio</a></h3>
+				    				</div>
+				    				<div id="video" class="col-xs-12 col-sm-3 col-md-3 link_galeria">
+				    					<h3><a>Videos</a></h3>
+				    				</div>
+									{% if datos_personales.tipo_usuario != 'I' %}
+				    				<div id="experiencia" class="col-xs-12 col-sm-3 col-md-3 link_galeria">
+				    					<h3><a>Experiencia</a></h3>
+				    				</div>
+									{% endif %}
+				    		</div>
+		    			</div>
+						<div class="row">
+							<div class="col-md-12 ivo-perfil-galeria galerias" id="gallery-image">
+
+							</div>
+                            <div  id="gallery-audio" class="galerias" style="display: none">
+
+							</div>
+                            <div  id="gallery-video" class="galerias" style="display: none">
+
+							</div>
+                            <div  id="gallery-experiencia" class="galerias" style="display: none">
+                                <div class="row">
+                                    <div class="col-md-5 col-md-offset-1">
+                                        <div class="row">
+                                            <div class="col-md-12 ivo-perfil-experiencia">
+                                                <h2>Experiencia</h2>
+                                                <ul>
+                                                    {% for experiencia in experiencia %}
+                                                        <li>
+                                                            <h4>{{ experiencia.cargo }}</h4>
+                                                            <p>
+                                                                {{ experiencia.empresa }}
+                                                                <font>{{ experiencia.fecha_desde }} - {{ experiencia.fecha_hasta }}</font>
+                                                            </p>
+
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 ivo-perfil-experiencia">
+                                                <h2>Educación</h2>
+                                                <ul>
+                                                    {% for educacion in educacion %}
+                                                        <li>
+                                                            <h4>{{ educacion.titulo }}</h4>
+                                                            <p>
+                                                                {{ educacion.institucion }}
+                                                                <font>{{ educacion.fecha_inicio_estudio }} - {{ educacion.fecha_fin_estudio }}</font>
+                                                            </p>
+
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="row">
+                                            <div class="col-md-12 ivo-perfil-experiencia">
+                                                <h2>Cita</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 text-right ivo-perfil-barraInf" >
+								<button id="ivo-subir" data-toggle="modal" data-target="#SubirFoto">
+									<span class="glyphicon glyphicon-open"></span> Subir
+								</button>
+								<ul id="item_paginas">
+
+								</ul>
+							</div>
+						</div>
+		    		</div>
+					{% if datos_personales.tipo_usuario == 'I' %}
+					{% include 'perfiles/casting.html' %}
+					{% endif %}
+                    {% if datos_personales.tipo_usuario == 'A' %}
+		    		<!-- INFO ADICIONAL -->
+		    		<div class="col-md-12">
+		    			<ul class="ivo-perfil-infoAdicional">
+							<li>
+								<div>
+									<img src="{% static 'img/icono-camara.png' %}">
+								</div>
+								<h4>Nacimiento</h4>
+								<h5>{{ datos_personales.fecha_nacimiento }}</h5>
+								<h6>Edad 24</h6>
+							</li>
+							<li>
+								<div>
+									<img src="{% static 'img/icono-camara.png' %}">
+								</div>
+								<h4>Sexo</h4>
+								<h5>
+                                    {% if datos_personales.genero == 'M' %}
+                                    Masculino
+                                    {% else %}
+                                    Femenino
+                                    {% endif %}
+                                </h5>
+							</li>
+
+							<li>
+								<div>
+									<img src="{% static 'img/icono-camara.png' %}">
+								</div>
+								<h4>Etnia</h4>
+								<h5>{{ datos_personales.etnia }}</h5>
+							</li>
+							<li>
+								<div>
+									<img src="{% static 'img/icono-camara.png' %}">
+								</div>
+								<h4>Ojos</h4>
+								<h5>{{ datos_personales.color_ojos }}</h5>
+							</li>
+							<li>
+								<div>
+									<img src="{% static 'img/icono-camara.png' %}">
+								</div>
+								<h4>Cabello</h4>
+								<h5>{{ datos_personales.color_cabello }}</h5>
+							</li>
+							<li>
+								<div>
+									<img src="{% static 'img/icono-camara.png' %}">
+								</div>
+								<h4>Tatuajes</h4>
+								<h5>{{ datos_personales.tatuaje }}</h5>
+							</li>
+							<li>
+								<div>
+									<img src="{% static 'img/icono-camara.png' %}">
+								</div>
+								<h4>Viajar</h4>
+								<h5>SI</h5>
+							</li>
+						</ul>
+		    		</div>
+                    <!-- info adicional -->
+                    {% endif %}
+				</div>
+
+	    	</div>
+	    </div>
+		<!-- App -->
+		<div class="container-fluid ivo-artistas-appBck">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-lg-12 ivo-artistas-app">
+						<div class="row">
+							<div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-0 col-lg-5 col-lg-offset-0">
+								<img src="{% static 'img/ivo-lg3.png' %}" class="img-responsive ivo-app-logo general">
+								<h2>Descarga nuestra App Movil</h2>
+								<a href="#" class="ivo-app-goplay general">
+									<img src="{% static 'img/google-play.png' %}">
+								</a>
+								<a href="#" class="ivo-app-appsto general">
+									<img src="{% static 'img/appstore.png' %}">
+								</a>
+								<br class="clear">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="ivo-perfil-imgPerfil ivo-perfil-imgPerfil-header" id = "foto_perfil"></div>
+		<!-- Galeria -->
+		<div id="blueimp-gallery" class="blueimp-gallery">
+		    <!-- The container for the modal slides -->
+		    <div class="slides"></div>
+		    <!-- Controls for the borderless lightbox -->
+		    <h3 class="title"></h3>
+		    <a class="prev">‹</a>
+		    <a class="next">›</a>
+		    <a class="close">×</a>
+		    <a class="play-pause"></a>
+		    <ol class="indicator"></ol>
+
+		    <!-- The modal dialog, which will be used to wrap the lightbox content -->
+		    <div class="modal fade">
+		        <div class="modal-dialog">
+		            <div class="modal-content ivo-perfil-galeriaFlt">
+		                <div class="modal-header ivo-perfil-galeriaFlt-header">
+		                    <button type="button" class="close" aria-hidden="true"><span class="icon_close"></span></button>
+		                    <h4 class="ivo-borde-azulClaro">Ver Fotos</h4>
+		                </div>
+		                <div class="modal-body next"></div>
+		                <div class="modal-footer ivo-perfil-galeriaFlt-footer">
+		                	<div class="modal-title"></div>
+		                    <button type="button" class="btn btn-default pull-left prev">
+		                        <i class="arrow_carrot-left"></i>
+		                    </button>
+		                    <button type="button" class="btn btn-primary next">
+		                        <i class="arrow_carrot-right"></i>
+		                    </button>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+
+		<!-- Modal Subir Imagen -->
+		<div class="modal fade" id="SubirFoto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content ivo-perfil-galeriaFlt">
+					<div class="modal-header ivo-perfil-galeriaFlt-header">
+						<button type="button" class="close" aria-hidden="true" data-dismiss="modal"><span class="icon_close"></span></button>
+						<h4 class="ivo-borde-azulClaro" style="width: 70%;">Subir <span id="titulo_modal_subir_archivo"></span></h4>
+					</div>
+					<div class="modal-body">
+						<div class="col-md-12 ivo-perfil-galeriaFlt-bodyUp text-center">
+							<div class="col-md-8 col-md-offset-2 ivo-perfil-galeriaFlt-bodyUp text-center">
+								<img src="{% static 'img/subida.png' %}" style="cursor:pointer;" class = "subir_archivo">
+								<h4>Click para seleccionar los archivos que quieras subir </br> <!--<span>O arrastra y suelta archivos</span>--></h4>
+							</div>
+							<div class="col-md-8 col-md-offset-2 ivo-perfil-galeriaFlt-bodyUp text-center">
+								<div class="ivo-mensaje-contenedorAudio ivo-mensaje-contenedorAudio-noBorde ivo-contenedorAudio-bck1">
+									<div class="ivo-mensaje-contenedorAudio-carga" style="height:40px; width: 0%;" id="progreso_subida"></div>
+									<div class="ivo-mensaje-contenedorAudio-contenido2">
+										<span class="tiempo" id="porcentaje_subida">0%</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer ivo-perfil-galeriaFlt-footer"></div>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" name="csrfmiddlewaretoken" value="{{csrf_token}}" id="csrf">
+{% endblock %}

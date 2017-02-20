@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block cssblock %}
+    <style type="text/css">
+    .ivo-pregunta { height: auto;}
+        .ivo-form  select {width: 100%}
+
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <!-- Intro -->
+    <div class="container-fluid ivo-pregunta" style="background-image: url({% static 'img/pregunta2.jpg' %});">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-6">
+                    <h1>Reg&iacute;strate en nuestra plataforma</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-md-offset-3">
+                    <form method="POST" class="ivo-form" id="ivo-form">
+                        <input type="hidden" name="tipo_usuario" value="I">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6">
+                                <input type="text" name="empresa_provedor" placeholder="{% trans 'Empresa' %}" class="inputlft" required="required">
+                            </div>
+                            <div class="col-md-6 col-lg-6">
+                                <input type="text" name="razon_social" required="required" placeholder="{% trans 'Razon Social' %}">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6">
+                                <input type="text" name="pais" required="required" placeholder="{% trans 'Pais' %}" class="inputlft">
+                            </div>
+                            <div class="col-md-6 col-lg-6">
+                                <input type="text" name="email" required="required" placeholder="{% trans 'mail' %}">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6">
+                                <input type="text" name="telefono" required="required" placeholder="{% trans 'Telefono' %}" class="inputlft" onkeypress="return soloNumeros(event)">
+                            </div>
+                            <div class="col-md-6 col-lg-6">
+                                <input type="text" name="website" required="required" placeholder="{% trans 'Website' %}">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12">
+                                <h4>{% trans 'Redes Sociales' %}</h4>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="ivo-social-form">
+                                    <span class="social_facebook_circle"></span>
+                                </div>
+                                <input type="text" name="facebook" class="inputlft social" required="required" mensaje = "{% trans 'Facebook es una campo requerido' %}">
+                            </div>
+                            <div class="col-md-6 col-lg-6">
+                                <div class="ivo-social-form">
+                                    <span class="social_twitter_circle"></span>
+                                </div>
+                                <input type="text" name="twitter" class="social" required="required" mensaje = "{% trans 'Twitter es una campo requerido' %}">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6 col-md-offset-3">
+                                <div class="ivo-social-form">
+                                    <span class="social_instagram_circle"></span>
+                                </div>
+                                <input type="text" name="instagram" class="social" required="required" mensaje = "{% trans 'Instagram es una campo requerido' %}">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12">
+                                <input type="text" name="direccion" placeholder="{% trans 'Direccion (Opcional)' %}" class="direccion">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12">
+                                <select placheholder="Sector" name="sector" id="sector" required="required">
+                                    <option>{% trans 'Sector' %}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6">
+                                <input type="password" name="password1" id="password1" placeholder="{% trans 'Clave' %}" class="inputlft" autosave="false" autocomplete="false">
+                            </div>
+                            <div class="col-md-6 col-lg-6">
+                                <input type="password" name="password2" id="password2" placeholder="{% trans 'Confirmar Clave' %}" autosave="false" autocomplete="false">
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin:30px 0;">
+                            <div class="col-md-7 col-lg-7 col-md-offset-3" style="margin: 0 auto !important; position: relative; float: initial;">
+                                <div class="pull-left">
+                                    <input type="checkbox" name="terminos" id="checkbox-terminos" value="1" class="regular-checkbox">
+                                    <label for="checkbox-terminos"></label>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="/terminos-condiciones"><i>Leer Terminos y Condiciones</i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6 col-md-offset-3" style="text-align: center;">
+                                <button class="ivo-boton-fondoInpt ivo-borde-trs-verde" id="btn_registrar">
+                                    <span class="ivo-back-trs-verde ivo-borde-transparente">{% trans 'Registrar' %}</span>
+                                </button>
+                            </div>
+                        </div>
+                        {% csrf_token %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascript %}
+<script>
+    $(function(){
+        getSector();
+        $('#ivo-form').submit(function(){
+            return false;
+        });
+        $('#btn_registrar').click(function(){
+            if( !$('#checkbox-terminos').is(':checked') ) {
+                alert('Debe aceptar los terminos y condiciones');
+                return;
+            }
+            if( $('#password1').val().trim() != $('#password2').val().trim()){
+                alert(' {% trans 'La confirmación de clave debe ser igual al campo clave' %} ')
+                return;
+            }
+
+            if(validarForm($('#ivo-form input'))){
+                registrar();    
+            }
+            
+        });
+    });
+    function getSector(){
+        NProgress.start();
+        $.ajax({
+            url: '/registro/industria/',
+            type: 'get',
+            dataType: 'json',
+            data: {csrfmiddlewaretoken:'{{csrf_token }}'},
+            success: function (data) {
+                NProgress.done();
+
+                if(data.mensaje == ''){
+                    $('#sector').html(data.data)
+                }
+            }
+        });
+    }
+    function registrar(){
+        $.ajax({
+            url: '/industria/',
+            type: 'post',
+            dataType: 'json',
+            data: $('#ivo-form').serialize(),
+            success: function (data) {
+                NProgress.done();
+                if(data.success == false){
+                    if(data.errors.fields){
+                        $.each(data.errors.fields, function(i, item) {
+                            alert(i+ " "+item);
+                        });    
+                    }else{
+                        alert(data.mensaje)
+                    }
+                    
+                }else{
+                    alert(data.mensaje)
+                }
+            }
+        });
+    }
+</script>
+{% endblock javascript %}

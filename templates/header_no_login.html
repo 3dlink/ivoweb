@@ -1,0 +1,70 @@
+{% load staticfiles %}
+<!-- Header -->
+		<div class="container-fluid ivo-header ivo-header-normal">
+			<div class="container">
+				<div class="row">
+					<a href="/" title="home">
+                        <div class="col-xs-10 col-sm-5 col-md-5 col-lg-5  ivo-header-logo">
+                            <div class="logo">
+                                <img src="{% static 'img/ivo-lg2.png' %}">
+                            </div>
+                            <div class="nombre">
+                                <img src="{% static 'img/ivo-lg1.png' %}">
+                            </div>
+                        </div>
+                    </a>
+					<!--div class="col-xs-4 col-sm-3 col-md-3 col-lg-4 ivo-header-espacio"></div-->
+					<div class="cols-xs-3 col-sm-3 col-md-3 col-lg-3 col-xs-offset-3 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 ivo-header-panelUsuario">
+						<div class="ivo-header-panelUsuario-perfil">
+							<div style="background: transparent;"></div>
+							<p id="ivo-usuario" class="ivo-header-login">
+								Login
+							</p>
+							<ul class="ivo-usuario-subMenu ivo-login-subMenu">
+								<li class="ivo-usuario-triangulo ivo-usuario-triangulo-login"><img src="{% static 'img/triangulo.png' %}"></li>
+								<li>
+									<h2>Login</h2>
+								</li>
+								<li class="ivo-login-redes text-center">
+									<button class="ivo-boton-fondoInpt ivo-border-fcb" style="margin-bottom: 20px;">
+										<div class="ivo-back-fcb ivo-borde-transparente">Ingresa con facebook</div>
+									</button>
+									<button class="ivo-boton-fondoInpt ivo-borde-red">
+										<div class="ivo-back-red ivo-borde-transparente">Ingresa con Google</div>
+									</button>
+								</li>
+								<li>
+									<div class="ivo-form-avisoFan ivo-login-form-avisoFan">
+										<h5>
+											<span>O utilizando tu correo electrónico</span>
+										</h5>
+									</div>
+								</li>
+								<li class="ivo-login-form">
+									<form action="/login/" method="post">
+                                        <input type="hidden" name="next" value="{{ next }}" />
+                                        {% csrf_token %}
+										<h4 style="font-style:normal;">Email</h4>
+										<input type="text" name="username" class="ivo-borde-azulClaro">
+										<h4 style="font-style:normal;">Password</h4>
+										<input type="password" name="password" class="ivo-borde-azulClaro">
+										<button class="ivo-boton-fondoInpt ivo-borde-verde" style="margin-top: 8px">
+											<span class="ivo-back-verde ivo-borde-transparente">Ingresar</span>
+										</button>
+									</form>
+								</li>
+								<li style="padding-bottom:0;" class="text-left">
+									<p class="text-left"> Aun no tienes cuenta? <a href="{% url 'registrate' %}">Registrate aqui</a></p>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 ivo-header-panelMenu">
+						<div id="ivo-boton-menu">
+							<span class="icon_menu" aria-hidden="true"></span>
+							<p>MENU</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>

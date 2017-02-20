@@ -1,0 +1,316 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block cssblock %}
+    <style type="text/css">
+    .ivo-pregunta { height: auto;}
+    </style>
+{% endblock %}
+
+{% block content %}
+<!-- Intro -->
+<div class="container-fluid ivo-pregunta" style="background-image: url({% static 'img/pregunta2.jpg' %});">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <h1>Reg&iacute;strate en nuestra plataforma</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 col-lg-10 col-md-offset-1 text-center">
+                        <a href="#" class="ivo-boton-fondo ivo-form-fanBot">
+                            <span>Registrate con facebook</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="row" style="margin: 40px 0 10px;">
+                    <div class="col-md-10 col-lg-10 col-md-offset-1">
+                        <div class="ivo-form-avisoFan">
+                            <h5>
+                                <span>O utilizando tu correo electr&oacute;nico</span>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8 col-lg-8 col-md-offset-2">
+
+
+        <!-- FORMULARIO -->
+            <div class="col-md-8 col-lg-8 col-md-offset-2">
+                <form method="POST" class="ivo-form ivo-form-registro" id="ivo-form-registro">
+
+                    <input type="hidden" name="genero" id="genero" required="required" value="M">
+                    <input type="hidden" name="fecha_nacimiento" id="fecha_nacimiento">                    
+                    <input type="hidden" name="tipo_usuario" value="F">
+
+                    <div class="row">
+                        <div "col-md-6 col-lg-6">
+                            <input type="text" name="first_name" mensaje="{% trans 'Nombre es un campo requerido' %}"
+                                   placeholder="{% trans 'Nombre' %}" required = "required" >
+                        </div>
+                        <div class="col-md-6 col-lg-6">
+                            <input type="text" name="last_name" mensaje="{% trans 'Apellido es un campo requerido' %}"
+                                   placeholder="{% trans 'Apellido' %}" required = "required">
+                        </div>
+
+                    </div>
+                   <div class="row">
+                                <div class="col-md-12 col-lg-12">
+                                    <h4>Redes Sociales</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="ivo-social-form">
+                                        <span class="social_facebook_circle"></span>
+                                    </div>
+                                    <input type="text" name="facebook" class="social">
+                                </div>
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="ivo-social-form">
+                                        <span class="social_twitter_circle"></span>
+                                    </div>
+                                    <input type="text" name="twitter" class="social">
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-md-offset-3">
+                                    <div class="ivo-social-form">
+                                        <span class="social_instagram_circle"></span>
+                                    </div>
+                                    <input type="text" name="instagram" class="social" >
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-lg-12">
+                                    <div class="ivo-mensajes-select">
+                                        <div class="dropdown ivo-drop-formulario">
+                                          <button class="btn btn-default dropdown-toggle ivo-drop-ampliado-lista" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            {% trans 'Intereses' %}
+                                            <span class="caret"></span>
+                                          </button>
+                                          <ul class="dropdown-menu ivo-select-ampliado-lista" aria-labelledby="dropdownMenu1">
+                                            <li>
+                                                <input type="checkbox" id="checkbox-2-2" class="regular-checkbox" />
+                                                <label for="checkbox-2-2"></label>
+                                                <div>Interes 1</div>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" id="checkbox-2-3" class="regular-checkbox" />
+                                                <label for="checkbox-2-3"></label>
+                                                <div>Interes 2</div>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" id="checkbox-2-1" class="regular-checkbox" />
+                                                <label for="checkbox-2-1"></label>
+                                                <div>Interes 3</div>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" id="checkbox-2-5" class="regular-checkbox" />
+                                                <label for="checkbox-2-5"></label>
+                                                <div>Interes 4</div>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" id="checkbox-2-4" class="regular-checkbox" />
+                                                <label for="checkbox-2-4"></label>
+                                                <div>Interes 5</div>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" id="checkbox-2-6" class="regular-checkbox" />
+                                                <label for="checkbox-2-6"></label>
+                                                <div>Interes 6</div>
+                                            </li>
+                                          </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <input type="text" name="usuario" placeholder="Usuario">
+                                </div>
+                               <div class="col-md-6 col-lg-6">
+                            <div class="row text-center">
+                                <div class="col-xs-4 col-sm-4 col-md-4">
+                                    {% trans "Sexo" %}:
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4">
+                                    <input type="checkbox" id="checkbox-2-1" genero = "M" class="regular-checkbox big-checkbox" />
+                                    <label for="checkbox-2-1"></label>
+                                    <h5>{% trans "Hombre" %}</h5>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4">
+                                    <input type="checkbox" id="checkbox-2-2" genero = "F" class="regular-checkbox big-checkbox" />
+                                    <label for="checkbox-2-2"></label>
+                                    <h5>{% trans "Mujer" %}</h5>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                            <div class="row" >
+                                <div class="col-md-6 col-lg-6" >
+                                    <div>Fecha de Nacimiento</div>
+                                    <input class="fechad" type="text" id="fecha_dia" minlength="2" maxlength="2"
+                                   onkeypress="return soloNumeros(event)" required = "required"
+                                   mensaje="{% trans 'Día de la fecha es un campo requerido' %}">
+                            <div class="resaltar-separador">/</div>
+                            <input class="fechad" type="text" id="fecha_mes" minlength="2" maxlength="2"
+                                   onkeypress="return soloNumeros(event)" required = "required"
+                                   mensaje="{% trans 'Mes de la fecha es un campo requerido' %}">
+                            <div class="resaltar-separador">/</div>
+                            <input class="fechay" type="text" id="fecha_a_o" minlength="4" maxlength="4"
+                                   onkeypress="return soloNumeros(event)" required = "required"
+                                   mensaje="{% trans 'Año de la fecha es un campo requerido' %}">
+                                </div>
+                                <div class="col-md-6 col-lg-6">
+                                <input class="margin-20" type="email" name="email" placeholder="{% trans 'Correo Electrónico' %} " required = "required"
+                                   mensaje="{% trans 'Email es un campo requerido' %}">
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <input type="password" name="password1" id="password1" placeholder="Confirmar Clave" autosave="false" autocomplete="false">
+                                </div>
+                                <div class="col-md-6 col-lg-6">
+                                    <input type="password" name="password2" id="password2" placeholder="Clave" autocomplete="false" autosave="false" >
+                                </div>
+                            </div>
+
+
+
+                    <div class="row" style="margin:30px 0;">
+                        <div class="col-md-2 col-lg-4 col-md-offset-3" style="margin: 0 auto !important; position: relative; float: initial;">
+                            <div class="pull-left">
+                                <input type="checkbox" name="terminos" id="checkbox-terminos" value="1" class="regular-checkbox">
+                                <label for="checkbox-terminos"></label>
+                            </div>
+                            <div class="pull-right">
+                                <a href="/terminos-condiciones"><i>Leer Terminos y Condiciones</i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6 col-md-offset-3" style="text-align: center;">
+                            <a class="ivo-boton-fondoInpt ivo-borde-trs-verde" id="btn_registrar" style="cursor: pointer">
+                                <span class="ivo-back-trs-verde ivo-borde-transparente">Registrar</span>
+                            </a>
+                        </div>
+                    </div>
+                    {% csrf_token %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    var cantidad_seleccion_tanlento = 0;
+    $(function(){
+        getTalentos();
+        $('#ivo-form-registro').submit(function(){
+            return false;
+        });
+        $('input[type=checkbox]').click(function(){
+
+
+
+            if($(this).attr('genero')){
+                $('input[type=checkbox]').removeAttr('checked');
+                $(this).prop("checked", "checked");
+                $('#genero').val($(this).attr('genero'));
+            }
+
+
+        });
+        $(document).on('click', 'input[type=checkbox]',function(){
+            if($(this).attr('name') == 'artes'){
+                if(cantidad_seleccion_tanlento <= 3){
+                    getGenerosArtisticos($(this).val())
+                }
+            }
+
+        });
+        
+        $('#btn_registrar').click(function(){
+            if( !$('#checkbox-terminos').is(':checked') ) {
+                    alert('Debe aceptar los terminos y condiciones');
+                    return;
+                }
+            if( $('#password1').val().trim() != $('#password2').val().trim()){
+                alert(' {% trans 'La confirmación debe ser igual al campo contraseña' %} ')
+                return;
+            }
+
+            if(validarForm($('#ivo-form-registro input'))){
+
+                $('#fecha_nacimiento').val($('#fecha_a_o').val()+"-"+$('#fecha_mes').val()+'-'+$('#fecha_dia').val());
+                registrar();    
+            }else{
+                console.log('false');
+            }
+            
+        });
+    })
+    function getGenerosArtisticos(id_arte){
+        NProgress.start();
+        $.ajax({
+            url: '/registro/fan/interes/',
+            type: 'get',
+            dataType: 'json',
+            data: {csrfmiddlewaretoken:'{{csrf_token }}', arte:id_arte},
+            success: function (data) {
+                NProgress.done();
+                if(data.mensaje == ''){
+                    $('#telentos').html(data.data);
+                    $('.ivo-drop-ampliado-lista').trigger( "click" );
+                }
+            }
+        });
+    }
+    function getTalentos(){
+        NProgress.start();
+        $.ajax({
+            url: '/registro/fan/',
+            type: 'get',
+            dataType: 'json',
+            data: {csrfmiddlewaretoken:'{{csrf_token }}'},
+            success: function (data) {
+                NProgress.done();
+                if(data.mensaje == ''){
+                    $('#telentos').html(data.data)
+                }
+            }
+        });
+    }
+    
+    function registrar(){
+
+        NProgress.start();
+        $.ajax({
+            url: '/fan/',
+            type: 'post',
+            dataType: 'json',
+            data:  $('#ivo-form-registro').serialize(),
+            success: function (data) {
+                NProgress.done();
+                if(data.success == false){
+                    alert(data.mensaje);
+                    $.each(data.errors.fields, function(i, item) {
+                        alert(i+ " "+item);
+                    });
+                }else{
+                    alert(data.mensaje);
+                    setTimeout(function(){
+                      location.href  ='/perfil/configuraciongeneral/'
+                    }, 1500);
+
+                }
+            }
+        });
+    }
+
+</script>
+{% endblock javascript %}

@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+	{% block content %}
+
+		<header id="myCarousel" class="carousel slide">
+	        <!-- Indicators -->
+	        <!--ol class="carousel-indicators">
+	            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+	            <li data-target="#myCarousel" data-slide-to="1"></li>
+	            <li data-target="#myCarousel" data-slide-to="2"></li>
+	        </ol-->
+
+	        <!-- Wrapper for Slides -->
+	        <div class="carousel-inner">
+	            <div class="item active">
+	                <!-- Set the first background image using inline CSS below. -->
+	                <div class="fill" style="background-image:url('{% static 'img/ivointro-2.png'%}');"></div>
+
+	                <div class="carousel-caption ivo-intro-texto">
+	                	<h1>Ivo Talents</h1>
+						<h2>Proyectamos talento artistico</h2>
+						<a href="#" class="ivo-boton ivo-home-boton">Hacer Casting / Audicion</a>
+						<div class="ivo-white-box"></div>
+	                </div>
+	            </div>
+	            <div class="item">
+	                <!-- Set the second background image using inline CSS below. -->
+	                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Two');"></div>
+	                <div class="carousel-caption">
+	                    <h2>Caption 2</h2>
+	                </div>
+	            </div>
+	            <div class="item">
+	                <!-- Set the third background image using inline CSS below. -->
+	                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Three');"></div>
+	                <div class="carousel-caption">
+	                    <h2>Caption 3</h2>
+	                </div>
+	            </div>
+	        </div>
+
+	        <!-- Controls -->
+	        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+	            <span class="icon-prev"></span>
+	        </a>
+	        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+	            <span class="icon-next"></span>
+	        </a>
+	    </header>
+		
+		<!-- Intro - Artistas -->
+		<div class="container-fluid ivo-intro-contenido">
+			<div class="row">
+				<div class="col-md-6 ivo-intro-contenido-artIzq">
+				</div>
+				<div class="col-md-6 ivo-intro-contenido-artDch hidden-xs hidden-sm">
+				</div>
+				<div class="ivo-intro-artistas-contenedor">
+					<div class="container">
+						<div class="ivo-layer-gry" style="background-color: rgba(97, 97, 97,0.2)"></div>
+						<div class="row">
+							<div class="col-xs-10 col-sm-6 col-md-6 col-lg-6 col-xs-offset-1 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-intro-contenido-artIzq-top">
+								<h2 class="ivo-intro-contenido-artIzq-titulo">Artistas</h2>
+								<h3 class="ivo-intro-contenido-artIzq-subtitulo">Artistas Miembros</h3>
+								<p class="ivo-intro-contenido-artIzq-texto">
+									<span>Usan su perfil para actualizar trabajos, Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</span>
+								</p>
+								<button class="ivo-boton-fondoInpt ivo-borde-trs-naranja hidden-md hidden-lg" style="margin-top: 8px">
+									<span class="ivo-back-trs-naranja ivo-borde-transparente">Unete</span>
+								</button>
+							</div>
+							<div class="col-md-6 hidden-xs hidden-sm">
+								<div class="col-md-offset-2 ivo-intro-contenido-artDch-btn">
+									<a  href="{% url 'registrate' %}" class="ivo-boton-fondo">
+										<span>Descubre</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Intro - Industria -->
+		<div class="container-fluid ivo-intro-contenido ivo-intro-contenido-industriaBck">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-lg-12 ivo-intro-contenido-industria">
+						<div class="row">
+							<div class="col-xs-10 col-sm-8 col-md-7 col-lg-7 col-xs-offset-1 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ">
+								<h2>Industria</h2>
+								<h3>Encuentra el mejor talento para tu proyecto</h3>
+								<p>
+									<span>Usan su perfil para actualizar trabajos, Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Usan su perfil para actualizar trabajos, Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</span>
+								</p>
+								<a href="{% url 'industria' %}" class="ivo-boton-fondo ivo-boton-industria">
+									<span>Descubre</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Intro - Fans -->
+		<div class="container-fluid ivo-intro-contenido">
+			<div class="row">
+				<div class="col-md-6 ivo-intro-contenido-fansIzq"></div>
+				<div class="col-md-6 ivo-intro-contenido-fansDch hidden-xs hidden-sm"></div>
+				<div class="ivo-intro-fans-contenedor">
+					<div class="container">
+						<div class="row">
+							<div class="col-xs-10 col-sm-6 col-md-6 col-lg-6 col-xs-offset-1 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-intro-contenido-fansIzq-top">
+								<h2 class="ivo-intro-contenido-fansIzq-titulo">Fan</h2>
+								<h3 class="ivo-intro-contenido-fansIzq-subtitulo">Navega en IVO TALENTS Y Conoce Nuevos Talentos</h3>
+								<p class="ivo-intro-contenido-fansIzq-texto">
+									<span>Usan su perfil para actualizar trabajos, Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</span>
+								</p>
+								<button class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro hidden-md hidden-lg" style="margin-top: 8px">
+									<span class="ivo-back-trs-azulClaro ivo-borde-transparente">Unete</span>
+								</button>
+							</div>
+							<div class="col-md-4 col-lg-4 col-md-offset-1 hidden-xs hidden-sm ivo-intro-fans-botonUnir">
+								<a class="ivo-boton-fondo ivo-boton-fans">
+									<span>&Uacute;NETE</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Intro - Castings -->
+		<div class="container-fluid ivo-intro-contenido ivo-intro-contenido-casting">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-lg-12">
+						<div class="row">
+							<div class="col-xs-10 col-sm-6 col-sm-8 col-md-6 col-lg-6 col-xs-offset-1 col-sm-offset-6 col-md-offset-6">
+								<h2 class="ivo-intro-contenido-casting-titulo">Castings/audicion</h2>
+								<h3 class="ivo-intro-contenido-casting-subtitulo">El Talento Esta En Todas Partes</h3>
+								<p  class="ivo-intro-contenido-casting-texto">
+									<span>Usan su perfil para actualizar trabajos, Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Usan su perfil para actualizar trabajos.</span>
+								</p>
+								<button class="ivo-boton-fondoInpt ivo-borde-verde" style="margin-top: 8px">
+									<span class="ivo-back-verde ivo-borde-transparente">
+										Unete
+									</span>
+								</button>
+								<button class="ivo-boton-fondoInpt-simple ivo-borde-trs-verde" style="margin-top: 8px">
+									<span class="ivo-back-transparente ivo-borde-transparente ivo-font-verde">
+										Hacer Casting / Audicion
+									</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Intro - proveedores -->
+		<div class="container-fluid ivo-intro-contenido">
+			<div class="row">
+				<div class="col-md-6 ivo-intro-contenido-prvIzq"></div>
+				<div class="col-md-6 ivo-intro-contenido-prvDch hidden-xs hidden-sm"></div>
+				<div class="ivo-intro-fans-contenedor">
+					<div class="container">
+						<div class="row">
+							<div class="col-xs-10 col-sm-6 col-md-6 col-lg-6 col-xs-offset-1 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-intro-contenido-fansIzq-top">
+								<h2 class="ivo-intro-contenido-prvIzq-titulo">proveedores</h2>
+								<h3 class="ivo-intro-contenido-fansIzq-subtitulo">Navega en IVO TALENTES Y Conoce Nuevos Talentos</h3>
+								<p class="ivo-intro-contenido-fansIzq-texto">
+									<span>Usan su perfil para actualizar trabajos, Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</span>
+								</p>
+								<button class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro hidden-md hidden-lg" style="margin-top: 8px">
+									<span class="ivo-back-trs-azulClaro ivo-borde-transparente">Unete</span>
+								</button>
+							</div>
+							<div class="col-md-4 col-lg-4 col-md-offset-1 hidden-xs hidden-sm ivo-intro-fans-botonUnir">
+								<a class="ivo-boton-fondo ivo-boton-proveedores">
+									<span>&Uacute;NETE</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container-fluid ivo-intro-contenido ivo-intro-contenido-app">
+			<div class="container">
+			<div class="row">
+				<div class="col-md-12 col-lg-12">
+					<div class="row">
+						<div class="col-md-6 col-lg-6 hidden-xs hidden-sm">
+							<img src="{% static 'img/dispositivos.png' %}" class="img-responsive ivo-app-dispositivos">
+						</div>
+						<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-sm-offset-4 col-md-offset-2 col-lg-offset-2 ivo-intro-app-mensaje">
+							<div class="row">
+								<div class="col-md-10 col-md-offset-1 text-center">
+									<img src="{% static 'img/logo-ivo-completo.png' %}" class="img-responsive">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 text-center">
+									<p>
+										<span>Usan su perfil para actualizar trabajos, Pellentesque habitant morbi tristique.</span>
+									</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-4 col-sm-6 col-md-6 col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-intro-app-store">
+									<a href="#" class="ivo-app-goplay">
+										<img src="{% static 'img/google-play.png' %}">
+									</a>
+								</div>
+								<div class="col-xs-4 col-sm-6 col-md-6 ivo-intro-app-store">
+									<a href="#" class="ivo-app-appsto">
+										<img src="{% static 'img/appstore.png' %}">
+									</a>
+								</div>
+							</div>
+
+
+							<br class="clear">
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	{% endblock %}
+
+	{% block javascript %}
+		<script>
+		    $('.carousel').carousel({
+		        interval: 5000 //changes the speed
+		    })
+		</script>
+	{% endblock %}

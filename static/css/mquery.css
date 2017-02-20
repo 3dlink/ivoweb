@@ -1,0 +1,1052 @@
+
+@media all and (max-width: 1320px) {
+	
+	.ivo-perfil-imgPerfil {
+		width: 260px;
+		height: 260px;
+		top: 230px;
+	}
+
+	.ivo-form-registro input[type="text"].fechay, .ivo-form-registro input[type="text"].fechad { margin: 4px 2px !important;}
+}
+
+@media all and (max-width: 1250px) {
+
+	.ivo-intro {height: 600px;}
+
+	.ivo-perfil-botonH { font-size: 10px; }
+
+}
+
+
+@media all and (max-width: 1200px) {
+	.ivo-perfil-infoAdicional > li {
+		width: 15%;
+	}
+
+	.ivo-casting-calendario > li {width: 60px;}
+
+	.ivo-header-panelMenu div {margin-left: -10px;}
+}
+
+@media all and (max-width: 1140px) {
+	.ivo-perfil-imgPerfil {
+		width: 200px;
+		height: 200px;
+		top: 280px;
+	}
+
+	.ivo-casting-header-anchoCaja {
+		left: 15%;
+		right: 15%;
+		width: 70%;
+	}
+}
+
+@media all and (max-width: 1050px) {
+	.ivo-form-registro input[type="text"].fechay {
+	    width: 26%;
+	    padding-left: 0;
+	    padding-right: 0;
+	}
+
+	.ivo-perfil-botonH { padding: 5px 10px; }
+}
+
+
+@media all and (max-width: 992px) {
+
+	.ivo-usuario-subMenu {
+    	width: 111px;
+	}
+
+	.ivo-usuario-triangulo { left: 30%; }
+
+	.ivo-intro { 
+		background-position: center;
+		background-size: cover;
+		height: 500px;
+	}
+
+	.ivo-intro-texto {
+		margin-top: 160px;
+	}
+
+	.ivo-header-logo div.logo {
+		width: 80px;
+	}
+	
+		.ivo-header-logo div.logo > img { width: 80px;}
+
+	.ivo-pregunta-down {margin-top: 40px;}
+
+	.ivo-pregunta-down > div > div {
+		margin: 60px 0;
+	}
+
+	.ivo-artistas-app {  
+		text-align: center;
+	}
+
+	.ivo-app-logo {
+		margin: 10px auto;
+	}
+
+	.ivo-app-goplay {
+		/*margin-left: 18% !important;*/
+	}
+	
+	.ivo-app-appsto {
+		/*margin-left: 5% !important;*/
+
+	}
+
+	.ivo-footer-social {
+		text-align: center;
+	}
+
+	.ivo-footer-social > li {
+		margin: 10px 2% !important;
+    	font-size: 2em;
+	}
+
+	.ivo-intro-contenido-artIzq > div > div {
+		padding-top: 100px;
+	}
+
+	.ivo-configuracion-menu > ul  { 
+		text-align: center;
+ 	}
+	
+		.ivo-configuracion-menu > ul > li { 
+			display: inline-block;
+			vertical-align: top;
+		}
+
+			
+
+	.ivo-intro-contenido > div > div {
+		min-height: 380px;
+	}
+
+	.ivo-intro-contenido-industriaBck {
+		/*background-size: cover;
+		background-position-y: -160px;*/
+	}
+
+	.ivo-dashboard-imgPerfil {margin: 0 auto;}
+
+	.ivo-dashboard-infoBasica { text-align: left; }
+
+	.ivo-dashboard-form {padding: 0;}
+
+	.ivo-dashboard-form > ul > li {
+	    margin: 8px 0;
+	    width: 30%;
+	    display: inline-block;
+	}
+
+	.ivo-dashboard-form > select {width: 40%;}
+	.ivo-dashboard-form > input[type="submit"] {
+		margin: 0;
+		margin-left: 30%;
+	}
+
+	.ivo-dashboard-formBck {
+    	background-color: #00C4B4;
+    	padding: 20px 2% 0;
+    }
+
+    .ivo-dashboard-seguidores > ul { text-align: center;}
+
+    .ivo-dashboard-listaPersonas { 
+    	width: 23%;
+    	display: inline-block;
+    	vertical-align: top;
+    }
+
+    .ivo-dashboard-listaPersonas span, .ivo-dashboard-listaPersonas h5 {display: none;}
+
+    .ivo-dashboard-listaPersonas .ivo-dashboard-nombre {
+    	display: inline;
+    	text-align: center;
+    }
+
+    .ivo-dashboard-listaPersonas.ivo-dashboard-inferior-li { border-bottom: 0;}
+
+    .ivo-dashboard-listaPersonas-boton {
+    	padding-top: 10px !important;
+    	width: 100%;
+    }
+
+    .ivo-dashboard-barLateral {
+    	height: auto !important;
+	}
+
+	.ivo-dashboard-app {
+		padding: 20px 0;
+	}
+
+	.ivo-dashboard-app-logo  {
+		margin: 0 auto;
+   		width: 40%;
+		margin-left: 31% !important;
+	}
+
+	.ivo-artistas-app > div > div > h2 { margin-left: auto; }
+
+	.ivo-dashboard-resumen-titulo {margin: 0px 0 20px;}
+
+	.ivo-dashboard-barLateral {padding-bottom: 0;}
+
+	.ivo-dashboard, .ivo-dashboard-panel {background-color: transparent;}
+
+	.ivo-dashboard-busquedaAv {
+		padding: 0 5%;
+	}
+
+	.ivo-dashboard-imageblock {border-color: #E8E8E8;}
+
+	.ivo-dashboard-imgPerfil {margin-left: 4%}
+
+	.ivo-dashboard-infoBasica {margin-left: 4%;}
+
+	.ivo-perfil-info { 
+		margin-left: 18%;
+		margin-top: 210px;
+	}
+
+	.ivo-perfil-caja2-lateral {border-right: 0;}
+
+	.ivo-perfil-informacionPrf {text-align: center;}
+
+	.ivo-perfil-enlaces { text-align: center; }
+
+	.ivo-perfil-enlaces > li {
+		width: 40%;
+		margin: 10px auto 30px;
+	}
+
+	.ivo-perfil-informacionPrf > li {
+	    display: inline-block;
+	    width: 48%;
+	}
+
+	.ivo-perfil-intereses > li {
+		display: inline-block;
+		width: 40%;
+		vertical-align: top;
+	}
+
+
+	.ivo-perfil-intereses > li.titulo {
+		width: 40%;
+    	margin-right: 50%;
+	}
+
+	.ivo-perfil-galeria-item  {
+		width: 98%;
+    	margin-left: 1%;
+	}
+
+	.ivo-perfil-menuSp > div.inicio.activo {
+	    border-left: 0;
+	}
+
+	.ivo-perfil-menuSp > div {
+		margin: 10px 0;
+		border: 2px solid #FC4513;
+	}
+
+	.ivo-perfil-infoComplemento { 
+		text-align: center;
+		padding-left: 0;
+	}
+
+	.ivo-perfil-infoAdicional > li { width: 18%; }
+
+	.ivo-perfil-busquedaPanel {
+		text-align: center;
+	}
+
+	.ivo-perfil-busqueda-imgPerfil { margin: 0 auto;}
+
+	.ivo-layer-gry {height: 100%}
+
+	.ivo-entrada-topEnt { 
+		padding-top: 0 !important;
+		margin-bottom: 20px !important;
+	}
+
+	.ivo-entrada-social { margin-top: 0;}
+
+	.ivo-entradas-relacion {
+	    margin-bottom: 20px;
+    	margin-top: 40px;
+    }
+
+    .ivo-entrada-categorias {text-align: center;}
+
+    .ivo-entrada-categorias > ul > li {
+    	margin: 15px auto;
+    	padding: 15px 5px;
+    }
+    .ivo-form-sx, .ivo-form-tatu {
+    	margin-top: 20px;
+    	margin-bottom: 20px;
+    }
+
+    .ivo-blog-paginas > ul > li { width: 6%; }
+
+    .ivo-mensajes-latItems {
+    	border-right: 0;
+    	padding-bottom: 0;
+    }
+
+    .ivo-mensajes-lista {
+  	    height: auto;
+    	white-space: nowrap;
+    	width: auto;
+	}
+
+	.ivo-mensajes-lista > li { 
+		display: inherit !important;
+	}
+
+	.ivo-mensajes-lista > li > h5, .ivo-mensajes-lista > li > h6 {
+		text-align: left;
+		padding-left: 2px;
+	}
+/*
+	.ivo-mensajes-lista > li:last-child { border-bottom: 0; }
+
+	.ivo-mensajes-lista > li > h5, .ivo-mensajes-lista > li > h6 {
+		float: left;
+	    width: 100%;
+	    text-align: left;
+	    margin-bottom: 0;
+	    padding-left: 5px;
+	}
+
+	.ivo-mensajes-lista > li > h5 {
+		padding-top: 0px;
+		width: auto;
+	}
+
+	.ivo-mensajes-lista > li > h6 { margin-top: 5px; } 
+
+	.ivo-mensajes-lista > li > div {
+		height: 30px;
+    	width: 30px;
+	    margin: 10px 0;
+	}
+
+	.ivo-mensajes-lista::-webkit-scrollbar {
+	    height: 0.4em;
+	}
+*/	
+	.ivo-configuracion-menu > ul {
+		margin-bottom: 0;
+		text-align: center;
+	}
+
+	.ivo-configuracion-menu > ul > li > .ivo-boton-fondo { padding: 5px 3px 6px; }
+	.ivo-configuracion-menu > ul > li > .ivo-boton-fondo > span { 
+		padding: 6px 30px 4px;
+		font-size: 20px;
+	}
+
+	.ivo-configuracion-menu-separador { 
+		width: 0px;
+		border-left: 2px solid #CFCFCF; 
+		border-bottom: 0;
+		height: 46px;
+    	padding: 0 !important;
+	}
+
+	.ivo-mensajes-select { width: 100%; }
+
+	.ivo-mensajes-select > .dropdown > button {margin: 0px 0px;}
+
+	.ivo-mensajes-central { margin-top: 40px; }
+
+	.ivo-perfil-galeriaVideo > div {margin: 10px 0;}
+
+	.ivo-perfil-video-galeria > div > a > .ivo-perfil-galeriaVideo-hover {
+	    width: 90%;
+	    left: 5%;
+	}
+
+	.ivo-perfil-galeriaVideo-hover > div { 
+		margin-top: 26px; 
+		margin-left: 30% !important;
+	}
+
+	.ivo-dashboard-seguidores .informacion { text-align: center; }
+
+	.ivo-header-panelMenu div {margin-left: 0;}
+
+	.ivo-casting-imagen1 {
+		background-size: cover;
+	}
+
+	.ivo-casting-separacion { margin-bottom: 30px; }
+
+	.flag:after {
+	    border-left: 5px solid #E8E8E8;
+	}
+
+	.ivo-dashboard-flag-ind::after { border-left: 5px solid black; }
+
+	.ivo-dashboard-flag-art::after { border-left: 5px solid white; }
+
+	.ivo-perfil-menuSp-ind > div {border-color: #0032A0;}
+
+	.ivo-usuario-triangulo { padding: 2px 2% 5px !important; }
+
+	.ivo-intro-artistas-contenedor { top: 549px;}
+
+	.ivo-intro-fans-contenedor { top: 1370px; }
+
+	.ivo-intro-contenido-artIzq-top { padding-top: 60px; }
+
+	.ivo-intro-contenido-fansIzq > div > div > p, .ivo-intro-contenido-fansIzq-texto { margin-bottom: 20px; }
+
+	.intro-contenido-fansIzq-top { background-color: transparent; }
+
+	.ivo-intro-contenido-app {
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+
+	.ivo-app-goplay > img { height: 36px;}
+
+	.ivo-artistas-app { padding: 10px 0 15px; }
+
+	.ivo-app-logo.general {width: 60%;}
+
+	.ivo-casting-imagen2 { background-position:  center;}
+
+	.ivo-perfil-panelSocial > li.redes { width: 10%;}
+
+	.ivo-perfil-infoAdicional > li { height: 180px;}
+
+	.ivo-perfil-galeria-hover {
+		width: 94%;
+		left: 3%;
+	}
+
+	.ivo-login-subMenu { width: 350px; }
+
+	.ivo-usuario-triangulo-login {
+	    padding: 2px 0 5px !important;
+	    margin-right: 0;
+    	margin-left: 200px;
+	}
+
+	.ivo-dashboard-app .ivo-app-goplay img { margin-top: 0; }
+
+	.ivo-casting-header {
+		top: 60px !important;
+	}
+
+	.ivo-casting-headerDer {
+		margin-top: 50px;
+		text-align: left;
+	}
+
+	.ivo-casting-social-header {
+		text-align: left;
+	}
+
+	.ivo-casting-social-header > li.titulo {
+	    margin-left: 21%;
+	    text-align: left;
+	}
+
+	.ivo-casting-titulo-header {
+    	font-size: 26px !important;
+	}
+
+	.ivo-casting-header {
+		height: 580px !important;
+	}
+
+	.ivo-casting-info {
+	    padding-top: 100px;
+	}
+
+	.ivo-casting-detalles { display: none; }
+
+	.carousel-caption {
+		left: 10%;
+		right: 10%;
+	}
+
+	#myCarousel {
+    	height: 550px;
+	}
+
+	.ivo-artistas {background-position: 0 75px;}
+
+	.ivo-formularioConf {
+    	border-left: 0;
+	}
+
+	.ivo-intro-contenido-fansIzq, .ivo-intro-contenido-fansIzq-top {
+	    background-color: black;
+	    padding-top: 0px;
+	    padding-right: 0px;
+	}
+
+	.ivo-perfil-galeria-hover > div {  margin-left: 40%; }
+}
+
+@media all and (max-width: 768px) {
+
+	.ivo-header-panelUsuario-perfil, .ivo-header-panelUsuario-notificacion {
+		display: none;
+	}
+
+	.ivo-header-panelMenu div, .ivo-header-logo div.logo { height: 50px; }
+
+	.ivo-intro-texto > h1 {
+		font-size: 4em;
+	}
+
+	.ivo-intro-texto > h2 { font-size: 1.8em;}
+
+
+	   .ivo-header-logo div.nombre > img {  width: 180px; }
+
+	.ivo-intro-texto {
+		margin-top: 100px;
+	}
+
+	.ivo-menu-principal-panel {
+		right: -100%;
+		width: 100%;
+		-webkit-transition: right 1s; /* Safari */
+    	transition: right 1s;
+    	z-index: 1001;
+	}
+
+	.ivo-menu-principal-mostrar {
+		right: 0;
+		-webkit-transition: right 1s; /* Safari */
+    	transition: right 1s;
+	}
+
+	.ivo-pregunta-down > h2 {margin-bottom: 0;}
+
+	.ivo-footer-logo {
+		text-align: center;
+		margin-bottom: 20px;
+	}
+
+		.ivo-footer-logo > img {
+			margin: auto;
+		}
+
+	.ivo-footer-lista1, .ivo-footer-lista2 {
+		margin: 10px auto;
+		text-align: center;
+	}
+
+	.ivo-footer-lista1 > ul > li, .ivo-footer-lista2 > ul > li {
+		display: inline-block;
+		width: auto;
+		margin: 5px 2% !important;
+	}
+
+	.ivo-footer-social {
+		margin-top: 0;
+	}
+
+	.ivo-dashboard-infoBasica { text-align: center; }
+
+	.ivo-dashboard-imgPerfil {margin-left: auto;}
+
+	.ivo-dashboard-infoBasica {margin-left: auto;}
+
+	.ivo-dashboard-form > ul > li {
+	    width: 100%;
+	}
+
+	.ivo-dashboard-form > select {width: 80%;}
+	.ivo-dashboard-form > input[type="submit"] {
+		margin-left: auto;
+	}
+
+	.ivo-dashboard-form {padding: 20px 0;}
+
+	.ivo-dashboard-seccion-boton {
+		padding-top: 20px;
+		text-align: center;
+	}
+
+	.ivo-dashboard-seccion-boton > a {
+		padding: 10px 50px;
+	}
+
+	.ivo-dashboard-casting-lista {
+		padding-bottom: 30px !important;
+	}
+
+	.ivo-dashboard-seccion-titulo { 
+		line-height: 40px;
+		margin: 20px 0;
+	}
+
+	.ivo-perfil-imgPerfil {
+	    width: 180px;
+    	height: 180px;
+    	top: 100px;
+    	left: 38%;
+    }
+
+    .ivo-perfil-intereses > li.titulo {width: 60%;}
+
+    .ivo-perfil-infoAdicional > li { width: 20%; }
+
+    .ivo-catsting-carousel-h1, .ivo-entrada-titulo > h1 { 
+    	width: 100%; 
+    	font-size: 22px !important;
+    }
+
+    .ivo-boton {
+	    padding: 14px 10px;
+	    font-size: 12px;
+	}
+
+	.ivo-social-form {width: 8%;}
+
+	.ivo-mensajes-lista > li { width: 100%;}
+
+	.ivo-mensaje-header {text-align: center;}
+
+	.ivo-perfil-video-galeria > div > a > .ivo-perfil-galeriaVideo-hover {
+	    width: 92%;
+	    left: 1%;
+	}
+
+	.ivo-perfil-galeriaVideo-hover > div { 
+		margin-top: 55px; 
+		margin-left: 40% !important;
+	}
+
+	.flag { margin-top: 28px; }
+
+	.ivo-dashboard-flag-ind, .ivo-dashboard-flag-art { margin-top: 0px; }
+
+	.ivo-header-logo div  {
+		padding-top: 0;
+		height: 50px;
+	}
+
+	.ivo-header-logo div.nombre { 
+		padding: 8px 0 0;
+		height: 50px;
+	}
+
+	.ivo-intro-contenido-artIzq { background-size: 800px 500px; }
+
+	.ivo-intro-fans-contenedor {top: 1360px;}
+
+	.ivo-intro-contenido-fansIzq-top, .ivo-intro-contenido-fansIzq { padding-top: 0 !important; }
+
+	.ivo-intro-contenido-casting {
+ 		background-size: inherit;
+    	background-position: right;
+    }
+
+    .ivo-app-goplay > img, .ivo-app-appsto > img {
+	    width: 150px;
+    	height: 36px;
+    }
+
+	.ivo-casting-noticia-link {
+		padding: 5px 20px;
+	    font-size: 12px;
+	}
+
+	.ivo-artistas {background-position: 63% 68px;}
+
+	.ivo-perfil-imgPerfil {
+    	margin: 10px auto;
+    	top: 0;
+    	left: 0;
+    	position: initial;
+    }
+
+    .ivo-perfil-imgPerfil-header {display: none;}
+
+    .carousel-caption { top: 80px !important; }
+
+    .ivo-perfil-busquedaPanel { text-align: left;}
+
+    .ivo-perfil-panelSocial > li.redes { width: 15%;}
+
+    .ivo-perfil-galeriaVideo-item > img {
+	    height: 160px;
+	}
+
+	.ivo-perfil-video-galeria > div > a > .ivo-perfil-galeriaVideo-hover {
+		width: 94%;
+	    left: 3%;
+	    height: 161px;
+	}
+
+	.ivo-perfil-galeriaVideo > div {
+	    height: 160px;
+	}
+
+	.ivo-header-logo {
+		padding-top: 10px;
+	}
+
+	.ivo-dashboard-app .ivo-app-appsto > img { height: 44px; }
+
+	.carousel-caption {
+		left: 5%;
+		right: 5%;
+	}
+
+	#myCarousel {
+		height: 550px;
+	}
+
+	.ivo-recuperarClave {
+		min-height: 740px !important;
+	}
+
+	.ivo-header-panelUsuario { border-right: 0;}
+
+	.ivo-artistas {
+		height: 300px;
+	}
+
+	.ivo-artistas > div > div > div > h1 {
+		margin-top: 180px;
+		font-size: 26px;
+	}
+
+	.ivo-artistas > div > div > div > h1 > span {
+		font-size: 30px;
+	}
+
+	.ivo-layer-gry-artistas {
+		height: 300px !important;
+	}
+
+	.ivo-configuracion-menu-separador {
+	    width: 94%;
+	    border-bottom: 2px solid #CFCFCF;
+	    border-left: 0;
+	    height: 0;
+	}
+
+	.ivo-mensajes-panelSuperior { text-align: left !important; }
+
+	.ivo-mensajes-botonR {
+		margin-right: 20% !important;
+	}
+
+	.ivo-mensajes-select {
+		width: 60%;
+	}
+
+	.ivo-mensajes-lista {
+		width: 60%;
+	}
+
+	.ivo-casting-calendario, .ivo-casting-headerDer { text-align: center;}
+
+	.ivo-casting-social-header { text-align: center; }
+
+	.ivo-casting-social-header > li.titulo {
+  		margin-left: auto;
+    	text-align: center;
+    }
+
+    .ivo-header-panelMenu > div > p { display: none; }
+
+} 
+
+@media all and (max-width: 550px) {
+
+	.ivo-intro-texto > h1 { font-size: 45px; }
+
+	.ivo-intro-texto > h2 {font-size: 20px;}
+
+	.ivo-home-boton { font-size: 10px; }
+
+	.ivo-header-logo div.logo, .ivo-header-logo div.logo > img {width: 64px;}
+	.ivo-header-logo div.nombre {width: 50%;}
+
+	.ivo-intro-texto { margin-top: 60px }
+	
+	.ivo-header-panelMenu > div > p {display: none;}
+
+	.ivo-app-goplay {
+		margin-left: 8% !important;
+	}
+
+	.ivo-header-logo div.logo {width: 60px;}
+	.ivo-header-logo div.logo > img {width: 60px;}
+
+	.ivo-header-logo div.nombre > img { width: 120px;}
+
+	.ivo-dashboard-listaPersonas {
+		width: 30%;
+	}
+
+	.ocultar-item {display: none;}
+
+	.ivo-dashboard-listaPersonas-boton {width: 100%;}
+
+	.ivo-perfil-intereses > li.titulo {width: 60%;}
+
+	.ivo-perfil-galeria > div {
+	    height: 200px;
+	}
+
+	.ivo-perfil-galeria-item {
+		height: 200px;
+	}
+
+	.ivo-perfil-galeria-item > img {
+		height: 200px;
+		width: 100%;
+	}
+
+	.ivo-perfil-galeria-hover {
+		height: 201px;
+	    width: 94%;
+    	margin-left: -2%;
+	}
+
+	.ivo-perfil-galeria-hover > div {
+	    margin-top: 70px;
+	    margin-left: 35%;
+	}
+
+		.ivo-perfil-galeria-hover > div > span {font-size: 4em;}
+
+	.ivo-perfil-informacionPrf {
+		text-align: left;
+	}
+
+		.ivo-perfil-informacionPrf > li {
+			width: 100%;
+			display: inline;
+		}
+
+	.ivo-perfil-infoAdicional > li { width: 25%; }
+
+	.ivo-entrada-categorias > ul > li {width: 70%;}
+
+	.ivo-social-form {width: 15%;}
+
+	.ivo-mensajes-lista > li { width: 100%;}
+
+	.ivo-intro-contenido-industriaBck {
+		padding-bottom: 60px;
+
+		background-image: url(../img/industria3.jpg);
+		background-size: cover;
+    	
+	}
+
+	.ivo-intro-app-store { 
+		width: 100%;
+		padding-left: 0;
+		margin-left: 0;
+		margin-bottom: 20px;
+	}
+
+	.ivo-app-goplay a, .ivo-app-goplay { margin-left: 0 !important; }
+
+	.ivo-intro-fans-contenedor {
+	    top: 1420px;
+	}
+
+	.ivo-artistas-panel-item { width: 50%;}
+
+	.image-block {width: 100%;}
+
+	.ivo-artistas > div > div > div {
+		width: 100%;
+	}
+
+	.ivo-artistas {background-position: 80% 68px;}
+
+	.ivo-perfil-galeriaVideo-item > img {
+	    height: 200px;
+	}
+
+	.ivo-perfil-video-galeria > div > a > .ivo-perfil-galeriaVideo-hover {
+		width: 94%;
+	    left: 5%;
+	    height: 201px;
+	}
+
+	.ivo-perfil-galeriaVideo > div {
+		width: 80%;
+    	height: 200px;
+    	margin: 20px 10%;
+	}
+
+	.ivo-plan-paquete { 
+		width: 80%;
+		margin-left: 10%;
+	}
+
+	.ivo-mensaje-contenedor-reproductor {
+		height: 200px;
+	}
+
+	.ivo-mensajes-select {
+		width: 80%;
+	}
+
+	.ivo-mensajes-lista {
+		width: 90%;
+	}
+
+	.ivo-dashboard-app-logo {
+	    width: 50%;
+	    margin-left: 26% !important;
+	}
+
+	.ivo-dashboard-app .ivo-app-appsto > img { height: 34px; }
+	.ivo-dashboard-app .ivo-app-appsto img { width: 100px; }
+
+	.ivo-dashboard-app .ivo-app-goplay img {
+	    width: 100px;
+	    height: 34px;
+	}
+
+}
+
+@media all and (max-width: 480px) {
+	.ivo-perfil-infoAdicional > li { width: 40%; }
+
+	.ivo-entrada-categorias > ul > li {width: 80%;}
+
+	.ivo-perfil-video-galeria > div > a > .ivo-perfil-galeriaVideo-hover {
+	    width: 94%;
+    	left: 5%;
+	}
+
+	.ivo-perfil-galeriaVideo-hover > div { 
+		margin-top: 55px; 
+		margin-left: 40% !important;
+	}
+
+	.ivo-intro-contenido-artIzq-top {padding-top: 20px;}
+
+	.ivo-form-fanBot > span { padding: 8px 30px 11px; }
+
+	.ivo-mensajes-select {
+		width: 90%;
+	}
+}
+
+
+@media all and (max-width: 450px) {
+	.ivo-dashboard-listaPersonas {
+		width: 40%;
+	}
+
+	.ivo-dashboard-listaPersonas-boton {width: 100%;}
+
+	.ivo-perfil-intereses > li {
+		width: 100%;
+		display: inline;
+	}
+
+	.ivo-perfil-intereses > li.titulo {margin-right: 0;}
+
+	.ivo-perfil-galeria > div { width: 100%;}
+
+	.ivo-perfil-galeria-hover {
+	    width: 94%;
+    	margin-left: 0%;
+	}
+
+	.ivo-pregunta, .ivo-pregunta > .ivo-layer-gry{ height: 740px; }
+
+	.ivo-artistas-panel-item { 
+		width: 50%;
+	}
+
+	.ivo-perfil-busqueda-informacionLista, .ivo-perfil-busqueda-informacionImagen { 
+		width: 100%;
+		margin: 0;
+	}
+
+	.ivo-perfil-busqueda-informacionItem {margin-bottom: 40px;}
+
+	.ivo-perfil-busquedaPanel { text-align: center;}
+
+	.ivo-perfil-menuSp > div {
+		margin-left: 0;
+    	margin-right: 0;
+    	width: 100%;
+	}
+
+	.ivo-perfil-video-galeria > div > a > .ivo-perfil-galeriaVideo-hover {
+	    width: 92%;
+	    left: 4%;
+	}
+
+}
+
+@media all and (max-width: 380px) {
+	.ivo-perfil-infoAdicional > li { 
+		width: 100%; 
+		height: 160px;
+	}
+
+	.ivo-perfil-video-galeria > div > a > .ivo-perfil-galeriaVideo-hover {
+	    width: 92%;
+    	left: 4%;
+	}
+
+	.ivo-perfil-galeriaVideo-hover > div { 
+		margin-top: 70px; 
+		margin-left: 35% !important;
+	}
+
+	.ivo-intro-fans-contenedor {
+	    top: 1400px;
+	}
+
+	.ivo-form-fanBot > span { 
+		padding: 10px 10px 11px; 
+		font-size: 14px;
+	}
+}
+
+@media all and (max-width: 294px) {
+
+	.ivo-header-logo div.logo {width: 50px;}
+	.ivo-header-logo div.logo > img {width: 50px;}
+
+	.ivo-header-logo div.nombre > img { width: 100px;}
+
+}
+
+/* Iphone 5 */
+
+/* Portrait */
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+
+	/* Header */
+	.ivo-header-logo div.logo {width: 60px;}
+	.ivo-header-logo div.logo > img {width: 60px;}
+
+	.ivo-header-logo div.nombre > img { width: 120px;}
+
+}

@@ -1,0 +1,83 @@
+{% load staticfiles %}
+<!-- Modal Cambiar Cover -->
+<div class="modal fade" id="ModalPortada" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ivo-perfil-galeriaFlt">
+            <div class="modal-header ivo-perfil-galeriaFlt-header">
+                <button type="button" class="close" aria-hidden="true" data-dismiss="modal"><span class="icon_close"></span></button>
+                <h4 class="ivo-borde-azulClaro" style="width: 70%;">Cambiar Cover Foto</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12 ivo-perfil-galeriaFlt-headerUp">
+                    <ul>
+                        <li id="ivo-galeria-fotoC">
+                            <span class="glyphicon glyphicon-picture"></span>
+                            <h4>Galeria</h4>
+                        </li>
+                        <li id="ivo-subir-fotoC">
+                            <span class="glyphicon glyphicon-open"></span>
+                            <h4>Subir</h4>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-12 ivo-perfil-galeriaFlt-bodyUp" id="ivo-galeria-flt">
+                    <div class="col-lg-3 col-md-3 col-xs-6 thumb">
+                        <a class="thumbnail ivo-perfil-galeria-item" href="{% static 'img/artistas1.jpg' %}">
+                        <img class="img-responsive" src="{% static 'img/artistas1.jpg' %}" alt="">
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-xs-6 thumb">
+                        <a class="thumbnail ivo-perfil-galeria-item" href="{% static 'img/artistas1.jpg' %}">
+                        <img class="img-responsive" src="{% static 'img/artistas1.jpg' %}" alt="">
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-xs-6 thumb">
+                        <a class="thumbnail ivo-perfil-galeria-item" href="{% static 'img/artistas1.jpg' %}">
+                        <img class="img-responsive" src="{% static 'img/artistas1.jpg' %}" alt="">
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-xs-6 thumb">
+                        <a class="thumbnail ivo-perfil-galeria-item" href="{% static 'img/artistas1.jpg' %}">
+                        <img class="img-responsive" src="{% static 'img/artistas1.jpg' %}" alt="">
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-xs-6 thumb">
+                        <a class="thumbnail ivo-perfil-galeria-item" href="{% static 'img/artistas1.jpg' %}">
+                        <img class="img-responsive" src="{% static 'img/artistas1.jpg' %}" alt="">
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-xs-6 thumb">
+                        <a class="thumbnail ivo-perfil-galeria-item" href="{% static 'img/artistas1.jpg' %}">
+                        <img class="img-responsive" src="{% static 'img/artistas1.jpg' %}" alt="">
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-xs-6 thumb">
+                        <a class="thumbnail ivo-perfil-galeria-item" href="{% static 'img/artistas1.jpg' %}">
+                        <img class="img-responsive" src="{% static 'img/artistas1.jpg' %}" alt="">
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-xs-6 thumb">
+                        <a class="thumbnail ivo-perfil-galeria-item" href="{% static 'img/artistas1.jpg' %}">
+                        <img class="img-responsive" src="{% static 'img/artistas1.jpg' %}" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-12 ivo-perfil-galeriaFlt-bodyUp text-center no-modal" id="ivo-subir-flt">
+                    <div class="col-md-8 col-md-offset-2 ivo-perfil-galeriaFlt-bodyUp text-center">
+                        <img src="{% static 'img/subida.png' %}">
+                        <h4>Selecciona los archivos que quieras subir </br> <span>O arrastra y suelta archivos</span></h4>
+                    </div>
+                    <div class="col-md-8 col-md-offset-2 ivo-perfil-galeriaFlt-bodyUp text-center">
+                        <div class="ivo-mensaje-contenedorAudio ivo-mensaje-contenedorAudio-noBorde ivo-contenedorAudio-bck1">
+                            <div class="ivo-mensaje-contenedorAudio-carga" style="height:40px; width: 85%;"></div>
+                            <div class="ivo-mensaje-contenedorAudio-contenido2">
+                                <span class="tiempo">85%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer ivo-perfil-galeriaFlt-footer"></div>
+        </div>
+    </div>
+</div>

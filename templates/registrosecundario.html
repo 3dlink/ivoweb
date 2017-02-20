@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block cssblock %}
+    <style type="text/css">
+    .ivo-pregunta { height: auto;}
+    </style>
+{% endblock %}
+
+{% block content %}
+<!-- Intro -->
+<div class="container-fluid ivo-pregunta" style="background-image: url({% static 'img/pregunta2.jpg' %});">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-lg-6">
+                <h1>Reg&iacute;strate en </br>nuestra plataforma</h1>
+            </div>
+        </div>
+        <div class="row">
+           <div class="row align-items-center">
+                <div class="col">
+                     <H3 > ¿COMO DESEAS REGISTRARTE EN IVO TALENTS? </H3>
+                    <h4><a href="/registrate">TALENTOS</a></h4>
+                    <h4><a href="/industria">INDUSTRIA</a></h4>
+                    <h4><a href="/proveedor">PROVEEDOR</a></h4>
+                    <h4><a href="/fan">FAN</a></h4>
+                                         
+                </div>                         
+           </div>          
+        </div>
+    </div>
+</div>
+{% endblock %}

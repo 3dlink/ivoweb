@@ -1,0 +1,743 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block cssblock %}
+
+    <link href="{% static 'css/jquery.countdown.css' %}" rel="stylesheet">
+    <style type="text/css">
+    	body {
+    		background-color: white;
+    	}
+
+    </style>
+
+{% endblock %}
+
+{% block content %}
+
+<!-- Barra lateral -->
+<div class="container">
+	<div class="row ivo-configuracion">
+		<div class="col-md-3 ivo-configuracion-menu">
+			<ul>
+				<li class="activo" id="show_form_general">
+					<a href="#">General</a>
+				</li>
+				<li id="show_form_seguridad">
+					<a href="#">Seguridad</a>
+				</li>
+
+				{% if user.get_tipo_usuario == "A" %}
+				<li class="ivo-configuracion-menu-separador"></li>
+				<li id="show_form_bio">
+					<a href="#">Bio</a>
+				</li>
+				<li id="show_form_experiencia">
+					<a href="#">Experiencia</a>
+				</li>
+				<li>
+					<a href="#">Intereses</a>
+				</li>
+				{% endif %}
+			</ul>
+		</div>
+		<div class="col-md-9 ivo-formularioConf">
+			<form method="post" enctype="multipart/form-data" id="form_foto_perfil">
+				<input type="file" name="foto" id="seleccionar_foto_perfil" class="inputfile">
+				{% csrf_token %}
+			</form>
+			<form class="ivo-formularioConf-form ivo-formularioConf-form-nf from-principal" action="/perfil/configuraciongeneral/actualizar-general/" id="form_general" method="POST" >
+				{% csrf_token %}
+				<h1>Configuraciones Generales</h1>
+				{% if user.get_avatar == '' or user.get_avatar == None  %}
+					<img  src="/static/img/usuario.png" alt="photo profile" id="foto_actual" class="avatar">
+				{% else %}
+					<img  src="/media/{{user.get_avatar}}" alt="photo profile" id="foto_actual" class="avatar" >
+				{% endif %}
+				<div style=" width: 120px;">
+					<label for="seleccionar_foto_perfil" class = 'seleccionar_foto_perfil'>
+						<p >Cargar foto</p>
+					</label>
+				</div>
+
+				<div class="ivo-configuracion-form-separador"></div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Nombre</label>
+					</div>
+					<div class="col-md-9">
+						<input type="text" name="first_name" value="{{datos.first_name}}">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Apellido</label>
+					</div>
+					<div class="col-md-9">
+						<input type="text" name="last_name" value="{{datos.last_name}}">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Fecha de Nacimiento</label>
+					</div>
+
+					<div class="col-md-9 ivo-configuracion-form-fecha">
+						<input class="fechad" type="text" maxlength="2" minlength="2"  onkeypress="return soloNumeros(event)" id="fecha_dia" value="{{datos.fecha_nacimiento|date:'d' }}"> <div class="resaltar-separador">/</div>
+						<input class="fechad" type="text" maxlength="2" minlength="2"  onkeypress="return soloNumeros(event)" id="fecha_mes" value="{{datos.fecha_nacimiento|date:'m' }}"> <div class="resaltar-separador">/</div>
+						<input class="fechay" type="text" maxlength="4" minlength="4"  onkeypress="return soloNumeros(event)" id="fecha_a_o" value="{{datos.fecha_nacimiento|date:'Y' }}">
+						<input type="hidden" name="fecha_nacimiento" id="fecha_nacimiento">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Sexo</label>
+					</div>
+					<div class="col-md-9">
+						<select name="genero" id="genero">
+							<option value="F">Femenino</option>
+							<option value="M">Masculino</option>
+						</select>
+					</div>
+				</div>
+				{% if user.get_tipo_usuario == "A" %}
+				<div class="row">
+					<div class="col-md-3">
+						<label>Nacionalidad</label>
+					</div>
+					<div class="col-md-9">
+                        {% if datos.nacionalidad == '' or datos.nacionalidad == None  %}
+						    <input type="text" name="nacionalidad" value="">
+                        {% else %}
+                            <input type="text" name="nacionalidad" value="{{datos.nacionalidad}}">
+                        {% endif %}
+					</div>
+				</div>
+
+				
+				<div class="row">
+					<div class="col-md-3">
+						<label>Pais de Residencia</label>
+					</div>
+					<div class="col-md-9">
+						<select id="pais" name="pais">
+                            <option value="VEN">Venezuela</option>
+                            <option value="COL">Colombia</option>
+                        </select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Ciudad de Residencia</label>
+					</div>
+					<div class="col-md-9">
+                        {% if datos.ciudad != None %}
+                            <input type="text" name="ciudad" value="{{datos.ciudad}}">
+                        {% else %}
+                            <input type="text" name="ciudad" value="">
+                        {% endif %}
+
+					</div>
+				</div>
+				{% endif %}
+				<div class="row">
+					<div class="col-md-3">
+						<label>Redes Sociales</label>
+					</div>
+					<div class="col-md-9">
+						<div class="col-md-6 col-lg-6 ivo-formularioConf-social">
+							<div class="ivo-social-form">
+								<span class="social_facebook_circle"></span>
+							</div>
+                            {% if datos.facebook != None %}
+                                <input type="text" name="facebook" class="social" name="facebook"
+								   value="{{datos.facebook}}">
+                            {% else %}
+                                <input type="text" name="facebook" class="social" name="facebook" value="">
+                            {% endif %}
+
+						</div>
+						<div class="col-md-6 col-lg-6 ivo-formularioConf-social">
+							<div class="ivo-social-form ">
+								<span class="social_twitter_circle"></span>
+							</div>
+                            {% if datos.twitter != None %}
+                                <input type="text" name="twitter" class="social"  value="{{datos.twitter}}">
+                            {% else %}
+                                <input type="text" name="twitter" class="social"  value="">
+                            {% endif %}
+
+						</div>
+						<div class="col-md-6 col-lg-6 col-md-offset-3 ivo-formularioConf-social">
+							<div class="ivo-social-form">
+								<span class="social_instagram_circle" ></span>
+							</div>
+                            {% if datos.instagram != None %}
+                                <input type="text"  class="social" name="instagram" value="{{datos.instagram}}">
+                            {% else %}
+                                <input type="text"  class="social" name="instagram" value="">
+                            {% endif %}
+
+						</div>
+					</div>
+				</div>
+
+				{% if user.get_tipo_usuario == "A" or user.get_tipo_usuario = "I" %}
+				<div class="row">
+					<div class="col-md-3">
+						<label>Website</label>
+					</div>
+					<div class="col-md-9">
+						{% if datos.website != None %}
+						<input type="text" name="website" value="{{datos.website}}">
+						{% else %}
+						<input type="text" name="website" >
+						{% endif %}
+					</div>
+				</div>
+				{% endif %}
+				{% if user.get_tipo_usuario == "A" %}
+				<div class="row">
+					<div class="col-md-3">
+						<label>Pasaporte</label>
+					</div>
+					<div class="col-md-9">
+                        {% if datos.pasaporte != None %}
+                            <input type="text" name="pasaporte" value="{{datos.pasaporte}}">
+                        {% else %}
+                            <input type="text" name="pasaporte" value="">
+                        {% endif %}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Visa</label>
+					</div>
+					<div class="col-md-9">
+                        {% if datos.visa != None %}
+                            <input type="text" name="visa" value="{{datos.visa}}">
+                        {% else %}
+                            <input type="text" name="visa" value="">
+                        {% endif %}
+
+					</div>
+				</div>
+				{% endif %}
+				
+				{% if user.get_tipo_usuario == "A" or user.get_tipo_usuario = "I" %}
+				<div class="row">
+					<div class="col-md-3">
+						<label>Telefono</label>
+					</div>
+					<div class="col-md-9">
+						{% if datos.telefono != None %}
+						<input type="number" onkeypress="return soloNumeros(event)" name="telefono" value="{{datos.telefono}}">
+						{% else %}
+						<input type="number" name="telefono" onkeypress="return soloNumeros(event)" >
+						{% endif %}
+					</div>
+				</div>
+				{% endif %}
+				{% if user.get_tipo_usuario == "A"  %}
+				<div class="row">
+					<div class="col-md-3">
+						<label>Agencia / Representante</label>
+					</div>
+					<div class="col-md-9">
+						{% if datos.agencia != None %}
+							<input type="text" name="agencia" value="{{datos.agencia}}">
+						{% else %}
+							<input type="text" name="agencia" value="">
+						{% endif %}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Disponibilidad de Viajar</label>
+					</div>
+					<div class="col-md-9">
+						<select name="disponible_viajes" id="disponible_viajes">
+							<option value="True">Si</option>
+							<option value="False">No</option>
+						</select>
+					</div>
+				</div>
+				<div class="ivo-configuracion-form-separador"></div>
+				<div class="row">
+					<div class="col-md-12">
+						<h1>Caracteristicas del Modelo</h1>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Etnia</label>
+					</div>
+					<div class="col-md-9">
+						{% if datos.etnia != None %}
+							<input type="text" name="etnia" value="{{datos.etnia}}">
+						{% else %}
+							<input type="text" name="etnia" value="">
+						{% endif %}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Color de Cabello</label>
+					</div>
+					<div class="col-md-9">
+						{% if datos.color_cabello != None %}
+							<input type="text" name="color_cabello" value="{{datos.color_cabello}}">
+						{% else %}
+							<input type="text" name="color_cabello" value="">
+						{% endif %}
+
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Color de Ojos</label>
+					</div>
+					<div class="col-md-9">
+						{% if datos.color_ojos != None %}
+							<input type="text" name="color_ojos" value="{{datos.color_ojos}}">
+						{% else %}
+							<input type="text" name="color_ojos" value="">
+						{% endif %}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Tatuajes</label>
+					</div>
+					<div class="col-md-9">
+						<select id="tatuaje" name="tatuaje">
+							<option value = "True">  Si</option>
+							<option value="False">No</option>
+						</select>
+					</div>
+				</div>
+				{% endif %}
+				<div class="row">
+					<div class="col-md-12 text-right">
+						<a href="/perfil/{{user.get_uuid}}" class="ivo-boton-fondoInpt ivo-borde-azulClaro" style="margin-right:2%; cursor: pointer;">
+							<span class="ivo-back-azulClaro ivo-borde-transparente">Cancelar</span>
+						</a>
+						<a class="ivo-boton-fondoInpt ivo-borde-azulClaro" style="cursor: pointer;">
+							<span class="ivo-back-azulClaro ivo-borde-transparente" id="send_form_general">Actualizar</span>
+						</a>
+					</div>
+				</div>
+			</form>
+			<form style="display:none" action="/perfil/configuraciongeneral/actualizar-general/" class="ivo-formularioConf-form ivo-formularioConf-form-nf from-principal" id="form_bio" method="POST">
+				<!-- bio -->
+				{% csrf_token %}
+				<div class="ivo-configuracion-form-separador"></div>
+				<div class="row">
+					<div class="col-md-12">
+						<h1>Configuracion de Bio</h1>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-2">
+						<label>Breve Biografia</label>
+					</div>
+					<div class="col-md-10">
+						{% if datos.biografia != None %}
+							<textarea class="ivo-formularioConfText" name="biografia" required="required">{{datos.biografia}}</textarea>
+						{% else %}
+							<textarea class="ivo-formularioConfText" name="biografia" required="required"></textarea>
+						{% endif %}
+
+					</div>
+				</div>
+				<!-- fin bio -->
+				<div class="row">
+					<div class="col-md-12 text-right">
+						<a class="ivo-boton-fondoInpt ivo-borde-azulClaro" style="margin-right:2%; cursor: pointer;">
+							<span class="ivo-back-azulClaro ivo-borde-transparente">Cancelar</span>
+						</a>
+						<a class="ivo-boton-fondoInpt ivo-borde-azulClaro" id="send_form_bio" style="cursor: pointer;">
+							<span class="ivo-back-azulClaro ivo-borde-transparente">Actualizar</span>
+						</a>
+					</div>
+				</div>
+			</form>
+			<form style="display:none" action="/perfil/configuraciongeneral/actualizar-seguridad/"  class="ivo-formularioConf-form ivo-formularioConf-form-nf from-principal" id="form_seguridad" method="POST">
+				<!-- seguridad -->
+				<input type="hidden" name="accion" value="actualizar_seguridad">
+				{% csrf_token %}
+				<div class="ivo-configuracion-form-separador"></div>
+				<h1>Configuracion de Seguridad</h1>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Contrase&ntilde;a</label>
+					</div>
+					<div class="col-md-9">
+						<input type="password" name="old_password" id="old_password">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Nueva Contrase&ntilde;a</label>
+					</div>
+					<div class="col-md-9">
+						<input type="password" name="new_password1" id="new_password1">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Repetir Contrase&ntilde;a</label>
+					</div>
+					<div class="col-md-9">
+						<input type="password" name="new_password2" id="new_password2">
+					</div>
+				</div>
+				<div class="ivo-configuracion-form-separador"></div>
+				<h1>Configuracion del Correo Electronico</h1>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Correo Electronico</label>
+					</div>
+					<div class="col-md-9">
+						<input type="email" name="correo" value="{{datos.email}}" maxlength="254" id="id_email">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Nuevo Correo Electronico</label>
+					</div>
+					<div class="col-md-9">
+						<input type="text" name="correo1" id="correo1">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Repetir Correo Electronico</label>
+					</div>
+					<div class="col-md-9">
+						<input type="text" name="email" id="correo2">
+					</div>
+				</div>
+				<!--  fin seguridad -->
+				<div class="row">
+					<div class="col-md-12 text-right">
+						<button class="ivo-boton-fondoInpt ivo-borde-azulClaro" style="margin-right:2%;">
+							<span class="ivo-back-azulClaro ivo-borde-transparente">Cancelar</span>
+						</button>
+						<button class="ivo-boton-fondoInpt ivo-borde-azulClaro">
+							<span class="ivo-back-azulClaro ivo-borde-transparente" id = "send_form_seguridad">Actualizar</span>
+						</button>
+					</div>
+				</div>
+			</form>
+
+			<div class="ivo-formularioConf-form ivo-formularioConf-form-nf from-principal" style="display:none" action="/perfil/configuraciongeneral/actualizar-experiencia/"   id="form_experiencia">
+				<div class="ivo-configuracion-form-separador"></div>
+                <h1>Idiomas</h1>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Idiomas</label>
+					</div>
+					<div class="col-md-9">
+						<select id="idiomas" name="idiomas">
+                            <option value=""></option>
+							<option value="Ingles, Espa&ntilde;ol, Frances">Ingles, Espa&ntilde;ol, Frances</option>
+							<option value="Ingles">Ingles</option>
+							<option value="Espa&ntilde;ol">Espa&ntilde;ol</option>
+							<option value="Frances">Frances</option>
+						</select>
+					</div>
+				</div>
+				<div class="ivo-configuracion-form-separador"></div>
+				<!--<h1>Cita</h1>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Cita Favorita</label>
+					</div>
+					<div class="col-md-9">
+						<textarea></textarea>
+					</div>
+				</div>-->
+                {% include 'perfiles/experiencia.html' %}
+			</div>
+		</div>
+	</div>
+
+</div>
+{% endblock %}
+
+
+{% block javascript %}
+
+<script type="text/javascript" src="{% static 'js/jquery.plugin.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
+
+<script>
+	$(function(){
+	    $('#send_form_experiencia').click(function(){
+            var fecha_desde = $('#dia_desde2').val()+'/'+$('#mes_desde2').val()+'/'+$('#anno_desde2').val();
+            var fecha_hasta = $('#dia_hasta2').val()+'/'+$('#mes_hasta2').val()+'/'+$('#anno_hasta2').val();
+            $('#fechaDesde').val(fecha_desde);
+            $('#fechaHasta').val(fecha_hasta);
+            console.log('adad');
+            if( validarForm($('#formExperiencia input')) ){
+                guardarExperiencia();
+            }
+        });
+	    $('#send_form_eduacion').click(function(){
+            var fecha_desde = $('#dia_desde').val()+'/'+$('#mes_desde').val()+'/'+$('#anno_desde').val();
+            var fecha_hasta = $('#dia_hasta').val()+'/'+$('#mes_hasta').val()+'/'+$('#anno_hasta').val();
+            $('#fecha_inicio_estudio').val(fecha_desde);
+            $('#fecha_fin_estudio').val(fecha_hasta);
+
+            if( validarForm($('#form_educacion input')) ){
+                guardarEducacion();
+            }
+        });
+	    $('#agregar_experiencia').click(function(){
+            $('#ModalExperiencia').modal('show');
+        });
+	    $('#cerrar_modal_experiencia').click(function(){
+	        $('#ModalExperiencia').modal('hide');
+        });
+	    $('#agregar_educacion').click(function(){
+            $('#ModalEducacion').modal('show');
+        });
+	    $('#cerrar_modal_educacion').click(function(){
+	        $('#ModalEducacion').modal('hide');
+        });
+
+        $("#idiomas option[value='{{ datos.idioma }}']").attr("selected",true);
+        {% if disponible_viajes == True %}
+            $("#disponible_viajes option[value=True]").attr("selected",true);
+        {% else %}
+            $("#disponible_viajes option[value=False]").attr("selected",true);
+
+        {% endif %}
+
+		{% if datos.genero != None %}
+			$("#genero option[value={{ datos.genero}}]").attr("selected",true);
+		{% endif %}
+
+		{% if datos.pais != None and datos.pais != '' %}
+			$("#pais option[value={{ datos.pais}}]").attr("selected",true);
+		{% endif %}
+
+		{% if datos.tatuaje != None %}
+			$("#tatuaje option[value={{ datos.tatuaje}}]").attr("selected",true);
+		{% endif %}
+
+        $('#idiomas').change(function(){
+            $.ajax({
+                url: '/perfil/configuraciongeneral/idiomas/',
+                type: 'post',
+                dataType: 'json',
+                data: {idioma: $(this).val(), csrfmiddlewaretoken:'{{csrf_token }}' },
+                success: function (data) {
+                    NProgress.done();
+
+                }
+
+            });
+        });
+
+		$('#send_form_general').click(function(){
+			if (validarForm( $('#form_general input') ) ) {
+			    if( $('#fecha_a_o').val().trim() != ''  && $('#fecha_mes').val().trim() != ''  && $('#fecha_dia').val().trim() != ''   ){
+			        $('#fecha_nacimiento').val($('#fecha_a_o').val()+"-"+$('#fecha_mes').val()+'-'+$('#fecha_dia').val());
+                }
+
+				$('#form_general').submit();
+			}
+		});
+
+		$('#send_form_bio').click(function(){
+			if (validarForm( $('#form_bio input') ) ) {
+				$('#form_bio').submit();
+			}
+		})
+
+
+		$('#send_form_seguridad').click(function(){
+			var enviar = true;
+			if( $('#new_password1').val().trim() == '' && $('#correo1').val().trim() == '' ){
+				enviar = false;
+				return;
+			}
+			if( $('#new_password1').val().trim() != ''){
+
+				if ( $('#new_password1').val().trim() != $('#new_password2').val().trim() ){
+					alert('El campo nueva contraseña y repetir contraseña debe ser iguales, Corriga e intente nuevamente');
+					enviar = false;
+				}else{
+					if ( $('#correo1').val().trim() != $('#correo2').val().trim() ){
+						alert('El campo nuevo correo electronico y repetir correo electronico debe ser iguales, Corriga e intente nuevamente');
+						enviar = false;
+					}
+				}
+
+			}else{
+				if ( $('#correo1').val().trim() != $('#correo2').val().trim() ){
+					alert('El campo nuevo correo electronico y repetir correo electronico debe ser iguales, Corriga e intente nuevamente');
+					enviar = false;
+				}
+			}
+			if(enviar){
+				NProgress.start();
+				enviarForm( $('#form_seguridad').serialize(), '/perfil/configuraciongeneral/foto-perfil/' );
+			}
+
+		});
+		$('.ivo-configuracion-menu > ul > li').click(function(){
+			$('.ivo-configuracion-menu > ul > li').removeClass('activo');
+			$(this).addClass('activo');
+			var elem = $(this).attr('id');
+			elem = elem.replace('show_','');
+			$('.from-principal').fadeOut();
+			$('#'+elem).fadeIn();
+		})
+
+		$('.carousel').carousel({
+			interval: 5000 //changes the speed
+		});
+
+	   $('ivo-contador').countdown({since: new Date(2017, 12-1, 25)});
+
+	   /*seleccion de foto de perfil*/
+	    $('#seleccionar_foto_perfil').change(function(e){
+	        handleImage(e)
+	    });
+
+	});
+    function guardarExperiencia(){
+        NProgress.start();
+        $.ajax({
+            url: '/perfil/configuraciongeneral/experiencia/',
+            type: 'post',
+            dataType: 'json',
+            data:  $('#formExperiencia').serialize(),
+            success: function (data) {
+                NProgress.done();
+                if(data.success == false){
+                    $.each(data.errors.fields, function(i, item) {
+                        if(i != 'undefined')
+                            alert(i+ " "+item);
+                    });
+                }else{
+                    setTimeout(function(){
+                      location.href  ='/perfil/configuraciongeneral/'
+                    }, 1500);
+
+                }
+            }
+        });
+    }
+    function guardarEducacion(){
+        NProgress.start();
+        $.ajax({
+            url: '/perfil/configuraciongeneral/educacion/',
+            type: 'post',
+            dataType: 'json',
+            data:  $('#form_educacion').serialize(),
+            success: function (data) {
+                NProgress.done();
+                if(data.success == false){
+                    $.each(data.errors.fields, function(i, item) {
+                        if(i != 'undefined')
+                            alert(i+ " "+item);
+                    });
+                }else{
+                    setTimeout(function(){
+                      location.href  ='/perfil/configuraciongeneral/'
+                    }, 1500);
+
+                }
+            }
+        });
+    }
+    function handleImage(e){
+       NProgress.start();
+        var reader = new FileReader();
+        reader.onload = function(event){
+            var image = new Image();
+            image.src = e.target.result;
+            image.onload = function(){
+                if (image.width < 400) {
+                    alert("Please choose a larger size");
+                    return false;
+                } else if (image.height < 300) {
+                    alert("Please choose a larger size");
+                    return false;
+                }
+                if(image.height > image.width){
+                    alert("Sorry allowed only horizontal images");
+                    return false;
+                }
+                var canvas = document.createElement('canvas');
+                var MAX_WIDTH = 160;
+                var MAX_HEIGHT = 160;
+                var width = image.width;
+                var height = image.height;
+                if (width > height) {
+                    if (width > MAX_WIDTH) {
+                        height *= MAX_WIDTH / width;
+                        width = MAX_WIDTH;
+                    }
+                } else {
+                    if (height > MAX_HEIGHT) {
+                        width *= MAX_HEIGHT / height;
+                        height = MAX_HEIGHT;
+                    }
+                }
+                canvas.width = width;
+                canvas.height = height;
+
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage( image, 0, 0, width, height );
+
+                $('#hidden_image').val(canvas.toDataURL());
+                //$('#img_canvas').html(['<img src="', canvas.toDataURL(), '"/>'].join(''));
+                $('#foto_actual').attr('src',canvas.toDataURL())
+
+            }
+            image.src = event.target.result;
+
+            subitFotoPerfil();
+        }
+        reader.readAsDataURL(e.target.files[0]);
+    }
+    function subitFotoPerfil(){
+    	var formData = new FormData($("#form_foto_perfil")[0]);
+    	$.ajax({
+           url: '/perfil/configuraciongeneral/foto-perfil/',
+            type: 'post',
+            dataType: 'json',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+            	NProgress.done();
+                console.log(data)
+
+            }
+
+        });
+    }
+    function enviarForm(form, url){
+
+		$.ajax({
+           	url: url,
+            type: 'post',
+            dataType: 'json',
+            data: form,
+            success: function (data) {
+            	NProgress.done();
+            	console.log(data);
+            }
+        });
+    }
+
+</script>
+
+{% endblock %}

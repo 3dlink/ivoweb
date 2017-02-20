@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block javascript %}
+
+	<!-- Jquery CountDown -->
+	<script type="text/javascript" src="{% static 'js/jquery.plugin.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
+
+	<script>
+	   $('.carousel').carousel({
+		   interval: 5000 //changes the speed
+	   })
+	   $('ivo-contador').countdown({since: new Date(2017, 12-1, 25)});
+   </script>
+
+{% endblock %}
+
+{% block cssblock %}
+
+	<link href="{% static 'css/jquery.countdown.css' %}" rel="stylesheet">
+	<style type="text/css">
+	body {
+		background-color: white;
+	}
+	</style>
+{% endblock %}
+
+
+	{% block content %}
+
+		<div class="container">
+			<div class="row ivo-configuracion">
+				<div class="col-md-3 ivo-configuracion-menu">
+					<ul>
+						<li class="activo">
+							<a href="#">General</a>
+						</li>
+					</ul>
+				</div>
+				<div class="col-md-9 ivo-formularioConf">
+					<form class="ivo-formularioConf-form ivo-formularioConf-form-nf" method="POST" >
+						<h1>Crear Casting</h1>
+						<div class="row">
+							<div class="col-md-3">
+								<label class="ivo-bold">Titulo</label>
+							</div>
+							<div class="col-md-9">
+								<input type="text">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<label class="ivo-bold">Detalles</label>
+							</div>
+							<div class="col-md-9">
+								<textarea></textarea>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<label class="ivo-bold">Informacion Detallada</label>
+							</div>
+							<div class="col-md-9">
+								<div class="row ivo-formularioConf-form-grid">
+									<div class="col-md-12 ivo-formularioConf-form-grid-img1 text-center">
+										<span class="glyphicon glyphicon-picture"></span>
+									</div>
+									<div class="col-md-6 ivo-formularioConf-form-grid-img2 text-center">
+										<span class="glyphicon glyphicon-picture"></span>
+									</div>
+									<div class="col-md-6 ivo-formularioConf-form-grid-text">
+										<div class="col-md-12">
+											<textarea class="uno" placeholder="Agregar Aqui Info Adicional Destacada"></textarea>
+										</div>
+										<div class="col-md-12">
+											<textarea class="dos" placeholder="Agregar Aqui Info Adicional"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<label class="ivo-bold">Per&iacute;odo</label>
+							</div>
+							<div class="col-md-9 ivo-configuracion-form-fecha">
+								<input class="fechad" type="text"> <div class="resaltar-separador">/</div>
+								<input class="fechad" type="text"> <div class="resaltar-separador">/</div>
+								<input class="fechay" type="text"> <div class="resaltar-separador">-</div>
+								<input class="fechad" type="text"> <div class="resaltar-separador">/</div>
+								<input class="fechad" type="text"> <div class="resaltar-separador">/</div>
+								<input class="fechay" type="text">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<label class="ivo-bold">Sector</label>
+							</div>
+							<div class="col-md-9">
+								<select>
+									<option>Musica</option>
+									<option>Otro</option>
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 text-right">
+								<button class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro">
+									<span class="ivo-back-trs-azulClaro ivo-borde-transparente">Cancelar</span>
+								</button>
+								<button class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro" style="margin-left: 10%;">
+									<span class="ivo-back-trs-azulClaro ivo-borde-transparente">Crear</span>
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	{% endblock %}

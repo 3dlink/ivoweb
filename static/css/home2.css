@@ -1,0 +1,73 @@
+
+/*.ivo-header-logo div.logo, .ivo-header-logo div.logo > img { width: 80px }
+.ivo-header-panelUsuario-perfil p { 
+	font-size: 14px; 
+	padding-top: 0px;
+    padding-bottom: 20px;
+    margin: 24px 0 0;
+}
+
+.ivo-header-panelUsuario-notificacion { 
+	height: 40px !important;
+	margin-top: 14px;
+}
+
+.ivo-header-panelMenu > div > p { font-size: 12px; }
+
+.ivo-header-panelMenu > div > span { font-size: 50px; }
+
+.ivo-header-logo div.nombre { height: 60px; }
+
+.ivo-header-logo div.logo { height: 60px; }
+
+.ivo-header-panelUsuario div { height: 60px; }
+
+.ivo-header-panelUsuario-perfil div {
+    height: 50px;
+    width: 50px;
+}
+*/
+
+.ivo-header-panelMenu div {
+    height: 60px;}
+
+
+.carousel-caption {
+    left: 20%;
+    right: 20%;
+    padding-bottom: 0;
+    bottom: 0;}
+
+.carousel, .item, .active {
+    height: 90%;
+}
+
+.carousel-inner > .active, .carousel-inner > .next, .carousel-inner > .prev {
+    display: block;
+    height: 100%;
+}
+
+/*.ivo-intro-texto > h1 {
+    font-size: 5em;}
+
+.ivo-intro-texto > h2 {
+    font-size: 1.6em;}
+v
+.ivo-white-box {
+    height: 40px;
+}
+
+
+
+.ivo-intro-contenido-artIzq {
+    background-image: url(../img/artistas1.jpg);
+    background-position: 0 -70px;
+    background-size: 102% 140%;
+}
+
+
+.ivo-intro-contenido-artDer { background-size: contain; }
+
+.ivo-intro-contenido > div > div {
+    min-height: 340px;
+}*/

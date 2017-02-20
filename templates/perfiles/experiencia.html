@@ -1,0 +1,237 @@
+{% load staticfiles %}
+{% load i18n %}
+<!-- Modal Cambiar Cover -->
+<h1>Educación</h1>
+<table class="table ivo-table">
+<thead>
+    <tr>
+        <th>Centro de educación</th>
+        <th>Titulo</th>
+        <th>Fecha de estudio</th>
+        <th>Cursando actualmente</th>
+        <th>
+
+        </th>
+    </tr>
+</thead>
+<tbody>
+
+    {% for educacion in datos_educacion %}
+    <tr>
+        <td>{{ educacion.institucion }}</td>
+        <td>{{ educacion.titulo }}</td>
+        <td>{{ educacion.fecha_inicio_estudio }} - {{ educacion.fecha_fin_estudio }}</td>
+        {% if educacion.estudiando_actualmente %}
+            <td>Si</td>
+        {% else %}
+            <td>No</td>
+        {% endif %}
+
+        <td>
+            <a href = "#">icono Editar</a>
+        </td>
+    </tr>
+    {% endfor %}
+
+</tbody>
+</table>
+<div class="row">
+<div class="col-md-12 text-right">
+    <a href="#" id="agregar_educacion"> + Agregar Educación</a>
+</div>
+</div>
+<div class="ivo-configuracion-form-separador"></div>
+
+<h1>EXPERIENCIA</h1>
+<table class="table ivo-table">
+<thead>
+    <tr>
+        <th>Emperiencia</th>
+        <th>Cargo</th>
+        <th>Periodo</th>
+        <th>Trabaja actualmente</th>
+        <th>
+
+        </th>
+    </tr>
+</thead>
+<tbody>
+    {% for experiencia in datos_experiencia %}
+    <tr>
+        <td>{{ experiencia.empresa }}</td>
+        <td>{{ experiencia.cargo }}</td>
+        <td>{{ experiencia.fecha_desde }} - {{ educacion.fecha_hasta }}</td>
+        {% if experiencia.trabajo_actual %}
+            <td>Si</td>
+        {% else %}
+            <td>No</td>
+        {% endif %}
+
+        <td>
+            <a href = "#">icono Editar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+<div class="row">
+<div class="col-md-12 text-right">
+    <a href="#" id="agregar_experiencia"> + Agregar Experiencia</a>
+</div>
+</div>
+<div class="ivo-configuracion-form-separador"></div>
+
+
+<!-- modal de educacion -->
+<div class="modal fade" id="ModalEducacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ivo-perfil-galeriaFlt">
+            <div class="modal-header ivo-perfil-galeriaFlt-header">
+                <button type="button" class="close" aria-hidden="true" data-dismiss="modal"><span class="icon_close"></span></button>
+                <h4 class="ivo-borde-azulClaro" style="width: 70%;">Agregar educación</h4>
+            </div>
+            <div class="modal-body" style="background: white;">
+                <form id="form_educacion" action="/perfil/configuraciongeneral/actualizar-educacion/"  method="POST" style="display: block" class="ivo-formularioConf-form ivo-formularioConf-form-nf">
+                    <input type="hidden" name="fecha_inicio_estudio" id="fecha_inicio_estudio">
+                    <input type="hidden" name="fecha_fin_estudio" id="fecha_fin_estudio">
+                    <input type="hidden" name="usuario" value="{{user.get_uuid}}">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Centro de Estudios</label>
+                        </div>
+                        <div class="col-md-9">
+                            {{form_educacion.institucion}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Fecha de Estudio</label>
+                        </div>
+                        <div class="col-md-9 ivo-configuracion-form-fecha">
+                            <input class="fechad" id = "dia_desde" type="text" mensaje="{% trans 'Día es un campo requerido en la fecha de inicio' %}"
+                                    required = "required"> <div class="resaltar-separador">/</div>
+                            <input class="fechad" id="mes_desde" type="text" mensaje="{% trans 'Mes es un campo requerido en la fecha de inicio' %}"
+                                    required = "required"> <div class="resaltar-separador">/</div>
+                            <input class="fechay" id = "anno_desde" type="text" mensaje="{% trans 'Año es un campo requerido en la fecha de inicio' %}"
+                                    required = "required"> <div class="resaltar-separador">-</div>
+
+                            <input class="fechad" id="dia_hasta" type="text" mensaje="{% trans 'Año es un campo requerido en la fecha de culminación' %}"
+                                    required = "required"> <div class="resaltar-separador">/</div>
+                            <input class="fechad" id="mes_hasta" type="text" mensaje="{% trans 'Año es un campo requerido en la fecha de culminación' %}"
+                                    required = "required"> <div class="resaltar-separador">/</div>
+                            <input class="fechay" id="anno_hasta" type="text" mensaje="{% trans 'Año es un campo requerido en la fecha de culminación' %}"
+                                    required = "required">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-7" style="padding-left:0;">
+                            <div class="ivo-formulario-radiotext">Cursando Actualmente </div>
+                            {{ form_educacion.estudiando_actualmente }}
+                            <label for="radio-1-1" style="margin-top:0;"></label>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>T&iacute;tulo</label>
+                        </div>
+                        <div class="col-md-9">
+                            {{form_educacion.titulo}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <a id="cerrar_modal_educacion" class="ivo-boton-fondoInpt ivo-borde-azulClaro" style="margin-right:2%; cursor: pointer">
+                                <span class="ivo-back-azulClaro ivo-borde-transparente">Cancelar</span>
+                            </a>
+                            <a class="ivo-boton-fondoInpt ivo-borde-azulClaro" id = "send_form_eduacion" style="cursor: pointer">
+                                <span class="ivo-back-azulClaro ivo-borde-transparente">Actualizar</span>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer ivo-perfil-galeriaFlt-footer"></div>
+        </div>
+    </div>
+</div>
+
+<!-- modal de experiencia -->
+<div class="modal fade" id="ModalExperiencia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ivo-perfil-galeriaFlt">
+            <div class="modal-header ivo-perfil-galeriaFlt-header">
+                <button type="button" class="close" aria-hidden="true" data-dismiss="modal"><span class="icon_close"></span></button>
+                <h4 class="ivo-borde-azulClaro" style="width: 70%;">Agregar educación</h4>
+            </div>
+            <div class="modal-body" style="background: white;">
+                <form id="formExperiencia" action="/perfil/configuraciongeneral/actualizar-experiencia/"  method="POST" style="display: block" class="ivo-formularioConf-form ivo-formularioConf-form-nf">
+                    <input type="hidden" name="fecha_desde" id="fechaDesde">
+                    <input type="hidden" name="fecha_hasta" id="fechaHasta">
+                    <input type="hidden" name="usuario" value="{{user.get_uuid}}">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Empresa</label>
+                        </div>
+                        <div class="col-md-9">
+                            {{ form_experiencia.empresa }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Cargo</label>
+                        </div>
+                        <div class="col-md-9">
+                            {{ form_experiencia.cargo }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Período</label>
+                        </div>
+                        <div class="col-md-9 ivo-configuracion-form-fecha">
+                            <input class="fechad" id = "dia_desde2" type="text" mensaje="{% trans 'Día es un campo requerido en la fecha de inicio' %}"
+                                    required = "required"> <div class="resaltar-separador">/</div>
+                            <input class="fechad" id="mes_desde2" type="text" mensaje="{% trans 'Mes es un campo requerido en la fecha de inicio' %}"
+                                    required = "required"> <div class="resaltar-separador">/</div>
+                            <input class="fechay" id = "anno_desde2" type="text" mensaje="{% trans 'Año es un campo requerido en la fecha de inicio' %}"
+                                    required = "required"> <div class="resaltar-separador">-</div>
+
+                            <input class="fechad" id="dia_hasta2" type="text" mensaje="{% trans 'Año es un campo requerido en la fecha de culminación' %}"
+                                    required = "required"> <div class="resaltar-separador">/</div>
+                            <input class="fechad" id="mes_hasta2" type="text" mensaje="{% trans 'Año es un campo requerido en la fecha de culminación' %}"
+                                    required = "required"> <div class="resaltar-separador">/</div>
+                            <input class="fechay" id="anno_hasta2" type="text" mensaje="{% trans 'Año es un campo requerido en la fecha de culminación' %}"
+                                    required = "required">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-6" style="padding-left:30px;">
+                            <div class="ivo-formulario-radiotext">Trabajando aquí actualmente </div>
+                            {{ form_experiencia.trabajo_actual }}
+                            <label for="radio-1-2" style="margin-top:0;"></label>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <a id="cerrar_modal_experiencia" class="ivo-boton-fondoInpt ivo-borde-azulClaro" style="margin-right:2%; cursor: pointer">
+                                <span class="ivo-back-azulClaro ivo-borde-transparente">Cancelar</span>
+                            </a>
+                            <a class="ivo-boton-fondoInpt ivo-borde-azulClaro" id = "send_form_experiencia" style="cursor: pointer">
+                                <span class="ivo-back-azulClaro ivo-borde-transparente">Actualizar</span>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer ivo-perfil-galeriaFlt-footer"></div>
+        </div>
+    </div>
+</div>

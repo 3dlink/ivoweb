@@ -1,0 +1,39 @@
+{% load staticfiles %}
+<html>
+	<head>
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/ivo-lg2.png' %} "/>
+	    {% include 'head_css.html' %}
+
+
+        <!--css used for that page-->
+        {% block cssblock %}
+        {% endblock %}
+
+	</head>
+	<body>
+		<!-- Header menus and stuff-->
+		{% if user.is_authenticated %}
+		{% include 'header.html' %}
+		{% else %}
+        {% include 'header_no_login.html' %}
+		{% endif %}
+
+        <!--main clock content -->
+        {% block content %}
+
+        {% endblock %}
+
+        <!-- Footer -->
+	    {% include "footer.html" %}
+
+        <!-- javascript before body ends-->
+        {% include "javascript.html" %}
+
+        <!--javascript block used in each page -->
+        {% block javascript %}
+        {% endblock %}
+	</body>
+</html>
