@@ -44,7 +44,7 @@
 					<!-- Formulario -->
 						<form method="POST" class="ivo-form ivo-form-registro">
 
-							<input type="hidden" name="genero" id="genero" required="required" value="M">
+							<input type="hidden" name="genero" id="genero" required="required">
 		                    <input type="hidden" name="fecha_nacimiento" id="fecha_nacimiento">                    
 		                    <input type="hidden" name="tipo_usuario" value="F">
 
@@ -83,6 +83,29 @@
 									<input type="text" name="instagram" class="social" >
 								</div>
 							</div>
+
+						<div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="ivo-mensajes-select">
+                                <div class="dropdown ivo-drop-formulario">
+                                    <button class="btn btn-default dropdown-toggle ivo-drop-ampliado-lista" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        {% trans "Intereses" %}
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul id = "telentos" class="dropdown-menu ivo-select-ampliado-lista" aria-labelledby="dropdownMenu1">
+
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+	
+<!--
+
 							<div class="row">
 								<div class="col-md-12 col-lg-12">
 									<div class="ivo-mensajes-select">
@@ -127,6 +150,8 @@
 									</div>
 								</div>
 							</div>
+
+							-->
 							<div class="row">
 								<div class="col-md-6 col-lg-6">
 									<input type="text" name="usuario" placeholder="Usuario">
@@ -216,7 +241,7 @@
         $('#ivo-form-registro').submit(function(){
             return false;
         });
-        $('input[type=checkbox]').click(function(){
+       $('input[type=checkbox]').click(function(){
 
 
 

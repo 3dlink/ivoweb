@@ -18,6 +18,8 @@ from django.contrib import admin
 from frontend import views
 from django.conf.urls.static import static
 from django.conf import settings
+from rest_framework.urlpatterns import format_suffix_patterns
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -36,14 +38,18 @@ urlpatterns = [
     url(r'^industriadashboard/$', views.industriadashboard, name='industriadashboard'),
     url(r'^crearcasting/$', views.crearcasting, name='crearcasting'),
     url(r'^registroalternativo/$', views.registrosecundario, name='registroalternativo'),
-
+    url(r'^artistas/$', views.artistas, name='artistadashboard'),
 
 
     url(r'^login/', views.index, name='index'),
     url(r'^logout/', views.cerrar_sesion, name='logout'),
 
     url(r'^perfil/', include('perfiles.urls', namespace='perfiles')),
+    url(r'^generos/', views.GeneroView.as_view()),
+    url(r'^api/', views.API.as_view()),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
 
 if settings.DEBUG:
 	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

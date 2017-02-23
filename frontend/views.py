@@ -1,15 +1,22 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db import IntegrityError
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 from .models import User, TipoArte, GeneroArtistico,generateUUID
 from .forms import FormRegistro, FormRegistroIndustria, FormRegistroFan
 from .funciones import form_invalid
 import json
+
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import GeneroSerializer, API_sesion
+
 
 
 # Create your views here.
@@ -18,6 +25,9 @@ def home(request):
 
 def registrosecundario(request):
     return render(request, "registrosecundario.html",{})
+
+def artistas(request):
+    return render(request, "artistas.html",{})
 
 
 def registrate(request):
@@ -136,8 +146,9 @@ def industria(request):
     return render(request, "registraIndustria.html", context)
 
 
+
 def fan(request):
-    import pdb; pdb.set_trace()
+    
     if request.method == 'POST' and request.is_ajax():
         mensaje = ''
         error = ''
@@ -268,3 +279,33 @@ def inicio_sesion(request):
     else:
         messages.add_message(request, messages.INFO, _('Nombre de usuario o contraseña no valido'))
         return False
+
+
+class API(APIView):
+ 
+    def post(self, request):
+        import pdb;   pdb.set_trace()
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            serializer = API_sesion(user)
+            if user.is_active:
+                #login(request, user)
+                return JsonResponse(serializer.data,safe=False)
+            else:
+               # messages.add_message(request, messages.INFO, _('Cuenta de usuario inactiva'))
+                return JsonResponse('cuenta inactiva', safe=False)
+        else:
+            #messages.add_message(request, messages.INFO, _('Nombre de usuario o contraseña no valido'))
+            return JsonResponse('invalido',safe=False)
+
+
+
+class GeneroView(APIView):
+
+    def get(self,request):
+        generos = GeneroArtistico.objects.all()
+        serializer = GeneroSerializer(generos, many = True)
+        return Response(serializer.data)
