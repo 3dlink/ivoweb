@@ -1,0 +1,145 @@
+
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+
+{% block cssblock %}
+
+		<style type="text/css">
+			.ivo-pregunta { height: auto;}
+			.ivo-form  select {width: 100%}
+			body {background-color: white;}
+		</style>
+		
+{% endblock %}
+
+
+ {% block content%}
+<!-- Blog Entrada Barra Superior-->
+		<div class="container">
+			<div class="row hidden-md hidden-lg ivo-entrada-smTop">
+				<div class="col-sm-12 ivo-entrada-busqueda">
+					<h4>Buscar Articulo</h4>
+					<form>
+						<input type="text">
+						<button>
+							<span class="glyphicon glyphicon-search"></span>
+						</button>
+					</form>
+				</div>
+				<div class="col-sm-12 ivo-entrada-categoriaTop">
+
+					<span class="ivo-entrada-contenido-categoria ivo-back-naranja">Categoria</span>
+				</div>
+			</div>
+			<div class="row ivo-entrada row ivo-entrada-topEnt">
+				<div class="col-md-9 col-lg-9 ivo-entrada-titulo">
+					{% if post.categoria.nombre == 'Novedades' %}
+						<h1 class="ivo-borde-rosa">{{post.titulo}}</h1>
+					{% elif post.categoria.nombre == 'Fanatico' %}
+						<h1 class="ivo-borde-azulClaro">{{post.titulo}}</h1>
+					{% elif post.categoria.nombre == 'Industria' %}
+						<h1 class="ivo-borde-azul">{{post.titulo}}</h1>
+					{% elif post.categoria.nombre == 'Casting' %}
+						<h1 class="ivo-borde-verde-c">{{post.titulo}}</h1>
+					{% else %}
+					<h1 class="ivo-borde-naranja">{{post.titulo}}</h1>
+					{% endif %}
+				</div>
+				<div class="col-md-3 col-lg-3 ivo-entrada-busqueda hidden-xs hidden-sm">
+					<h4>Buscar Articulo</h4>
+					<form>
+						<input type="text">
+						<button>
+							<span class="glyphicon glyphicon-search"></span>
+						</button>
+					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2 col-lg-2 ivo-entrada-social">
+					<h4>Compartir</h4>
+					<a href="http://www.facebook.com/share.php?u=http://example.com/blog/1&title={{post.titulo}}">
+						<span class="social_facebook_circle"></span>
+					</a>					
+
+
+					<a href="http://twitter.com/intent/tweet?status={{post.titulo}}+http://example.com/blog/1">
+						<span class="social_twitter_circle"></span>
+					</a>
+						
+				</div>
+				<div class="col-md-7 col-lg-7 ivo-entrada-contenido">
+					{% if post.categoria.nombre == 'Novedades' %}
+						<span class="ivo-entrada-contenido-categoria ivo-back-rosa hidden-xs hidden-sm">{{post.categoria.nombre}}</span>
+					{% elif post.categoria.nombre == 'Fanatico' %}
+						<span class="ivo-entrada-contenido-categoria ivo-back-azulClaro hidden-xs hidden-sm">{{post.categoria.nombre}}</span>
+					{% elif post.categoria.nombre == 'Industria' %}
+						<span class="ivo-entrada-contenido-categoria ivo-back-azul hidden-xs hidden-sm">{{post.categoria.nombre}}</span>
+					{% elif post.categoria.nombre == 'Casting' %}
+						<span class="ivo-entrada-contenido-categoria ivo-back-verde-c hidden-xs hidden-sm">{{post.categoria.nombre}}</span>
+					{% else %}
+						<span class="ivo-entrada-contenido-categoria ivo-back-naranja hidden-xs hidden-sm">{{post.categoria.nombre}}</span>
+					{% endif %}
+
+					
+					<div class="ivo-entrada-contenido-fecha">{{post.fecha_creacion}}</div>
+					<img src="{{post.imagen.url}}" class="img-responsive ivo-entrada-imagen">
+					{{post.contenido | safe}}
+				</div>
+				<div class="col-md-3 col-lg-3 ivo-entrada-categorias">
+					<h4>Categor&iacute;as</h4>
+					<ul>
+						<li style="background-color:#D8006C;"><a href={% url 'blog:categoria' idcategoria='Novedades' %}>Novedades</a></li>
+						<li style="background-color:#FC4513;"><a href={% url 'blog:categoria' idcategoria='Talento' %}>Talento</a></li>
+						<li style="background-color:#00C4B4;"><a href={% url 'blog:categoria' idcategoria='Fanatico' %}>Fans</a></li>
+						<li style="background-color:#61A60E;"><a href={% url 'blog:categoria' idcategoria='Casting' %}>Casting</a></li>
+						<li style="background-color:#0032A0;"><a href={% url 'blog:categoria' idcategoria='Industria' %}>Industria</a></li>
+					</ul>
+					<div class="ivo-entradas-relacion">
+						<h4><font>Entradas</font></br> Recomendadas</h4>
+						<ul>
+							<li>
+								<img src="{% static 'img/proveedores.jpg' %}" class="img-responsive">
+								<div class="ivo-borde-naranja">Talento</div>
+								<p>
+									Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+								</p>
+							</li>
+							<li>
+								<img src={"% static 'img/proveedores.jpg' %}" class="img-responsive">
+								<div class="ivo-borde-verde">Casting</div>
+								<p>
+									Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+								</p>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- App -->
+		<div class="container-fluid ivo-artistas-appBck">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-lg-12 ivo-artistas-app">
+						<div class="row">
+							<div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-0 col-lg-5 col-lg-offset-0">
+								<img src="{% static 'img/ivo-lg3.png' %}" class="img-responsive ivo-app-logo general">
+								<h2>Descarga nuestra App Movil</h2>
+								<a href="#" class="ivo-app-goplay general">
+									<img src="{% static 'img/google-play.png' %}">
+								</a>
+								<a href="#" class="ivo-app-appsto general">
+									<img src="{% static 'img/appstore.png' %}">
+								</a>
+								<br class="clear">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Footer -->
+		{% endblock %}

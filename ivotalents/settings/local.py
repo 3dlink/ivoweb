@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     #'registration',
     'frontend',
     'perfiles',
+    'blog',
+    'listado',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -106,6 +108,19 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'IvoTalentsDB',
+        'USER': 'postgres',
+        'PASSWORD': 'ivotalents1!',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
+"""
 
 
 # Password validation

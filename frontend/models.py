@@ -193,7 +193,7 @@ class TipoArte(models.Model):
 
     class Meta:
         db_table = 'TipoArte_co'
-        verbose_name = _('Tipo de Arte')
+        verbose_name = ('Tipo de Arte')
         verbose_name_plural = ('Tipos de Arte')
 
     def __str__(self):              # __unicode__ on Python 2
@@ -216,7 +216,7 @@ class GeneroArtistico(models.Model):
 
 class UsuarioArte(models.Model):
     id_arte = models.ManyToManyField(TipoArte, db_column='Idtalento')
-    id_usuario = models.ManyToManyField(User, db_column='Idsuario')
+    id_usuario = models.ManyToManyField(User, db_column='Idusuario')
     class Meta:
         db_table = 'InteresUsuario'
         verbose_name = 'Interes del usuario'

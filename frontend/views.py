@@ -18,7 +18,6 @@ from rest_framework import status
 from .serializers import GeneroSerializer, API_sesion
 
 
-
 # Create your views here.
 def home(request):
     return render(request, "home.html", {})
@@ -284,7 +283,7 @@ def inicio_sesion(request):
 class API(APIView):
  
     def post(self, request):
-        import pdb;   pdb.set_trace()
+        #import pdb;   pdb.set_trace()
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
@@ -306,6 +305,6 @@ class API(APIView):
 class GeneroView(APIView):
 
     def get(self,request):
-        generos = GeneroArtistico.objects.all()
+        generos = TipoArte.objects.all()
         serializer = GeneroSerializer(generos, many = True)
         return Response(serializer.data)

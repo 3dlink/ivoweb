@@ -51,81 +51,20 @@
 							  <li>Presentador</li>
 							</ul>
 					   	</div>
-					    <div class="row">
+
+					   	{% for artista in artistas %}
+
+					   		 <div class="row">
 					        <div class="col-xs-4 col-sm-4 col-md-2 ivo-artistas-panel-item" >
 					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
 					            <h3>Musico</h3>
-					    		<h4 class="nombre">Catherine Lewis</h4>
+					    		<h4 class="nombre">{{ artista.get_full_name }}</h4>
 					    		<h4>Compositora</h4>
 					        </div>
-					        <div class="col-xs-4 col-sm-4 col-md-2 ivo-artistas-panel-item" >
-					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3>Musico</h3>
-					    		<h4 class="nombre">Catherine Lewis</h4>
-					    		<h4>Compositora</h4>
-					        </div>
-					        <div class="col-xs-4 col-sm-4 col-md-2 ivo-artistas-panel-item" >
-					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3>Musico</h3>
-					    		<h4 class="nombre">Catherine Lewis</h4>
-					    		<h4>Compositora</h4>
-					        </div>
-					        <div class="col-xs-4 col-sm-4 col-md-2 ivo-artistas-panel-item" >
-					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3>Musico</h3>
-					    		<h4 class="nombre">Catherine Lewis</h4>
-					    		<h4>Compositora</h4>
-					        </div>
-					        <div class="col-xs-4 col-sm-4 col-md-2 ivo-artistas-panel-item" >
-					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3>Musico</h3>
-					    		<h4 class="nombre">Catherine Lewis</h4>
-					    		<h4>Compositora</h4>
-					        </div>
-					        <div class="col-xs-4 col-sm-4 col-md-2 ivo-artistas-panel-item" >
-					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3>Musico</h3>
-					    		<h4 class="nombre">Catherine Lewis</h4>
-					    		<h4>Compositora</h4>
-					        </div>
-					    </div>
-					    <div class="row">
-					        <div class="col-xs-4 col-sm-4 col-md-2 ivo-artistas-panel-item" >
-					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3>Musico</h3>
-					    		<h4 class="nombre">Catherine Lewis</h4>
-					    		<h4>Compositora</h4>
-					        </div>
-					        <div class="col-xs-4 col-sm-4 col-md-2 ivo-artistas-panel-item" >
-					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3>Musico</h3>
-					    		<h4 class="nombre">Catherine Lewis</h4>
-					    		<h4>Compositora</h4>
-					        </div>
-					        <div class="col-xs-4 col-sm-4 col-md-2 ivo-artistas-panel-item" >
-					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3>Musico</h3>
-					    		<h4 class="nombre">Catherine Lewis</h4>
-					    		<h4>Compositora</h4>
-					        </div>
-					        <div class="col-xs-4 col-sm-4 col-md-2 ivo-artistas-panel-item" >
-					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3>Musico</h3>
-					    		<h4 class="nombre">Catherine Lewis</h4>
-					    		<h4>Compositora</h4>
-					        </div>
-					        <div class="col-xs-4 col-sm-4 col-md-2 ivo-artistas-panel-item" >
-					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3>Musico</h3>
-					    		<h4 class="nombre">Catherine Lewis</h4>
-					    		<h4>Compositora</h4>
-					        </div>
-					        <div class="col-xs-4 col-sm-4 col-md-2 ivo-artistas-panel-item" >
-					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3>Musico</h3>
-					    		<h4 class="nombre">Catherine Lewis</h4>
-					    		<h4>Compositora</h4>
-					        </div>
+       						 
+   						 {% endfor %}
+					   
+					        
 					    </div>
 					   <div class="row">
 					   		<div class="col-md-4 col-md-offset-4 text-center">
@@ -165,6 +104,8 @@
 				</div>
 			</div>
 		</div>
+
+
 		<!-- Blog Posts -->
 		<div class="container-fluid ivo-artistas-bck-cont">
 			<div class="container">
@@ -174,7 +115,7 @@
 					       	<h3 class="headermessage">&Uacute;ltimas Entradas</h3>
 					   	</div>
 					    <div class="row">
-					    	<div class="image-block col-xs-6 col-sm-4" style="background-image:url('{% static 'img/artista-t1.jpg'%}');" no-repeat center top;background-size:cover;">
+					    	<div class="image-block col-xs-6 col-sm-4" style="background-image:url('{% static 'img/artista-t1.jpg'%}'); no-repeat center top;background-size:cover;">
 					    		<h3 class="ivo-back-naranja">Categoria</h3>
 					    		<h4 class="ivo-noticia-titulo">Titulo de la noticia</h4>
 					            <p class="ivo-noticia-descripcion">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>

@@ -38,13 +38,16 @@ urlpatterns = [
     url(r'^industriadashboard/$', views.industriadashboard, name='industriadashboard'),
     url(r'^crearcasting/$', views.crearcasting, name='crearcasting'),
     url(r'^registroalternativo/$', views.registrosecundario, name='registroalternativo'),
-    url(r'^artistas/$', views.artistas, name='artistadashboard'),
+    
+    #url(r'^artistas/$', views.artistas, name='listado'),
 
 
     url(r'^login/', views.index, name='index'),
     url(r'^logout/', views.cerrar_sesion, name='logout'),
 
     url(r'^perfil/', include('perfiles.urls', namespace='perfiles')),
+    url(r'^all/', include('listado.urls', namespace='listado')),
+    url(r'^blog/', include('blog.urls', namespace='blog')),
     url(r'^generos/', views.GeneroView.as_view()),
     url(r'^api/', views.API.as_view()),
 ]

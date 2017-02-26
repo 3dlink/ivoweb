@@ -1,0 +1,412 @@
+
+
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+
+{% block cssblock %}
+
+		<style type="text/css">
+			.ivo-pregunta { height: auto;}
+			.ivo-form  select {width: 100%}
+		</style>
+{% endblock %}
+
+
+
+{% block content %}
+<!-- Full Page Image Background Carousel Header -->
+	    <header id="myCarousel" class="carousel slide">
+	        <!-- Indicators -->
+	        <ol class="carousel-indicators">
+	            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+	            <li data-target="#myCarousel" data-slide-to="1"></li>
+	            <li data-target="#myCarousel" data-slide-to="2"></li>
+	        </ol>
+
+	        <!-- Wrapper for Slides -->
+	        <div class="carousel-inner">
+	            <div class="item active">
+	            	<div class="ivo-layer-gry"></div>
+	                <!-- Set the first background image using inline CSS below. -->
+	                <div class="fill" style="background-image:{% static 'img/castings-header.jpg' %};"></div>
+	                <div class="carousel-caption" style="text-align:left;">
+	                	<h1 class="ivo-catsting-carousel-h1">
+							<span>Haz tu audicion desde IVO Apps</span>
+							</br>
+							Demuestra tu talento
+						</h1>
+						<a href="#" class="ivo-boton ivo-catsting-carousel-boton">Hacer Casting / Audicion</a>
+						<div class="ivo-white-box"></div>
+	                </div>
+	            </div>
+	            <div class="item">
+	                <!-- Set the second background image using inline CSS below. -->
+	                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Two');"></div>
+	                <div class="carousel-caption">
+	                    <h2>Caption 2</h2>
+	                </div>
+	            </div>
+	            <div class="item">
+	                <!-- Set the third background image using inline CSS below. -->
+	                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Three');"></div>
+	                <div class="carousel-caption">
+	                    <h2>Caption 3</h2>
+	                </div>
+	            </div>
+	        </div>
+
+	        <!-- Controls -->
+	        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+	            <span class="icon-prev"></span>
+	        </a>
+	        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+	            <span class="icon-next"></span>
+	        </a>
+	    </header>
+	    <div class="container-fluid ivo-artistas-bck-cont">
+		    <div class="container">
+				<!-- Castings -->
+				<div class="row ivo-castings-panel">
+					<div class="col-md-10 col-lg-10 col-md-offset-1">
+						<div class="row text-center ivo-castings-panel-texto">
+							<h1 class="headermessage ivo-headermessage-titulo">Blog</h1>
+					       	<h3 class="headermessage">Enterate de lo que sucede en nuestras redes</h3>
+					       	<ul class="list-inline ivo-castings-panel-filtros" style="margin: 20px 0;">
+							  <li style="background-color:#D8006C;"><a href={% url 'blog:categoria' idcategoria='Novedades' %} style="text-decoration: none; color: white;"> Novedades</a></li>
+							  <li style="background-color:#FC4513;"><a href={% url 'blog:categoria' idcategoria='Talento' %} style="text-decoration: none; color: white;">Talento</a></li>
+							  <li style="background-color:#00C4B4;"><a href={% url 'blog:categoria' idcategoria='Fanatico' %} style="text-decoration: none; color: white;">Fans</a></li>
+							  <li style="background-color:#61A60E;"><a href={% url 'blog:categoria' idcategoria='Casting' %} style="text-decoration: none; color: white;">Casting</a></li>
+							  <li style="background-color:#0032A0;"><a href={% url 'blog:categoria' idcategoria='Industria' %} style="text-decoration: none; color: white;">Industria</a></li>
+							</ul>
+					   	</div>
+				    </div>
+				</div>
+				<!-- Blog Posts -->
+  
+
+
+				<!-- Blog Posts -->
+				<div class="row ivo-noticias ivo-blog">
+					<div class="col-md-10 col-lg-10 col-md-offset-1">
+					    <div class="row">
+							{% for post in posts %}
+								{% if forloop.counter0 == 0 %}
+					        <div class="image-block col-sm-8 ivo-blog-item ivo-blog-item-lg" style="background: url('{{post.imagen.url}}'); no-repeat center top;background-size:cover;">
+									{% if post.categoria.nombre == 'Novedades' %}
+										<h3 style="background-color: #D8006C;">{{post.categoria}}</h3>
+							            <div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <p></p>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-novedades">Leer Mas</a>
+									{% elif post.categoria.nombre == 'Fanatico' %}
+										<h3 style="background-color: #00C4B4;">{{post.categoria}}</h3>
+							            <div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <p></p>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-fan">Leer Mas</a>										
+									{% elif post.categoria.nombre == 'Industria' %}
+										<h3 style="background-color: #0032A0;">{{post.categoria}}</h3>
+							            <div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <p></p>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-industria">Leer Mas</a>
+										
+									{% elif post.categoria.nombre == 'Casting' %}
+										<h3 style="background-color: #61A60E;">{{post.categoria}}</h3>
+							            <div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <p></p>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-casting">Leer Mas</a>
+										
+									{% else %}
+										<h3 style="background-color: #FC4513;">{{post.categoria}}</h3>
+							            <div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <p></p>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-talento">Leer Mas</a>
+										
+									{% endif %}
+
+					            
+					        </div>
+					        	{% elif forloop.counter0 == 1 %}
+
+
+
+					        <div class="image-block col-sm-4 ivo-blog-item ivo-blog-item-extendido" style="background-image: url('{{post.imagen.url}}');">
+									{% if post.categoria.nombre == 'Novedades' %}
+										<h3 style="background-color: #D8006C;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-novedades">Leer Mas</a>
+										
+									{% elif post.categoria.nombre == 'Fanatico' %}
+										<h3 style="background-color: #00C4B4;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-fan">Leer Mas</a>
+										
+									{% elif post.categoria.nombre == 'Industria' %}
+										<h3 style="background-color: #0032A0;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-industria">Leer Mas</a>
+										
+									{% elif post.categoria.nombre == 'Casting' %}
+										<h3 style="background-color: #61A60E;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-casting">Leer Mas</a>
+										
+									{% else %}
+										<h3 style="background-color: #FC4513;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-talento">Leer Mas</a>
+										
+									{% endif %}
+
+
+					            
+					        </div>
+					        {% elif forloop.counter0 == 2 %}
+					        <div class="image-block col-sm-4 ivo-blog-item ivo-blog-item-extendido" style="background-image: url('{{post.imagen.url}}');">
+					        		{% if post.categoria.nombre == 'Novedades' %}
+					        			<h3 style="background-color: #D8006C;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-novedades">Leer Mas</a>          
+										
+									{% elif post.categoria.nombre == 'Fanatico' %}
+										<h3 style="background-color: #00C4B4;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-fan">Leer Mas</a> 
+										
+									{% elif post.categoria.nombre == 'Industria' %}
+										<h3 style="background-color: #0032A0;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-industria">Leer Mas</a> 
+										
+									{% elif post.categoria.nombre == 'Casting' %}
+										<h3 style="background-color: #61A60E;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-casting">Leer Mas</a> 
+										
+									{% else %}
+										<h3 style="background-color: #FC4513;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-talento">Leer Mas</a> 
+										
+									{% endif %}
+					            
+					        </div>
+					        {% elif forloop.counter0 == 3 %}
+					        <div class="image-block col-sm-4 ivo-blog-item ivo-blog-item-extendido" style="background-image: url('{{post.imagen.url}}');">
+					        		{% if post.categoria.nombre == 'Novedades' %}
+					        			<h3 style="background-color: #D8006C;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-novedades">Leer Mas</a>
+										
+									{% elif post.categoria.nombre == 'Fanatico' %}
+										<h3 style="background-color: #00C4B4;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-fan">Leer Mas</a>
+										
+									{% elif post.categoria.nombre == 'Industria' %}
+										<h3 style="background-color: #0032A0;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-industria">Leer Mas</a>
+										
+									{% elif post.categoria.nombre == 'Casting' %}
+										<h3 style="background-color: #61A60E;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-casting">Leer Mas</a>
+										
+									{% else %}
+										<h3 style="background-color: #FC4513;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-talento">Leer Mas</a>
+									{% endif %}
+					    		
+					        </div>
+					        {% elif forloop.counter0 == 4 %}
+					        <div class="image-block col-sm-4 ivo-blog-item ivo-blog-item-extendido" style="background-image: url('{{post.imagen.url}}');">
+					        		{% if post.categoria.nombre == 'Novedades' %}
+					        			<h3 style="background-color: #D8006C;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-novedades">Leer Mas</a>
+										
+									{% elif post.categoria.nombre == 'Fanatico' %}
+										<h3 style="background-color: #00C4B4;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-fanatico">Leer Mas</a>
+										
+									{% elif post.categoria.nombre == 'Industria' %}
+										<h3 style="background-color: #0032A0;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-industria">Leer Mas</a>
+										
+									{% elif post.categoria.nombre == 'Casting' %}
+										<h3 style="background-color: #61A60E;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-casting">Leer Mas</a>
+										
+									{% else %}
+										<h3 style="background-color: #FC4513;">{{post.categoria}}</h3>
+							    		<div>
+								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+								    		<h4>{{post.titulo}}</h4>
+							    		</div>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-talento">Leer Mas</a>
+										
+									{% endif %}
+					            
+					        </div>
+					        {% endif %}
+					        {% endfor %}
+					    </div>
+				    </div>
+
+
+
+						{% if users.has_other_pages %}
+							  <ul class="pagination">
+							    {% if users.has_previous %}
+							      <li><a href="?page={{ users.previous_page_number }}">&laquo;</a></li>
+							    {% else %}
+							      <li class="disabled"><span>&laquo;</span></li>
+							    {% endif %}
+							    {% for i in users.paginator.page_range %}
+							      {% if users.number == i %}
+							        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+							      {% else %}
+							        <li><a href="?page={{ i }}">{{ i }}</a></li>
+							      {% endif %}
+							    {% endfor %}
+							    {% if users.has_next %}
+							      <li><a href="?page={{ users.next_page_number }}">&raquo;</a></li>
+							    {% else %}
+							      <li class="disabled"><span>&raquo;</span></li>
+							    {% endif %}
+							  </ul>
+							{% endif %}
+
+
+
+				    <div class="col-md-6 col-lg-6 col-md-offset-3 ivo-blog-paginas">
+				    {% if posts.has_other_pages %}
+				    	<ul>
+				    		{% if posts.has_previous %}
+					    			<li class="ivo-blog-paginas-move">
+					    			<a href="?page={{ posts.previous_page_number }}">&laquo;</a></li>
+							    
+				    			{% endif %}
+
+							    {% for i in posts.paginator.page_range %}
+							      {% if posts.number == i %}
+						    		<li class="ivo-blog-paginas-activo">
+						    			<span>{{ i }} <span class="sr-only">(current)</span></span>
+						    		</li>
+				    			 {% else %}
+				    		<li>
+				    			<a href="?page={{ i }}">{{ i }}</a>
+				    		</li>
+				    		{% endif %}
+							    {% endfor %}
+							    {% if posts.has_next %}
+							      <li><a href="?page={{ posts.next_page_number }}">&raquo;</a></li>
+							    
+							    {% endif %}
+							  </ul>
+							{% endif %}
+				    </div>
+				</div>
+			</div>
+		</div>
+		<!-- App -->
+		<div class="container-fluid ivo-artistas-appBck">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-lg-12 ivo-artistas-app">
+						<div class="row">
+							<div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-0 col-lg-5 col-lg-offset-0">
+								<img src="{% static 'img/ivo-lg3.png' %}" class="img-responsive ivo-app-logo general">
+								<h2>Descarga nuestra App Movil</h2>
+								<a href="#" class="ivo-app-goplay general">
+									<img src=" {% static 'img/google-play.png' %}">
+								</a>
+								<a href="#" class="ivo-app-appsto general">
+									<img src="{% static 'img/appstore.png' %}">
+								</a>
+								<br class="clear">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{% endblock %}
