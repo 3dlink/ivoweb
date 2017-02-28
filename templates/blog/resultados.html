@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+
+{% block cssblock %}
+
+		<style type="text/css">
+			.ivo-pregunta { height: auto;}
+			.ivo-form  select {width: 100%}
+			body {
+				background-color: white;
+			}
+		</style>
+{% endblock %}
+
+ {% block content%}
+<!-- Castings -->
+			<div class="row">
+				<div class="col-md-10 col-lg-10 col-md-offset-1 ivo-blog-resultado">
+					<h1>Resultados de busqueda</h1>
+			    </div>
+			</div>
+			<!-- Blog Posts -->
+			<div class="row ivo-noticias ivo-blog ivo-blog-invertido">
+				<div class="col-md-10 col-lg-10 col-md-offset-1">
+				    <div class="row">
+				    {% for post in posts %}
+								
+				    	
+				    	{% if post.categoria.nombre == 'Novedades' %}
+				    	<div class="image-block col-sm-4 ivo-blog-item ivo-blog-item-extendido" style="background-image: url('{{post.imagen.url}}');">
+
+				            <h3 style="background-color: #D8006C;">{{post.categoria}}</h3>
+				    		<div>
+					            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+					    		<h4 class="ivo-bold">{{post.titulo}}</h4>
+				    		</div>
+				            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-novedades">Leer Mas</a>
+				        </div>
+				        {% elif post.categoria.nombre == 'Fanatico' %}
+				        <div class="image-block col-sm-4 ivo-blog-item ivo-blog-item-extendido" style="background-image: url('{{post.imagen.url}}');">
+
+					        <h3 style="background-color: #00C4B4;">{{post.categoria}}</h3>
+					    		<div>
+						            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+						    		<h4 class="ivo-bold">{{post.titulo}}</h4>
+					    		</div>
+					            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-fanatico">Leer Mas</a>
+					        </div>
+
+				        {% elif post.categoria.nombre == 'Industria' %}
+				        <div class="image-block col-sm-4 ivo-blog-item ivo-blog-item-extendido" style="background-image: url('{{post.imagen.url}}');">
+
+				        	<h3 style="background-color: #0032A0;">{{post.categoria}}</h3>
+					    		<div>
+						            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+						    		<h4 class="ivo-bold">{{post.titulo}}</h4>
+					    		</div>
+					            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-industria">Leer Mas</a>
+					        </div>
+
+				        {% elif post.categoria.nombre == 'Casting' %}
+				        <div class="image-block col-sm-4 ivo-blog-item ivo-blog-item-extendido" style="background-image: url('{{post.imagen.url}}');">
+
+				        	<h3 style="background-color: #61A60E;">{{post.categoria}}</h3>
+					    		<div>
+						            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+						    		<h4 class="ivo-bold">{{post.titulo}}</h4>
+					    		</div>
+					            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-casting">Leer Mas</a>
+					        </div>
+
+				        {% elif post.categoria.nombre == 'Talento' %}
+				        <div class="image-block col-sm-4 ivo-blog-item ivo-blog-item-extendido" style="background-image: url('{{post.imagen.url}}');">
+
+				        	<h3 style="background-color: #FC4513;">{{post.categoria}}</h3>
+					    		<div>
+						            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
+						    		<h4 class="ivo-bold">{{post.titulo}}</h4>
+					    		</div>
+					            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-talento">Leer Mas</a>
+					        </div>
+					    {% endif %}    
+				    	
+				     {% endfor %}
+				    </div>
+			    </div>
+			   <div class="col-md-6 col-lg-6 col-md-offset-3 ivo-blog-paginas">
+				    {% if posts.has_other_pages %}
+				    	<ul>
+				    		{% if posts.has_previous %}
+					    			<li class="ivo-blog-paginas-move">
+					    			<a href="?page={{ posts.previous_page_number }}">&laquo;</a></li>
+							    
+				    			{% endif %}
+
+							    {% for i in posts.paginator.page_range %}
+							      {% if posts.number == i %}
+						    		<li class="ivo-blog-paginas-activo">
+						    			<span>{{ i }} <span class="sr-only">(current)</span></span>
+						    		</li>
+				    			 {% else %}
+				    		<li>
+				    			<a href="?page={{ i }}">{{ i }}</a>
+				    		</li>
+				    		{% endif %}
+							    {% endfor %}
+							    {% if posts.has_next %}
+							      <li><a href="?page={{ posts.next_page_number }}">&raquo;</a></li>
+							    
+							    {% endif %}
+							  </ul>
+							{% endif %}
+				    </div>
+				</div>
+			</div>
+		</div>
+		{% endblock %}

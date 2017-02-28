@@ -296,7 +296,7 @@
 								            <div class="ivo-blog-fecha">{{post.fecha_creacion}}</div>
 								    		<h4>{{post.titulo}}</h4>
 							    		</div>
-							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-fanatico">Leer Mas</a>
+							            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-blog-fan">Leer Mas</a>
 										
 									{% elif post.categoria.nombre == 'Industria' %}
 										<h3 style="background-color: #0032A0;">{{post.categoria}}</h3>
@@ -331,28 +331,6 @@
 				    </div>
 
 
-
-						{% if users.has_other_pages %}
-							  <ul class="pagination">
-							    {% if users.has_previous %}
-							      <li><a href="?page={{ users.previous_page_number }}">&laquo;</a></li>
-							    {% else %}
-							      <li class="disabled"><span>&laquo;</span></li>
-							    {% endif %}
-							    {% for i in users.paginator.page_range %}
-							      {% if users.number == i %}
-							        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-							      {% else %}
-							        <li><a href="?page={{ i }}">{{ i }}</a></li>
-							      {% endif %}
-							    {% endfor %}
-							    {% if users.has_next %}
-							      <li><a href="?page={{ users.next_page_number }}">&raquo;</a></li>
-							    {% else %}
-							      <li class="disabled"><span>&raquo;</span></li>
-							    {% endif %}
-							  </ul>
-							{% endif %}
 
 
 

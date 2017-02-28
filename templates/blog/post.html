@@ -21,16 +21,31 @@
 			<div class="row hidden-md hidden-lg ivo-entrada-smTop">
 				<div class="col-sm-12 ivo-entrada-busqueda">
 					<h4>Buscar Articulo</h4>
-					<form>
-						<input type="text">
-						<button>
+					<!--form id="busqueda" action="/blog/busqueda/consulta=df" method="GET"  -->
+					<form id="busqueda" action="{% url 'blog:busqueda' %}" method="GET" >							
+						<input type="text" name="q" placeholder="Consulta">
+
+						<input type="submit" value="Buscar">
 							<span class="glyphicon glyphicon-search"></span>
-						</button>
+						
 					</form>
 				</div>
-				<div class="col-sm-12 ivo-entrada-categoriaTop">
 
-					<span class="ivo-entrada-contenido-categoria ivo-back-naranja">Categoria</span>
+				<div class="col-sm-12 ivo-entrada-categoriaTop">
+					{% if post.categoria.nombre == 'Novedades' %}					
+						<span class="ivo-entrada-contenido-categoria ivo-back-rosa">{{post.categoria.nombre}}</span>
+					{% elif post.categoria.nombre == 'Fanatico' %}						
+						<span class="ivo-entrada-contenido-categoria ivo-back-azulClaro">{{post.categoria.nombre}}</span>
+					{% elif post.categoria.nombre == 'Industria' %}					
+						<span class="ivo-entrada-contenido-categoria ivo-back-azul">{{post.categoria.nombre}}</span>
+					{% elif post.categoria.nombre == 'Casting' %}					
+						<span class="ivo-entrada-contenido-categoria ivo-back-verde-c">{{post.categoria.nombre}}</span>
+					{% else %}			
+					<span class="ivo-entrada-contenido-categoria ivo-back-naranja">{{post.categoria.nombre}}</span>
+					{% endif %}
+
+
+					
 				</div>
 			</div>
 			<div class="row ivo-entrada row ivo-entrada-topEnt">
@@ -143,3 +158,6 @@
 		</div>
 		<!-- Footer -->
 		{% endblock %}
+
+
+		
