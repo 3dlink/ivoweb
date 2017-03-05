@@ -25,8 +25,9 @@
 					<form id="busqueda" action="{% url 'blog:busqueda' %}" method="GET" >							
 						<input type="text" name="q" placeholder="Consulta">
 
-						<input type="submit" value="Buscar">
+						<button type="submit">
 							<span class="glyphicon glyphicon-search"></span>
+						</button>
 						
 					</form>
 				</div>
@@ -64,12 +65,16 @@
 				</div>
 				<div class="col-md-3 col-lg-3 ivo-entrada-busqueda hidden-xs hidden-sm">
 					<h4>Buscar Articulo</h4>
-					<form>
-						<input type="text">
-						<button>
+					<form id="busqueda" action="{% url 'blog:busqueda' %}" method="GET" >							
+						<input type="text" name="q" placeholder="Consulta">
+
+						<button type="submit">
 							<span class="glyphicon glyphicon-search"></span>
 						</button>
+							
+						
 					</form>
+					
 				</div>
 			</div>
 			<div class="row">

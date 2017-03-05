@@ -119,7 +119,8 @@ class User(AbstractBaseUser,PermissionsMixin):
 
     @property
     def get_avatar(self):
-        return str(self.avatar).replace('avatar/', 'avatar/sm_')
+        return str(self.avatar)
+        #.replace('avatar/', 'avatar/sm_')
 
     def get_uuid(self):
         return self.uuid
@@ -197,7 +198,7 @@ class TipoArte(models.Model):
         verbose_name_plural = ('Tipos de Arte')
 
     def __str__(self):              # __unicode__ on Python 2
-        return "%s " % (self.name)
+        return self.name
 
 
 class GeneroArtistico(models.Model):
@@ -210,14 +211,42 @@ class GeneroArtistico(models.Model):
         db_table = 'GeneroArtistico_co'
         verbose_name = _('Genero')
         verbose_name_plural = ('Generos')
+        
+    def __str__(self):              # __unicode__ on Python 2
+        return self.name
 
 
 
 
 class UsuarioArte(models.Model):
-    id_arte = models.ManyToManyField(TipoArte, db_column='Idtalento')
-    id_usuario = models.ManyToManyField(User, db_column='Idusuario')
+    id_arte = models.ForeignKey(TipoArte, db_column='Idtalento', on_delete=models.CASCADE, null=True)
+    id_usuario = models.ForeignKey(User, db_column='Idusuario', on_delete=models.CASCADE, null=True)
     class Meta:
         db_table = 'InteresUsuario'
         verbose_name = 'Interes del usuario'
         verbose_name_plural = 'Intereses del usuario'
+
+    @property
+    def get_arte(self):
+        return self.id_arte
+
+    def get_usuario(self):
+        return self.id_usuario
+
+
+
+class UsuarioArteGenero(models.Model):
+    id_usuario = models.ForeignKey(User, db_column='Idusuario', on_delete=models.CASCADE, null=True)
+    id_genero = models.ForeignKey(GeneroArtistico, on_delete=models.CASCADE)
+    createdOn = models.DateTimeField(_('created On'),auto_now_add=True, auto_now=False)
+    modifiedOn = models.DateTimeField(_('modified On'),auto_now_add=False, auto_now=True)
+    class Meta:        
+        verbose_name = _('RelacionGeneroARTE')
+        verbose_name_plural = ('RelacionGenerosARTES')
+
+    @property
+    def get_genero(self):
+        return self.id_genero
+
+    def get_usuario(self):
+        return self.id_usuario

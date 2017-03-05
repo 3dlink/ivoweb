@@ -48,8 +48,9 @@ urlpatterns = [
     url(r'^perfil/', include('perfiles.urls', namespace='perfiles')),
     url(r'^all/', include('listado.urls', namespace='listado')),
     url(r'^blog/', include('blog.urls', namespace='blog')),
-    url(r'^generos/', views.GeneroView.as_view()),
-    url(r'^api/', views.API.as_view()),
+    #url(r'^generos/', views.GeneroView.as_view()),
+    url(r'^api/v1/', include('API.urls', namespace='api')),
+    
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

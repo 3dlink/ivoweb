@@ -5,6 +5,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from  blog.forms import FormBusqueda
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from functools import reduce
+from django.db.models import Q
 # Create your views here.
 
 
@@ -64,6 +66,8 @@ def busqueda(request):
 
 	import pdb;   pdb.set_trace()
 	results = Post.objects.filter(titulo__contains=request.GET['q'])	
+	
+     
 	paginator = Paginator(results, 6) # Show 25 contacts per page	
 	page = request.GET.get('page',1)
 	try:
@@ -77,21 +81,3 @@ def busqueda(request):
 			#import pdb;   pdb.set_trace()
 	return render_to_response("blog/resultados.html", {"posts": posts})
 	
-
-
-
-	# import pdb;   pdb.set_trace()
-	# if request.method == 'POST':
-	# 	results = Post.objects.get(titulo__contains=request.POST['consulta']).order_by("-fecha_creacion")	
-	# 	paginator = Paginator(results, 6) # Show 25 contacts per page	
-	# 	page = request.GET.get('page',1)
-	# 	try:
-	# 		posts = paginator.page(page)
-	# 	except PageNotAnInteger:
-	#         # If page is not an integer, deliver first page.
-	# 		posts = paginator.page(1)
-	# 	except EmptyPage:
-	#         # If page is out of range (e.g. 9999), deliver last page of results.
-	# 		posts = paginator.page(paginator.num_pages)
-	# 		#import pdb;   pdb.set_trace()
-	# 	return render_to_response("blog/resultados.html", {"posts": posts})

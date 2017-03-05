@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'perfiles',
     'blog',
     'listado',
+    'API',
 ]
 
 MIDDLEWARE_CLASSES = [

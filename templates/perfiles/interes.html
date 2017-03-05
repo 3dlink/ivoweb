@@ -1,0 +1,62 @@
+{% load staticfiles %}
+{% load i18n %}
+
+					<form class="ivo-formularioConf-form" method="POST" >
+					{% csrf_token %}
+						<h1>Intereses</h1>
+						<div class="row">
+							<div class="col-md-3">
+								<label class="ivo-label-ampliado-lista">Mis Intereses</label>
+							</div>
+							<div class="col-md-9">
+								<div class="ivo-mensajes-select">
+									<div class="dropdown">
+									  <button class="btn btn-default dropdown-toggle ivo-drop-ampliado-lista" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+									    Mode, Eventos, Estilismo de Cabello 
+									    <span class="caret"></span>
+									  </button>
+									  <ul class="dropdown-menu ivo-select-ampliado-lista" aria-labelledby="dropdownMenu1">
+									    <li>
+									    	<input type="checkbox" id="checkbox-2-2" class="regular-checkbox" />
+											<label class="no-margin" for="checkbox-2-2"></label>						    		
+									    	<div>Interes 1</div>
+									   	</li>
+									   	<li>
+									    	<input type="checkbox" id="checkbox-2-3" class="regular-checkbox" />
+											<label class="no-margin" for="checkbox-2-3"></label>						    		
+									    	<div>Interes 2</div>
+									   	</li>
+									   	<li>
+									    	<input type="checkbox" id="checkbox-2-1" class="regular-checkbox" />
+											<label  class="no-margin" for="checkbox-2-1"></label>						    		
+									    	<div>Interes 3</div>
+									   	</li>
+									   	<li>
+									    	<input type="checkbox" id="checkbox-2-5" class="regular-checkbox" />
+											<label class="no-margin" for="checkbox-2-5"></label>						    		
+									    	<div>Interes 4</div>
+									   	</li>
+									   	<li>
+									    	<input type="checkbox" id="checkbox-2-4" class="regular-checkbox" />
+											<label class="no-margin" for="checkbox-2-4"></label>						    		
+									    	<div>Interes 5</div>
+									   	</li>
+									   	<li>
+									    	<input type="checkbox" id="checkbox-2-6" class="regular-checkbox" />
+											<label class="no-margin" for="checkbox-2-6"></label>						    		
+									    	<div>Interes 6</div>
+									   	</li>
+									  </ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<button class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro">
+							<span class="ivo-back-trs-azulClaro ivo-borde-transparente">Actualizar</span>
+						</button>
+						<button class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro">
+							<span class="ivo-back-trs-azulClaro ivo-borde-transparente">Cancelar</span>
+						</button>
+					</form>
+				
+			

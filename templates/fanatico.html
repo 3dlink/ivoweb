@@ -43,7 +43,7 @@
 
 					<!-- Formulario -->
 						<form method="POST" class="ivo-form ivo-form-registro">
-
+							{% csrf_token %}
 							<input type="hidden" name="genero" id="genero" required="required">
 		                    <input type="hidden" name="fecha_nacimiento" id="fecha_nacimiento">                    
 		                    <input type="hidden" name="tipo_usuario" value="F">
@@ -222,7 +222,7 @@
                             </a>
                         </div>
                     </div>
-							 {% csrf_token %}
+							 
 						</form>
 						<!-- Fin Formulario -->
 

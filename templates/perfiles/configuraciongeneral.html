@@ -34,8 +34,9 @@
 				</li>
 				<li id="show_form_experiencia">
 					<a href="#">Experiencia</a>
-				</li>
-				<li>
+
+				</li >
+				<li id="show_form_interes">
 					<a href="#">Intereses</a>
 				</li>
 				{% endif %}
@@ -461,6 +462,20 @@
 				</div>-->
                 {% include 'perfiles/experiencia.html' %}
 			</div>
+			
+
+
+
+			<!-- FORMULARIO PARA LLENAR INTERESES -->
+
+
+			<div class="ivo-formularioConf-form ivo-formularioConf-form-nf from-principal" style="display:none" action="/perfil/configuraciongeneral/actualizar-experiencia/"   id="form_interes">
+				
+				
+                {% include 'perfiles/interes.html' %}
+			</div>
+
+
 		</div>
 	</div>
 
