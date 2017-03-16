@@ -3,10 +3,7 @@ from django import forms
 from frontend.models import User
 
 class FormRegistro(UserCreationForm):
-    #INPUT_FORMAT = (
-    #    ('%d/%m/%Y', '%m/%d/%Y')
-    #)
-    #fecha_nacimiento = forms.DateField(input_formats=INPUT_FORMAT)
+    
     class Meta:
         model = User
         exclude = ['empresa_provedor', 'razon_social', 'direccion', 'website',

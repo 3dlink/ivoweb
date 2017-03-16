@@ -126,7 +126,7 @@ class User(AbstractBaseUser,PermissionsMixin):
         return self.uuid
 
     def get_absolute_url(self):
-        return "/users/%s/" % urlquote(self.email)
+        return "/perfil/%s/" % (self.uuid)
 
     def get_full_name(self):
         """
@@ -145,6 +145,9 @@ class User(AbstractBaseUser,PermissionsMixin):
 
     def get_tipo_usuario(self):
         return self.tipo_usuario
+
+    def __unicode__(self):
+        return '%s %s' % (self.first_name, self.last_name)
 
 
 
@@ -203,7 +206,7 @@ class TipoArte(models.Model):
 
 class GeneroArtistico(models.Model):
     name = models.CharField(_('Genero Artistico'), max_length=255, blank=True)
-    id_tipo_arte = models.ForeignKey(TipoArte, on_delete=models.CASCADE)
+    id_tipo_arte = models.ForeignKey(TipoArte, on_delete=models.CASCADE, related_name='artegenero')
     createdOn = models.DateTimeField(_('created On'),auto_now_add=True, auto_now=False)
     modifiedOn = models.DateTimeField(_('modified On'),auto_now_add=False, auto_now=True)
 
@@ -215,12 +218,15 @@ class GeneroArtistico(models.Model):
     def __str__(self):              # __unicode__ on Python 2
         return self.name
 
+    def __unicode__(self):
+        return '%s' % (self.name)
+
 
 
 
 class UsuarioArte(models.Model):
-    id_arte = models.ForeignKey(TipoArte, db_column='Idtalento', on_delete=models.CASCADE, null=True)
-    id_usuario = models.ForeignKey(User, db_column='Idusuario', on_delete=models.CASCADE, null=True)
+    id_arte = models.ForeignKey(TipoArte, db_column='Idtalento', on_delete=models.CASCADE, null=True, related_name='tipo_arte')
+    id_usuario = models.ForeignKey(User, db_column='Idusuario', on_delete=models.CASCADE, null=True, related_name='user_arte')
     class Meta:
         db_table = 'InteresUsuario'
         verbose_name = 'Interes del usuario'
@@ -236,8 +242,8 @@ class UsuarioArte(models.Model):
 
 
 class UsuarioArteGenero(models.Model):
-    id_usuario = models.ForeignKey(User, db_column='Idusuario', on_delete=models.CASCADE, null=True)
-    id_genero = models.ForeignKey(GeneroArtistico, on_delete=models.CASCADE)
+    id_usuario = models.ForeignKey(User, db_column='Idusuario', on_delete=models.CASCADE, null=True,related_name='user_genero')
+    id_genero = models.ForeignKey(GeneroArtistico, on_delete=models.CASCADE, related_name='genero')
     createdOn = models.DateTimeField(_('created On'),auto_now_add=True, auto_now=False)
     modifiedOn = models.DateTimeField(_('modified On'),auto_now_add=False, auto_now=True)
     class Meta:        
@@ -250,3 +256,6 @@ class UsuarioArteGenero(models.Model):
 
     def get_usuario(self):
         return self.id_usuario
+
+    def __unicode__(self):
+        return '%s' % (self.id_genero.name)

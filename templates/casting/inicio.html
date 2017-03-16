@@ -1,0 +1,206 @@
+
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+
+{% block cssblock %}
+
+		<style type="text/css">
+			.ivo-pregunta { height: auto;}
+			.ivo-form  select {width: 100%}
+		</style>
+{% endblock %}
+
+{% block content %}
+
+ <header id="myCarousel" class="carousel slide">
+	        <!-- Indicators -->
+	        <ol class="carousel-indicators">
+	            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+	            <li data-target="#myCarousel" data-slide-to="1"></li>
+	            <li data-target="#myCarousel" data-slide-to="2"></li>
+	        </ol>
+
+	        <!-- Wrapper for Slides -->
+	        <div class="carousel-inner">
+	            <div class="item active">
+	            	<div class="ivo-layer-gry"></div>
+	                <!-- Set the first background image using inline CSS below. -->
+	                <div class="fill" style="background-image:url('assets/img/castings-header.jpg');"></div>
+	                <div class="carousel-caption" style="text-align:left;">
+	                	<h1 class="ivo-catsting-carousel-h1">
+							<span>Has tu audicion desde IVO Apps</span>
+							</br>
+							&#161;Demuestra tu talento!
+						</h1>
+						<a href="#" class="ivo-boton ivo-catsting-carousel-boton">Descarga la APP de IVO Talents</a>
+						<div class="ivo-white-box"></div>
+	                </div>
+	            </div>
+	            <div class="item">
+	                <!-- Set the second background image using inline CSS below. -->
+	                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Two');"></div>
+	                <div class="carousel-caption">
+	                    <h2>Caption 2</h2>
+	                </div>
+	            </div>
+	            <div class="item">
+	                <!-- Set the third background image using inline CSS below. -->
+	                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Three');"></div>
+	                <div class="carousel-caption">
+	                    <h2>Caption 3</h2>
+	                </div>
+	            </div>
+	        </div>
+
+	        <!-- Controls -->
+	        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+	            <span class="icon-prev"></span>
+	        </a>
+	        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+	            <span class="icon-next"></span>
+	        </a>
+	    </header>
+		<!-- Castings -->
+		<div class="container-fluid ivo-artistas-bck-cont">
+			<div class="container">
+				<div class="row ivo-castings-panel">
+					<div class="col-md-12 col-lg-12">
+						<div class="row text-center ivo-castings-panel-texto">
+							<h1 class="headermessage ivo-headermessage-titulo">Castings</h1>
+					       	<h3 class="headermessage">Las Oportunidades Est&aacute;n en IVO Talents</h3>
+					       	<ul class="list-inline ivo-castings-panel-filtros">
+							{% for categoria in categorias %}
+
+							<li>
+							<a href='/casting/categoria/{{categoria.nombre | slugify }}' style="text-decoration: none; color: white;">
+								{{categoria.nombre}}
+								</a>
+							</li>
+							
+							{% endfor %}
+							  
+
+
+							</ul>
+					   	</div>
+				    </div>
+				</div>
+				<div class="row ivo-castings">
+					<div class="col-md-12 col-lg-12">
+					    <div class="row">
+						{% for casting in castings %}
+							{% if forloop.counter0 == 0 or forloop.counter0 == 1 or forloop.counter0 == 2 or  forloop.counter0 == 4 or forloop.counter0 == 5 or forloop.counter0 == 6 or forloop.counter0 == 7 or forloop.counter0 == 9 %}
+								
+								<div class="image-block col-xs-6  col-sm-4 ivo-castings-noticia" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg) no-repeat center top;background-size:cover;">
+					    		<h4 class="ivo-casting-categoria no-background"> {{casting.categoria.nombre}} </h4>
+					    		<h4 class="ivo-casting-titulo no-background ivo-castings-titulo">{{casting.titulo}}</h4>
+					            <p class="ivo-casting-noticia-descripcion">{{casting.descripcion_breve}}</p>
+					            <a href={% url 'casting:casting_detalle' idcasting=casting.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Leer Mas</a>
+					            <!-- Color de la capa transparente -->
+					            
+					            
+					            
+
+							{%else%}
+								
+								<div class="image-block col-xs-6 col-sm-8 ivo-castings-noticia" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city6.jpg) no-repeat center top;background-size:cover;">
+					    		<h4 class="ivo-casting-categoria no-background"> {{casting.categoria.nombre}} </h4>
+					    		<h4 class="ivo-casting-titulo no-background ivo-castings-titulo">{{casting.titulo}}</h4>
+					            <p class="ivo-casting-noticia-descripcion">{{casting.descripcion_breve}}</p>
+					            <a href={% url 'casting:casting_detalle' idcasting=casting.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Leer Mas</a>
+					            <!-- Color de la capa transparente -->
+					            
+					            
+
+							{% endif %}
+							{% if forloop.counter0 == 0%}
+						<div class="ivo-layer ivo-layer-azul"></div>
+					        	</div>
+					        {% elif forloop.counter0 == 1%}
+					        <div class="ivo-layer ivo-layer-rosa"></div>
+					        	</div>
+					        {% elif forloop.counter0 == 2%}
+					        <div class="ivo-layer ivo-layer-naranja"></div>
+					        	</div>
+					        {% elif forloop.counter0 == 3%}
+					        <div class="ivo-layer ivo-layer-aqua"></div>
+					        	</div>
+					        {% elif forloop.counter0 == 4%}
+					        <div class="ivo-layer ivo-layer-verde"></div>
+					        	</div>
+					        {% elif forloop.counter0 == 5%}
+					        <div class="ivo-layer ivo-layer-azul"></div>
+					        	</div>
+					        {% elif forloop.counter0 == 6%}
+					        <div class="ivo-layer ivo-layer-rosa"></div>
+					        	</div>
+					        {% elif forloop.counter0 == 7%}
+					        <div class="ivo-layer ivo-layer-naranja"></div>
+					        	</div>
+					        {% elif forloop.counter0 == 8%}
+					        <div class="ivo-layer ivo-layer-aqua"></div>
+					        	</div>
+					        {% elif forloop.counter0 == 9%}
+					        <div class="ivo-layer ivo-layer-verde"></div>
+					        	</div>
+					        {%endif%}
+							
+							
+						{% endfor %}
+					    	
+					        
+					        
+					    <div class="row" style="margin-top: 60px;">
+					   		<div class="col-md-4 col-md-offset-4 text-center">
+					   			{% if castings.has_other_pages %}
+					   			<ul class="ivo-panel-indice">
+					   			{% for i in posts.paginator.page_range %}
+							      	{% if posts.number == i %}
+									<li class="activo ivo-font-verde"><span class="icon_circle-slelected"></span></li>
+									{% else %}
+									<li> <a href="?page={{ i }}"><span class="icon_circle-empty"></span></a></li>
+									{% endif %}
+							    {% endfor %}
+								</ul>
+								{% endif %}
+					   		</div><!-- col-md-4-->
+					   </div><!-- row -->
+				    </div><!--outer row -->
+				</div><!--col-md-12 -->
+			</div><!--row ivocasting -->
+		</div><!-- -->
+	</div>
+		<!-- App -->
+		<div class="container-fluid ivo-artistas-appBck">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-lg-12 ivo-artistas-app">
+						<div class="row">
+							<div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-0 col-lg-5 col-lg-offset-0">
+								<img src="assets/img/ivo-lg3.png" class="img-responsive ivo-app-logo general">
+								<h2>Descarga nuestra App Movil</h2>
+								<a href="#" class="ivo-app-goplay general">
+									<img src="assets/img/google-play.png">
+								</a>
+								<a href="#" class="ivo-app-appsto general">
+									<img src="assets/img/appstore.png">
+								</a>
+								<br class="clear">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{% endblock %}
+
+	{% block javascript %}
+		<script>
+		    $('.carousel').carousel({
+		        interval: 5000 //changes the speed
+		    })
+		</script>
+	{% endblock %}

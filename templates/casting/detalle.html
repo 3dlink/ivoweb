@@ -1,0 +1,197 @@
+
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+
+{% block cssblock %}
+
+		<style type="text/css">
+			.ivo-pregunta { height: auto;}
+			.ivo-form  select {width: 100%}
+		</style>
+{% endblock %}
+
+{% block content %}
+<!-- Full Page Image Background Carousel Header -->
+	    <header id="myCarousel" class="carousel slide ivo-casting-headerContenedor ivo-borde-verde ivo-casting-header">
+	        <!-- Wrapper for Slides -->
+	        <div class="carousel-inner">
+	            <div class="item active">
+	            	<div class="ivo-layer-gry"></div>
+	                <!-- Set the first background image using inline CSS below. -->
+	                <div class="fill" style="background-image:url('{% static 'img/header-casting.jpg'%}'); %};"></div>
+	                <div class="carousel-caption ivo-casting-header" style="text-align:left;">
+						<div class="row">
+							<div class="col-sm-12 col-md-6">
+
+							<!-- RESOLVER ESTO PORQUE NO PUEDE SER CON  ETIQUETAS BR -->
+							<!-- RESOLVER ESTO PORQUE NO PUEDE SER CON  ETIQUETAS BR -->
+							<!-- RESOLVER ESTO PORQUE NO PUEDE SER CON  ETIQUETAS BR -->
+								</br>
+			                	</br>
+			                	</br>
+			                	</br></br></br></br></br></br></br></br></br></br></br></br></br>
+								<span class="ivo-casting-headerEtiqueta">Musica</span>
+			                	<h1 class="ivo-catsting-carousel-h1 ivo-sub-green ivo-casting-titulo ivo-casting-titulo-header">
+			                	
+									{{casting.titulo}}
+								</h1>
+									
+									<!-- IMPLEMENTAR COUNTDOWN  CON JQUERY -->
+									<!-- IMPLEMENTAR COUNTDOWN  CON JQUERY -->
+									<!-- IMPLEMENTAR COUNTDOWN  CON JQUERY -->
+								<ul class="ivo-casting-calendario">
+									<li>
+										{{casting.fecha_fin | date:"d"}}</br>
+										<span>D&iacute;as</span>
+									</li>
+									<li>
+										{{casting.fecha_fin | date:"g"}}</br>
+										<span>Hors</span>
+									</li>
+									<li>
+										{{casting.fecha_fin | date:"i"}}</br>
+										<span>min</span>
+									</li>
+								</ul>
+							</div>
+							<div class="col-sm-12 col-md-6">
+								<div class="row ivo-casting-headerDer">
+									<div class="col-md-12">
+									</br></br></br></br></br></br></br></br></br></br></br>
+										<a href="#" class="ivo-boton-fondo ivo-casting-botonP ivo-back-trs-verde">Hacer casting / Audicion </a>
+									</div>
+									<div class="col-md-12">
+										<ul class="ivo-casting-socialR ivo-casting-social-header">
+											<li class="titulo">Compartir</li>
+											<li><a href="#"><span class="social_facebook_circle"></a></span></li>
+											<li><a href="#"><span class="social_twitter_circle"></a></span></li>
+											<li></li>
+										</ul>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12 col-md-12">
+								<span class="ivo-casting-detalles ivo-back-verde">Detalles</span>
+							</div>
+						</div>
+						<div id="ivo-contador"></div>
+						<div class="ivo-white-box"></div>
+	                </div>
+	            </div>
+	        </div>
+	    </header>
+		<!-- Casting -->
+		<div class="container-fluid ivo-casting-infoBck">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12 col-md-6 ivo-casting-info">
+						<p class="titulo">{{casting.descripcion | safe}}
+					</div>
+					<div class="col-sm-12 col-md-6">
+						<div class="row">
+							<div class="col-md-12 ivo-casting-imagen1" style="background-image:url('{% static 'img/incubus1.jpg'%}');"></div>
+						</div>
+						<div class="row ivo-casting-separacion">
+							<div class="col-sm-6 col-md-6 ivo-casting-imagen2" style="background-image:url('{% static 'img/incubus2.jpg'%}');"></div>
+							<div class="col-sm-6 col-md-6 ivo-casting-infoLat">
+								<h3>{{casting.titulo}} - {{casting.info_destacada}}</h3>
+								<p>{{casting.info_adicional}}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Perfil Industria -->
+		<div class="container-fluid ivo-casting-industriaBck">	
+			<div class="ivo-casting-industriaGray"></div>		
+			<div class="container">
+				<div class="row">
+					<div class="col-md-7 col-lg-7 ivo-casting-industria">
+						<h2>{{casting.autor.empresa_provedor}}</h2>
+						<h3>La Productora De Los </br> Grandes Eventos De Panama</h3>
+						<p>
+							<span>{{casting.autor.biografia}}</span>
+						</p>
+						<a href='/perfil/{{casting.autor.get_uuid}}/' class="ivo-boton-fondo ivo-boton-industria">
+							<span>VER PERFIL</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Blog Posts -->
+		<div class="container-fluid ivo-noticiasBck">
+			<div class="container">
+				<div class="row ivo-noticias">
+					<div class="col-md-12 col-lg-12">
+						<div class="row text-center">
+					       	<h3 class="headermessage ivo-casting-resumen-titulo">Castings de {{casting.autor.empresa_provedor}}</h3>
+					   	</div>
+					    <div class="row text-center">
+					    	{%for castingasociado in asociados%}
+							{%if forloop.counter0 == 0%}
+					    	<div class="image-block col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-2 ivo-casting-imageblock derecha" style="background: url(assets/img/artista-t1.jpg) no-repeat center top;background-size:cover;">
+					    		<h3 style="background-color: #0032A0">{{castingasociado.categoria.nombre}}</h3>
+					    		<h4 class="ivo-noticia-titulo">{{castingasociado.titulo}}</h4>
+					            <p class="ivo-noticia-descripcion">
+					            	{{castingasociado.descripcion_breve}}
+					            </p>
+					            <a href={% url 'casting:casting_detalle' idcasting=castingasociado.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Ver Casting</a>
+					        </div>
+					        {%else%}
+					        <div class="image-block col-sm-8  col-md-4 col-sm-offset-2 col-md-offset-0 ivo-casting-imageblock" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg) no-repeat center top;background-size:cover;">
+					            <h3 style="background-color: #00C4B4">{{castingasociado.categoria.nombre}}</h3>
+					    		<h4 class="ivo-noticia-titulo">{{castingasociado.titulo}}</h4>
+					            <p class="ivo-noticia-descripcion">
+					            	{{castingasociado.descripcion_breve}}
+					            </p>
+					            <a href={% url 'casting:casting_detalle' idcasting=castingasociado.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Ver Casting</a>
+					        </div>
+					        {%endif%}
+					        {%endfor%}
+					    </div>
+				    </div>
+				</div>
+			</div>
+		</div>
+		<!-- App -->
+		<div class="container-fluid ivo-artistas-appBck">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-lg-12 ivo-artistas-app">
+						<div class="row">
+							<div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-0 col-lg-5 col-lg-offset-0">
+								<img src="assets/img/ivo-lg3.png" class="img-responsive ivo-app-logo general">
+								<h2>Descarga nuestra App Movil</h2>
+								<a href="#" class="ivo-app-goplay general">
+									<img src="assets/img/google-play.png">
+								</a>
+								<a href="#" class="ivo-app-appsto general">
+									<img src="assets/img/appstore.png">
+								</a>
+								<br class="clear">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{% endblock %}
+
+	{% block javascript %}
+	<script type="text/javascript" src="{% static 'js/jquery.plugin.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
+
+		<script>
+		    $('.carousel').carousel({
+		        interval: 5000 //changes the speed
+		    })
+		</script>
+	{% endblock %}

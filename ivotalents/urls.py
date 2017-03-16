@@ -21,6 +21,8 @@ from django.conf import settings
 from rest_framework.urlpatterns import format_suffix_patterns
 
 
+
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name='home'),
@@ -48,8 +50,10 @@ urlpatterns = [
     url(r'^perfil/', include('perfiles.urls', namespace='perfiles')),
     url(r'^all/', include('listado.urls', namespace='listado')),
     url(r'^blog/', include('blog.urls', namespace='blog')),
-    #url(r'^generos/', views.GeneroView.as_view()),
+    url(r'^casting/', include('casting.urls', namespace='casting')),
     url(r'^api/v1/', include('API.urls', namespace='api')),
+    
+
     
 ]
 

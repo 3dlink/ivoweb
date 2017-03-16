@@ -49,7 +49,7 @@
 							  <li><a style="text-decoration: none; color: white;" href={% url 'listado:artista_categoria' idcategoria='Modelo'%}>Modelo</a></li>
 							  <li><a style="text-decoration: none; color: white;" href={% url 'listado:artista_categoria' idcategoria='Actor'%}>Actor</a></li>
 							  <li><a style="text-decoration: none; color: white;" href={% url 'listado:artista_categoria' idcategoria='Fotografo'%}>Fotografo</a></li>
-							  <li><a style="text-decoration: none; color: white;" href={% url 'listado:artista_categoria' idcategoria='Presentador'%}>Presentador</a></li>
+							  <li><a style="text-decoration: none; color: white;" href={% url 'listado:artista_categoria' idcategoria='Artista'%}>Artista</a></li>
 							  <li><a style="text-decoration: none; color: white;" href={% url 'listado:artista_categoria' idcategoria='Presentador'%}>Presentador</a></li>
 							</ul>
 					   	</div>
@@ -68,6 +68,7 @@
 
 					        	{%  else %}	
 
+						<!-- REVISAR ESTO ... NECESITO IMAGEN POR DEFECTO PARA USUARIO -->
 					        	<a href="/perfil/{{artista.id_usuario.get_uuid}}/">	
 					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
 					        	</a>	

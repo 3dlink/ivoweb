@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
 from frontend.models import  User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from blog.models import Post
@@ -26,7 +26,7 @@ def artistas(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
 		result = paginator.page(paginator.num_pages)
 	#import pdb;   pdb.set_trace()
-	return render_to_response("listado/artistas.html", {"artistas":result, "posts":posts }, )
+	return render(request, "listado/artistas.html", {"artistas":result, "posts":posts } )
 
 
 

@@ -27,7 +27,7 @@
             <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 ivo-footer-lista2">
                 <ul>
                     <li>
-                        <a href="#">artistas</a>
+                        <a href={% url 'listado:artistas'%}>artistas</a>
                     </li>
                     <li>
                         <a href="#"  class="ivo-footer-top-blanco">paquetes</a>
@@ -83,7 +83,7 @@
         <li class="ivo-menu-principal-panel-menu">
             <ul>
                 <li>
-                    <a href="#" class="naranja">Talentos</a>
+                    <a href={% url 'listado:artistas' %} class="naranja">Talentos</a>
                 </li>
                 <li>
                     <a href="#" class="azul activo">Industria</a>
@@ -95,7 +95,7 @@
                     <a href="#" class="rosa">Proveedores</a>
                 </li>
                 <li>
-                    <a href="#" class="negro">Blog</a>
+                    <a href={% url 'blog:todos' %} class="negro">Blog</a>
                 </li>
                 <li>
                     <a href="#" class="azulClaro"><span class="glyphicon glyphicon-search" aria-hidden="true"> </span> Encuentra</a>
