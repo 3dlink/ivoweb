@@ -14,8 +14,8 @@ class Casting(models.Model):
     modifiedon = models.DateTimeField(auto_now_add=False, auto_now=True, null=True)  # Field name made lowercase.
     createdon = models.DateTimeField(auto_now_add=True ,auto_now=False, null=True)  # Field name made lowercase.
     imagen_principal = models.ImageField( blank=True)
-    imagen_1 = models.ImageField( blank=True)
-    imagen_2 = models.ImageField( blank=True)
+    imagen_1 = models.ImageField(upload_to='casting', blank=True)
+    imagen_2 = models.ImageField(upload_to='casting', blank=True)
     descripcion = models.TextField()
     info_destacada = models.TextField()
     info_adicional = models.TextField()

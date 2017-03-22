@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import RegistroSerializer, TalentosSerializer, LoginSerializer, UsuarioArteSerializer, GeneroSerializer
+from .serializers import RegistroSerializer, TalentosSerializer, LoginSerializer, MultimediaSerializer, GeneroSerializer, UsuarioExpSerializer, UsuarioImgSerializer, MenuArtistaSerializer, MenuIndustriaSerializer
 from frontend.models import User, TipoArte, GeneroArtistico,generateUUID, UsuarioArteGenero, UsuarioArte
 from django.contrib.auth import authenticate, login, logout
 from django.http import  JsonResponse
@@ -15,6 +15,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth import authenticate
+from perfiles.models import Experiencia, Educacion, Multimedia
 # Create your views here.
 
 
@@ -39,7 +40,7 @@ class RegistroView(APIView):
                 json['token'] = token
                 
                 return Response(json, status=status.HTTP_201_CREATED)  
-        import pdb;   pdb.set_trace()
+        #import pdb;   pdb.set_trace()
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
      
 
@@ -103,5 +104,50 @@ class UserCategoriaView(APIView):
         Usuario = UsuarioArteGenero.objects.filter(id_genero=user_arte)
         serializer= GeneroSerializer(Usuario, many=True)
     
-        import pdb;   pdb.set_trace()
+        #import pdb;   pdb.set_trace()
         return Response(serializer.data )
+
+
+class UsuarioView(APIView):
+    permission_classes = (AllowAny,)
+    parser_classes = (JSONParser,)  
+
+
+    def get(self,request,email,tab):
+        Usuario = User.objects.get(email=email)   
+        if tab=='experiencia':                     
+            serializer= UsuarioExpSerializer(Usuario, many=False)        
+            #import pdb;   pdb.set_trace()         
+
+        elif tab=='imagen':            
+            Lista=Multimedia.objects.filter(usuario=Usuario, tipo_archivo='I')
+            serializer= MultimediaSerializer(Lista, many=True)
+        elif tab=='video':            
+            Lista=Multimedia.objects.filter(usuario=Usuario, tipo_archivo='V')
+            serializer= MultimediaSerializer(Lista, many=True)
+        elif tab=='audio':            
+            Lista=Multimedia.objects.filter(usuario=Usuario, tipo_archivo='A')
+            serializer= MultimediaSerializer(Lista, many=True)
+        return Response(serializer.data)
+
+class MenuUsuarioView(APIView):
+    permission_classes = (AllowAny,)
+    parser_classes = (JSONParser,)  
+
+    def get(self,request,email):
+        Usuario = User.objects.get(email=email)
+        if Usuario.tipo_usuario == 'A':
+            serializer= MenuArtistaSerializer(Usuario, many=False)        
+        else:
+            serializer= MenuIndustriaSerializer(Usuario, many=False)
+        return Response(serializer.data) 
+        
+
+# """
+# /*Estilo del reloj Atras*/
+#     var $clock = $('#clock-atras');
+    
+#     $clock.countdown('2017-04-15 23:59:59', function(event) {
+#     $(this).html(event.strftime('<p><span class="block-orange"><img src='+base_url+'/assetsfrontend/img/ico-calendario.png alt=""/> Quedan %D días </span> %H:%M:%S </p>'));
+#     });
+# """

@@ -2,6 +2,7 @@
 
 from rest_framework import serializers
 from frontend.models import TipoArte, User, UsuarioArte, UsuarioArteGenero, GeneroArtistico
+from perfiles.models import Experiencia, Educacion, Multimedia
 from rest_framework.validators import UniqueValidator
 
 #QUERYLOCO
@@ -31,12 +32,12 @@ class RelacionSerializer(serializers.ModelSerializer):
 		fields = ('id_usuario', 'id_genero')
 
 
-# 	EL URL ESTA MAL.. REVISAR
+
 class GeneroSerializer(serializers.ModelSerializer):
 	user_name=serializers.ReadOnlyField(source='id_usuario.get_full_name', read_only=True)
 	genero= serializers.ReadOnlyField(source='id_genero.name', read_only=True)
 	arte= serializers.ReadOnlyField(source='id_genero.id_tipo_arte.name', read_only=True)
-	url=  serializers.ReadOnlyField(source='id_usuario.get_absolute_url', read_only=True)
+	url=  serializers.ReadOnlyField(source='id_usuario.get_api_url', read_only=True)
 	avatar= serializers.ReadOnlyField(source='id_usuario.avatar.url', read_only=True)
 	class Meta:
 		model= UsuarioArteGenero
@@ -71,4 +72,50 @@ class RegistroSerializer(serializers.ModelSerializer):
 		write_only_fields = ('password',)
 
 
+class MultimediaSerializer(serializers.ModelSerializer):
+	class Meta:
+		model=Multimedia
+		fields = ('absolute_url',)
+		#fields=("__all__")
+
+
+
+class ExperienciaSerializer(serializers.ModelSerializer):
+	#usuario = UsuarioSerializer(many=False)
+	class Meta:
+		model = Experiencia
+		fields = ("__all__")
+
+class EducacionSerializer(serializers.ModelSerializer):
+	#usuario = UsuarioSerializer(many=False)
+	class Meta:
+		model = Educacion
+		fields = ("__all__")
+
+class UsuarioExpSerializer(serializers.ModelSerializer):
+	experiencia = ExperienciaSerializer(many=True)
+	educacion = EducacionSerializer(many=True)
+	class Meta:
+		model = User
+		fields=("__all__")
+
+class UsuarioImgSerializer(serializers.ModelSerializer):
+	multimedia = MultimediaSerializer(many=True)
+	class Meta:
+		model = User
+		fields=("__all__")	
+
+
+class MenuArtistaSerializer(serializers.ModelSerializer):
+	
+	class Meta:
+		model = User
+		fields=('first_name','last_name','tipo_usuario','avatar')
+
+
+class MenuIndustriaSerializer(serializers.ModelSerializer):	
+	class Meta:
+		model = User
+		fields=('razon_social','empresa_provedor','tipo_usuario','avatar')
+		
 

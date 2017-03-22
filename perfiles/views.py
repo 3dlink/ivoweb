@@ -165,6 +165,8 @@ def Buscar_fotos(request, tipo_archivo):
         elif tipo_archivo == 'audio':
             archivo = 'A'
 
+        import pdb; pdb.set_trace()
+        #AQUI HAY PROBLEMA PORQUE BUSCA LOS ELEMENTOS DEL USUARIO LOGGEADO Y NO DEL USUARIO QUE SE ESTA VIENDO
         archivo_list = Multimedia.objects.filter(usuario=User.objects.get(uuid=request.user.uuid), tipo_archivo=archivo)
         paginator = Paginator(archivo_list, 9)
         page = request.GET.get('page')

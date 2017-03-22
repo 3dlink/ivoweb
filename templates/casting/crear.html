@@ -87,7 +87,8 @@
 				</div>
 				<div class="col-md-9 ivo-formularioConf">
 				<!-- FORMULARIO -->
-					<form class="ivo-formularioConf-form ivo-formularioConf-form-nf" id="form_general" method="POST"  >
+				
+					<form class="ivo-formularioConf-form ivo-formularioConf-form-nf" id="form_general" method="POST" enctype="multipart/form-data" >
 							{% csrf_token %}
 						<h1>Crear Casting</h1>
 						<div class="row">
@@ -113,10 +114,13 @@
 							<div class="col-md-9">
 								<div class="row ivo-formularioConf-form-grid">
 									<div class="col-md-12 ivo-formularioConf-form-grid-img1 text-center">
-										<span class="glyphicon glyphicon-picture"></span>
+									<input type="file" name="imagen_1" id="seleccionar_imagen_1" class="inputfile">
+									<span class="glyphicon glyphicon-picture" ><label for="seleccionar_imagen_1">&nbsp;</label></span>
+										
 									</div>
 									<div class="col-md-6 ivo-formularioConf-form-grid-img2 text-center">
-										<span class="glyphicon glyphicon-picture"></span>
+									<input type="file" name="imagen_2" id="seleccionar_imagen_2" class="inputfile">
+										<span class="glyphicon glyphicon-picture"> <label for="seleccionar_imagen_2">&nbsp;</label></span>
 									</div>
 									<div class="col-md-6 ivo-formularioConf-form-grid-text">
 										<div class="col-md-12">
@@ -149,9 +153,11 @@
 								<label class="ivo-bold">Sector</label>
 							</div>
 							<div class="col-md-9">
-								<select>
-									<option>Musica</option>
-									<option>Otro</option>
+								<select name='categoria'>
+									<option selected="selected" disabled>Seleccione una categoria</option>
+									{%for categoria in categorias %}
+										<option value='{{categoria.id}}'> {{categoria.nombre}}</option>
+									{%endfor%}
 								</select>
 							</div>
 						</div>

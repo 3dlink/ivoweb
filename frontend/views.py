@@ -6,10 +6,12 @@ from django.contrib import messages
 from django.db import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
-from .models import User, TipoArte, GeneroArtistico,generateUUID
+from .models import User, TipoArte, GeneroArtistico,generateUUID, UsuarioArteGenero
 from .forms import FormRegistro, FormRegistroIndustria, FormRegistroFan
 from .funciones import form_invalid
 import json
+from casting.models import Casting
+from blog.models import Post
 
 
 
@@ -229,7 +231,9 @@ def castings(request):
 
 
 def artistadashboard(request):
-    return render(request, "artista_dashboard.html", {})
+    posts= Post.objects.all().order_by("-fecha_creacion")[:5]
+    castings = Casting.objects.all().order_by("fecha_fin")[:6]
+    return render(request, "artista_dashboard.html", {"posts":posts, "castings":castings})
 
 
 def industriadashboard(request):
@@ -246,15 +250,18 @@ def cerrar_sesion(request):
 
 
 def index(request):
-    #if request.user.is_authenticated():
-    #    return render(request, 'registration/login.html', {'titulo': _('Sistema financiero y de control de estudio')})
-    #else:
+   
     if request.method == 'POST':
         if inicio_sesion(request):
             if request.GET:
                 return HttpResponseRedirect(request.GET.get('next'))
             else:
-                return redirect('/perfil/configuraciongeneral/')
+                #import pdb; pdb.set_trace()
+                A=UsuarioArteGenero.objects.filter(id_usuario=request.user)
+                if  (A.count() ==0 and request.user.tipo_usuario=='A'):
+                    return redirect('/perfil/configuraciongeneral/')
+                else:
+                    return redirect ('/artistadashboard/')
         else:
             return HttpResponseRedirect(request.GET.get('next'))
 
@@ -262,8 +269,8 @@ def index(request):
 
 
 def inicio_sesion(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
+    username = request.POST['username']
+    password = request.POST['password']
     user = authenticate(username=username, password=password)
     if user is not None:
         if user.is_active:

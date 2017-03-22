@@ -151,16 +151,20 @@
 						{% endfor %}
 					    	
 					        
+
+
+
+
 					        
 					    <div class="row" style="margin-top: 60px;">
 					   		<div class="col-md-4 col-md-offset-4 text-center">
 					   			{% if castings.has_other_pages %}
 					   			<ul class="ivo-panel-indice">
-					   			{% for i in posts.paginator.page_range %}
-							      	{% if posts.number == i %}
+					   			{% for i in castings.paginator.page_range %}
+							      	{% if castings.number == i %}
 									<li class="activo ivo-font-verde"><span class="icon_circle-slelected"></span></li>
 									{% else %}
-									<li> <a href="?page={{ i }}"><span class="icon_circle-empty"></span></a></li>
+									<li class="ivo-font-blanco"> <a href="?page={{ i }}"><span class="icon_circle-empty"></span></a></li>
 									{% endif %}
 							    {% endfor %}
 								</ul>

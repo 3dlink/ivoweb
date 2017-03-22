@@ -128,6 +128,10 @@ class User(AbstractBaseUser,PermissionsMixin):
     def get_absolute_url(self):
         return "/perfil/%s/" % (self.uuid)
 
+    def get_api_url(self):
+       return "/api/v1/%s/" % (self.uuid)
+
+
     def get_full_name(self):
         """
         Returns the first_name plus the last_name, with a space in between.
@@ -259,3 +263,8 @@ class UsuarioArteGenero(models.Model):
 
     def __unicode__(self):
         return '%s' % (self.id_genero.name)
+
+
+#class Seguidores(models.Model):
+ #   destino= models.ForeignKey(User, on_delete=models.CASCADE, related_name="siguiendo")
+  #  origen= models.ForeignKey(User, on_delete=models.CASCADE,related_name="seguidores")

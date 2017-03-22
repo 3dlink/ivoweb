@@ -1,6 +1,6 @@
     {% extends "base.html" %}
     {% load staticfiles %}
-
+ {% load humanize %}
 
     {% block javascript %}
 
@@ -47,7 +47,7 @@
 							</div>
 							<div class="col-xs-12 col-sm-6 col-md-6" style="padding:0;">
 								<ul class="ivo-dashboard-infoBasica">
-									<li class="ivo-dashboard-infoBasica-nombre">Nombre y Apellido</li>
+									<li class="ivo-dashboard-infoBasica-nombre">{{request.user.get_full_name}}</li>
 									<li>Profesion</li>
 									<li class="ivo-dashboard-infoBasica-seguidores">
 										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
@@ -60,7 +60,7 @@
 										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
 									</li>
 									<li class="ivo-dashboard-infoBasica-enlace">
-										<a href="#">Ver Mi Perfil</a>
+										<a href="/perfil/{{request.user.get_uuid}}/">Ver Mi Perfil</a>
 									</li>
 								</ul>
 							</div>
@@ -394,41 +394,59 @@
 					       	<h3 class="headermessage ivo-dashboard-resumen-titulo">&Uacute;ltimas Entradas</h3>
 					   	</div>
 					    <div class="row text-center">
-					    	<div class="image-block col-sm-6 ivo-casting-imageblock ivo-dashboard-imageblock" style="background: url({% static 'img/artista-t1.jpg' %}) no-repeat center top;background-size:cover;">
-					    		<h3 class="ivo-back-verde">Categoria</h3>
-					    		<h4 class="ivo-noticia-titulo">Titulo de la noticia</h4>
+							{%for post in posts%}
+								{%if forloop.counter0 == 2%}
+									<div class="image-block col-sm-12 ivo-casting-imageblock ivo-dashboard-imageblock" style="background: url('{{post.imagen.url}}') no-repeat center top;background-size:cover;">
+										{% if post.categoria.nombre == 'Talento' %}
+											<h3 class="ivo-back-naranja">{{post.categoria.nombre}}</h3>
+
+										{% elif post.categoria.nombre == 'Novedades' %}
+											<h3 class="ivo-back-rosa">{{post.categoria.nombre}}</h3>
+
+										{% elif post.categoria.nombre == 'Industria' %}
+											<h3 class="ivo-back-azul">{{post.categoria.nombre}}</h3>
+
+										{% elif post.categoria.nombre == 'Casting' %}
+											<h3 class="ivo-back-verde">{{post.categoria.nombre}}</h3>
+
+										{% elif post.categoria.nombre == 'Fanatico' %}
+											<h3 class="ivo-back-azulClaro">{{post.categoria.nombre}}</h3>
+
+										{% endif %}
+					    		<h4 class="ivo-noticia-titulo">{{post.titulo}}</h4>
 					            <p class="ivo-noticia-descripcion">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
-					            <a href="#" class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Leer Mas</a>
+					            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Leer Mas</a>
 					            <div class="ivo-layer ivo-noticia-layer ivo-layer-light"></div>
 					        </div>
-					        <div class="image-block col-sm-6 ivo-casting-imageblock ivo-dashboard-imageblock" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg) no-repeat center top;background-size:cover;">
-							    <h3 class="ivo-back-azulClaro">Categoria</h3>
-					    		<h4 class="ivo-noticia-titulo">Titulo de la noticia</h4>
+								{%else%}
+									<div class="image-block col-sm-6 ivo-casting-imageblock ivo-dashboard-imageblock" style="background: url('{{post.imagen.url}}') no-repeat center top;background-size:cover;">
+					    		{% if post.categoria.nombre == 'Talento' %}
+											<h3 class="ivo-back-naranja">{{post.categoria.nombre}}</h3>
+
+										{% elif post.categoria.nombre == 'Novedades' %}
+											<h3 class="ivo-back-rosa">{{post.categoria.nombre}}</h3>
+
+										{% elif post.categoria.nombre == 'Industria' %}
+											<h3 class="ivo-back-azul">{{post.categoria.nombre}}</h3>
+
+										{% elif post.categoria.nombre == 'Casting' %}
+											<h3 class="ivo-back-verde">{{post.categoria.nombre}}</h3>
+
+										{% elif post.categoria.nombre == 'Fanatico' %}
+											<h3 class="ivo-back-azulClaro">{{post.categoria.nombre}}</h3>
+
+										{% endif %}
+					    		
+					    		<h4 class="ivo-noticia-titulo">{{post.titulo}}</h4>
 					            <p class="ivo-noticia-descripcion">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
-					            <a href="#" class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Leer Mas</a>
+					            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Leer Mas</a>
 					            <div class="ivo-layer ivo-noticia-layer ivo-layer-light"></div>
 					        </div>
-					        <div class="image-block col-sm-12 ivo-casting-imageblock ivo-dashboard-imageblock" style="background: url({% static 'img/artista-t1.jpg'%}) no-repeat center top;background-size:cover;">
-								<h3 class="ivo-back-naranja">Categoria</h3>
-					    		<h4 class="ivo-noticia-titulo">Titulo de la noticia</h4>
-					            <p class="ivo-noticia-descripcion">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
-					            <a href="#" class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Leer Mas</a>
-					            <div class="ivo-layer ivo-noticia-layer ivo-layer-light"></div>
-					        </div>
-					        <div class="image-block col-sm-6 ivo-casting-imageblock ivo-dashboard-imageblock" style="background: url({% static 'img/artista-t1.jpg' %}) no-repeat center top;background-size:cover;">
-					    		<h3 class="ivo-back-verde">Categoria</h3>
-					    		<h4 class="ivo-noticia-titulo">Titulo de la noticia</h4>
-					            <p class="ivo-noticia-descripcion">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
-					            <a href="#" class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Leer Mas</a>
-					            <div class="ivo-layer ivo-noticia-layer ivo-layer-light"></div>
-					        </div>
-					        <div class="image-block col-sm-6 ivo-casting-imageblock ivo-dashboard-imageblock" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg) no-repeat center top;background-size:cover;">
-					        	<h3 class="ivo-back-rosa">Categoria</h3>
-					    		<h4 class="ivo-noticia-titulo">Titulo de la noticia</h4>
-					            <p class="ivo-noticia-descripcion">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
-					            <a href="#" class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Leer Mas</a>
-					            <div class="ivo-layer ivo-noticia-layer ivo-layer-light"></div>
-					        </div>
+								{%endif%}
+							{%endfor%}
+
+					    	
+					        
 					    </div>
 					    <div class="row ivo-artistas-appBck" style="background-size: cover;">
 							<div class="col-md-12 col-lg-12 ivo-artistas-app ivo-dashboard-app">
@@ -459,86 +477,27 @@
 								</div>
 								<!-- Seccion Resumen de Castings -->
 								<ul class="ivo-dashboard-seccion ivo-dashboard-notope">
-									<li class="row ivo-dashboard-casting-lista">
+									{%for casting in castings%}
+										<li class="row ivo-dashboard-casting-lista">
 										<div class="col-xs-3 col-sm-3 col-md-2">
+
+											<!-- FALTA LA VALIDACION DE IMAGEN -->
 											<img class="img-responsive" src="{% static 'img/avatar-ivo.jpg' %}">
+											
 										</div>
 										<div class="col-xs-9 col-sm-6 col-md-7 ivo-dashboard-seccion-contenido">
-											<span class="ivo-etiqueta-titulo ivo-font-verde ivo-dashboard-etq">Categoria</span>
-											<h5 class="ivo-dashboard-nombre">Esto es un titulo del casting, por parte de una de las empresas registradas</h5>
-											<h5 class="ivo-font-verde">Martes Julio 16, 2016</h5>
+											<span class="ivo-etiqueta-titulo ivo-font-verde ivo-dashboard-etq">{{casting.categoria.nombre}}</span>
+											<h5 class="ivo-dashboard-nombre">{{casting.titulo}}</h5>
+											<h5 class="ivo-font-verde">{{casting.fecha_fin | naturaltime}}</h5>
 										</div>
 										<div class="col-xs-12 col-sm-3 col-md-3 ivo-dashboard-seccion-boton">
-											<a class="ivo-boton ivo-font-verde ivo-borde-verde" href="#">Leer Mas</a>
+											<a class="ivo-boton ivo-font-verde ivo-borde-verde" href={% url 'casting:casting_detalle' idcasting=casting.id %}>Leer Mas</a>
 										</div>
 									</li>
-									<li class="row ivo-dashboard-casting-lista">
-										<div class="col-xs-3 col-sm-3 col-md-2">
-											<img class="img-responsive" src="{% static 'img/avatar-ivo.jpg' %}">
-										</div>
-										<div class="col-xs-9 col-sm-6 col-md-7 ivo-dashboard-seccion-contenido">
-											<span class="ivo-etiqueta-titulo ivo-font-verde ivo-dashboard-etq">Categoria</span>
-											<h5 class="ivo-dashboard-nombre">Esto es un titulo del casting, por parte de una de las empresas registradas</h5>
-											<h5 class="ivo-font-verde">Martes Julio 16, 2016</h5>
-										</div>
-										<div class="col-xs-12 col-sm-3 col-md-3 ivo-dashboard-seccion-boton">
-											<a class="ivo-boton ivo-font-verde ivo-borde-verde" href="#">Leer Mas</a>
-										</div>
-									</li>
-									<li class="row ivo-dashboard-casting-lista">
-										<div class="col-xs-3 col-sm-3 col-md-2">
-											<img class="img-responsive" src="{% static 'img/avatar-ivo.jpg' %}">
-										</div>
-										<div class="col-xs-9 col-sm-6 col-md-7 ivo-dashboard-seccion-contenido">
-											<span class="ivo-etiqueta-titulo ivo-font-verde ivo-dashboard-etq">Categoria</span>
-											<h5 class="ivo-dashboard-nombre">Esto es un titulo del casting, por parte de una de las empresas registradas</h5>
-											<h5 class="ivo-font-verde">Martes Julio 16, 2016</h5>
-										</div>
-										<div class="col-xs-12 col-sm-3 col-md-3 ivo-dashboard-seccion-boton">
-											<a class="ivo-boton ivo-font-verde ivo-borde-verde" href="#">Leer Mas</a>
-										</div>
-									</li>
-									<li class="row ivo-dashboard-casting-lista">
-										<div class="col-xs-3 col-sm-3 col-md-2">
-											<img class="img-responsive" src="{% static 'img/avatar-ivo.jpg' %}">
-										</div>
-										<div class="col-xs-9 col-sm-6 col-md-7 ivo-dashboard-seccion-contenido">
-											<span class="ivo-etiqueta-titulo ivo-font-verde ivo-dashboard-etq">Categoria</span>
-											<h5 class="ivo-dashboard-nombre">Esto es un titulo del casting, por parte de una de las empresas registradas</h5>
-											<h5 class="ivo-font-verde">Martes Julio 16, 2016</h5>
-										</div>
-										<div class="col-xs-12 col-sm-3 col-md-3 ivo-dashboard-seccion-boton">
-											<a class="ivo-boton ivo-font-verde ivo-borde-verde" href="#">Leer Mas</a>
-										</div>
-									</li>
-									<li class="row ivo-dashboard-casting-lista">
-										<div class="col-xs-3 col-sm-3 col-md-2">
-											<img class="img-responsive" src="{% static 'img/avatar-ivo.jpg' %}">
-										</div>
-										<div class="col-xs-9 col-sm-6 col-md-7 ivo-dashboard-seccion-contenido">
-											<span class="ivo-etiqueta-titulo ivo-font-verde ivo-dashboard-etq">Categoria</span>
-											<h5 class="ivo-dashboard-nombre">Esto es un titulo del casting, por parte de una de las empresas registradas</h5>
-											<h5 class="ivo-font-verde">Martes Julio 16, 2016</h5>
-										</div>
-										<div class="col-xs-12 col-sm-3 col-md-3 ivo-dashboard-seccion-boton">
-											<a class="ivo-boton ivo-font-verde ivo-borde-verde" href="#">Leer Mas</a>
-										</div>
-									</li>
-									<li class="row ivo-dashboard-casting-lista">
-										<div class="col-xs-3 col-sm-3 col-md-2">
-											<img class="img-responsive" src="{% static 'img/avatar-ivo.jpg' %}">
-										</div>
-										<div class="col-xs-9 col-sm-6 col-md-7 ivo-dashboard-seccion-contenido">
-											<span class="ivo-etiqueta-titulo ivo-font-verde ivo-dashboard-etq">Categoria</span>
-											<h5 class="ivo-dashboard-nombre">Esto es un titulo del casting, por parte de una de las empresas registradas</h5>
-											<h5 class="ivo-font-verde">Martes Julio 16, 2016</h5>
-										</div>
-										<div class="col-xs-12 col-sm-3 col-md-3 ivo-dashboard-seccion-boton">
-											<a class="ivo-boton ivo-font-verde ivo-borde-verde" href="#">Leer Mas</a>
-										</div>
-									</li>
+									{%endfor%}
+
 									<li class="ivo-dashboard-seccion-enlace">
-										<a class="ivo-font-verde" href="#">Ver Todas las oportunidades</a>
+										<a class="ivo-font-verde" href={% url 'casting:casting_inicio'  %}>Ver Todas las oportunidades</a>
 									</li>
 								</ul>
 							</div>

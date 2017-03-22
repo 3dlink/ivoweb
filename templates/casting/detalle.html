@@ -5,7 +5,7 @@
 
 
 {% block cssblock %}
-
+	<link href="{% static 'css/jquery.countdown.css' %}" rel="stylesheet">
 		<style type="text/css">
 			.ivo-pregunta { height: auto;}
 			.ivo-form  select {width: 100%}
@@ -32,7 +32,7 @@
 			                	</br>
 			                	</br>
 			                	</br></br></br></br></br></br></br></br></br></br></br></br></br>
-								<span class="ivo-casting-headerEtiqueta">Musica</span>
+								<span class="ivo-casting-headerEtiqueta">{{casting.categoria.nombre}}</span>
 			                	<h1 class="ivo-catsting-carousel-h1 ivo-sub-green ivo-casting-titulo ivo-casting-titulo-header">
 			                	
 									{{casting.titulo}}
@@ -41,16 +41,16 @@
 									<!-- IMPLEMENTAR COUNTDOWN  CON JQUERY -->
 									<!-- IMPLEMENTAR COUNTDOWN  CON JQUERY -->
 									<!-- IMPLEMENTAR COUNTDOWN  CON JQUERY -->
-								<ul class="ivo-casting-calendario">
-									<li>
+								<ul class="ivo-casting-calendario" >
+									<li id="dia">
 										{{casting.fecha_fin | date:"d"}}</br>
 										<span>D&iacute;as</span>
 									</li>
-									<li>
+									<li id="hora">
 										{{casting.fecha_fin | date:"g"}}</br>
 										<span>Hors</span>
 									</li>
-									<li>
+									<li id="minutos">
 										{{casting.fecha_fin | date:"i"}}</br>
 										<span>min</span>
 									</li>
@@ -94,10 +94,22 @@
 					</div>
 					<div class="col-sm-12 col-md-6">
 						<div class="row">
+						{%if casting.imagen_1 == '' %}
+						
 							<div class="col-md-12 ivo-casting-imagen1" style="background-image:url('{% static 'img/incubus1.jpg'%}');"></div>
+							{% else %}
+							<div class="col-md-12 ivo-casting-imagen1" style="background-image:url(/media/{{ casting.imagen_1 }});"></div>
+							{%endif%}						
+						
 						</div>
+
 						<div class="row ivo-casting-separacion">
+							{%if casting.imagen_2 == '' %}						
 							<div class="col-sm-6 col-md-6 ivo-casting-imagen2" style="background-image:url('{% static 'img/incubus2.jpg'%}');"></div>
+							{% else %}
+							<div class="col-sm-6 col-md-6 ivo-casting-imagen2" style="background-image:url(/media/{{ casting.imagen_2 }});"></div>
+							{%endif%}
+							
 							<div class="col-sm-6 col-md-6 ivo-casting-infoLat">
 								<h3>{{casting.titulo}} - {{casting.info_destacada}}</h3>
 								<p>{{casting.info_adicional}}</p>
@@ -135,25 +147,25 @@
 					   	</div>
 					    <div class="row text-center">
 					    	{%for castingasociado in asociados%}
-							{%if forloop.counter0 == 0%}
-					    	<div class="image-block col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-2 ivo-casting-imageblock derecha" style="background: url(assets/img/artista-t1.jpg) no-repeat center top;background-size:cover;">
-					    		<h3 style="background-color: #0032A0">{{castingasociado.categoria.nombre}}</h3>
-					    		<h4 class="ivo-noticia-titulo">{{castingasociado.titulo}}</h4>
-					            <p class="ivo-noticia-descripcion">
-					            	{{castingasociado.descripcion_breve}}
-					            </p>
-					            <a href={% url 'casting:casting_detalle' idcasting=castingasociado.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Ver Casting</a>
-					        </div>
-					        {%else%}
-					        <div class="image-block col-sm-8  col-md-4 col-sm-offset-2 col-md-offset-0 ivo-casting-imageblock" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg) no-repeat center top;background-size:cover;">
-					            <h3 style="background-color: #00C4B4">{{castingasociado.categoria.nombre}}</h3>
-					    		<h4 class="ivo-noticia-titulo">{{castingasociado.titulo}}</h4>
-					            <p class="ivo-noticia-descripcion">
-					            	{{castingasociado.descripcion_breve}}
-					            </p>
-					            <a href={% url 'casting:casting_detalle' idcasting=castingasociado.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Ver Casting</a>
-					        </div>
-					        {%endif%}
+								{%if forloop.counter0 == 0%}
+						    	<div class="image-block col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-2 ivo-casting-imageblock derecha" style="background: url(assets/img/artista-t1.jpg) no-repeat center top;background-size:cover;">
+						    		<h3 style="background-color: #0032A0">{{castingasociado.categoria.nombre}}</h3>
+						    		<h4 class="ivo-noticia-titulo">{{castingasociado.titulo}}</h4>
+						            <p class="ivo-noticia-descripcion">
+						            	{{castingasociado.descripcion_breve}}
+						            </p>
+						            <a href={% url 'casting:casting_detalle' idcasting=castingasociado.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Ver Casting</a>
+						        </div>
+						        {%else%}
+						        <div class="image-block col-sm-8  col-md-4 col-sm-offset-2 col-md-offset-0 ivo-casting-imageblock" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg) no-repeat center top;background-size:cover;">
+						            <h3 style="background-color: #00C4B4">{{castingasociado.categoria.nombre}}</h3>
+						    		<h4 class="ivo-noticia-titulo">{{castingasociado.titulo}}</h4>
+						            <p class="ivo-noticia-descripcion">
+						            	{{castingasociado.descripcion_breve}}
+						            </p>
+						            <a href={% url 'casting:casting_detalle' idcasting=castingasociado.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Ver Casting</a>
+						        </div>
+						        {%endif%}
 					        {%endfor%}
 					    </div>
 				    </div>
@@ -193,5 +205,8 @@
 		    $('.carousel').carousel({
 		        interval: 5000 //changes the speed
 		    })
+		    $('#dia').countdown({until: new Date(2017, 3-1, 25), format: 'D'});
+		    $('#hora').countdown({until: new Date(2017, 3-1, 25), format: 'H'});
+		    $('#minutos').countdown({until: new Date(2017, 3-1, 25), format: 'M'});
 		</script>
 	{% endblock %}

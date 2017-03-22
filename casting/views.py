@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from frontend.funciones import form_invalid
+from django.utils.translation import ugettext_lazy as _
 
 
 # Create your views here.
@@ -57,27 +58,27 @@ def detalle(request,idcasting):
 #def crear(request):
 #	return render_to_response("casting/crear.html",{},)
 
-def crear(request):
-	
-	if request.method == 'POST':
-		
-		mensaje = ''
-		error = ''
-		form = FormRegistro(request.POST)
-		if form.is_valid():
-			
-				casting = form.save(commit=False)
-				casting.autor = User.objects.get(email=request.user.email)
-				casting.categoria = Categoria.objects.get(id=1)
+def crear(request):	
+	if request.user.tipo_usuario == 'I':
+		categorias=Categoria.objects.all()
+		if request.method == 'POST':			
+			mensaje = ''
+			error = ''
+			form = FormRegistro(request.POST, request.FILES)
+			if form.is_valid():
 				import pdb;   pdb.set_trace()
-				casting.save()
-			
-		else:
-			mensaje = form_invalid(form)
+				casting = form.save(commit=False)
+				casting.autor = User.objects.get(email=request.user.email)					
+				casting.save()		
+				mensaje = {'mensaje': str(_('Casting creado con exito')), 'success': True}		
+			else:
+				mensaje = form_invalid(form)
+				#REVISAR ESTE RETURN DEL MENSAJE... SE MUESTRA EL JSON Y NO UN MENSAJE "REGULAR"
 			return HttpResponse(json.dumps(mensaje), content_type="application/json")
-
-	context = {'from': FormRegistro }
-	return render(request, "casting/crear.html", {})
+		context = {'from': FormRegistro }
+		return render(request, "casting/crear.html", {"categorias":categorias})
+	else:
+		return HttpResponseRedirect( "/",{})	
 
 def guardar(request):
     if request.method == 'POST':
