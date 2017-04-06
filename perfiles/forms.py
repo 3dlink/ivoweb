@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserChangeForm
 
 from frontend.models import User
-from perfiles.models import Experiencia, Educacion
+from perfiles.models import Experiencia, Educacion, Mensaje
 
 
 class FormActualizarDatos(forms.ModelForm):   
@@ -29,3 +29,8 @@ class FormEducacion(forms.ModelForm):
     class Meta:
         model = Educacion
         exclude = ['usuario']
+
+class FormMensaje(forms.ModelForm):
+    class Meta:
+        model= Mensaje
+        exclude=['origen','destino']

@@ -89,6 +89,7 @@
 
                         <div class="row">
                             <div class="col-md-12 col-lg-12">
+                            <!-- SECTOR DEBERIA SER UN SELECT TAMBIEN -->
                                 <select placheholder="Sector" name="sector" id="sector" required="required">
                                     <option>{% trans 'Sector' %}</option>
                                 </select>
@@ -144,12 +145,22 @@
                 return;
             }
             if( $('#password1').val().trim() != $('#password2').val().trim()){
-                alert(' {% trans 'La confirmación de clave debe ser igual al campo clave' %} ')
+                alert(' {% trans 'Las contraseñas no coinciden' %} ')
+                return;
+            }
+            if( $('#password1').val().trim()=='' || $('#password2').val().trim()==''){
+                alert(' {% trans 'el campo contraseña es requerido' %} ')
+                return;
+            }
+            if( $('#password1').val().trim().length<8 || $('#password2').val().trim().length<8){
+                alert(' {% trans 'el campo contraseña debe ser mayor a ocho caracteres' %} ')
                 return;
             }
 
             if(validarForm($('#ivo-form input'))){
                 registrar();    
+            }else{
+                console.log('false');
             }
             
         });
@@ -179,16 +190,16 @@
             success: function (data) {
                 NProgress.done();
                 if(data.success == false){
-                    if(data.errors.fields){
-                        $.each(data.errors.fields, function(i, item) {
-                            alert(i+ " "+item);
-                        });    
-                    }else{
-                        alert(data.mensaje)
-                    }
-                    
+                    alert(data.mensaje);
+                    $.each(data.errors.fields, function(i, item) {
+                        alert(i + " "+item);
+                    });
                 }else{
-                    alert(data.mensaje)
+                    alert(data.mensaje);
+                    setTimeout(function(){
+                      location.href  ='/perfil/configuraciongeneral/'
+                    }, 1500);
+
                 }
             }
         });

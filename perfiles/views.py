@@ -1,22 +1,23 @@
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render
+from django.shortcuts import render,render_to_response
 from django.contrib import messages
 from django.http import HttpResponse
 from django.views.generic import UpdateView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.forms import PasswordChangeForm
 from django.utils.translation import ugettext_lazy as _
-from frontend.models import User
-from .models import Multimedia, Experiencia, Educacion
-from .forms import FormActualizarDatos, FormExperiencia, FormEducacion
+from frontend.models import User, Etnia, Cabellos,Ojos, Seguidores
+from .models import Multimedia, Experiencia, Educacion, Mensaje
+from .forms import FormActualizarDatos, FormExperiencia, FormEducacion, FormMensaje
 from core.UploadFile import UploadFile
 from core.utils import getDatosActualizar
 from frontend.funciones import form_invalid
 from core.clases.ClassUsuario import Usuario
-
+from django.db.models import Q
 import json
+from django.shortcuts import redirect
 
 
 # Create your views here.
@@ -25,12 +26,25 @@ import json
 def Subir_foto_perfil(request):
     archivo = UploadFile(request.FILES['foto'], '', 'avatar')
     if not archivo.upload():
-        return HttpResponse(json.dumps({'mensaje': str(archivo.mensaje)}), content_type="application/json")
+        return HttpResponse(json.dumps({'mensaje': str(archivo.mensaje), 'success': False}), content_type="application/json")
 
     User.objects.filter(uuid=request.user.uuid).update(
         avatar=archivo.getFile()
     )
-    return HttpResponse(json.dumps({'mensaje': str(archivo.mensaje)}), content_type="application/json")
+    return HttpResponse(json.dumps({'mensaje': str(archivo.mensaje),'success': True}), content_type="application/json")
+
+
+def Subir_foto_cover(request):
+    archivo = UploadFile(request.FILES['foto'], '', 'portada')
+    if not archivo.upload():
+        return HttpResponse(json.dumps({'mensaje': str(archivo.mensaje),'success': False}), content_type="application/json")
+
+    User.objects.filter(uuid=request.user.uuid).update(
+        portada=archivo.getFile()
+    )
+    return HttpResponse(json.dumps({'mensaje': str(archivo.mensaje), 'success': True}), content_type="application/json")
+
+
 
 def Configuracion_Seguriad_Actualizar(request):
     if request.method == 'POST':
@@ -66,6 +80,11 @@ def Configuracion_General_Actualizar(request):
 
 
 def Configuracion_General(request):
+    cabellos = Cabellos.objects.all()
+    ojos = Ojos.objects.all()
+    etnias = Etnia.objects.all()
+   
+
     data = User.objects.get(uuid=request.user.uuid)
     form_pass = PasswordChangeForm(request.user)
     form_pass.fields['old_password'].widget.attrs = {'required': 'required',
@@ -84,8 +103,12 @@ def Configuracion_General(request):
         'titulo': _('Actualizar datos'),
         'datos': data,
         'datos_educacion' :Educacion.objects.filter(usuario=data.id),
-        'datos_experiencia': Experiencia.objects.filter(usuario=data.id)
+        'datos_experiencia': Experiencia.objects.filter(usuario=data.id),
+        'etnias':etnias,
+        'ojos':ojos,
+        'cabellos':cabellos
     }
+    
     return render(request, "perfiles/configuraciongeneral.html", context)
 
 def ConfiguracionExperiencia(request):
@@ -113,7 +136,14 @@ def Configuracion_Educacion(request):
 
 def Perfil(request, uuid):
     usuario = Usuario(uuid)
+    
     datos_personales = usuario.getDatosPersonales()
+    #a=User.objects.get(datos_personales)
+    seguir = Seguidores.objects.filter(origen=request.user.id,destino=datos_personales.id)
+    enviados = Mensaje.objects.filter(origen=request.user.id)
+    recibidos = Mensaje.objects.filter(destino=request.user.id)
+    
+   
     if datos_personales.tipo_usuario == 'I':
         tema = 'azul'
     else:
@@ -124,8 +154,13 @@ def Perfil(request, uuid):
         'educacion': usuario.getEducacion(),
         'experiencia' : usuario.getExperiencia(),
         'tema' : tema,
-        'titulo': _('Perfil de usuario ')
+        'titulo': _('Perfil de usuario '),
+        'usuario':usuario,
+        'seguir':len(seguir),
+        'enviados':enviados,
+        'recibidos':recibidos
     }
+    import pdb; pdb.set_trace()
     return render(request, "perfiles/perfil.html", context)
 
 def Subir_archivo_perfil(request, tipo_archivo):
@@ -165,7 +200,7 @@ def Buscar_fotos(request, tipo_archivo):
         elif tipo_archivo == 'audio':
             archivo = 'A'
 
-        import pdb; pdb.set_trace()
+        #import pdb; pdb.set_trace()
         #AQUI HAY PROBLEMA PORQUE BUSCA LOS ELEMENTOS DEL USUARIO LOGGEADO Y NO DEL USUARIO QUE SE ESTA VIENDO
         archivo_list = Multimedia.objects.filter(usuario=User.objects.get(uuid=request.user.uuid), tipo_archivo=archivo)
         paginator = Paginator(archivo_list, 9)
@@ -242,3 +277,78 @@ def paginar_fotos(fotos_paginacion):
         xHTML += '</div>'
 
     return {'pie_paginacion': xHTML_Paginas, 'contenido_paginacion': xHTML}
+
+def Mensajes(request):
+    import pdb; pdb.set_trace()      
+    return render(request,"perfiles/enviar_mensaje.html",{})
+
+
+# OJO   OJO    OJO     OJO     OJO   OJO 
+# NECESITO QUE SEA AJAX PARA PODER MANTENERME EN LA MISMA PAG¿INA
+def enviar_mensajes(request):
+    if request.method == 'POST':   
+       
+        mensaje=''
+        form = FormMensaje(request.POST, request.FILES)        
+        if form.is_valid():
+            registro = form.save(commit =False)
+            registro.destino = User.objects.get(email=request.POST['destino'])
+            registro.origen = request.user
+            registro.save()             
+            mensaje = {'mensaje': str(_('Mensaje Enviado')), 'success': True}       
+        else:
+            mensaje = {'mensaje': str(_('No se ha podido enviar el mensaje')), 'success': False}
+    return redirect("artistadashboard")
+
+
+
+# OJO   OJO    OJO     OJO     OJO   OJO 
+# NECESITO QUE SEA AJAX PARA PODER MANTENERME EN LA MISMA PAG¿INA
+def eliminar_mensajes(request):
+    if request.method == 'POST':         
+        mensaje=''
+        
+        Mensaje.objects.filter(id=request.POST['idmensaje']).delete()
+        mensaje = {'mensaje': str(_('Mensaje eliminado')), 'success': True}  
+
+    #        mensaje = {'mensaje': str(_('No se ha podido enviar el mensaje')), 'success': False}
+    #return redirect("artistadashboard")
+    return HttpResponse(json.dumps(mensaje), content_type="application/json")
+
+
+def seguidores(request,uuid):
+
+    lista = Seguidores.objects.filter(destino=User.objects.get(uuid=uuid))
+    paginator = Paginator(lista, 15)
+    page = request.GET.get('page',1)
+    try:
+        seguidores = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        seguidores = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        seguidores = paginator.page(paginator.num_pages)
+        #import pdb;   pdb.set_trace()
+    return render_to_response("seguidores/seguidores.html", {"seguidores": seguidores })
+
+
+def siguiendo(request,uuid):
+
+    lista = Seguidores.objects.filter(destino=User.objects.get(uuid=uuid))
+    paginator = Paginator(lista, 15)
+    page = request.GET.get('page',1)
+    try:
+        seguidores = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        seguidores = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        seguidores = paginator.page(paginator.num_pages)
+        #import pdb;   pdb.set_trace()
+    return render_to_response("seguidores/siguiendo.html", {"seguidores": seguidores })
+
+
+
+

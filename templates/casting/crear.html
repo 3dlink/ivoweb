@@ -78,7 +78,7 @@
 				<div class="col-md-3 ivo-configuracion-menu">
 					<ul>
 						<li class="activo">
-							<a href="#">General</a>
+							<a href="/perfil/configuraciongeneral/">General</a>
 							
 						</li>
 
@@ -113,20 +113,25 @@
 							</div>
 							<div class="col-md-9">
 								<div class="row ivo-formularioConf-form-grid">
+								
 									<div class="col-md-12 ivo-formularioConf-form-grid-img1 text-center">
-									<input type="file" name="imagen_1" id="seleccionar_imagen_1" class="inputfile">
+									<input type="file" name="imagen_1" id="seleccionar_imagen_1" >
 									<span class="glyphicon glyphicon-picture" ><label for="seleccionar_imagen_1">&nbsp;</label></span>
 										
 									</div>
 									<div class="col-md-6 ivo-formularioConf-form-grid-img2 text-center">
-									<input type="file" name="imagen_2" id="seleccionar_imagen_2" class="inputfile">
-										<span class="glyphicon glyphicon-picture"> <label for="seleccionar_imagen_2">&nbsp;</label></span>
+
+										<input type="file" name="imagen_2" id="seleccionar_imagen_2" >
+										<span class="glyphicon glyphicon-picture"> <label for="seleccionar_imagen_2">&nbsp;&nbsp;</label></span>
 									</div>
+									
 									<div class="col-md-6 ivo-formularioConf-form-grid-text">
 										<div class="col-md-12">
+										
 											<textarea class="uno" placeholder="Agregar Aqui Info Adicional Destacada" name="info_destacada"></textarea>
 										</div>
 										<div class="col-md-12">
+										
 											<textarea class="dos" placeholder="Agregar Aqui Info Adicional" name="info_adicional"></textarea>
 										</div>
 									</div>
@@ -151,8 +156,10 @@
 						<div class="row">
 							<div class="col-md-3">
 								<label class="ivo-bold">Sector</label>
+
 							</div>
 							<div class="col-md-9">
+
 								<select name='categoria'>
 									<option selected="selected" disabled>Seleccione una categoria</option>
 									{%for categoria in categorias %}

@@ -12,7 +12,21 @@ from uuid import uuid4
 # Create your models here.
 
 
+class Ojos(models.Model):
+    color = models.CharField(max_length=60, default='default')
+    def __str__(self):
+        return '%s' % (self.color)
 
+
+class Cabellos(models.Model):
+    color = models.CharField(max_length=60, default='default')
+    def __str__(self):
+        return '%s' % (self.color)
+
+class Etnia(models.Model):
+    etnia = models.CharField(max_length=40, default='default')
+    def __str__(self):
+        return '%s' % (self.etnia)
 
 def generateUUID():
     return str(uuid4())
@@ -54,22 +68,20 @@ class User(AbstractBaseUser,PermissionsMixin):
         (ARTISTAS, 'ARTISTAS'),
         (FANS, 'FANS'),
     )
-
+    portada =  models.ImageField(upload_to='portada', blank=True, null=True, max_length=200)
     avatar = models.ImageField(upload_to='avatar', blank=True, null=True, max_length=200)
     telefono = models.BigIntegerField(verbose_name='Numero de telefono', blank=True, null=True, db_column='Telefono')
     genero = models.CharField(max_length=1, blank=True, null=True, db_column='Genero')
     tatuaje = models.BooleanField(default=False, db_column='Tatuaje')
-    color_cabello = models.CharField(max_length=60, blank=True, null=True, verbose_name=_('Color de cabello'),
-                                     db_column='Colorcabello')
-    color_ojos = models.CharField(max_length=60, blank=True, null=True, verbose_name=_('Color de ojos'),
-                                  db_column='Colorojo')
+    color_cabello =  models.ForeignKey(Cabellos, related_name='color_cabellos',blank=True, null=True)
+    color_ojos =  models.ForeignKey(Ojos,  related_name='color_ojos',blank=True, null=True)
     fecha_nacimiento = models.DateField(null=True, blank=True, verbose_name=_('Fecha de nacimiento'),
                                         db_column='Fechanacimiento')
     nacionalidad = models.CharField(max_length=60, blank=True, null=True, verbose_name=_('Nacionalidad'),
                                     db_column='Nacionalidad')
     pais = models.CharField(max_length=60, blank=False, null=False, verbose_name=_('Pais'), db_column='Pais')
     ciudad = models.CharField(max_length=60, blank=True, null=True, verbose_name=_('Ciudad'), db_column='Ciudad')
-    etnia = models.CharField(max_length=40, blank=True, null=True, verbose_name=_('Etnia'), db_column='Etnia')
+    etnia =  models.ForeignKey(Etnia,  related_name='tipo_etnia',blank=True, null=True)
     pasaporte = models.CharField(max_length=60, blank=True, null=True, verbose_name=_('Pasaporte'),
                                  db_column='Pasaporte')
     visa = models.CharField(max_length=60, blank=True, null=True, verbose_name=_('Visa'), db_column='Visa')
@@ -121,6 +133,9 @@ class User(AbstractBaseUser,PermissionsMixin):
     def get_avatar(self):
         return str(self.avatar)
         #.replace('avatar/', 'avatar/sm_')
+
+    def get_portada(self):
+        return str(self.portada)
 
     def get_uuid(self):
         return self.uuid
@@ -265,6 +280,7 @@ class UsuarioArteGenero(models.Model):
         return '%s' % (self.id_genero.name)
 
 
-#class Seguidores(models.Model):
- #   destino= models.ForeignKey(User, on_delete=models.CASCADE, related_name="siguiendo")
-  #  origen= models.ForeignKey(User, on_delete=models.CASCADE,related_name="seguidores")
+class Seguidores(models.Model):
+   destino= models.ForeignKey(User, on_delete=models.CASCADE, related_name="siguiendo")
+   origen= models.ForeignKey(User, on_delete=models.CASCADE,related_name="seguidores")
+

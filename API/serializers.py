@@ -1,7 +1,7 @@
 #serializer.py
 
 from rest_framework import serializers
-from frontend.models import TipoArte, User, UsuarioArte, UsuarioArteGenero, GeneroArtistico
+from frontend.models import TipoArte, User, UsuarioArte, UsuarioArteGenero, GeneroArtistico,generateUUID
 from perfiles.models import Experiencia, Educacion, Multimedia
 from rest_framework.validators import UniqueValidator
 
@@ -63,6 +63,7 @@ class RegistroSerializer(serializers.ModelSerializer):
              validated_data['password'])
 		user.usuario=validated_data['usuario']
 		user.tipo_usuario=validated_data['tipo_usuario']
+		user.uuid = generateUUID()
 		user.save()
 		return user
 

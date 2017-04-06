@@ -41,8 +41,8 @@
 									<!-- IMPLEMENTAR COUNTDOWN  CON JQUERY -->
 									<!-- IMPLEMENTAR COUNTDOWN  CON JQUERY -->
 									<!-- IMPLEMENTAR COUNTDOWN  CON JQUERY -->
-								<ul class="ivo-casting-calendario" >
-									<li id="dia">
+								<ul class="ivo-casting-calendario" id="reloj" >
+									<!--li id="dia">
 										{{casting.fecha_fin | date:"d"}}</br>
 										<span>D&iacute;as</span>
 									</li>
@@ -53,14 +53,14 @@
 									<li id="minutos">
 										{{casting.fecha_fin | date:"i"}}</br>
 										<span>min</span>
-									</li>
+									</li-->
 								</ul>
 							</div>
 							<div class="col-sm-12 col-md-6">
 								<div class="row ivo-casting-headerDer">
 									<div class="col-md-12">
 									</br></br></br></br></br></br></br></br></br></br></br>
-										<a href="#" class="ivo-boton-fondo ivo-casting-botonP ivo-back-trs-verde">Hacer casting / Audicion </a>
+										<a href="/casting/audicion/{{casting.id}}/" class="ivo-boton-fondo ivo-casting-botonP ivo-back-trs-verde">Hacer casting / Audicion </a>
 									</div>
 									<div class="col-md-12">
 										<ul class="ivo-casting-socialR ivo-casting-social-header">
@@ -205,8 +205,10 @@
 		    $('.carousel').carousel({
 		        interval: 5000 //changes the speed
 		    })
-		    $('#dia').countdown({until: new Date(2017, 3-1, 25), format: 'D'});
-		    $('#hora').countdown({until: new Date(2017, 3-1, 25), format: 'H'});
-		    $('#minutos').countdown({until: new Date(2017, 3-1, 25), format: 'M'});
+		    $('#reloj').countdown({until: new Date(2017, 3-1, 25), format: 'DHM'});
+		    //$('#reloj').countdown('2017-04-15 ', function(event) {
+     		//	$(this).html(event.strftime('<li>Quedan %D días  %H:%M:%S </li>'));
+    		 //});
+		   
 		</script>
 	{% endblock %}

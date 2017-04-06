@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+
+{% block cssblock %}
+
+		<style type="text/css">
+			.ivo-pregunta { height: auto;}
+			.ivo-form  select {width: 100%}
+			body {background-color: white;}
+			.dz-default {visibility:hidden;}
+		</style>
+{% endblock %}
+
+{% block content %}
+
+		<!-- Header -->
+	
+				
+		<!-- Barra lateral -->
+
+
+<div class="container-fluid">
+			<div class="container" >
+			<div id="audicion-1" >
+				<div class="row ivo-audicion-subir" >
+					<div class="col-md-4 col-md-offset-4 text-center">
+						<img class="img-responsive"  src="{% static 'img/subida.png'%}"/>
+					</div>
+				</div>
+				<div class="row ivo-audicion-subir-titulos">
+					<div class="col-md-6 col-md-offset-3 text-center">
+						<h1>Selecciona Los Archivos Que Quieras Subir</h1>
+						<h3>O Arrastra Y Suelta Archivos </h3>						
+					</div>
+				</div>
+				
+				<div class="row ivo-audicion-subir-video">
+					<div class="col-md-8 col-md-offset-2 text-center">
+						<h3>Si tu Archivo es Un Video Copia El Link A Continuaci&oacute;n</h3>
+						
+					</div>
+				</div>
+			</div>
+
+
+				<div id="audicion-2">
+				<div class="row text-center" >
+					<div class="col-md-8 col-md-offset-2 ivo-audicion-formulario">
+						<div class="ivo-mensaje-contenedorAudio ivo-mensaje-contenedorAudio-noBorde ivo-contenedorAudio-bck1">
+							<div class="ivo-mensaje-contenedorAudio-carga" style="width: 70%;">
+								<span class="tiempo">85%</span>
+							</div>
+							<div class="ivo-mensaje-contenedorAudio-contenido2">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row " >
+					<div class="col-md-8 col-md-offset-2 ivo-audicion-formulario-form">
+						<form action="/casting/audicion/{{casting}}/"  method="POST" enctype="multipart/form-data" id="form_audicion">
+						{% csrf_token %}
+						<!--input class="ivo-audicion-upBar" placeholder="http://"-->
+						<input type="file" name="archivo" id="seleccionar_archivo" class="ivo-audicion-upBar">
+							<h2>Por Qu&eacute; Participas En Este Casting</h2>
+							<textarea class="ivo-borde-trs-azulClaro" name="motivo_participar"></textarea>
+							<h2>Cu&eacute;ntanos Un Poco M&aacute;s Sobre T&iacute;</h2>
+							<textarea class="ivo-borde-trs-azulClaro" name="cuentanos"></textarea>
+							
+
+							<button class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro" >
+								<span class="ivo-back-trs-azulClaro ivo-borde-transparente" id="send_form">Publicar</span>
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+					
+
+			</div>	
+		</div>
+		
+                
+		
+		
+			
+				
+
+           
+            
+      
+				
+		<!-- Footer -->
+		{% endblock %}
+
+	{% block javascript %}
+	<script type="text/javascript" src="{% static 'js/dropzone.js' %}"></script>
+	<!--script type="text/javascript">
+            Dropzone.options.myDropzone = {
+                paramName: "imagen", // el nombre de nuestro input
+                autoProcessQueue : true,
+                parallelUploads: 1,
+                maxFiles:1,
+
+                init: function() {
+				  this.on('addedfile', function(file) {
+				    if (this.files.length > 1) {
+				      this.removeFile(this.files[0]);
+				    }
+				  });
+				}
+
+            };
+        </script-->
+		<script>
+
+
+		    $('.carousel').carousel({
+		        interval: 5000 //changes the speed
+		    });
+
+		    $('#enlace-casting').addClass('activo');
+
+
+		   
+				    $('#send_form').click(function(){
+				    	if (validarForm( $('#form_general input') ) ) {
+				        $("#form_general").submit();
+		    			}
+				    });
+				
+
+function registrar(){
+
+        NProgress.start();
+        $.ajax({
+            url: '/casting/audicion/',
+            type: 'post',
+            dataType: 'json',
+            data:  $('#form_general').serialize(),
+            success: function (data) {
+                NProgress.done();
+                if(data.success == false){
+                    alert(data.mensaje);
+                    $.each(data.errors.fields, function(i, item) {
+                        alert(i+ " "+item);
+                    });
+                }else{
+                    alert(data.mensaje);
+                    setTimeout(function(){
+                      location.href  ='/casting/crear/'
+                    }, 1500);
+
+                }
+            }
+        });
+    }
+
+		</script>
+	{% endblock %}

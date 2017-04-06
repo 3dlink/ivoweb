@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response, render
 from .models import Casting, Categoria
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .forms import  FormRegistro
+from .forms import  FormRegistro, FormAudicion
 from frontend.models import User
 import json
 from django.shortcuts import render
@@ -32,7 +32,9 @@ def todos(request):
 
 def casting_por_categoria(request, idcategoria):
 	categorias= Categoria.objects.all()
+	import pdb; pdb.set_trace()
 	categoria = Categoria.objects.get(nombre=idcategoria.replace("-"," "))
+
 	all_casting = categoria.casting_set.order_by("fecha_fin")
 	paginator = Paginator(all_casting, 10) # Show 25 contacts per page	
 	page = request.GET.get('page',1)
@@ -59,6 +61,7 @@ def detalle(request,idcasting):
 #	return render_to_response("casting/crear.html",{},)
 
 def crear(request):	
+
 	if request.user.tipo_usuario == 'I':
 		categorias=Categoria.objects.all()
 		if request.method == 'POST':			
@@ -66,7 +69,7 @@ def crear(request):
 			error = ''
 			form = FormRegistro(request.POST, request.FILES)
 			if form.is_valid():
-				import pdb;   pdb.set_trace()
+				#import pdb;   pdb.set_trace()
 				casting = form.save(commit=False)
 				casting.autor = User.objects.get(email=request.user.email)					
 				casting.save()		
@@ -91,3 +94,28 @@ def guardar(request):
         #else:
             #return HttpResponse(json.dumps(form_invalid(form)), content_type="application/json")
     return HttpResponseRedirect('/casting/inicio/')
+
+
+def audicion1(request, casting):
+	if request.user.tipo_usuario == 'A':
+		#categorias=Categoria.objects.all()
+		if request.method == 'POST':			
+			mensaje = ''
+			error = ''
+			form = FormAudicion(request.POST, request.FILES)
+			if form.is_valid():
+				#import pdb;   pdb.set_trace()
+				audicion = form.save(commit=False)
+				audicion.id_usuario = User.objects.get(email=request.user.email)
+				audicion.id_casting = Casting.objects.get(id=casting)					
+				audicion.save()		
+				mensaje = {'mensaje': str(_('Audicion creada con exito')), 'success': True}		
+			else:
+				mensaje = form_invalid(form)
+				#REVISAR ESTE RETURN DEL MENSAJE... SE MUESTRA EL JSON Y NO UN MENSAJE "REGULAR"
+			return HttpResponse(json.dumps(mensaje), content_type="application/json")
+		context = {'from': FormAudicion,'casting':casting }
+		return render(request,'casting/audicion-1.html',context)
+	else:
+		return HttpResponseRedirect( "/",{})
+	

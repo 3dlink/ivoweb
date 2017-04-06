@@ -25,6 +25,7 @@ class RegistroView(APIView):
     parser_classes = (JSONParser,)  
 
     def post(self, request, format='json'):
+        #import pdb;   pdb.set_trace()
         payload_handler = api_settings.JWT_PAYLOAD_HANDLER
         encode_handler = api_settings.JWT_ENCODE_HANDLER
         serializer = RegistroSerializer(data=request.data)
@@ -40,7 +41,7 @@ class RegistroView(APIView):
                 json['token'] = token
                 
                 return Response(json, status=status.HTTP_201_CREATED)  
-        #import pdb;   pdb.set_trace()
+        
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
      
 

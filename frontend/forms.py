@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
-from frontend.models import User
+from frontend.models import User, Seguidores
+from django.contrib.auth import authenticate
 
 class FormRegistro(UserCreationForm):
     
@@ -15,6 +16,10 @@ class FormRegistro(UserCreationForm):
             'last_name': 'Apellido',
             'email': 'Email',
         }
+        error_messages={
+
+            'min_length': ("La contraseña es muy corta, debe ser de al menos 8 caracteres")
+        }
 
 
 class FormRegistroIndustria(UserCreationForm):
@@ -22,6 +27,13 @@ class FormRegistroIndustria(UserCreationForm):
         model = User
         fields = ['empresa_provedor', 'razon_social', 'direccion', 'website', 'facebook', 'twitter', 
         'instagram', 'usuario', 'genero', 'tipo_usuario', 'email']
+
+        error_messages={
+            'password':{
+                'min_length': ("La contraseña es muy corta, debe ser de al menos 8 caracteres"),
+            },
+            
+        }
 
 
 class FormRegistroFan(UserCreationForm):
@@ -35,4 +47,27 @@ class FormRegistroFan(UserCreationForm):
             'last_name': 'Apellido',
             'email': 'Email',
         }
-    
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(required=True)
+    password = forms.CharField(widget=forms.PasswordInput, required=True)
+
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        user = authenticate(username=username, password=password)
+        if not user or not user.is_active:
+            raise forms.ValidationError("    Correo o contraseña no valido    ")
+        return self.cleaned_data
+
+    def login(self, request):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        user = authenticate(username=username, password=password)
+        return user
+
+class FormSeguir(forms.ModelForm):
+    class Meta:
+        model = Seguidores
+        fields =("__all__")

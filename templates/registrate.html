@@ -19,7 +19,7 @@
         </div>
         <div class="row">
             <div class="col-sm-10 col-md-10 col-lg-10  col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
-                <form method="POST" class="ivo-form ivo-form-registro" id="ivo-form-registro">
+                <form method="POST" class="ivo-form ivo-form-registro" id="ivo-form-registro" action="/registrate/artista/">
                     <input type="hidden" name="genero" id="genero" required="required">
                     <input type="hidden" name="fecha_nacimiento" id="fecha_nacimiento">
                     <input type="hidden" name="tatuaje" id="tatuaje">
@@ -78,14 +78,22 @@
                         <div class="col-md-8 col-lg-8">
                             <div class="ivo-mensajes-select">
                                 <div class="dropdown ivo-drop-formulario">
+                                    <!-- NO ESTA HECHO COMO UN SELECT -->
+                                    <!-- CAMBIAR PARA QUE SEA UN SELECT.. EL COMPORTAMIENTO DEBER SER EL MISMO Y SOLO VAMOS A GUARDAR EL TIPO DE ARTE, QUE EL LUEGO GUARDE EL GENERO ARTISTICO
                                     <button class="btn btn-default dropdown-toggle ivo-drop-ampliado-lista" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         {% trans "Talentos" %}
                                         <span class="caret"></span>
                                     </button>
-                                    <ul id = "telentos" class="dropdown-menu ivo-select-ampliado-lista" aria-labelledby="dropdownMenu1">
-
-                                        
+                                    <ul id = "telentos" class="dropdown-menu ivo-select-ampliado-lista" aria-labelledby="dropdownMenu1">                                        
                                     </ul>
+                                    -->
+
+                                    <select name="talento" placeholder="{% trans 'Talento' %}" required="required" mensaje = "{% trans 'Talento es una campo requerido' %}">
+                                    <option selected="selected" disabled>Talento</option>
+                                    {%for talento in artes %}
+                                        <option value='{{talento.id}}'> {{talento.name}}</option>
+                                    {%endfor%}
+                                </select>
                                 </div>
                             </div>
                         </div>
@@ -111,13 +119,31 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4 col-lg-4">
-                            <input type="text" name="etnia" placeholder="{% trans 'Etnia' %}" required="required" mensaje = "{% trans 'Etnia es una campo requerido' %}">
+                        <select name="etnia" placeholder="{% trans 'Etnia' %}" required="required" mensaje = "{% trans 'Etnia es una campo requerido' %}">
+                                    <option selected="selected" disabled>Etnia</option>
+                                    {%for etnia in etnias %}
+                                        <option value='{{etnia.id}}'> {{etnia.etnia}}</option>
+                                    {%endfor%}
+                                </select>
+                            <!--input type="text" name="etnia" placeholder="{% trans 'Etnia' %}" required="required" mensaje = "{% trans 'Etnia es una campo requerido' %}"-->
                         </div>
                         <div class="col-md-4 col-lg-4">
-                            <input type="text" name="color_cabello" placeholder="{% trans 'Color de Cabello' %}" required="required" mensaje = "{% trans 'Color de cabello es una campo requerido' %}">
+                            <select name="color_cabello" placeholder="{% trans 'Color de Cabello' %}" required="required" mensaje = "{% trans 'Color de cabello es una campo requerido' %}">
+                                    <option selected="selected" disabled>Color de cabello</option>
+                                    {%for cabello in cabellos %}
+                                        <option value='{{cabello.id}}'> {{cabello.color}}</option>
+                                    {%endfor%}
+                                </select>
+                            <!--input type="text" name="color_cabello" placeholder="{% trans 'Color de Cabello' %}" required="required" mensaje = "{% trans 'Color de cabello es una campo requerido' %}"-->
                         </div>
                         <div class="col-md-4 col-lg-4">
-                            <input type="text" name="color_ojos" placeholder="{% trans 'Color de Ojos' %}" required="required" mensaje = "{% trans 'Color de ojos es una campo requerido' %}">
+                            <select name="color_ojos" placeholder="{% trans 'Color de Ojos' %}" required="required" mensaje = "{% trans 'Color de ojos es una campo requerido' %}">
+                                    <option selected="selected" disabled>Color de ojos</option>
+                                    {%for ojo in ojos %}
+                                        <option value='{{ojo.id}}'> {{ojo.color}}</option>
+                                    {%endfor%}
+                                </select>
+                            <!--input type="text" name="color_ojos" placeholder="{% trans 'Color de Ojos' %}" required="required" mensaje = "{% trans 'Color de ojos es una campo requerido' %}"-->
                         </div>
                     </div>
                     <div class="row">
@@ -204,7 +230,7 @@
 <script>
     var cantidad_seleccion_tanlento = 0;
     $(function(){
-        getTalentos();
+        //getTalentos();
         $('#ivo-form-registro').submit(function(){
             return false;
         });
@@ -228,14 +254,14 @@
             }
             
         });
-        $(document).on('click', 'input[type=checkbox]',function(){
+        /*$(document).on('click', 'input[type=checkbox]',function(){
             if($(this).attr('name') == 'artes'){
                 if(cantidad_seleccion_tanlento <= 3){
                     getGenerosArtisticos($(this).val())
                 }
             }
 
-        });
+        });*/
         
         $('#btn_registrar').click(function(){
             if( !$('#checkbox-terminos').is(':checked') ) {
@@ -243,20 +269,28 @@
                     return;
                 }
             if( $('#password1').val().trim() != $('#password2').val().trim()){
-                alert(' {% trans 'La confirmación debe ser igual al campo contraseña' %} ')
+                alert(' {% trans 'Las contraseñas no coinciden' %} ')
+                return;
+            }
+            if( $('#password1').val().trim()=='' || $('#password2').val().trim()==''){
+                alert(' {% trans 'el campo contraseña es requerido' %} ')
+                return;
+            }
+            if( $('#password1').val().trim().length<8 || $('#password2').val().trim().length<8){
+                alert(' {% trans 'el campo contraseña debe ser mayor a ocho caracteres' %} ')
                 return;
             }
 
-            if(validarForm($('#ivo-form-registro input'))){
+            
 
-                $('#fecha_nacimiento').val($('#fecha_a_o').val()+"-"+$('#fecha_mes').val()+'-'+$('#fecha_dia').val());
-                registrar();    
-            }else{
-                console.log('false');
-            }
+        $('#fecha_nacimiento').val($('#fecha_a_o').val()+"-"+$('#fecha_mes').val()+'-'+$('#fecha_dia').val());
+        registrar();    
+            
+               
             
         });
     })
+    /*
     function getGenerosArtisticos(id_arte){
         NProgress.start();
         $.ajax({
@@ -272,7 +306,8 @@
                 }
             }
         });
-    }
+    }*/
+    /*
     function getTalentos(){
         NProgress.start();
         $.ajax({
@@ -288,12 +323,12 @@
             }
         });
     }
-    
+    */
     function registrar(){
 
         NProgress.start();
         $.ajax({
-            url: '/registrate/',
+            url: '/registrate/artista/',
             type: 'post',
             dataType: 'json',
             data:  $('#ivo-form-registro').serialize(),
@@ -302,7 +337,7 @@
                 if(data.success == false){
                     alert(data.mensaje);
                     $.each(data.errors.fields, function(i, item) {
-                        alert(i+ " "+item);
+                        alert(item);
                     });
                 }else{
                     alert(data.mensaje);

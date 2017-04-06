@@ -11,7 +11,7 @@
         <script type="text/javascript" src="{% static 'js/jquery.blueimp-gallery.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/bootstrap-image-gallery.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/perfil.js' %}"></script>
-
+        
 
         <script>
         	$(function(){
@@ -24,8 +24,233 @@
                 $('#send_form_eduacion').click(function(){
 
                 });
+
+                $('#seleccionar_foto_cover').change(function(e){
+	       			 handleImage(e)
+	    		});
+        	});    
+
+        		function handleImage(e){
+       NProgress.start();
+        var reader = new FileReader();
+        reader.onload = function(event){
+            var image = new Image();
+            image.src = e.target.result;
+            image.onload = function(){
+                if (image.width < 400) {
+                    alert("Please choose a larger size");
+                    return false;
+                } else if (image.height < 300) {
+                    alert("Please choose a larger size");
+                    return false;
+                }
+                if(image.height > image.width){
+                    alert("Sorry allowed only horizontal images");
+                    return false;
+                }
+                var canvas = document.createElement('canvas');
+                var MAX_WIDTH = 160;
+                var MAX_HEIGHT = 160;
+                var width = image.width;
+                var height = image.height;
+                if (width > height) {
+                    if (width > MAX_WIDTH) {
+                        height *= MAX_WIDTH / width;
+                        width = MAX_WIDTH;
+                    }
+                } else {
+                    if (height > MAX_HEIGHT) {
+                        width *= MAX_HEIGHT / height;
+                        height = MAX_HEIGHT;
+                    }
+                }
+                canvas.width = width;
+                canvas.height = height;
+
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage( image, 0, 0, width, height );
+
+                $('#hidden_image').val(canvas.toDataURL());
+                //$('#img_canvas').html(['<img src="', canvas.toDataURL(), '"/>'].join(''));
+                $('#cover_actual').attr('src',canvas.toDataURL())
+
+            }
+            image.src = event.target.result;
+
+            subirCoverPerfil();
+        }
+        reader.readAsDataURL(e.target.files[0]);
+    }
+
+
+    function subirCoverPerfil(){
+    	var formData = new FormData($("#form_cover_perfil")[0]);
+    	$.ajax({
+           url: '/perfil/configuraciongeneral/foto-cover/',
+            type: 'post',
+            dataType: 'json',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+            	NProgress.done();
+                console.log(data)
+                alert(data.mensaje);
+
+            }
+
+        });
+    }
+
+
+
+
+        		$('.mensaje_lista').click(function() {
+        		// bno estoy recuperando el mensaje completo.. y si tiene fotos?!!!!
+        		//esto tiene que ser un ajax con el id del mensaje
+        			$('#persona_mensaje').text($(this).data('owner'))
+        			$('#mensaje_abierto').text($(this).children('h6').text())
+        			$('.activo').removeClass('activo')
+        			$(this).addClass("activo")   
+        			$('#revisar').show()
+        			$('#redactar').hide()     		
+        		
         	});
-        </script>
+
+        		$('#responder').click(function() {
+        		// bno estoy recuperando el mensaje completo.. y si tiene fotos?!!!!
+        		//esto tiene que ser un ajax con el id del mensaje
+        			$('#redactar').show()
+        			$('#revisar').hide()
+        			$('#nombre').val($('#persona_mensaje').text())
+        			       		
+        		
+        	});
+
+
+
+        	$('#selector_enviados').click(function() {
+        		// body...
+        		$('#selector_mensaje').replaceWith("<span class='icon-paper-plane ivo-font-azulClaro' id='selector_mensaje'></span>")
+        		$('#texto_selector_mensaje').replaceWith("<i id='texto_selector_mensaje'>Mensajes Enviados</i>");
+        		$('#lista_enviados').show()
+        		$('#lista_recibidos').hide()
+        		$('#redactar').hide()
+        		$('#revisar').show()
+        		
+        	});
+
+        	$('#selector_recibidos').click(function() {
+        		// body...
+        		$('#selector_mensaje').replaceWith("<span class='icon-envelope ivo-font-azulClaro' id='selector_mensaje'></span>")
+        		$('#texto_selector_mensaje').replaceWith("<i id='texto_selector_mensaje'>Mensajes Recibidos</i>")
+        		$('#lista_enviados').hide()
+        		$('#lista_recibidos').show()
+        		$('#redactar').hide()
+        		$('#revisar').show()
+        		
+        		
+        	});
+
+        	$('#boton_redactar').click(function() {
+        		// body...
+        		$('#redactar').show();
+        		$('#revisar').hide();
+        		$('.activo').removeClass('activo');
+        		$('#nombre').val('');
+        		$('#cuerpo_mensaje').val('');
+        		
+        		
+        	});
+
+
+        	$('#volver').click(function() {
+        		// body...
+        		$('#principal').show();
+        		$('#enviar_mensaje').hide();
+        		$('body').css('background-color', '#343436');
+        		
+        	});
+
+        	$('#mensaje').click(function() {
+        		// body...
+        		$('#principal').hide();
+        		$('#enviar_mensaje').show();
+        		$('body').css('background-color', 'white');
+        		$('#nombre').val('{{datos_personales.email}}');
+        	});
+
+        	
+
+			 $("#seguir").click(function(){
+			        	var destino = '{{datos_personales.id}}'
+			        	var origen = '{{user.id}}'
+			        	 $.ajax({
+				            url: '/seguir/',
+				            type: 'post',
+				            dataType: 'json',
+				            data: {'origen':origen, 'destino':destino, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+				            success: function (data) {
+				                NProgress.done();
+				                if(data.success == false){
+				                    alert(data.mensaje);
+				                    $.each(data.errors.fields, function(i, item) {
+				                        alert(item);
+				                    });
+				                    
+				                }else{
+				                    alert(data.mensaje);
+				                    /*setTimeout(function(){
+				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
+				                    }, 1500);
+									*/
+									$('#seguir').css('background-color', 'cyan')
+
+				                }
+				            }
+				        });			        	
+			    });
+
+					$("#eliminar").click(function(){
+			        	
+			        	var mensaje = $('.activo').data('idmsj')
+			        	 $.ajax({
+				            url: '/perfil/mensajes/eliminar/',
+				            type: 'post',
+				            dataType: 'json',
+				            data: {'idmensaje':mensaje,'csrfmiddlewaretoken': '{{ csrf_token }}'},
+				            success: function (data) {
+				                NProgress.done();
+				                if(data.success == false){
+				                    alert(data.mensaje);
+				                    $.each(data.errors.fields, function(i, item) {
+				                        alert(item);
+				                    });
+				                    
+				                }else{
+				                    alert(data.mensaje);				                   
+				                    /*setTimeout(function(){
+				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
+				                    }, 1500);
+									*/
+									//$('#seguir').css('background-color', 'cyan')
+									$('.activo').remove()
+									$('#persona_mensaje').text('')
+        							$('#mensaje_abierto').text('')
+
+				                }
+				            }
+				        });
+
+
+			        	
+			    });
+       
+
+
+       
+        
+</script>
 
     {% endblock %}
 
@@ -59,6 +284,7 @@
 				background-image: url({% static 'img/avatar-ivo.jpg' %});
 			}
 
+			
 			@media (max-width: 768px) {
 				.carousel-caption {
 				    left: 15%;
@@ -72,17 +298,23 @@
 		{% block content %}
 
 		<!-- Full Page Image Background Carousel Header -->
-	    <header id="myCarousel" class="carousel slide ivo-casting-headerContenedor ivo-borde-{{tema}} ivo-perfil-header">
+		<div id="principal">
+	    <header id="myCarousel" class="carousel slide ivo-casting-headerContenedor ivo-borde-{{tema}} ivo-perfil-header principal">
 	        <!-- Wrapper for Slides -->
 	        <div class="carousel-inner">
 	            <div class="item active">
 	            	<div class="ivo-layer-gry"></div>
 	                <!-- Set the first background image using inline CSS below. -->
-	                <div class="fill" style="background-image:url( '{% static "img/header-casting.jpg" %}');"></div>
+	                {% if datos_personales.get_portada == '' or datos_personales.get_portada == None  %}
+					<div class="fill" id="cover_actual" style="background-image:url( '{% static "img/header-casting.jpg" %}');"></div>
+				{% else %}
+					<div class="fill" id="cover_actual" style="background-image:url(/media/{{datos_personales.get_portada}});"></div>
+				{% endif %}
+	                
 	                <div class="carousel-caption ivo-casting-header ivo-casting-header-anchoCaja" style="text-align:left;">
 						<div class="row">
 							<div class="col-xs-12 visible-xs">
-								<div class="ivo-perfil-imgPerfil ivo-perfil-imgPerfil-tope" style="background-image: url({{datos_personales.avatar}})"></div>
+								<div class="ivo-perfil-imgPerfil ivo-perfil-imgPerfil-tope" style="background-image: url(/media/{{datos_personales.get_avatar}})"></div>
 							</div>
 							<!-- Informacion Basica del Perfil -->
 							<div class="col-sm-10 col-md-5 col-md-offset-4 col-sm-offset-4">
@@ -107,14 +339,18 @@
 							<div class="col-md-3 col-md-offset-0 visible-md visible-lg">
 								<div class="row ivo-casting-headerDer text-right ivo-perfil-socialH">
 									<div class="col-md-12">
-										<a href="#" class="ivo-boton-fondo ivo-casting-botonP ivo-perfil-botonH" data-toggle="modal" data-target="#ModalPortada">Cambiar Cover Foto</a>
+									{%if datos_personales.id == user.id%}										
+										<a href="#modal_portada" class="ivo-boton-fondo ivo-casting-botonP ivo-perfil-botonH" data-toggle="modal" >Cambiar Cover Foto</a>
+										
+										
+									{%endif%}
 									</div>
 									<div class="col-md-12">
 										<ul class="ivo-casting-socialR ivo-perfil-socialM ">
 											<li class="titulo">Compartir</li>
-											<li><a href="{{datos_personales.facebook}}"><span class="social_facebook_circle"></span></a></li>
-											<li><a href="{{datos_personales.twitter}}"><span class="social_twitter_circle"></span></a></li>
-											<li><a href="{{datos_personales.instagram}}"><span class="social_instagram_circle"></span></a></li>
+											<li><a href="http://www.facebook.com/share.php?u=http://example.com/perfil/{{datos_personales.get_uuid}}" target="_blank"><span class="social_facebook_circle"></span></a></li>
+											<li><a href="http://twitter.com/intent/tweet?status=perfil de {{datos_personales.get_full_name}}+http://example.com/perfil/{{datos_personales.get_uuid}}" target="_blank"><span class="social_twitter_circle"></span></a></li>
+											
 										</ul>
 									</div>
 								</div>
@@ -128,22 +364,22 @@
 	    </header>
 	    <!-- Perfil -->
 		{% if tema == 'azul' %}
-	    	<div class="container-fluid ivo-perfil-panel" style="background:black">
+	    	<div class="container-fluid ivo-perfil-panel principal" style="background:black">
 		{% else %}
-				<div class="container-fluid ivo-perfil-panel">
+				<div class="container-fluid ivo-perfil-panel principal">
 		{% endif %}
-	    	<div class="container">
+	    	<div class="container principal">
 	    		<!-- Caja 1 -->
 	    		<div class="row ivo-perfil-caja1">
 		    		<div class="col-md-3">
 			    		<div class="row " style="padding: 0 10%;">
 			   				<ul class="ivo-casting-socialR ivo-perfil-panelSocial">
 								<li class="titulo">Sigue a {{datos_personales.first_name}}</li>
-								<li class="redes"><a class="ivo-font-{{tema}}" href="{{datos_personales.facebook}}"><span class="social_facebook_circle"></span></a></li>
-								<li class="redes"><a class="ivo-font-{{tema}}" href="{{datos_personales.twitter}}"><span class="social_twitter_circle"></span></a></li>
-								<li class="redes"><a class="ivo-font-{{tema}}" href="{{datos_personales.instagram}}"><span class="social_instagram_circle"></span></a></li>
+								<li class="redes"><a class="ivo-font-{{tema}}" href="http://www.facebook.com/{{datos_personales.facebook}}" target="_blank"><span class="social_facebook_circle"></span></a></li>
+								<li class="redes"><a class="ivo-font-{{tema}}" href="http://www.twitter.com/{{datos_personales.twitter}}" target="_blank"><span class="social_twitter_circle"></span></a></li>
+								<li class="redes"><a class="ivo-font-{{tema}}" href="http://www.instagram.com/{{datos_personales.instagram}}" target="_blank"><span class="social_instagram_circle"></span></a></li>
 								<li class="enlace">
-									<a class="ivo-font-{{tema}}" href="{{datos_personales.website}}">Web Oficial</a>
+									<a class="ivo-font-{{tema}}" href="http://{{datos_personales.website}}" target="_blank">Web Oficial</a>
 								</li>
 							</ul>
 							<ul class="ivo-perfil-infoComplemento">
@@ -171,12 +407,23 @@
 			    		<div class="row" style="padding: 0 10%;">
 			    			<ul class="ivo-perfil-enlaces">
 			    				<li>
-			    					<a class="ivo-boton-fondo ivo-font-azulClaro ivo-perfil-enlaces-seguir" href="#">Seguir</a>
+			    					{%if datos_personales.id != user.id%}
+			    						{%if seguir == 1 %}
+										<button id="seguir" class= "ivo-boton-fondo ivo-font-azulClaro ivo-perfil-enlaces-seguir" style="background-color: cyan" >Siguiendo</button>
+			    						{%else%}
+			    						<button id="seguir" class= "ivo-boton-fondo ivo-font-azulClaro ivo-perfil-enlaces-seguir" style="background-color: white" >Seguir</button>
+			    						{% endif %}
+									{%endif%}
+			    					
+			    					
 			    				</li>
 			    				<li>
-			    					<a class="ivo-font-{{tema}} ivo-perfil-enlaces-mensaje" href="#">
+			    				{%if datos_personales.id != user.id%}
+										<a class="ivo-font-{{tema}} ivo-perfil-enlaces-mensaje" id="mensaje">
 			    						<span class="icon-envelope"></span> Enviar Mensaje
 			    					</a>
+									{%endif%}
+			    					
 			    				</li>
 			    			</ul>
 							<ul class="ivo-perfil-informacionPrf">
@@ -323,9 +570,13 @@
 						</div>
 						<div class="row">
 							<div class="col-md-12 text-right ivo-perfil-barraInf" >
-								<button id="ivo-subir" data-toggle="modal" data-target="#SubirFoto">
+							{%if datos_personales.id == user.id%}										
+										<button id="ivo-subir" data-toggle="modal" data-target="#SubirFoto">
 									<span class="glyphicon glyphicon-open"></span> Subir
 								</button>
+										
+									{%endif%}
+								
 								<ul id="item_paginas">
 
 								</ul>
@@ -405,7 +656,7 @@
 	    	</div>
 	    </div>
 		<!-- App -->
-		<div class="container-fluid ivo-artistas-appBck">
+		<div class="container-fluid ivo-artistas-appBck principal">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12 col-lg-12 ivo-artistas-app">
@@ -429,9 +680,9 @@
 
 
 
-		<div class="ivo-perfil-imgPerfil ivo-perfil-imgPerfil-header" id = "foto_perfil"></div>
+		<div class="ivo-perfil-imgPerfil ivo-perfil-imgPerfil-header principal" id = "foto_perfil"></div>
 		<!-- Galeria -->
-		<div id="blueimp-gallery" class="blueimp-gallery">
+		<div id="blueimp-gallery" class="blueimp-gallery principal">
 		    <!-- The container for the modal slides -->
 		    <div class="slides"></div>
 		    <!-- Controls for the borderless lightbox -->
@@ -493,5 +744,163 @@
 				</div>
 			</div>
 		</div>
-		<input type="hidden" name="csrfmiddlewaretoken" value="{{csrf_token}}" id="csrf">
+
+
+
+		<!--MODAL PORTADA-->
+
+		<div class="modal fade" tabindex="-1" role="dialog" id="modal_portada">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Seleccione la imagen de cover</h4>
+      </div>
+      <div class="modal-body">
+        <form id="form_cover_perfil" method="POST" enctype="multipart/form-data" >
+        {%csrf_token%}
+        <input type="file" name="foto" id="seleccionar_foto_cover" accept="image/*" >
+        <input type="submit" id="submit-form" hidden >
+
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <label for="submit-form" class="btn btn-primary">Subir imagen</label>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+	
+	
+
+
+
+
+	<!-- PAGINA DE MENSAJES -->
+	<div id="enviar_mensaje" hidden>
+	<div class="container" >
+			<div class="row ivo-configuracion">
+				<div class="col-sm-4 col-md-3 ivo-configuracion-menu ivo-mensajes-latItems">
+					<ul class="ivo-mensajes-panelSuperior">
+						<li class="ivo-mensajes-botonR">
+							<boton id="boton_redactar" class="ivo-boton-fondo ivo-boton-mensajes ivo-boton-mensajes-redactar">
+								<span>Redactar</span>
+							</boton>
+						</li>
+						<li class="ivo-mensajes-select">
+							<div class="dropdown">
+							  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+							    <span class="icon-envelope ivo-font-azulClaro" id="selector_mensaje"></span> &nbsp;<i id="texto_selector_mensaje">Seleccione mensajes</i>
+							    <span class="caret"></span>
+							  </button>
+							  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+							    <li id="selector_recibidos"><a href="#"><span class="icon-envelope ivo-font-azulClaro"></span>&nbsp; <i>Mensajes Recibidos</i></a></li>
+							    <li id="selector_enviados"><a href="#"><span class="icon-paper-plane ivo-font-azulClaro"></span>&nbsp; <i>Mensajes Enviados</i></a></li>
+							  </ul>
+							</div>					
+						</li>
+					</ul>
+					<ul class="ivo-mensajes-lista" id="lista_enviados" hidden>
+						
+						{%for enviado in enviados%}
+						<li class="mensaje_lista" data-owner='{{enviado.destino.email}}' data-idmsj='{{enviado.id}}'>
+							<div  style="background-image: url(assets/img/avatar-ivo.jpg)"></div>
+							<h5>{{enviado.destino.get_full_name}}</h5>
+							<h6>{{enviado.mensaje}}</h6>
+						</li>
+						{%endfor%}
+						
+						
+					</ul>
+					<ul class="ivo-mensajes-lista" id="lista_recibidos" >
+						
+						{%for recibido in recibidos%}
+						<li class="mensaje_lista" data-owner='{{recibido.origen.email}}' data-idmsj='{{recibido.id}}'>
+							<div class="mensaje_lista" style="background-image: url(assets/img/avatar-ivo.jpg)"></div>
+							<h5>{{recibido.origen.get_full_name}}</h5>
+							<h6>{{recibido.mensaje}}</h6>
+						</li>
+						{%endfor%}
+						
+						
+					</ul>
+				</div>
+
+
+				<!-- INICIO REVISAR MENSAJES -->
+
+		<div id="revisar" hidden>
+					
+			<div class="col-sm-8 col-md-9 ivo-formularioConf ivo-mensajes-central">
+					<div class="row ivo-mensaje-header">
+						<div class="col-sm-3 col-md-2 ivo-mensaje-headerImg">
+							<img src="assets/img/avatar-ivo.jpg">
+						</div>
+						<div class="col-sm-9 col-md-10">
+							<h3 class="ivo-bold" id="persona_mensaje"></h3>
+							<h4></h4>
+							<h5><font class="ivo-bold">Fecha:</font> Noviembre 26 2016</h5>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 ivo-mensaje-contenido" id="mensaje_abierto">
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 text-right">
+							<BUTTON class="ivo-boton" id="eliminar">Eliminar</BUTTON>
+							<button class="ivo-boton" id="responder">Responder</button>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		
+		<!-- FIN REVISAR MENSAJES-->
+
+
+
+
+
+
+		<!-- REDACTAR MENSAJES -->
+
+		<div id="redactar">
+				<div class="col-sm-8 col-md-9 ivo-formularioConf ivo-mensajes-central">
+					<form class="ivo-formularioConf-form ivo-mensaje-enviarM" method="POST" action="/perfil/mensajes/enviar/">
+					{%csrf_token%}
+						<!-- DEBE LLEVAR UN AJAX, O MEJOR UN SOCKET, PARA RECUPERAR LAS INSTANCIAS A LOS DATOS-->
+						<input type="text" placeholder="Escribe un nombre" name="destino" id="nombre">
+						<textarea placeholder="Escribe tu mensaje" name="mensaje" id="cuerpo_mensaje"></textarea>
+						<div>	
+						<input type="file" id='archivo'  style="display: none;">
+							
+							
+								<label for="archivo" class="glyphicon glyphicon-paperclip" ></label>
+								
+							
+							<input type="file" name='imagen' style="display: none;">
+								
+							<label for="archivo" class="glyphicon glyphicon-picture" ></label>						
+								
+							
+						</div>
+						<button class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro" style="margin-right: 3%;" type="submit" id="boton_enviar">
+							<span class="ivo-back-trs-azulClaro ivo-borde-transparente">Enviar</span>
+						</button>
+					</form>
+					<button id="volver" class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro" style="margin-right: 3%;" type="submit">
+							<span class="ivo-back-trs-azulClaro ivo-borde-transparente">VOLVER</span>
+						</button>
+					</div>
+		</div>
+				<!--- FIN REDACTAR -->
+			</div>
+		</div>
+
+</div>
 {% endblock %}

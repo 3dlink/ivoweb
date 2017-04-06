@@ -19,6 +19,7 @@ from frontend import views
 from django.conf.urls.static import static
 from django.conf import settings
 from rest_framework.urlpatterns import format_suffix_patterns
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -27,6 +28,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name='home'),
     url(r'^registrate/$', views.registrate, name='registro'),
+    url(r'^registrate/artista/$', views.registrate_artistas, name='registro_artistas'),
     url(r'^registrate/talentos/$', views.getArtes, name='registrate'),
     url(r'^registrate/generos-artisticos/$', views.getGeneroArtisticos, name='generos_artisticos'),
     url(r'^industria/$', views.industria, name='industria'),
@@ -36,10 +38,13 @@ urlpatterns = [
     url(r'^registro/fan/$', views.registrofan, name='registrofan'),
     url(r'^registro/fan/interes$', views.faninteres, name='faninteres'),
     url(r'^castings/$', views.castings, name='castings'),
-    url(r'^artistadashboard/$', views.artistadashboard, name='artistadashboard'),
+    url(r'^artistadashboard/$', login_required(views.artistadashboard), name='artistadashboard'),
     url(r'^industriadashboard/$', views.industriadashboard, name='industriadashboard'),
     url(r'^crearcasting/$', views.crearcasting, name='crearcasting'),
     url(r'^registroalternativo/$', views.registrosecundario, name='registroalternativo'),
+    url(r'^seguir/$', views.seguir, name='seguir'),
+    url(r'^terminos/$', views.terminos, name='terminos'),
+
     
     #url(r'^artistas/$', views.artistas, name='listado'),
 

@@ -1,0 +1,781 @@
+{% extends "base.html" %}
+    {% load staticfiles %}
+ {% load humanize %}
+
+    {% block javascript %}
+
+        <script type="text/javascript" src="{% static 'js/jquery.plugin.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
+         <script type="text/javascript" src="{% static 'js/jquery.blueimp-gallery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/bootstrap-image-gallery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/perfil.js' %}"></script>
+		<script type="text/javascript">
+
+		$('#boton_redactar_ppal').click(function() {
+        		// body...
+        		
+        		$('#revisar').hide();
+        		$('#dashboard').hide();
+        		$('.activo').removeClass('activo');
+        		$('#nombre').val('');
+        		$('#cuerpo_mensaje').val('');        		
+        		$('#enviar_mensaje').show();
+        		$('#redactar').show();
+        		$('body').css('background-color', 'white');
+        		//$('body').css('background-color', '#343436');        		
+        	});
+
+			$('.mensaje_lista').click(function() {
+        		// bno estoy recuperando el mensaje completo.. y si tiene fotos?!!!!
+        		//esto tiene que ser un ajax con el id del mensaje
+        			$('#persona_mensaje').text($(this).data('owner'))
+        			$('#mensaje_abierto').text($(this).children('h6').text())
+        			$('.activo').removeClass('activo')
+        			$(this).addClass("activo")   
+        			$('#revisar').show()
+        			$('#redactar').hide()        		
+        	});
+
+
+        		$('#responder').click(function() {
+        		// bno estoy recuperando el mensaje completo.. y si tiene fotos?!!!!
+        		//esto tiene que ser un ajax con el id del mensaje
+        			$('#redactar').show()
+        			$('#revisar').hide()
+        			$('#nombre').val($('#persona_mensaje').text())        		
+        	});
+
+
+
+		$('#volver').click(function() {
+        		// body...
+        		$('#dashboard').show();
+        		$('#enviar_mensaje').hide();
+        		$('body').css('background-color', '#343436');        		
+        	});
+
+
+
+		$('#selector_enviados').click(function() {
+        		// body...
+        		$('#selector_mensaje').replaceWith("<span class='icon-paper-plane ivo-font-azulClaro' id='selector_mensaje'></span>")
+        		$('#texto_selector_mensaje').replaceWith("<i id='texto_selector_mensaje'>Mensajes Enviados</i>");
+        		$('#lista_enviados').show()
+        		$('#lista_recibidos').hide()
+        		$('#redactar').hide()
+        		$('#revisar').show()
+        		
+        	});
+
+
+		$('#enlace_enviados').click(function() {
+        		// body...
+        		$('#selector_mensaje').replaceWith("<span class='icon-paper-plane ivo-font-azulClaro' id='selector_mensaje'></span>")
+        		$('#texto_selector_mensaje').replaceWith("<i id='texto_selector_mensaje'>Mensajes Enviados</i>");
+        		$('#lista_enviados').show()
+        		$('#lista_recibidos').hide()
+        		$('#redactar').hide()
+        		$('#revisar').show()
+        		$('#dashboard').hide()
+        		$('#enviar_mensaje').show()
+        		$('body').css('background-color', 'white');        		
+        	});
+
+		$('#enlace_recibidos').click(function() {
+        		// body...
+        		$('#selector_mensaje').replaceWith("<span class='icon-envelope ivo-font-azulClaro' id='selector_mensaje'></span>")
+        		$('#texto_selector_mensaje').replaceWith("<i id='texto_selector_mensaje'>Mensajes Recibidos</i>")
+        		$('#lista_enviados').hide()
+        		$('#lista_recibidos').show()
+        		$('#redactar').hide()
+        		$('#revisar').show()
+        		$('#lista_recibidos').show()
+        		$('#dashboard').hide()
+        		$('#enviar_mensaje').show()
+        		$('body').css('background-color', 'white');       		
+        		
+        	});
+
+
+        	$('#selector_recibidos').click(function() {
+        		// body...
+        		$('#selector_mensaje').replaceWith("<span class='icon-envelope ivo-font-azulClaro' id='selector_mensaje'></span>")
+        		$('#texto_selector_mensaje').replaceWith("<i id='texto_selector_mensaje'>Mensajes Recibidos</i>")
+        		$('#lista_enviados').hide()
+        		$('#lista_recibidos').show()
+        		$('#redactar').hide()
+        		$('#revisar').show()
+        		$('#lista_recibidos').show()       		
+        		
+        	});
+
+        	$('#boton_redactar').click(function() {
+        		// body...
+        		$('#redactar').show();
+        		$('#revisar').hide();
+        		$('.activo').removeClass('activo');
+        		$('#nombre').val('');
+        		$('#cuerpo_mensaje').val('');
+
+        	});
+
+        	$("#eliminar").click(function(){
+			        	
+			        	var mensaje = $('.activo').data('idmsj')
+			        	 $.ajax({
+				            url: '/perfil/mensajes/eliminar/',
+				            type: 'post',
+				            dataType: 'json',
+				            data: {'idmensaje':mensaje,'csrfmiddlewaretoken': '{{ csrf_token }}'},
+				            success: function (data) {
+				                NProgress.done();
+				                if(data.success == false){
+				                    alert(data.mensaje);
+				                    $.each(data.errors.fields, function(i, item) {
+				                        alert(item);
+				                    });
+				                    
+				                }else{
+				                    alert(data.mensaje);				                   
+				                    /*setTimeout(function(){
+				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
+				                    }, 1500);
+									*/
+									//$('#seguir').css('background-color', 'cyan')
+									$('.activo').remove()
+									$('#persona_mensaje').text('')
+        							$('#mensaje_abierto').text('')
+
+				                }
+				            }
+				        });
+
+
+			        	
+			    });
+       
+
+
+
+
+	</script>
+
+        
+    {% endblock %}
+
+    {% block cssblock %}
+
+        <link rel="stylesheet" href="{% static 'css/main.css' %}" crossorigin="anonymous">
+        <!-- Css Mquery ivo-talents -->
+        <link rel="stylesheet" href="{% static 'css/mquery.css' %}" crossorigin="anonymous">
+        <!-- Css Slider ivo-talents -->
+        <link href="{% static 'css/full-slider.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/jquery.countdown.css' %}" rel="stylesheet">
+		<style type="text/css">
+			.carousel-caption {
+				bottom: 0px;
+    			top:180px;
+			}
+
+			.ivo-noticias {margin-bottom: 40px;}
+
+			
+			.ivo-dashboard-barLateral {height: 3000px;}
+		</style>
+
+    {% endblock %}
+
+    {% block content %}
+		<!-- Panel Anrtista -->
+		<div id="dashboard">
+		<div class="container-fluid" style="background-color: #E8E8E8;">
+			<div class="container ivo-dashboard">
+				<div class="row">
+					<div class="col-md-4 ivo-dashboard-barLateral">
+						<div class="row">
+							<div class="col-xs-12 col-sm-3 col-md-6">
+								<div class="ivo-dashboard-imgPerfil" style="background-image: url(/media/{{ user.get_avatar }});"></div>
+							</div>
+							<div class="col-xs-12 col-sm-6 col-md-6" style="padding:0;">
+								<ul class="ivo-dashboard-infoBasica">
+									<li class="ivo-dashboard-infoBasica-nombre">{{request.user.get_full_name}}</li>
+									<li>{{genero.id_genero.id_tipo_arte.name}}</li>
+									<li class="ivo-dashboard-infoBasica-seguidores">
+										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
+									</li>
+									<li>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
+									</li>
+									<li class="ivo-dashboard-infoBasica-enlace">
+										<a href="/perfil/{{request.user.get_uuid}}/">Ver Mi Perfil</a>
+									</li>
+								</ul>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-12">
+								<div class="ivo-dashboard-separador"></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<ul class="ivo-dashboard-mensajes">
+									<li class="funciones">
+										<a id="enlace_recibidos" href="#">
+											<span class="icon-envelope ivo-font-verde"></span>
+												<font>&nbsp;Mensajes Recibidos</font>
+											<span class="ivo-dashboard-mensajeCount">{{recibidos.count}}</span>
+										</a>
+									</li>
+									<li  class="funciones ivo-dashboard-tope">
+										<a id="enlace_enviados" href="#">
+											<span class="icon-paper-plane ivo-font-azulClaro"></span>
+												<font>&nbsp;Mensajes Enviados</font>
+												<span class="ivo-dashboard-mensajeCount">{{enviados.count}}</span>
+										</a>
+									</li>
+									<li class="ivo-dashboard-mensajesBonton ivo-dashboard-tope">
+										<boton id="boton_redactar_ppal" href="#" class="ivo-boton-fondo ivo-boton-mensajes">
+											<span>Redactar</span>
+										</boton>
+									</li>
+								</ul>
+							</div>
+							<div class="col-md-12">
+								<div class="ivo-dashboard-separador"></div>
+							</div>
+							<div class="col-md-12">
+								<h5 class="ivo-dashboard-audiciones ivo-bold">Mis Audiciones</h5>
+							</div>
+						</div>
+						<div class="row ivo-dashboard-busquedaAv">
+							<div class="col-md-12 ivo-dashboard-formBck">
+								<form class="ivo-dashboard-form">
+									<h4 class="ivo-bold">B&uacute;squeda Avanzada <span class="glyphicon glyphicon-search"></span></h4>
+									<div class="ivo-dashboard-separador-slb"></div>
+									<h5>&iquest;Necesitas un proveedor?</h5>
+									<ul class="ivo-dashboard-listaSeleccion">
+										<li>
+											<div>
+												<input type="checkbox" id="checkbox-1-1" class="regular-checkbox" />
+												<label class="lateral" for="checkbox-1-1"></label>
+											</div>
+											<div>Estilista</div>
+											<br />
+										</li>
+										<li>
+											<div>
+												<input type="checkbox" id="checkbox-1-2" class="regular-checkbox" />
+												<label class="lateral" for="checkbox-1-2"></label>
+											</div>
+											<div>Medios de Comunicaci&oacute;n</div>
+											<br />
+										</li>
+										<li>
+											<div>
+												<input type="checkbox" id="checkbox-1-3" class="regular-checkbox" />
+												<label class="lateral" for="checkbox-1-3"></label>
+											</div>
+											<div>Eventos</div>
+											<br />
+										</li>
+										<li>
+											<div>
+												<input type="checkbox" id="checkbox-1-4" class="regular-checkbox" />
+												<label class="lateral" for="checkbox-1-4"></label>
+											</div>
+											<div>Maquillista</div>
+											<br />
+										</li>
+										<li>
+											<div>
+												<input type="checkbox" id="checkbox-1-5" class="regular-checkbox" />
+												<label class="lateral" for="checkbox-1-5"></label>
+											</div>
+											<div>Fot&oacute;grafo</div>
+											<br />
+										</li>
+										<li>
+											<div>
+												<input type="checkbox" id="checkbox-1-6" class="regular-checkbox" />
+												<label class="lateral" for="checkbox-1-6"></label>
+											</div>
+											<div>Dise&ntilde;ador</div>
+											<br />
+										</li>
+										<li>
+											<div>
+												<input type="checkbox" id="checkbox-1-7" class="regular-checkbox" />
+												<label class="lateral" for="checkbox-1-7"></label>
+											</div>
+											<div>Estilista de cabello</div>
+											<br />
+										</li>
+										<li>
+											<div>
+												<input type="checkbox" id="checkbox-1-8" class="regular-checkbox" />
+												<label class="lateral" for="checkbox-1-8"></label>
+											</div>
+											<div>Protocolo</div>
+											<br />
+										</li>
+										<li>
+											<div>
+												<input type="checkbox" id="checkbox-1-9" class="regular-checkbox" />
+												<label class="lateral" for="checkbox-1-9"></label>
+											</div>
+											<div>Est&eacute;tica y Belleza</div>
+											<br />
+										</li>
+										<li>
+											<div>
+												<input type="checkbox" id="checkbox-1-10" class="regular-checkbox" />
+												<label class="lateral" for="checkbox-1-10"></label>
+											</div>
+											<div>Otros proveedores</div>
+											<br />
+										</li>
+									</ul>
+									<div class="ivo-dashboard-separador-slb"></div>
+									<h5>&iquest;Buscas una industria?</h5>
+									<ul class="ivo-dashboard-listaSeleccion">
+										<li>
+											<div>
+												<input type="checkbox" id="checkbox-2-1" class="regular-checkbox" />
+												<label class="lateral" for="checkbox-2-1"></label>
+											</div>
+											<div>Agencias de Publicidad</div>
+											<br />
+										</li>
+										<li>
+											<div>
+												<input type="checkbox" id="checkbox-2-2" class="regular-checkbox" />
+												<label class="lateral" for="checkbox-2-2"></label>
+											</div>
+											<div>Productoras</div>
+											<br />
+										</li>
+										<li>
+											<div>
+												<input type="checkbox" id="checkbox-2-3" class="regular-checkbox" />
+												<label class="lateral" for="checkbox-2-3"></label>
+											</div>
+											<div>Instituciones / Academias</div>
+											<br />
+										</li>
+										<li>
+											<div>
+												<input type="checkbox" id="checkbox-2-4" class="regular-checkbox" />
+												<label class="lateral" for="checkbox-2-4"></label>
+											</div>
+											<div>Clientes</div>
+											<br />
+										</li>
+										<li>
+											<div>
+												<input type="checkbox" id="checkbox-2-5" class="regular-checkbox" />
+												<label class="lateral" for="checkbox-2-5"></label>
+											</div>
+											<div>Independientes</div>
+											<br />
+										</li>
+										<li>
+											<div>
+												<input type="checkbox" id="checkbox-2-6" class="regular-checkbox" />
+												<label class="lateral" for="checkbox-2-6"></label>
+											</div>
+											<div>Manager</div>
+											<br />
+										</li>
+										<li>
+											<div>
+												<input type="checkbox" id="checkbox-2-7" class="regular-checkbox" />
+												<label class="lateral" for="checkbox-2-7"></label>
+											</div>
+											<div>Agencias de casting</div>
+											<br />
+										</li>
+										<li>
+											<div>
+												<input type="checkbox" id="checkbox-2-8" class="regular-checkbox" />
+												<label class="lateral" for="checkbox-2-8"></label>
+											</div>
+											<div>Agencias de modelaje</div>
+											<br />
+										</li>
+									</ul>
+									<div class="ivo-dashboard-separador-slb"></div>
+									<h5>Pa&iacute;s de residencia</h5>
+									<select class="ivo-border-width-3">
+										<option>Pais 1</option>
+										<option>Pais 1</option>
+										<option>Pais 1</option>
+										<option>Pais 1</option>
+										<option>Pais 1</option>
+										<option>Pais 1</option>
+									</select>
+									<input type="submit" value="BUSCAR">
+								</form>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 ivo-dashboard-seguidores">
+								<h3>Seguidores</h3>
+								<ul>
+									{%for usuario in seguidores%}
+										<li class="row ivo-dashboard-tope ivo-dashboard-listaPersonas">
+										<div class="col-sm-12 col-md-4">
+											<img class="img-responsive" src="/media/{{ usuario.origen.get_avatar }}/">
+										</div>
+										<div class="col-sm-10 col-md-8 informacion">
+											<span>M&uacute;sica</span>
+											{% if usuario.origen.tipo_usuario == 'A' %}
+											<h5 class="ivo-dashboard-nombre">{{usuario.origen.get_full_name}}</h5>
+											{%else%}
+											<h5 class="ivo-dashboard-nombre">{{usuario.origen.razon_social}}</h5>
+											{%endif%}
+											
+											<h5>Producci&oacute;n de Eventos</h5>
+										</div>
+									</li>
+									{%endfor%}
+
+									
+									<!--li class="row ivo-dashboard-tope ivo-dashboard-listaPersonas ocultar-item">
+										<div class="col-sm-10 col-md-4">
+											<img class="img-responsive" src="{% static 'img/avatar-ivo.jpg' %}">
+										</div>
+										<div class="col-sm-10 col-md-8 informacion">
+											<span>Categoria</span>
+											<h5 class="ivo-dashboard-nombre">Nombre y Apellido</h5>
+											<h5>Estatus</h5>
+										</div>
+									</li>
+									<li class="row ivo-dashboard-tope ivo-dashboard-listaPersonas ivo-dashboard-inferior-li ocultar-item">
+										<div class="col-sm-10 col-md-4">
+											<img class="img-responsive" src="{% static 'img/avatar-ivo.jpg' %}">
+										</div>
+										<div class="col-sm-10 col-md-8 informacion">
+											<span>Categoria</span>
+											<h5 class="ivo-dashboard-nombre">Nombre y Apellido</h5>
+											<h5>Estatus</h5>
+										</div>
+									</li-->
+									<li class="row ivo-dashboard-tope ivo-dashboard-listaPersonas ivo-dashboard-inferior text-center ivo-dashboard-listaPersonas-boton">
+										<a class="ivo-dashboard-verTodo" href="/perfil/{{request.user.get_uuid}}/seguidores/">Ver Todos</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 ivo-dashboard-seguidores">
+								<h3>Siguiendo</h3>
+								<ul>
+								{%for usuario in siguiendo%}
+								<li class="row ivo-dashboard-tope ivo-dashboard-listaPersonas">
+										<div class="col-sm-12 col-md-4">
+											<img class="img-responsive" src="/media/{{ usuario.destino.get_avatar }}/">
+										</div>
+										<div class="col-sm-10 col-md-8 informacion">
+											<span>M&uacute;sica</span>
+											{% if usuario.destino.tipo_usuario == 'A' %}
+											<h5 class="ivo-dashboard-nombre">{{usuario.destino.get_full_name}}</h5>
+											{%else%}
+											<h5 class="ivo-dashboard-nombre">{{usuario.destino.razon_social}}</h5>
+											{%endif%}
+											<h5>Producci&oacute;n de Eventos</h5>
+										</div>
+									</li>
+
+								{%endfor%}
+									
+									<li class="row ivo-dashboard-tope ivo-dashboard-listaPersonas ivo-dashboard-inferior text-center ivo-dashboard-listaPersonas-boton">
+										<a class="ivo-dashboard-verTodo" href="/perfil/{{request.user.get_uuid}}/siguiendo/">Ver Todos</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-8 ivo-dashboard-panel">
+						<div class="row text-left">
+					       	<h3 class="headermessage ivo-dashboard-resumen-titulo">&Uacute;ltimas Entradas</h3>
+					   	</div>
+					    <div class="row text-center">
+							{%for post in posts%}
+								{%if forloop.counter0 == 2%}
+									<div class="image-block col-sm-12 ivo-casting-imageblock ivo-dashboard-imageblock" style="background: url('{{post.imagen.url}}') no-repeat center top;background-size:cover;">
+										{% if post.categoria.nombre == 'Talento' %}
+											<h3 class="ivo-back-naranja">{{post.categoria.nombre}}</h3>
+
+										{% elif post.categoria.nombre == 'Novedades' %}
+											<h3 class="ivo-back-rosa">{{post.categoria.nombre}}</h3>
+
+										{% elif post.categoria.nombre == 'Industria' %}
+											<h3 class="ivo-back-azul">{{post.categoria.nombre}}</h3>
+
+										{% elif post.categoria.nombre == 'Casting' %}
+											<h3 class="ivo-back-verde">{{post.categoria.nombre}}</h3>
+
+										{% elif post.categoria.nombre == 'Fanatico' %}
+											<h3 class="ivo-back-azulClaro">{{post.categoria.nombre}}</h3>
+
+										{% endif %}
+					    		<h4 class="ivo-noticia-titulo">{{post.titulo}}</h4>
+					            <p class="ivo-noticia-descripcion">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+					            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Leer Mas</a>
+					            <div class="ivo-layer ivo-noticia-layer ivo-layer-light"></div>
+					        </div>
+								{%else%}
+									<div class="image-block col-sm-6 ivo-casting-imageblock ivo-dashboard-imageblock" style="background: url('{{post.imagen.url}}') no-repeat center top;background-size:cover;">
+					    		{% if post.categoria.nombre == 'Talento' %}
+											<h3 class="ivo-back-naranja">{{post.categoria.nombre}}</h3>
+
+										{% elif post.categoria.nombre == 'Novedades' %}
+											<h3 class="ivo-back-rosa">{{post.categoria.nombre}}</h3>
+
+										{% elif post.categoria.nombre == 'Industria' %}
+											<h3 class="ivo-back-azul">{{post.categoria.nombre}}</h3>
+
+										{% elif post.categoria.nombre == 'Casting' %}
+											<h3 class="ivo-back-verde">{{post.categoria.nombre}}</h3>
+
+										{% elif post.categoria.nombre == 'Fanatico' %}
+											<h3 class="ivo-back-azulClaro">{{post.categoria.nombre}}</h3>
+
+										{% endif %}
+					    		
+					    		<h4 class="ivo-noticia-titulo">{{post.titulo}}</h4>
+					            <p class="ivo-noticia-descripcion">ESTO QUE TIENE habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+					            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Leer Mas</a>
+					            <div class="ivo-layer ivo-noticia-layer ivo-layer-light"></div>
+					        </div>
+								{%endif%}
+							{%endfor%}
+
+					    	
+					        
+					    </div>
+					    <div class="row ivo-artistas-appBck" style="background-size: cover;">
+							<div class="col-md-12 col-lg-12 ivo-artistas-app ivo-dashboard-app">
+								<div class="row text-center">
+									<div class="col-md-6 col-lg-6">
+										<img src="{% static 'img/ivo-lg3.png' %}" class="img-responsive ivo-app-logo ivo-dashboard-app-logo">
+										<h2>Descarga nuestra App</h2>
+									</div>
+									<div class="col-md-4 col-md-offset-2">
+										<a href="#" class="ivo-app-appsto">
+											<img src="{% static 'img/appstore.png' %}">
+										</a>
+										<a href="#" class="ivo-app-goplay">
+											<img src="{% static 'img/google-play.png' %}">
+										</a>
+										<br class="clear">
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Lista de Castings -->
+						<div class="row">
+							<div class="col-md-12">
+								<div class="ivo-flag-contenedor">
+									<div class="flag ivo-back-verde ivo-flag-dashboard"></div>
+									<h3 class="ivo-dashboard-seccion-titulo"><span class="ivo-etiqueta-titulo ivo-back-verde">Castings</span> Nuevas Oportunidades en IVO Talents</h3>
+									<br />
+								</div>
+								<!-- Seccion Resumen de Castings -->
+								<ul class="ivo-dashboard-seccion ivo-dashboard-notope">
+									{%for casting in castings%}
+										<li class="row ivo-dashboard-casting-lista">
+										<div class="col-xs-3 col-sm-3 col-md-2">
+
+											<!-- FALTA LA VALIDACION DE IMAGEN -->
+											<img class="img-responsive" src="{% static 'img/avatar-ivo.jpg' %}">
+											
+										</div>
+										<div class="col-xs-9 col-sm-6 col-md-7 ivo-dashboard-seccion-contenido">
+											<span class="ivo-etiqueta-titulo ivo-font-verde ivo-dashboard-etq">{{casting.categoria.nombre}}</span>
+											<h5 class="ivo-dashboard-nombre">{{casting.titulo}}</h5>
+											<h5 class="ivo-font-verde">{{casting.fecha_fin | naturaltime}}</h5>
+										</div>
+										<div class="col-xs-12 col-sm-3 col-md-3 ivo-dashboard-seccion-boton">
+											<a class="ivo-boton ivo-font-verde ivo-borde-verde" href={% url 'casting:casting_detalle' idcasting=casting.id %}>Leer Mas</a>
+										</div>
+									</li>
+									{%endfor%}
+
+									<li class="ivo-dashboard-seccion-enlace">
+										<a class="ivo-font-verde" href={% url 'casting:casting_inicio'  %}>Ver Todas las oportunidades</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<!-- Lista de Proveedores -->
+						<div class="row">
+							<div class="col-md-12">
+								<div class="ivo-flag-contenedor">
+									<div class="flag ivo-back-rosa ivo-flag-dashboard"></div>
+									<h3 class="ivo-dashboard-seccion-titulo"><span class="ivo-etiqueta-titulo ivo-back-rosa">Proveedores</span> Encuentra los mejores servicios</h3>
+									<br />
+								</div>
+							</div>
+					        <div class="col-xs-6 col-sm-3 ivo-artistas-panel-item" >
+					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
+					            <h3 class="ivo-font-negro">Musico</h3>
+					    		<h4 class="ivo-font-negro nombre"><b>Catherine Lewis</b></h4>
+					    		<h4 class="ivo-font-negro">Compositora</h4>
+					        </div>
+					        <div class="col-xs-6 col-sm-3 ivo-artistas-panel-item" >
+					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
+					            <h3 class="ivo-font-negro">Musico</h3>
+					    		<h4 class="ivo-font-negro nombre"><b>Catherine Lewis</b></h4>
+					    		<h4 class="ivo-font-negro">Compositora</h4>
+					        </div>
+					        <div class="col-xs-6 col-sm-3 ivo-artistas-panel-item" >
+					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
+					            <h3 class="ivo-font-negro">Musico</h3>
+					    		<h4 class="ivo-font-negro nombre"><b>Catherine Lewis</b></h4>
+					    		<h4 class="ivo-font-negro">Compositora</h4>
+					        </div>
+					        <div class="col-xs-6 col-sm-3 ivo-artistas-panel-item" >
+					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
+					            <h3 class="ivo-font-negro">Musico</h3>
+					    		<h4 class="ivo-font-negro nombre"><b>Catherine Lewis</b></h4>
+					    		<h4 class="ivo-font-negro">Compositora</h4>
+					        </div>
+					    </div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		</div>
+
+
+<!-- INICIO SECCION DE MENSAJES -->
+		<div id="enviar_mensaje" hidden>
+	<div class="container"  >
+			<div class="row ivo-configuracion">
+				<div class="col-sm-4 col-md-3 ivo-configuracion-menu ivo-mensajes-latItems">
+					<ul class="ivo-mensajes-panelSuperior">
+						<li class="ivo-mensajes-botonR">
+							<boton id="boton_redactar" class="ivo-boton-fondo ivo-boton-mensajes ivo-boton-mensajes-redactar">
+								<span>Redactar</span>
+							</boton>
+						</li>
+						<li class="ivo-mensajes-select">
+							<div class="dropdown">
+							  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+							    <span class="icon-envelope ivo-font-azulClaro" id="selector_mensaje"></span> &nbsp;<i id="texto_selector_mensaje">Seleccione mensajes</i>
+							    <span class="caret"></span>
+							  </button>
+							  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+							    <li id="selector_recibidos"><a href="#"><span class="icon-envelope ivo-font-azulClaro"></span>&nbsp; <i>Mensajes Recibidos</i></a></li>
+							    <li id="selector_enviados"><a href="#"><span class="icon-paper-plane ivo-font-azulClaro"></span>&nbsp; <i>Mensajes Enviados</i></a></li>
+							  </ul>
+							</div>					
+						</li>
+					</ul>
+					<ul class="ivo-mensajes-lista" id="lista_enviados" hidden>
+						
+						{%for enviado in enviados%}
+						<li class="mensaje_lista" data-owner='{{enviado.destino.email}}' data-idmsj='{{enviado.id}}'>
+							<div  style="background-image: url(assets/img/avatar-ivo.jpg)"></div>
+							<h5>{{enviado.destino.get_full_name}}</h5>
+							<h6>{{enviado.mensaje}}</h6>
+						</li>
+						{%endfor%}
+						
+						
+					</ul>
+					<ul class="ivo-mensajes-lista" id="lista_recibidos" hidden>
+						
+						{%for recibido in recibidos%}
+						<li class="mensaje_lista" data-owner='{{recibido.origen.email}}' data-idmsj='{{recibido.id}}'>
+							<div class="mensaje_lista" style="background-image: url(assets/img/avatar-ivo.jpg)"></div>
+							<h5>{{recibido.origen.get_full_name}}</h5>
+							<h6>{{recibido.mensaje}}</h6>
+						</li>
+						{%endfor%}
+						
+						
+					</ul>
+				</div>
+
+
+				<!-- INICIO REVISAR MENSAJES -->
+
+		<div id="revisar" hidden>
+					
+			<div class="col-sm-8 col-md-9 ivo-formularioConf ivo-mensajes-central">
+					<div class="row ivo-mensaje-header">
+						<div class="col-sm-3 col-md-2 ivo-mensaje-headerImg">
+							<img src="assets/img/avatar-ivo.jpg">
+						</div>
+						<div class="col-sm-9 col-md-10">
+							<h3 class="ivo-bold" id="persona_mensaje"></h3>
+							<h4></h4>
+							<h5><font class="ivo-bold">Fecha:</font> Noviembre 26 2016</h5>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 ivo-mensaje-contenido" id="mensaje_abierto">
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 text-right">
+							<BUTTON class="ivo-boton" id="eliminar">Eliminar</BUTTON>
+							<button class="ivo-boton" id="responder">Responder</button>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		
+		<!-- FIN REVISAR MENSAJES-->
+
+
+
+
+
+
+		<!-- REDACTAR MENSAJES -->
+
+		<div id="redactar" hidden>
+				<div class="col-sm-8 col-md-9 ivo-formularioConf ivo-mensajes-central">
+					<form class="ivo-formularioConf-form ivo-mensaje-enviarM" method="POST" action="/perfil/mensajes/enviar/">
+					{%csrf_token%}
+						<!-- DEBE LLEVAR UN AJAX, O MEJOR UN SOCKET, PARA RECUPERAR LAS INSTANCIAS A LOS DATOS-->
+						<input type="text" placeholder="Escribe un nombre" name="destino" id="nombre">
+						<textarea placeholder="Escribe tu mensaje" name="mensaje" id="cuerpo_mensaje"></textarea>
+						<div>	
+						<input type="file" id='archivo'  style="display: none;">
+							
+							
+								<label for="archivo" class="glyphicon glyphicon-paperclip" ></label>
+								
+							
+							<input type="file" name='imagen' style="display: none;">
+								
+							<label for="archivo" class="glyphicon glyphicon-picture" ></label>						
+								
+							
+						</div>
+						<button class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro" style="margin-right: 3%;" type="submit" id="boton_enviar">
+							<span class="ivo-back-trs-azulClaro ivo-borde-transparente">Enviar</span>
+						</button>
+					</form>
+					<button id="volver" class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro" style="margin-right: 3%;" type="submit">
+							<span class="ivo-back-trs-azulClaro ivo-borde-transparente">VOLVER</span>
+						</button>
+					</div>
+		</div>
+				<!--- FIN REDACTAR -->
+			</div>
+		</div>
+
+</div>
+	{% endblock %}

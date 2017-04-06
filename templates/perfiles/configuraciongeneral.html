@@ -40,6 +40,14 @@
 					<a href="#">Intereses</a>
 				</li>
 				{% endif %}
+
+				{%if user.get_tipo_usuario == "I" %}
+				<li class="ivo-configuracion-menu-separador"></li>
+				<li id="show_form_bio">
+					<a href="/casting/crear/">Crear Casting</a>
+				</li>
+				{%endif%}
+
 			</ul>
 		</div>
 		<div class="col-md-9 ivo-formularioConf">
@@ -274,11 +282,25 @@
 						<label>Etnia</label>
 					</div>
 					<div class="col-md-9">
+					<select id="etnia" name="etnia">
 						{% if datos.etnia != None %}
-							<input type="text" name="etnia" value="{{datos.etnia}}">
+							<!--input type="text" name="etnia" value="{{datos.etnia}}"-->						
+								<option value = "{{datos.etnia.id}}" selected="true"> {{datos.etnia}}</option>
+								 {% for etnia in etnias %}
+									{% if etnia.etnia != datos.etnia.etnia %}
+										<option value = "{{etnia.id}}"> {{etnia.etnia}}</option>
+									{% endif  %}
+								{% endfor %}				
+
 						{% else %}
-							<input type="text" name="etnia" value="">
+								
+								 {% for etnia in etnias %}							
+								<option value = "{{etnia.id}}"> {{etnia.etnia}}</option>
+								{% endfor %}
+								
+						
 						{% endif %}
+							</select>
 					</div>
 				</div>
 				<div class="row">
@@ -286,11 +308,27 @@
 						<label>Color de Cabello</label>
 					</div>
 					<div class="col-md-9">
+
+
+						<select id="color_cabello" name="color_cabello">
 						{% if datos.color_cabello != None %}
-							<input type="text" name="color_cabello" value="{{datos.color_cabello}}">
+							<!--input type="text" name="color_cabello" value="{{datos.color_cabello}}"-->						
+								<option value = "{{datos.color_cabello.id}}" selected="true"> {{datos.color_cabello}}</option>
+								 {% for color_cabello in cabellos %}
+									{% if color_cabello.color != datos.color_cabello.color %}
+										<option value = "{{color_cabello.id}}"> {{color_cabello.color}}</option>
+									{% endif  %}
+								{% endfor %}				
+
 						{% else %}
-							<input type="text" name="color_cabello" value="">
+								
+								 {% for color_cabello in cabellos %}							
+								<option value = "{{color_cabello.id}}"> {{color_cabello.color}}</option>
+								{% endfor %}
+								
+						
 						{% endif %}
+							</select>
 
 					</div>
 				</div>
@@ -299,11 +337,28 @@
 						<label>Color de Ojos</label>
 					</div>
 					<div class="col-md-9">
+
+
+
+						<select id="color_ojo" name="color_ojo">
 						{% if datos.color_ojos != None %}
-							<input type="text" name="color_ojos" value="{{datos.color_ojos}}">
+							<!--input type="text" name="color_ojo" value="{{datos.color_ojo}}"-->						
+								<option value = "{{datos.color_ojos.id}}" selected="true"> {{datos.color_ojos}}</option>
+								 {% for color_ojo in ojos %}
+									{% if color_ojo.color != datos.color_ojos.color %}
+										<option value = "{{color_ojo.id}}"> {{color_ojo.color}}</option>
+									{% endif  %}
+								{% endfor %}				
+
 						{% else %}
-							<input type="text" name="color_ojos" value="">
+								
+								 {% for color_ojo in ojos %}							
+								<option value = "{{color_ojo.id}}"> {{color_ojo.color}}</option>
+								{% endfor %}
+								
+						
 						{% endif %}
+							</select>
 					</div>
 				</div>
 				<div class="row">

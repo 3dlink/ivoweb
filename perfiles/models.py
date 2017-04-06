@@ -47,3 +47,11 @@ class Multimedia(models.Model):
         db_table = 'Archivos_multimedia'
         verbose_name = 'Archivo Multimedia'
         verbose_name_plural = 'Archivos Multimedia'
+
+class Mensaje(models.Model):
+    origen =  models.ForeignKey(User, on_delete=models.PROTECT, related_name='mensajes_origen')
+    destino =  models.ForeignKey(User, on_delete=models.PROTECT, related_name='mensajes_destino')
+    mensaje = models.TextField()
+    archivo =   models.FileField(upload_to='mensajes', blank=True)
+    imagen = models.ImageField(upload_to='mensajes', blank=True)
+

@@ -20,7 +20,7 @@
                         <a href="#">FQA</a>
                     </li>
                     <li>
-                        <a href="#">terminos y condiciones</a>
+                        <a href="/terminos/">terminos y condiciones</a>
                     </li>
                 </ul>
             </div>
@@ -83,19 +83,19 @@
         <li class="ivo-menu-principal-panel-menu">
             <ul>
                 <li>
-                    <a href={% url 'listado:artistas' %} class="naranja">Talentos</a>
+                    <a id="enlace-talentos" href={% url 'listado:artistas' %} class="naranja">Talentos</a>
                 </li>
                 <li>
-                    <a href="#" class="azul activo">Industria</a>
+                    <a id="enlace-industria" href="#" class="azul">Industria</a>
                 </li>
                 <li>
-                    <a href={% url 'casting:casting_inicio' %} class="verde">Casting / Audiciones</a>
+                    <a id="enlace-casting" href={% url 'casting:casting_inicio' %} class="verde">Casting / Audiciones</a>
                 </li>
                 <li>
-                    <a href="#" class="rosa">Proveedores</a>
+                    <a id="enlace-proveedores" href="#" class="rosa">Proveedores</a>
                 </li>
                 <li>
-                    <a href={% url 'blog:todos' %} class="negro">Blog</a>
+                    <a id="enlace-blog" href={% url 'blog:todos' %} class="negro">Blog</a>
                 </li>
                 <li>
                     <a href="#" class="azulClaro"><span class="glyphicon glyphicon-search" aria-hidden="true"> </span> Encuentra</a>

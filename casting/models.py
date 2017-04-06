@@ -13,7 +13,7 @@ class Casting(models.Model):
     fecha_fin = models.DateTimeField(null=False)  # Field name made lowercase.
     modifiedon = models.DateTimeField(auto_now_add=False, auto_now=True, null=True)  # Field name made lowercase.
     createdon = models.DateTimeField(auto_now_add=True ,auto_now=False, null=True)  # Field name made lowercase.
-    imagen_principal = models.ImageField( blank=True)
+    imagen_principal = models.ImageField( upload_to='casting',blank=True)
     imagen_1 = models.ImageField(upload_to='casting', blank=True)
     imagen_2 = models.ImageField(upload_to='casting', blank=True)
     descripcion = models.TextField()
@@ -26,5 +26,15 @@ class Casting(models.Model):
 
     def __str__(self):
         return self.titulo
+
+class Audicion(models.Model):
+    id_usuario = models.ForeignKey(User)
+    id_casting = models.ForeignKey(Casting)
+    motivo_participar = models.TextField()
+    cuentanos = models.TextField()
+    archivo =  models.FileField(upload_to='audiciones', blank=True)
+
+
+
 
 # Create your models here.

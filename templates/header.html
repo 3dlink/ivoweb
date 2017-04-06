@@ -18,12 +18,16 @@
                 <div class="ivo-header-panelUsuario-perfil">
                     <div style="background-image: url(/media/{{ user.get_avatar }});"></div>
                     <p id="ivo-usuario">
-                        {{user.get_short_name}}
+                        {% if user.get_tipo_usuario == 'A' %}
+                            {{user.get_short_name}}
+                        {%else%}
+                            {{user.razon_social}}
+                        {%endif%}
                     </p>
                     <ul class="ivo-usuario-subMenu">
                         <li class="ivo-usuario-triangulo"><img src="{% static 'img/triangulo.png' %}"></li>
                         <li class="activo">
-                            <a href="#">Dashboard</a>
+                            <a href="/artistadashboard/">Dashboard</a>
                         </li>
                         <li>
                             {% if user.get_tipo_usuario == 'N' %}
