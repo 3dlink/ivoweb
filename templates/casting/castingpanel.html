@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block cssblock %}
+    <style type="text/css">
+    .ivo-pregunta { height: auto;}
+        .ivo-form  select {width: 100%}
+        body {
+		background-color: white;
+	}
+
+    </style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+			<div class="row ivo-configuracion">
+				<!-- Barra Lateral -->
+				<div class="col-md-3 ivo-configuracion-menu ivo-mensajes-latItems">
+					<ul>
+						<!-- Boton Superior -->
+						<li>
+							<a href="#" class="ivo-boton-fondo ivo-boton-mensajes ivo-borde-verde">
+								<span class="ivo-back-verde">Hacer Casting</span>
+							</a>
+						</li>
+						<!-- Dropdown -->
+						<li class="ivo-mensajes-select">
+							<div class="dropdown">
+							  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							    Mis Castings
+							    <span class="caret"></span>
+							  </button>
+							  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+							    <li id="boton_activos"><a href="#">Mis Castings</a></li>
+							    <li id="boton_finalizados"><a href="#">Casting Culminados</a></li>
+							  </ul>
+							</div>					
+						</li>
+					</ul>
+					<!-- Lista de Castings -->
+					<ul class="ivo-mensajes-lista ivo-mensajes-lista-audiciones" id='activos'>
+						{% for usercasting in usercastings %}
+						<li class="lista-activa" data-id="{{usercasting.id}}" >
+							<div style="background-image: url(assets/img/avatar-ivo.jpg)"></div>
+							<h5>{{usercasting.titulo}}</h5>
+							<h6>{{usercasting.descripcion}}</h6>
+						</li>
+						{% endfor %}
+					</ul>
+
+					<ul class="ivo-mensajes-lista ivo-mensajes-lista-audiciones" id='finalizados' hidden>
+						{% for fincasting in fincastings %}
+						<li class="lista-finalizada" data-id="{{fincasting.id}}">
+							<div style="background-image: url(assets/img/avatar-ivo.jpg)"></div>
+							<h5>{{fincasting.titulo}}</h5>
+							<h6>{{fincasting.descripcion}}</h6>
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+				<!-- Panel Central-->
+				<div class="col-md-9 ivo-formularioConf ivo-mensajes-central">
+					<!-- Ficha Identificacion del Casting -->
+					<div class="row ivo-mensaje-header">
+						<div class="col-md-2 ivo-mensaje-headerImg">
+							<img src="assets/img/avatar-ivo.jpg">
+						</div>
+						<div class="col-md-6">
+							<h2>Nombre Casting</h2>
+							<h3>Breve Descripcion</h3>
+							<h4>Fecha Culminacion: </h4>
+						</div>
+						<div class="col-md-4" style="margin-top: 20px;">
+							<ul class="ivo-casting-calendario">
+									<li>
+										01<br>
+										Hola
+									</li>
+									<li>
+										12<br>
+										Hola
+									</li>
+									<li>
+										16<br>
+										Hola
+									</li>
+								</ul>
+						</div>
+					</div>
+					<!-- Ganador -->
+					<div class="row">
+						<div class="col-md-12 ivo-mensaje-contenido ivo-mensaje-contenido-audicion ivo-casting-ganador-top">
+							<div class="row">
+								<div class="col-md-12 ivo-casting-ganador ivo-borde-azulClaro">
+									<div class="row">
+										<div class="col-md-3 ivo-casting-ganador-imagen">
+											<a href="#" class="ivo-back-azulClaro">Ver Audicion</a>
+										</div>
+										<div class="col-md-4 ivo-artistas-panel-item ivo-casting-ganador-info">
+											<div class="ivo-casting-ganador-titulo">Ganador</div>
+								            <h3 class="ivo-font-negro">Musico</h3>
+								    		<h4 class="ivo-font-negro"><b>Catherine Lewis</b></h4>
+								    		<h4 class="ivo-font-negro">Compositora</h4>
+										</div>
+										<div class="col-md-4">
+											<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-casting-ganador-fans">
+												<li style="margin-bottom: 5px !important;">
+													<span class="glyphicon glyphicon-heart ivo-font-naranja"></span><i><b>500 fans</b></i>
+												</li>
+												<li>
+													<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+													<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+													<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+													<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+													<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
+												</li>
+												<li><a href="#" class="ivo-font-azulClaro"><i><b>Ver Perfil</b></i></a></li>
+											</ul>
+										</div>
+										<div class="col-md-1">
+											<img class="ivo-mensajes-trofeo ivo-ganador-trofeo" src="{% static 'img/trofeo.png' %}" >
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Lista de Participantes -->
+					<div class="row ivo-casting-listaParticipantes">
+						<div class="col-md-12">
+							<h3 class="ivo-dashboard-seccion-titulo ivo-casting-listaParticipantes-titulo">
+								<span class="ivo-etiqueta-titulo ivo-back-rosa">Proveedores</span> Encuentra los mejores servicios
+							</h3>
+						</div>
+				        <div class="col-sm-3 ivo-artistas-panel-item" >
+				        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
+				            <h3 class="ivo-font-negro">Musico</h3>
+				    		<h4 class="ivo-font-negro"><b>Catherine Lewis</b></h4>
+				    		<h4 class="ivo-font-negro">Compositora</h4>
+				        </div>
+				        <div class="col-sm-3 ivo-artistas-panel-item" >
+				        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
+				            <h3 class="ivo-font-negro">Musico</h3>
+				    		<h4 class="ivo-font-negro"><b>Catherine Lewis</b></h4>
+				    		<h4 class="ivo-font-negro">Compositora</h4>
+				        </div>
+				        <div class="col-sm-3 ivo-artistas-panel-item" >
+				        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
+				            <h3 class="ivo-font-negro">Musico</h3>
+				    		<h4 class="ivo-font-negro"><b>Catherine Lewis</b></h4>
+				    		<h4 class="ivo-font-negro">Compositora</h4>
+				        </div>
+				        <div class="col-sm-3 ivo-artistas-panel-item" >
+				        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
+				            <h3 class="ivo-font-negro">Musico</h3>
+				    		<h4 class="ivo-font-negro"><b>Catherine Lewis</b></h4>
+				    		<h4 class="ivo-font-negro">Compositora</h4>
+				        </div>
+				    </div>
+				    <!-- Lista de Favoritos -->
+					<div class="row ivo-casting-listaFavoritos">
+						<div class="col-md-12">
+								<h3 class="ivo-dashboard-seccion-titulo"><span class="ivo-etiqueta-titulo ivo-back-verde">Castings</span> Nuevas Oportunidades en IVO Talents</h3>
+								<!-- Seccion Resumen de Castings -->
+								<ul class="ivo-dashboard-seccion">
+								{%for casting in castings%}
+									<li class="row">
+										<div class="col-md-2">
+											<img class="img-responsive" src="assets/img/avatar-ivo.jpg">
+										</div>
+										<div class="col-md-7">
+											<span class="ivo-etiqueta-titulo ivo-font-verde ivo-dashboard-etq">{{casting.categoria.nombre}}</span>
+											<h5 class="ivo-dashboard-nombre">{{casting.titulo}}</h5>
+											<h5 class="ivo-font-verde">{{casting.fecha_fin}}</h5>
+										</div>
+										<div class="col-md-3 ivo-dashboard-seccion-boton">
+											<a class="ivo-boton ivo-font-verde ivo-borde-verde" href={% url 'casting:casting_detalle' idcasting=casting.id %}>Leer Mas</a>
+										</div>
+									</li>
+								{% endfor %}	
+									<li class="ivo-dashboard-seccion-enlace">
+										<a class="ivo-font-verde" href="/casting/inicio/">Ver Todas las oportunidades</a>
+									</li>
+								</ul>
+						</div>
+					</div>
+					<!-- botones Inferiores -->
+					<div class="row">
+						<div class="col-md-12 text-right">
+							<a class="ivo-boton" href="#">Ver Casting</a>
+							<a class="ivo-boton" href="#">Configurar</a>
+							<a class="ivo-boton" href="#">Eliminar</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{%endblock%}
+
+	{% block javascript %}
+		<script>
+		    
+
+		    $('#enlace-casting').addClass('activo');
+
+		    $('#boton_finalizados').click(function() { 
+		    	$('#dropdownMenu1').text('Castings Culminados ')
+		    	$('#dropdownMenu1').append('<span class="caret"></span>')        		
+        		$('#activos').hide();
+        		$('#finalizados').show();
+        		    		
+        	});
+
+        	$('#boton_activos').click(function() {  
+        		$('#dropdownMenu1').text('Mis Castings ')
+        		$('#dropdownMenu1').append('<span class="caret"></span>')         		
+        		$('#finalizados').hide();
+        		$('#activos').show();
+        		    		
+        	});
+		</script>
+	{% endblock %}

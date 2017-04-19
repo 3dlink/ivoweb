@@ -8,5 +8,7 @@ urlpatterns = [
     url(r'^id/(?P<idcasting>[0-9]+)/$', detalle, name='casting_detalle'),
     url(r'^crear/$', login_required(crear), name='casting_crear'),
     url(r'^guardar/$', guardar, name='casting_guardar'),
-    url(r'^audicion/(?P<casting>[0-9]+)/$', audicion1, name='casting_audicion1')  
+    url(r'^audicion/(?P<casting>[0-9]+)/$', audicion1, name='casting_audicion1'),
+    url(r'^panel/$', login_required(panel), name='panel'),
+
 ]

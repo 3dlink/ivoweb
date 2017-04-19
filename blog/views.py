@@ -51,7 +51,7 @@ def posts_por_categoria(request, idcategoria):
         # If page is out of range (e.g. 9999), deliver last page of results.
 		posts = paginator.page(paginator.num_pages)
 		#import pdb;   pdb.set_trace()
-	return render_to_response( "blog/blog.html", {"posts": posts })
+	return render(request, "blog/blog.html", {"posts": posts })
 
 
 
@@ -59,15 +59,29 @@ def detalle(request,idpost):
 
 	post = Post.objects.get(id=idpost)
 	#import pdb;   pdb.set_trace()
-	return render_to_response("blog/post.html", {"post": post, },)
+	return render(request,"blog/post.html", {"post": post, },)
 
 
 def busqueda(request):
 
-	import pdb;   pdb.set_trace()
-	results = Post.objects.filter(titulo__contains=request.GET['q'])	
+	#import pdb;   pdb.set_trace()
+	#search = q.lstrip()
+	terms = request.GET['q']
+	term_list = terms.split(' ')
+
+	results = Post.objects.all()
+
+	qq = Q(titulo__icontains=term_list[0]) | Q(contenido__icontains=term_list[0])
+	for term in term_list[1:]:
+		qq.add((Q(contenido__icontains=term) | Q(titulo__icontains=term)), qq.connector)
+
+	results = results.filter(qq)
+
+
+	#results = Post.objects.filter(Q(titulo__icontains = search)|Q(titulo__icontains = q)|Q(contenido__icontains = search)|Q(titulo__icontains = q))
+	#results = .objects.filter(titulo__icontains=request.GET['q'])	
 	
-     
+	import pdb;pdb.set_trace()
 	paginator = Paginator(results, 6) # Show 25 contacts per page	
 	page = request.GET.get('page',1)
 	try:
@@ -79,5 +93,5 @@ def busqueda(request):
 	        # If page is out of range (e.g. 9999), deliver last page of results.
 		posts = paginator.page(paginator.num_pages)
 			#import pdb;   pdb.set_trace()
-	return render_to_response("blog/resultados.html", {"posts": posts})
+	return render(request,"blog/resultados.html", {"posts": posts})
 	

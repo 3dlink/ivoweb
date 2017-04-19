@@ -1,0 +1,77 @@
+
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+
+{% block cssblock %}
+	<link href="{% static 'css/jquery.countdown.css' %}" rel="stylesheet">
+		<style type="text/css">
+			.ivo-pregunta { height: auto;}
+			.ivo-form  select {width: 100%}
+			body {
+					background-color: white;
+				}
+		</style>
+{% endblock %}
+
+{%block content%}
+
+<div class="container">
+			<div class="row hidden-md hidden-lg ivo-entrada-smTop">
+				<div class="col-xs-10 col-sm-12 col-xs-offset-1 col-sm-offset-0  ivo-entrada-busqueda">
+					<h4>Buscar</h4>
+					<form>
+						<input type="text">
+						<button>
+							<span class="glyphicon glyphicon-search"></span>
+						</button>
+					</form>
+				</div>
+			</div>
+			<div class="row ivo-entrada ivo-entrada-topEnt">
+				<div class="col-md-9 col-lg-9 ivo-entrada-titulo">
+					<h1 class="ivo-borde-azulClaro">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas</h1>
+				</div>
+				<div class="col-md-3 col-lg-3 ivo-entrada-busqueda hidden-xs hidden-sm">
+					<h4>Buscar</h4>
+					<form>
+						<input type="text">
+						<button>
+							<span class="glyphicon glyphicon-search"></span>
+						</button>
+					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-9 col-lg-9 ivo-entrada-contenido">
+					<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>
+					<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>
+					<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>
+				</div>
+				<div class="col-md-3 col-lg-3">
+					<div class="ivo-preguntas-relacionadas">
+						<h4>Articulos Relacionados</h4>
+						<ul>
+							<li>
+								<a href="#">Pregunta Relacionada 1</a>
+							</li>
+							<li>
+								<a href="#">Pregunta Relacionada 1</a>
+							</li>
+							<li>
+								<a href="#">Pregunta Relacionada 1</a>
+							</li>
+							<li>
+								<a href="#">Pregunta Relacionada 1</a>
+							</li>
+							<li>
+								<a href="#">Pregunta Relacionada 1</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{%endblock%}

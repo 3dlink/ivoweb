@@ -91,7 +91,11 @@
                             <div class="col-md-12 col-lg-12">
                             <!-- SECTOR DEBERIA SER UN SELECT TAMBIEN -->
                                 <select placheholder="Sector" name="sector" id="sector" required="required">
-                                    <option>{% trans 'Sector' %}</option>
+                                    <option selected="selected" disabled>{% trans 'Sector' %}</option>
+                                    {% for sector in sectores %}
+                                    
+                                    <option value='{{sector.id}}'> {{sector.name}}</option>
+                                   {% endfor %} 
                                 </select>
                             </div>
                         </div>
@@ -112,7 +116,7 @@
                                     <label for="checkbox-terminos"></label>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="/terminos-condiciones"><i>Leer Terminos y Condiciones</i></a>
+                                    <a href="/terminos/"><i>Leer Terminos y Condiciones</i></a>
                                 </div>
                             </div>
                         </div>

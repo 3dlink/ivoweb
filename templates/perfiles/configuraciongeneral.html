@@ -68,8 +68,119 @@
 						<p >Cargar foto</p>
 					</label>
 				</div>
-
+	
 				<div class="ivo-configuracion-form-separador"></div>
+				{% if user.get_tipo_usuario == 'I' %}
+				<div class="row">
+							<div class="col-md-3">
+								<label>Empresa</label>
+							</div>
+							<div class="col-md-9">
+								 {% if datos.empresa_provedor != None %}
+                                <input type="text" name="empresa_provedor"   value="{{datos.empresa_provedor}}">
+                            {% else %}
+                                <input type="text" name="empresa_provedor"   value="">
+                            {% endif %}
+							</div>
+				</div>
+						<div class="row">
+							<div class="col-md-3">
+								<label>Razon Social</label>
+							</div>
+							<div class="col-md-9">
+								 {% if datos.razon_social != None %}
+                                <input type="text" name="razon_social"   value="{{datos.razon_social}}">
+                            {% else %}
+                                <input type="text" name="razon_social"   value="">
+                            {% endif %}
+							</div>
+						</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Pais</label>
+					</div>
+					<div class="col-md-9">
+                        {% if datos.pais == '' or datos.pais == None  %}
+						    <input type="text" name="pais" value="">
+                        {% else %}
+                            <input type="text" name="pais" value="{{datos.pais}}">
+                        {% endif %}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-3">
+						<label>Telefono</label>
+					</div>
+					<div class="col-md-9">
+						{% if datos.telefono != None %}
+						<input type="number" onkeypress="return soloNumeros(event)" name="telefono" value="{{datos.telefono}}">
+						{% else %}
+						<input type="number" name="telefono" onkeypress="return soloNumeros(event)" >
+						{% endif %}
+					</div>
+				</div>
+
+				{% endif %}
+
+				{% if user.get_tipo_usuario == "A" %}
+
+
+				<!--div class="row">
+					<div class="col-md-3">
+						<label>Generos para {{talentos.id_arte.name}}</label>
+					</div>
+					<div class="col-md-9">
+						<select name="genero" id="genero" >
+								<optgroup label="-Seleccione el genero-">
+						{% for genero in generos  %}
+							<option value="{{genero.id}}">{{genero.name}}</option>
+						
+						{% endfor %}	
+							</optgroup>
+						</select>
+					</div>
+				</div> 
+
+				<div class="row">
+						<div class= "col-md-3">  <label> ARTE   {{arte.name}} </label></div>
+						<div class="col-md-9">
+										<select name="talento" id="talento" >
+					{% for arte in artes %}					
+							
+											<option value="{{arte.id}}">{{arte.name}}</option>
+					
+					{% endfor %}
+
+					</select>
+									</div>
+								
+				</div>
+
+
+					{% for arte in artes %}
+						<div class="row genero" id='arte-{{arte.id}}' hidden>
+						<div class= "col-md-3">  <label> ARTE   {{arte.name}} </label></div>
+							<div class="col-md-9">
+										<select name="genero" id="genero" >
+						{% for genero in generos %}			
+							<!- LOS GENERO OCULTOS SIEMPRE? ->
+							{% if arte.id == genero.id_tipo_arte.id%}
+											<option value="{{genero.id}}">{{genero.name}}</option>
+							{%endif%}
+							{% endfor %}		
+										</select>
+									</div>
+								
+							</div>
+					
+
+					
+
+					{% endfor %}
+						
+			-->
+
 				<div class="row">
 					<div class="col-md-3">
 						<label>Nombre</label>
@@ -109,7 +220,7 @@
 						</select>
 					</div>
 				</div>
-				{% if user.get_tipo_usuario == "A" %}
+				
 				<div class="row">
 					<div class="col-md-3">
 						<label>Nacionalidad</label>
@@ -191,7 +302,7 @@
 					</div>
 				</div>
 
-				{% if user.get_tipo_usuario == "A" or user.get_tipo_usuario = "I" %}
+				{% if user.tipo_usuario != 'F' %}
 				<div class="row">
 					<div class="col-md-3">
 						<label>Website</label>
@@ -231,9 +342,9 @@
 
 					</div>
 				</div>
-				{% endif %}
 				
-				{% if user.get_tipo_usuario == "A" or user.get_tipo_usuario = "I" %}
+				
+				
 				<div class="row">
 					<div class="col-md-3">
 						<label>Telefono</label>
@@ -246,8 +357,7 @@
 						{% endif %}
 					</div>
 				</div>
-				{% endif %}
-				{% if user.get_tipo_usuario == "A"  %}
+				
 				<div class="row">
 					<div class="col-md-3">
 						<label>Agencia / Representante</label>
@@ -266,8 +376,15 @@
 					</div>
 					<div class="col-md-9">
 						<select name="disponible_viajes" id="disponible_viajes">
-							<option value="True">Si</option>
+						{% if datos.disponible_viajes  %}
+							<option value="True" selected>Si</option>
 							<option value="False">No</option>
+						{% else %}
+							<option value="False" selected>No</option>
+							<option value="True" >Si</option>
+							
+						{% endif %}	
+
 						</select>
 					</div>
 				</div>
@@ -339,7 +456,6 @@
 					<div class="col-md-9">
 
 
-
 						<select id="color_ojo" name="color_ojo">
 						{% if datos.color_ojos != None %}
 							<!--input type="text" name="color_ojo" value="{{datos.color_ojo}}"-->						
@@ -367,15 +483,77 @@
 					</div>
 					<div class="col-md-9">
 						<select id="tatuaje" name="tatuaje">
-							<option value = "True">  Si</option>
-							<option value="False">No</option>
+						{% if datos.tatuajes %}
+							<option value='True' selected>  Si</option>
+							<option value='False'>No</option>
+						{% else %}
+							<option value='False' selected>No</option>
+							<option value='True' >  Si</option>
+							
+						{% endif %}
 						</select>
 					</div>
 				</div>
+
+				<div class="row">
+					<div class="col-md-3">
+						<label>Estatura</label>
+					</div>
+					<div class="col-md-9">
+						{% if datos.estatura != None %}
+						<input type="number" onkeypress="return soloNumeros(event)" name="estatura" value="{{datos.estatura}}">
+						{% else %}
+						<input type="number" name="estatura" onkeypress="return soloNumeros(event)" >
+						{% endif %}						
+							
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Medida Busto</label>
+					</div>
+					<div class="col-md-9">
+						{% if datos.busto != None %}
+						<input type="number" onkeypress="return soloNumeros(event)" name="busto" value="{{datos.busto}}">
+						{% else %}
+						<input type="number" name="busto" onkeypress="return soloNumeros(event)" >
+						{% endif %}							
+							
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Medida Cintura</label>
+					</div>
+					<div class="col-md-9">
+						{% if datos.cintura != None %}
+						<input type="number" onkeypress="return soloNumeros(event)" name="cintura" value="{{datos.cintura}}">
+						{% else %}
+						<input type="number" name="cintura" onkeypress="return soloNumeros(event)" >
+						{% endif %}							
+							
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Medida Cadera</label>
+					</div>
+					<div class="col-md-9">
+						{% if datos.cadera != None %}
+						<input type="number" onkeypress="return soloNumeros(event)" name="cadera" value="{{datos.cadera}}">
+						{% else %}
+						<input type="number" name="cadera" onkeypress="return soloNumeros(event)" >
+						{% endif %}						
+							
+					</div>
+				</div>
+		
+
 				{% endif %}
+				<!-- BOTONES DE ENVIAR -->
 				<div class="row">
 					<div class="col-md-12 text-right">
-						<a href="/perfil/{{user.get_uuid}}" class="ivo-boton-fondoInpt ivo-borde-azulClaro" style="margin-right:2%; cursor: pointer;">
+						<a href="/perfil/configuraciongeneral/" class="ivo-boton-fondoInpt ivo-borde-azulClaro" style="margin-right:2%; cursor: pointer;">
 							<span class="ivo-back-azulClaro ivo-borde-transparente">Cancelar</span>
 						</a>
 						<a class="ivo-boton-fondoInpt ivo-borde-azulClaro" style="cursor: pointer;">
@@ -384,6 +562,9 @@
 					</div>
 				</div>
 			</form>
+			<!-- FIN FORM -->
+
+			<!-- INICIO FORM BIO -->
 			<form style="display:none" action="/perfil/configuraciongeneral/actualizar-general/" class="ivo-formularioConf-form ivo-formularioConf-form-nf from-principal" id="form_bio" method="POST">
 				<!-- bio -->
 				{% csrf_token %}
@@ -524,7 +705,7 @@
 			<!-- FORMULARIO PARA LLENAR INTERESES -->
 
 
-			<div class="ivo-formularioConf-form ivo-formularioConf-form-nf from-principal" style="display:none" action="/perfil/configuraciongeneral/actualizar-experiencia/"   id="form_interes">
+			<div class="ivo-formularioConf-form ivo-formularioConf-form-nf from-principal" style="display:none"    id="form_interes">
 				
 				
                 {% include 'perfiles/interes.html' %}
@@ -545,6 +726,10 @@
 
 <script>
 	$(function(){
+
+		$('.ivo-usuario-subMenu').removeClass("activo");
+        $('#id_configuracion').addClass("activo");
+
 	    $('#send_form_experiencia').click(function(){
             var fecha_desde = $('#dia_desde2').val()+'/'+$('#mes_desde2').val()+'/'+$('#anno_desde2').val();
             var fecha_hasta = $('#dia_hasta2').val()+'/'+$('#mes_hasta2').val()+'/'+$('#anno_hasta2').val();
@@ -577,15 +762,16 @@
 	    $('#cerrar_modal_educacion').click(function(){
 	        $('#ModalEducacion').modal('hide');
         });
-
-        $("#idiomas option[value='{{ datos.idioma }}']").attr("selected",true);
+	    //	QUE ES ESTO? QUE ES LO QUE REALMENTE HACE?? 
+        //$("#idiomas option[value='{{ datos.idioma }}']").attr("selected",true);
+        /*
         {% if disponible_viajes == True %}
             $("#disponible_viajes option[value=True]").attr("selected",true);
         {% else %}
             $("#disponible_viajes option[value=False]").attr("selected",true);
 
         {% endif %}
-
+		*/
 		{% if datos.genero != None %}
 			$("#genero option[value={{ datos.genero}}]").attr("selected",true);
 		{% endif %}
@@ -594,9 +780,9 @@
 			$("#pais option[value={{ datos.pais}}]").attr("selected",true);
 		{% endif %}
 
-		{% if datos.tatuaje != None %}
+		/*{% if datos.tatuaje != None %}
 			$("#tatuaje option[value={{ datos.tatuaje}}]").attr("selected",true);
-		{% endif %}
+		{% endif %}*/
 
         $('#idiomas').change(function(){
             $.ajax({
@@ -613,6 +799,7 @@
         });
 
 		$('#send_form_general').click(function(){
+			alert("si estoy entrando")
 			if (validarForm( $('#form_general input') ) ) {
 			    if( $('#fecha_a_o').val().trim() != ''  && $('#fecha_mes').val().trim() != ''  && $('#fecha_dia').val().trim() != ''   ){
 			        $('#fecha_nacimiento').val($('#fecha_a_o').val()+"-"+$('#fecha_mes').val()+'-'+$('#fecha_dia').val());
@@ -628,6 +815,12 @@
 			}
 		})
 
+		$('#send_form_interes').click(function(){
+			
+			if (validarForm( $('#form_interes1 input') ) ) {
+				$('#form_interes1').submit();
+			}
+		})
 
 		$('#send_form_seguridad').click(function(){
 			var enviar = true;
@@ -807,6 +1000,15 @@
             }
         });
     }
+
+$('#talento').on('change', function () {
+	$('.genero').hide()
+    $('#arte-'+this.value).show()  
+      
+
+});
+
+
 
 </script>
 

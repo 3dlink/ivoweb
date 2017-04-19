@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from frontend.funciones import form_invalid
 from django.utils.translation import ugettext_lazy as _
+from datetime import date
 
 
 # Create your views here.
@@ -72,14 +73,20 @@ def crear(request):
 				#import pdb;   pdb.set_trace()
 				casting = form.save(commit=False)
 				casting.autor = User.objects.get(email=request.user.email)					
-				casting.save()		
+				casting.save()	
+				success = True	
+				#context = {'from': FormRegistro, "categorias":categorias }
 				mensaje = {'mensaje': str(_('Casting creado con exito')), 'success': True}		
+				messages.success(request, 'Casting creado con exito')
 			else:
 				mensaje = form_invalid(form)
+				success = False
+				messages.success(request, 'No pudo ser creado')
 				#REVISAR ESTE RETURN DEL MENSAJE... SE MUESTRA EL JSON Y NO UN MENSAJE "REGULAR"
-			return HttpResponse(json.dumps(mensaje), content_type="application/json")
-		context = {'from': FormRegistro }
-		return render(request, "casting/crear.html", {"categorias":categorias})
+				#return HttpResponse(json.dumps(mensaje), content_type="application/json")
+		#import pdb; pdb.set_trace()
+		context = {'from': FormRegistro, "categorias":categorias }
+		return render(request, "casting/crear.html", context)
 	else:
 		return HttpResponseRedirect( "/",{})	
 
@@ -118,4 +125,11 @@ def audicion1(request, casting):
 		return render(request,'casting/audicion-1.html',context)
 	else:
 		return HttpResponseRedirect( "/",{})
+
 	
+def panel (request):
+	castings = Casting.objects.all().order_by("fecha_fin")[:6]
+	fincastings = Casting.objects.filter(autor=request.user, fecha_fin__lt=date.today())
+	usercastings = Casting.objects.filter(autor=request.user,fecha_fin__gte=date.today()).order_by("fecha_fin")[:6]
+	#import pdb; pdb.set_trace()
+	return render(request, 'casting/castingpanel.html',{'castings':castings, 'usercastings':usercastings,'fincastings':fincastings})

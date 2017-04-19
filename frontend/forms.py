@@ -10,7 +10,7 @@ class FormRegistro(UserCreationForm):
         exclude = ['empresa_provedor', 'razon_social', 'direccion', 'website',
                     'telefono', 'pasaporte', 'visa','uuid','biografia','avatar',
                    'is_staff','is_active','last_login','is_superuser','groups','permiss', 'user_permissions',
-                   'password','date_joined','idioma']
+                   'password','date_joined','idioma', 'estatura', 'busto','cintura','cadera']
         labels = {
             'first_name': 'Nombre',
             'last_name': 'Apellido',
@@ -26,7 +26,7 @@ class FormRegistroIndustria(UserCreationForm):
     class Meta:
         model = User
         fields = ['empresa_provedor', 'razon_social', 'direccion', 'website', 'facebook', 'twitter', 
-        'instagram', 'usuario', 'genero', 'tipo_usuario', 'email']
+        'instagram', 'usuario', 'genero', 'tipo_usuario', 'email', 'pais','telefono']
 
         error_messages={
             'password':{

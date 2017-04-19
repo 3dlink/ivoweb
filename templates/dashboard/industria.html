@@ -9,6 +9,11 @@
 
     <script type="text/javascript">
 
+    $(function(){ 
+        		$('.ivo-usuario-subMenu').removeClass("activo");
+        		$('#id_dashboard').addClass("activo");
+        	}); 
+
 		$('#boton_redactar_ppal').click(function() {
         		// body...
         		
@@ -201,9 +206,9 @@
 							<div class="col-xs-12 col-sm-6 col-md-6" style="padding:0;">
 								<ul class="ivo-dashboard-infoBasica">
 									<li class="ivo-dashboard-infoBasica-nombre">{{request.user.empresa_provedor}}</li>
-									<li>Profesion</li>
+									<li>{{profesion.id_sector}}</li>
 									<li class="ivo-dashboard-infoBasica-seguidores">
-										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
+										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>{{fans}} fans</font>
 									</li>
 									<li>
 										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
@@ -253,191 +258,80 @@
 						</div>
 						<div class="row ivo-dashboard-busquedaAv">
 							<div class="col-md-12 ivo-dashboard-formBck">
-								<form class="ivo-dashboard-form">
+								<form class="ivo-dashboard-form" id="busqueda-ind" action="{% url 'busqueda_avanzada' %}" method="POST">
+								{% csrf_token %}
 									<h4 class="ivo-bold">B&uacute;squeda Avanzada <span class="glyphicon glyphicon-search"></span></h4>
 									<div class="ivo-dashboard-separador-slb"></div>
 									<h5>&iquest;Necesitas un proveedor?</h5>
 									<ul class="ivo-dashboard-listaSeleccion">
+										{% for industria in industrias %}
+											{% if industria.tipo == 'P' %}
 										<li>
 											<div>
-												<input type="checkbox" id="checkbox-1-1" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-1"></label>
+												<input type="checkbox" name="ind-{{industria.id}}" id="ind-{{industria.id}}" class="regular-checkbox" >
+												<label class="lateral" for="ind-{{industria.id}}"></label>
 											</div>
-											<div>Estilista</div>
+											<div>{{industria}}</div>
 											<br />
 										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-1-2" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-2"></label>
-											</div>
-											<div>Medios de Comunicaci&oacute;n</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-1-3" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-3"></label>
-											</div>
-											<div>Eventos</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-1-4" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-4"></label>
-											</div>
-											<div>Maquillista</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-1-5" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-5"></label>
-											</div>
-											<div>Fot&oacute;grafo</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-1-6" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-6"></label>
-											</div>
-											<div>Dise&ntilde;ador</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-1-7" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-7"></label>
-											</div>
-											<div>Estilista de cabello</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-1-8" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-8"></label>
-											</div>
-											<div>Protocolo</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-1-9" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-9"></label>
-											</div>
-											<div>Est&eacute;tica y Belleza</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-1-10" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-10"></label>
-											</div>
-											<div>Otros proveedores</div>
-											<br />
-										</li>
+									{% endif %}
+									{% endfor %}
 									</ul>
 									<div class="ivo-dashboard-separador-slb"></div>
 									<h5>&iquest;Buscas un Talento?</h5>
 									<ul class="ivo-dashboard-listaSeleccion">
+										{% for arte in artes %}
+											
 										<li>
 											<div>
-												<input type="checkbox" id="checkbox-2-1" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-1"></label>
+												<input type="checkbox" name="art-{{arte.id}}" id="art-{{arte.id}}" class="regular-checkbox" >
+												<label class="lateral" for="art-{{arte.id}}"></label>
 											</div>
-											<div>Musico</div>
+											<div>{{arte}}</div>
 											<br />
 										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-2-2" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-2"></label>
-											</div>
-											<div>Cantante</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-2-3" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-3"></label>
-											</div>
-											<div>Bailarin</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-2-4" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-4"></label>
-											</div>
-											<div>Fotografo</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-2-5" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-5"></label>
-											</div>
-											<div>Actor</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-2-6" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-6"></label>
-											</div>
-											<div>Presentador</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-2-7" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-7"></label>
-											</div>
-											<div>Otros Talentos</div>
-											<br />
-										</li>
+									
+									{% endfor %}
 									</ul>
 									<div class="ivo-dashboard-separador-slb"></div>
 									<h5>Requerimientos Especiales</h5>
 									<ul class="ivo-dashboard-listaSeleccion">
 										<li>
 											<div>
-												<input type="checkbox" id="checkbox-2-1" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-1"></label>
+												<input type="checkbox"  name='usr-agencia' id="agencia" class="regular-checkbox" />
+												<label class="lateral" for="agencia"></label>
 											</div>
 											<div>Con Agencia</div>
 											<br />
 										</li>
 										<li>
 											<div>
-												<input type="checkbox" id="checkbox-2-2" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-2"></label>
+												<input type="checkbox" id='pasaporte' name='usr-pasaporte' class="regular-checkbox" />
+												<label class="lateral" for='pasaporte'></label>
 											</div>
 											<div>Con Pasaporte</div>
 											<br />
 										</li>
 										<li>
 											<div>
-												<input type="checkbox" id="checkbox-2-3" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-3"></label>
+												<input type="checkbox" id='visa' name='usr-visa' class="regular-checkbox" />
+												<label class="lateral" for='visa'></label>
 											</div>
 											<div>Con Visa</div>
 											<br />
 										</li>
 										<li>
 											<div>
-												<input type="checkbox" id="checkbox-2-4" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-4"></label>
+												<input type="checkbox" id='viajar' name='usr-viajar' class="regular-checkbox" />
+												<label class="lateral" for='viajar'></label>
 											</div>
 											<div>Disponibilidad para Viajar</div>
 											<br />
 										</li>
 										<li>
 											<div>
-												<input type="checkbox" id="checkbox-2-5" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-5"></label>
+												<input type="checkbox" id='actor' name='actor' class="regular-checkbox" />
+												<label class="lateral" for='actor'></label>
 											</div>
 											<div>Actor</div>
 											<br />
@@ -452,32 +346,41 @@
 									</div>
 									<div class="col-xs-3 col-sm-3 col-md-4">
 										<div class="ivo-formulario-radiotext">Si</div>
-										<input type="radio" id="radio-1-1" name="radio-1-set" class="regular-radio">
-										<label for="radio-1-1"></label>
+										<input type="radio" id="tatuaje-si" name='usr-tatuaje' class="regular-radio">
+										<label for="tatuaje-si"></label>
 										<br>
 									</div>
 									<div class="col-xs-3 col-sm-3 col-md-4">
 										<div class="ivo-formulario-radiotext">No</div>
-										<input type="radio" id="radio-1-2" name="radio-1-set" class="regular-radio">
-										<label for="radio-1-2"></label>
+										<input type="radio" id="tatuaje-no" name="usr-tatuaje" class="regular-radio">
+										<label for="tatuaje-no"></label>
 										<br>
 									</div>
 								</div>
 
 
 
-									<select class="ivo-border-width-3">
-										<option>Etnia</option>
-									</select>
-									<select class="ivo-border-width-3">
-										<option>Color de Ojos</option>
-									</select>
-									<select class="ivo-border-width-3 final">
-										<option>Color de Cabello</option>
-									</select>
+									<select name="usr-etnia" placeholder="Etnia"  class="ivo-border-width-3">
+                                    <option selected="selected" disabled>Etnia</option>
+                                    {%for etnia in etnias %}
+                                        <option value='{{etnia.id}}'> {{etnia.etnia}}</option>
+                                    {%endfor%}
+                                </select>
+									<select name="usr-color_ojos" placeholder="Color de Ojos" class="ivo-border-width-3">
+                                    <option selected="selected" disabled>Color de ojos</option>
+                                    {%for ojo in ojos %}
+                                        <option value='{{ojo.id}}'> {{ojo.color}}</option>
+                                    {%endfor%}
+                                </select>
+									<select name="usr-color_cabello" placeholder="Color de Cabello" class="ivo-border-width-3">
+                                    <option selected="selected" disabled>Color de cabello</option>
+                                    {%for cabello in cabellos %}
+                                        <option value='{{cabello.id}}'> {{cabello.color}}</option>
+                                    {%endfor%}
+                                </select>
 									<div class="ivo-dashboard-separador-slb"></div>
 									<h5>Pais de Residencia</h5>
-									<select class="ivo-border-width-3 final">
+									<select class="ivo-border-width-3 final" name='usr-pais'>
 										<option>Venezuela</option>
 										<option>Pais 1</option>
 										<option>Pais 1</option>
@@ -636,15 +539,16 @@
 								{% for talento in talentos %}
 								<div class="col-sm-3 ivo-artistas-panel-item" >
 						        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-						            <h3 class="ivo-font-negro">Musico</h3>
-						    		<h4 class="ivo-font-negro nombre"><b>{{talento.get_full_name}}</b></h4>
-						    		<h4 class="ivo-font-negro">Compositora</h4>
+						            <h3 class="ivo-font-negro">{{talento.id_genero.id_tipo_arte.name}}</h3>
+						    		<h4 class="ivo-font-negro nombre"><b>{{talento.id_usuario.get_full_name}}</b></h4>
+						    		<h4 class="ivo-font-negro">{{talento.id_genero.name}}</h4>
 						        </div>
 
 						        {% endfor %}
 						        
 							</div>
 						</div>
+						{% if proveedores.count > 0 %}
 						<div class="row">
 							<div class="col-md-12">
 								<div class="ivo-flag-contenedor">
@@ -653,30 +557,15 @@
 									<br />
 								</div>
 							</div>
+							{% for proveedor in proveedores %}
 					        <div class="col-sm-3 ivo-artistas-panel-item" >
 					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3 class="ivo-font-negro">Musico</h3>
-					    		<h4 class="ivo-font-negro nombre"><b>Catherine Lewis</b></h4>
-					    		<h4 class="ivo-font-negro">Compositora</h4>
+					            <h3 class="ivo-font-negro">{{proveedor.id_sector}}</h3>
+					    		<h4 class="ivo-font-negro nombre"><b>{{proveedor.id_usuario.empresa_provedor}}</b></h4>
+					    		<!--h4 class="ivo-font-negro">Compositora</h4-->
 					        </div>
-					        <div class="col-sm-3 ivo-artistas-panel-item" >
-					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3 class="ivo-font-negro">Musico</h3>
-					    		<h4 class="ivo-font-negro nombre"><b>Catherine Lewis</b></h4>
-					    		<h4 class="ivo-font-negro">Compositora</h4>
-					        </div>
-					        <div class="col-sm-3 ivo-artistas-panel-item" >
-					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3 class="ivo-font-negro">Musico</h3>
-					    		<h4 class="ivo-font-negro nombre"><b>Catherine Lewis</b></h4>
-					    		<h4 class="ivo-font-negro">Compositora</h4>
-					        </div>
-					        <div class="col-sm-3 ivo-artistas-panel-item" >
-					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3 class="ivo-font-negro">Musico</h3>
-					    		<h4 class="ivo-font-negro nombre"><b>Catherine Lewis</b></h4>
-					    		<h4 class="ivo-font-negro">Compositora</h4>
-					        </div>
+					       {% endfor %}
+					       {% endif %}
 					    </div>
 					</div>
 				</div>

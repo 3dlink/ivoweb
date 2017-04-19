@@ -1,0 +1,122 @@
+
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+
+{% block cssblock %}
+	<link href="{% static 'css/jquery.countdown.css' %}" rel="stylesheet">
+		<style type="text/css">
+			.ivo-pregunta { height: auto;}
+			.ivo-form  select {width: 100%}
+			body {
+					background-color: white;
+				}
+		</style>
+{% endblock %}
+
+{%block content%}
+<!-- Contenido Planes -->
+		<div class="container-fluid ivo-pregunta" style="background-image: url(assets/img/pregunta2.jpg);">
+			<div class="container">
+				<!-- Titulo Planes -->
+				<div class="row ivo-planes-titulo">
+					<div class="col-md-3 col-lg-3">
+						<h1>Planes</h1>
+					</div>
+				</div>
+				<!-- Contenedor Planes -->
+				<div class="row">
+					<!-- Item Plan -->
+					<div class="col-xs-6 col-sm-6 col-md-3 ivo-plan-paquete">
+						<div class="row ivo-plan-row">
+							<div class="col-md-12 ivo-plan-paquete-tipo ivo-back-azulClaro ivo-borde-azulClaro-drk">
+								<h4>Gratis</h4>
+							</div>	
+							<div class="col-md-12 ivo-plan-paquete-monto ivo-back-azulClaro">
+								<div class="ivo-back-azulClaro-drk">$00/mo</div>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-caracteristicas">
+								<ul>
+									<li>1 GB space</li>
+									<li>10 GB Bandwidth</li>
+								</ul>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-enlace ivo-back-azulClaro">
+								<a href="#">Seleccionar</a>
+							</div>
+						</div>
+					</div>
+					<!-- Item Plan -->
+					<div class="col-xs-6 col-sm-6 col-md-3 ivo-plan-paquete">
+						<div class="row ivo-plan-row">
+							<div class="col-md-12 ivo-plan-paquete-tipo ivo-back-azul ivo-borde-azul-drk">
+								<h4>B&aacute;sico</h4>
+							</div>	
+							<div class="col-md-12 ivo-plan-paquete-monto ivo-back-azul">
+								<div class="ivo-back-azul-drk">$32/mo</div>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-caracteristicas">
+								<ul>
+									<li>1 GB space</li>
+									<li>10 GB Bandwidth</li>
+									<li>10 Portfolio Items</li>
+								</ul>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-enlace ivo-back-azul">
+								<a href="#">Seleccionar</a>
+							</div>
+						</div>
+					</div>
+					<!-- Item Plan -->
+					<div class="col-xs-6 col-sm-6 col-md-3 ivo-plan-paquete">
+						<div class="row ivo-plan-row">
+							<div class="col-md-12 ivo-plan-paquete-tipo ivo-back-naranja ivo-borde-naranja-drk">
+								<h4>Premium</h4>
+							</div>	
+							<div class="col-md-12 ivo-plan-paquete-monto ivo-back-naranja">
+								<div class="ivo-back-naranja-drk">$50/mo</div>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-caracteristicas">
+								<ul>
+									<li>5 GB space</li>
+									<li>50 GB Bandwidth</li>
+									<li>70 Portfolio Items</li>
+									<li>10 Video Uploads</li>
+									<li>24/7 Support</li>
+								</ul>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-enlace ivo-back-naranja">
+								<a href="#">Seleccionar</a>
+							</div>
+						</div>
+					</div>
+					<!-- Item Plan -->
+					<div class="col-xs-6 col-sm-6 col-md-3 ivo-plan-paquete">
+						<div class="row ivo-plan-row">
+							<div class="col-md-12 ivo-plan-paquete-tipo ivo-back-verde ivo-borde-verde-drk">
+								<h4>Vip</h4>
+							</div>	
+							<div class="col-md-12 ivo-plan-paquete-monto ivo-back-verde">
+								<div class="ivo-back-verde-drk">$80/mo</div>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-caracteristicas">
+								<ul>
+									<li>10 GB space</li>
+									<li>Unlimited Bandwidth</li>
+									<li>200 Portfolio Items</li>
+									<li>20 Video Uploads</li>
+									<li>Premium Email Support</li>
+									<li>Premium Phone Support</li>
+									<li>24/7 Support</li>
+								</ul>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-enlace ivo-back-verde">
+								<a href="#">Seleccionar</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{%endblock%}

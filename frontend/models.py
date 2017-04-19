@@ -63,10 +63,12 @@ class User(AbstractBaseUser,PermissionsMixin):
     INDUSTRIA = 'I'
     ARTISTAS = 'A'
     FANS = 'F'
+    PROVEEDOR = 'P'
     TIPO_USUARIO = (
         (INDUSTRIA, 'INDUSTRIA'),
         (ARTISTAS, 'ARTISTAS'),
         (FANS, 'FANS'),
+        (PROVEEDOR, 'PROVEEDOR')
     )
     portada =  models.ImageField(upload_to='portada', blank=True, null=True, max_length=200)
     avatar = models.ImageField(upload_to='avatar', blank=True, null=True, max_length=200)
@@ -104,6 +106,10 @@ class User(AbstractBaseUser,PermissionsMixin):
     disponible_viajes = models.BooleanField(default=False, verbose_name='Disponibilidad de viaje')
     idioma = models.CharField(max_length=60,null=True, blank=True, verbose_name=_('Idiomas'))
     usuario = models.CharField(max_length=60,null=True, blank=True, verbose_name=_('ID-Usuario'))
+    estatura = models.CharField(max_length=4, blank=True, null=True)
+    busto = models.CharField(max_length=4, blank=True, null=True)
+    cintura = models.CharField(max_length=2, blank=True, null=True)
+    cadera  = models.CharField(max_length=2, blank=True, null=True)
     """
     A fully featured User model with admin-compliant permissions that uses
     a full-length email field as the username.
@@ -248,8 +254,7 @@ class UsuarioArte(models.Model):
     id_usuario = models.ForeignKey(User, db_column='Idusuario', on_delete=models.CASCADE, null=True, related_name='user_arte')
     class Meta:
         db_table = 'InteresUsuario'
-        verbose_name = 'Interes del usuario'
-        verbose_name_plural = 'Intereses del usuario'
+        
 
     @property
     def get_arte(self):
@@ -284,3 +289,43 @@ class Seguidores(models.Model):
    destino= models.ForeignKey(User, on_delete=models.CASCADE, related_name="siguiendo")
    origen= models.ForeignKey(User, on_delete=models.CASCADE,related_name="seguidores")
 
+
+class Intereses (models.Model):
+    nombre = models.CharField(_('Nombre Interes'), max_length=255, blank=True)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.nombre
+
+
+class InteresesUsuario(models.Model):
+    id_interes = models.ForeignKey(Intereses, on_delete=models.CASCADE)
+    id_usuario = models.ForeignKey(User, on_delete=models.CASCADE,related_name="intereses")
+
+
+class Industria (models.Model):
+    INDUSTRIA = 'I'
+    PROVEEDOR = 'P'
+    TIPO = (
+        (INDUSTRIA, 'INDUSTRIA'),
+        (PROVEEDOR, 'PROVEEDOR')
+    )
+    nombre = models.CharField(_('Sector Industria'), max_length=255, blank=True)
+    tipo = models.CharField(max_length=1, null=False, blank=False, default='I', choices=TIPO)
+
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.nombre
+
+class SectorIndustria(models.Model):
+    id_sector = models.ForeignKey(Industria, on_delete=models.CASCADE)
+    id_usuario = models.ForeignKey(User, on_delete=models.CASCADE,related_name="sectorindustria")
+
+class Proveedor (models.Model):
+    nombre = models.CharField(_('Sector Proveedor'), max_length=255, blank=True)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.nombre
+
+class SectorProveedor(models.Model):
+    id_sector = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
+    id_usuario = models.ForeignKey(User, on_delete=models.CASCADE,related_name="sectorproveedor")

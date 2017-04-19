@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'registration',
     'frontend',
     'perfiles',
+    'listado'
 ]
 
 MIDDLEWARE_CLASSES = [

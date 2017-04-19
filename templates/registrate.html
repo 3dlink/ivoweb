@@ -38,7 +38,7 @@
                     <div class="row">
                         <div class="col-md-4 col-lg-4">
                             <input type="email" name="email" placeholder="{% trans 'Correo Electrónico' %} " required = "required"
-                                   mensaje="{% trans 'Email es un campo requerido' %}">
+                                   mensaje="{% trans 'Email es un campo requerido' %}" >
                         </div>
                         <div class="col-sm-12 col-md-4 col-lg-4">
                             <div>Fecha de Nacimiento</div>
@@ -77,7 +77,7 @@
                     <div class="row">
                         <div class="col-md-8 col-lg-8">
                             <div class="ivo-mensajes-select">
-                                <div class="dropdown ivo-drop-formulario">
+                                <div >
                                     <!-- NO ESTA HECHO COMO UN SELECT -->
                                     <!-- CAMBIAR PARA QUE SEA UN SELECT.. EL COMPORTAMIENTO DEBER SER EL MISMO Y SOLO VAMOS A GUARDAR EL TIPO DE ARTE, QUE EL LUEGO GUARDE EL GENERO ARTISTICO
                                     <button class="btn btn-default dropdown-toggle ivo-drop-ampliado-lista" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -88,7 +88,9 @@
                                     </ul>
                                     -->
 
-                                    <select name="talento" placeholder="{% trans 'Talento' %}" required="required" mensaje = "{% trans 'Talento es una campo requerido' %}">
+
+
+                                    <select name="talento" placeholder="{% trans 'Talento' %}" required="required" mensaje = "{% trans 'Talento es una campo requerido' %}" id='talento'>
                                     <option selected="selected" disabled>Talento</option>
                                     {%for talento in artes %}
                                         <option value='{{talento.id}}'> {{talento.name}}</option>
@@ -97,6 +99,8 @@
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 ivo-form-tatu">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-4">
@@ -117,6 +121,62 @@
                             </div>
                         </div>
                     </div>
+
+                     <div class="row">
+                        <div class="col-md-8 col-lg-8">
+                            <div class="ivo-mensajes-select">
+                                <!--div class="dropdown ivo-drop-formulario"-->
+                                    <!-- NO ESTA HECHO COMO UN SELECT -->
+                                    <!-- CAMBIAR PARA QUE SEA UN SELECT.. EL COMPORTAMIENTO DEBER SER EL MISMO Y SOLO VAMOS A GUARDAR EL TIPO DE ARTE, QUE EL LUEGO GUARDE EL GENERO ARTISTICO
+                                    <button class="btn btn-default dropdown-toggle ivo-drop-ampliado-lista" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        {% trans "Talentos" %}
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul id = "telentos" class="dropdown-menu ivo-select-ampliado-lista" aria-labelledby="dropdownMenu1">                                        
+                                    </ul>
+                                    -->
+                                <div class="genero">      
+
+                                   <select  placeholder="{% trans 'Genero' %}" required="required" mensaje = "{% trans 'Genero es una campo requerido' %}">
+                                        <option selected="selected" disabled>Genero</option>  
+                                
+                                  
+                                    </select>
+                                                             
+                                </div> 
+                                    
+                    {% for arte in artes %}
+                        <div class="genero" id='arte-{{arte.id}}' hidden>              
+                                
+                                    <select name="generoarte" id="generoarte" >
+                                    <option selected="selected" disabled>Genero</option> 
+                                        {% for genero in generos %}         
+                            <!-- LOS GENERO OCULTOS SIEMPRE? -->
+                                            {% if arte.id == genero.id_tipo_arte.id%}
+                                                <option value="{{genero.id}}">{{genero.name}}</option>
+                                            {%endif%}
+                                        {% endfor %}        
+                                    </select>
+                                                             
+                        </div>
+
+                    {% endfor %}
+        
+
+
+                                  
+                                <!--/div-->
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                        <div class="col-md-4 col-lg-4">
+                        </div>
+                        </div>
+
+
                     <div class="row">
                         <div class="col-md-4 col-lg-4">
                         <select name="etnia" placeholder="{% trans 'Etnia' %}" required="required" mensaje = "{% trans 'Etnia es una campo requerido' %}">
@@ -207,7 +267,7 @@
                                 <label for="checkbox-terminos"></label>
                             </div>
                             <div class="pull-right">
-                                <a href="/terminos-condiciones"><i>Leer Terminos y Condiciones</i></a>
+                                <a href="/terminos/"><i>Leer Terminos y Condiciones</i></a>
                             </div>
                         </div>
                     </div>
@@ -350,5 +410,12 @@
         });
     }
 
+
+$('#talento').on('change', function () {
+    $('.genero').hide()
+    $('#arte-'+this.value).show()  
+      
+
+});
 </script>
 {% endblock javascript %}

@@ -1,0 +1,63 @@
+
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+
+{% block cssblock %}
+	<link href="{% static 'css/jquery.countdown.css' %}" rel="stylesheet">
+		<style type="text/css">
+			.ivo-pregunta {
+				background-image: url("{%static 'img/login.jpg' %}");
+				min-height: 100%;
+    			height: 100%;
+    			margin-top: 
+			}
+			.ivo-formartista-gray {height: 100%;}
+		</style>
+{% endblock %}
+
+{%block content%}
+
+<div class="container-fluid ivo-pregunta ivo-recuperarClave">
+			<div class="ivo-layer-gry ivo-formartista-gray"></div>
+			<div class="container ivo-recuperarClave">
+				<div class="row ivo-login-header">
+					<div class="col-sm-8 col-md-6 col-lg-6 col-sm-offset-2 col-md-offset-3 ivo-login-header-olvido">
+						<h1 class="olv-clave">&iquest;Olvid&oacute; </br> contrase&ntilde;a?</h1>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-8 col-md-6 col-lg-6 col-sm-offset-2 col-md-offset-3">
+						<div class="ivo-login-header-texto">
+							Por favor enviar un correo para recuperar contrase&ntilde;a
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-8 col-md-6 col-lg-6 col-sm-offset-2 col-md-offset-3">
+						<form method="POST" class="ivo-form">
+							<div class="row">
+								<div class="col-md-12 col-lg-12">
+									<input type="text" name="nombre" placeholder="Usuario">
+								</div>
+								<div class="col-md-12 col-lg-12">
+									<input type="text" name="nombre" placeholder="Correo">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6 col-lg-6 col-md-offset-3" style="text-align: center;">
+									<button class="ivo-boton-fondoInpt ivo-borde-trs-verde" style="margin-top: 8px">
+										<span class="ivo-back-trs-verde ivo-borde-transparente">
+											Enviar
+										</span>
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+{%endblock%}

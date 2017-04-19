@@ -78,16 +78,26 @@
 				<div class="col-md-3 ivo-configuracion-menu">
 					<ul>
 						<li class="activo">
-							<a href="/perfil/configuraciongeneral/">General</a>
+							<a href="/perfil/configuraciongeneral/">Volver a General</a>
 							
 						</li>
-
+						
+						<li class="ivo-configuracion-menu-separador"></li>
+				<li id="show_form_bio">
+					<a href="/casting/crear/">Crear Casting</a>
+				</li>
 
 					</ul>
 				</div>
 				<div class="col-md-9 ivo-formularioConf">
 				<!-- FORMULARIO -->
-				
+				{% if messages %}
+				<div class="messages">
+				    {% for message in messages %}
+				    <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
+				    {% endfor %}
+				</div>
+				{% endif %}
 					<form class="ivo-formularioConf-form ivo-formularioConf-form-nf" id="form_general" method="POST" enctype="multipart/form-data" >
 							{% csrf_token %}
 						<h1>Crear Casting</h1>

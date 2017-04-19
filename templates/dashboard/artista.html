@@ -11,6 +11,12 @@
         <script type="text/javascript" src="{% static 'js/perfil.js' %}"></script>
 		<script type="text/javascript">
 
+		$(function(){ 
+        		$('.ivo-usuario-subMenu').removeClass("activo");
+        		$('#id_dashboard').addClass("activo");
+        	});    
+
+
 		$('#boton_redactar_ppal').click(function() {
         		// body...
         		
@@ -200,9 +206,9 @@
 							<div class="col-xs-12 col-sm-6 col-md-6" style="padding:0;">
 								<ul class="ivo-dashboard-infoBasica">
 									<li class="ivo-dashboard-infoBasica-nombre">{{request.user.get_full_name}}</li>
-									<li>{{genero.id_genero.id_tipo_arte.name}}</li>
+									<li>{{profesion.id_genero.id_tipo_arte.name}}</li>
 									<li class="ivo-dashboard-infoBasica-seguidores">
-										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
+										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>{{fans}} fans</font>
 									</li>
 									<li>
 										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
@@ -253,159 +259,40 @@
 						</div>
 						<div class="row ivo-dashboard-busquedaAv">
 							<div class="col-md-12 ivo-dashboard-formBck">
-								<form class="ivo-dashboard-form">
+								<form class="ivo-dashboard-form" id="busqueda-ind" action="{% url 'busqueda_avanzada' %}" method="POST">
+								{% csrf_token %}
 									<h4 class="ivo-bold">B&uacute;squeda Avanzada <span class="glyphicon glyphicon-search"></span></h4>
 									<div class="ivo-dashboard-separador-slb"></div>
 									<h5>&iquest;Necesitas un proveedor?</h5>
 									<ul class="ivo-dashboard-listaSeleccion">
+									{% for industria in industrias %}
+											{% if industria.tipo == 'P' %}
 										<li>
 											<div>
-												<input type="checkbox" id="checkbox-1-1" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-1"></label>
+												<input type="checkbox" name="ind-{{industria.id}}" id="ind-{{industria.id}}" class="regular-checkbox" >
+												<label class="lateral" for="ind-{{industria.id}}"></label>
 											</div>
-											<div>Estilista</div>
+											<div>{{industria}}</div>
 											<br />
 										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-1-2" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-2"></label>
-											</div>
-											<div>Medios de Comunicaci&oacute;n</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-1-3" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-3"></label>
-											</div>
-											<div>Eventos</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-1-4" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-4"></label>
-											</div>
-											<div>Maquillista</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-1-5" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-5"></label>
-											</div>
-											<div>Fot&oacute;grafo</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-1-6" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-6"></label>
-											</div>
-											<div>Dise&ntilde;ador</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-1-7" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-7"></label>
-											</div>
-											<div>Estilista de cabello</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-1-8" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-8"></label>
-											</div>
-											<div>Protocolo</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-1-9" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-9"></label>
-											</div>
-											<div>Est&eacute;tica y Belleza</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-1-10" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-1-10"></label>
-											</div>
-											<div>Otros proveedores</div>
-											<br />
-										</li>
+									{% endif %}
+									{% endfor %}
 									</ul>
 									<div class="ivo-dashboard-separador-slb"></div>
 									<h5>&iquest;Buscas una industria?</h5>
 									<ul class="ivo-dashboard-listaSeleccion">
+											{% for industria in industrias %}
+											{% if industria.tipo == 'I' %}
 										<li>
 											<div>
-												<input type="checkbox" id="checkbox-2-1" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-1"></label>
+												<input type="checkbox" name="ind-{{industria.id}}" id="ind-{{industria.id}}" class="regular-checkbox" >
+												<label class="lateral" for="ind-{{industria.id}}"></label>
 											</div>
-											<div>Agencias de Publicidad</div>
+											<div>{{industria}}</div>
 											<br />
 										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-2-2" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-2"></label>
-											</div>
-											<div>Productoras</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-2-3" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-3"></label>
-											</div>
-											<div>Instituciones / Academias</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-2-4" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-4"></label>
-											</div>
-											<div>Clientes</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-2-5" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-5"></label>
-											</div>
-											<div>Independientes</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-2-6" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-6"></label>
-											</div>
-											<div>Manager</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-2-7" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-7"></label>
-											</div>
-											<div>Agencias de casting</div>
-											<br />
-										</li>
-										<li>
-											<div>
-												<input type="checkbox" id="checkbox-2-8" class="regular-checkbox" />
-												<label class="lateral" for="checkbox-2-8"></label>
-											</div>
-											<div>Agencias de modelaje</div>
-											<br />
-										</li>
+										{% endif %}
+									{% endfor %}
 									</ul>
 									<div class="ivo-dashboard-separador-slb"></div>
 									<h5>Pa&iacute;s de residencia</h5>

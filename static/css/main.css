@@ -178,10 +178,10 @@ br.clear {clear: both;}
 	color: #00C5B4;
 }
 
-.ivo-registro > input[type="text"]::-webkit-input-placeholder, .ivo-registro > input[type="password"]::-webkit-input-placeholder { /* Chrome/Opera/Safari */color: white;}
-.ivo-registro > input[type="text"]::-moz-placeholder, .ivo-registro > input[type="password"]::-moz-placeholder { /* Firefox 19+ */color: white;}
-.ivo-registro > input[type="text"]:-ms-input-placeholder, .ivo-registro > input[type="password"]:-ms-input-placeholder { /* IE 10+ */color: white;}
-.ivo-registro > input[type="text"]:-moz-placeholder, .ivo-registro > input[type="password"]:-moz-placeholder { /* Firefox 18- */color: white;}
+.ivo-registro > input[type="text"]::-webkit-input-placeholder, .ivo-registro > input[type="password"]::-webkit-input-placeholder, .ivo-registro > input[type="email"]::-webkit-input-placeholder { /* Chrome/Opera/Safari */color: white;}
+.ivo-registro > input[type="text"]::-moz-placeholder, .ivo-registro > input[type="password"]::-moz-placeholder,.ivo-registro > input[type="email"]::-moz-placeholder, { /* Firefox 19+ */color: white;}
+.ivo-registro > input[type="text"]:-ms-input-placeholder, .ivo-registro > input[type="password"]:-ms-input-placeholder, .ivo-registro > input[type="email"]:-ms-input-placeholder { /* IE 10+ */color: white;}
+.ivo-registro > input[type="text"]:-moz-placeholder, .ivo-registro > input[type="password"]:-moz-placeholder, .ivo-registro > input[type="email"]:-moz-placeholder { /* Firefox 18- */color: white;}
 
 .ivo-registro > label {
 	color: white;
@@ -259,10 +259,10 @@ br.clear {clear: both;}
 		font-family: 'exo';
 	}
 
-.ivo-form  input[type="text"]::-webkit-input-placeholder, .ivo-form  input[type="password"]::-webkit-input-placeholder { /* Chrome/Opera/Safari */color: white;font-family: 'exo';}
-.ivo-form  input[type="text"]::-moz-placeholder, .ivo-form  input[type="password"]::-moz-placeholder { /* Firefox 19+ */color: white;font-family: 'exo';}
-.ivo-form  input[type="text"]:-ms-input-placeholder, .ivo-form  input[type="password"]:-ms-input-placeholder { /* IE 10+ */color: white;font-family: 'exo';}
-.ivo-form  input[type="text"]:-moz-placeholder, .ivo-form  input[type="password"]:-moz-placeholder { /* Firefox 18- */color: white;font-family: 'exo';}
+.ivo-form  input[type="text"]::-webkit-input-placeholder,.ivo-form  input[type="email"]::-webkit-input-placeholder, .ivo-form  input[type="password"]::-webkit-input-placeholder { /* Chrome/Opera/Safari */color: white;font-family: 'exo';}
+.ivo-form  input[type="text"]::-moz-placeholder, .ivo-form  input[type="email"]::-moz-placeholder, .ivo-form  input[type="password"]::-moz-placeholder { /* Firefox 19+ */color: white;font-family: 'exo';}
+.ivo-form  input[type="text"]:-ms-input-placeholder, .ivo-form  input[type="email"]:-ms-input-placeholder, .ivo-form  input[type="password"]:-ms-input-placeholder { /* IE 10+ */color: white;font-family: 'exo';}
+.ivo-form  input[type="text"]:-moz-placeholder, .ivo-form  input[type="email"]:-moz-placeholder, .ivo-form  input[type="password"]:-moz-placeholder { /* Firefox 18- */color: white;font-family: 'exo';}
 
 .ivo-form  select {
 	background-color: transparent;

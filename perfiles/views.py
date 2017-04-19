@@ -8,7 +8,7 @@ from django.views.generic import UpdateView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.forms import PasswordChangeForm
 from django.utils.translation import ugettext_lazy as _
-from frontend.models import User, Etnia, Cabellos,Ojos, Seguidores
+from frontend.models import User, Etnia, Cabellos,Ojos, Seguidores, UsuarioArteGenero ,Intereses, InteresesUsuario, GeneroArtistico, TipoArte, SectorIndustria
 from .models import Multimedia, Experiencia, Educacion, Mensaje
 from .forms import FormActualizarDatos, FormExperiencia, FormEducacion, FormMensaje
 from core.UploadFile import UploadFile
@@ -18,6 +18,8 @@ from core.clases.ClassUsuario import Usuario
 from django.db.models import Q
 import json
 from django.shortcuts import redirect
+from datetime import date
+from casting.models import Casting
 
 
 # Create your views here.
@@ -42,7 +44,7 @@ def Subir_foto_cover(request):
     User.objects.filter(uuid=request.user.uuid).update(
         portada=archivo.getFile()
     )
-    return HttpResponse(json.dumps({'mensaje': str(archivo.mensaje), 'success': True}), content_type="application/json")
+    return HttpResponse(json.dumps({'mensaje': str(_(']Cover cambiado exitosamente')), 'success': True}), content_type="application/json")
 
 
 
@@ -71,11 +73,44 @@ def Configuracion_Idioma_Actualizar(request):
         return HttpResponse(json.dumps({'mensaje': ''}), content_type="application/json")
 
 
+def Configuracion_Interes(request):
+    if request.method == 'POST':
+        total = len(Intereses.objects.all())
+        for x in range(1,total+1):    
+            #SI VIENE LA SOLICITUD       
+            if 'interes-'+str(x) in request.POST:   
+                print(" AGREGAR INTERES--"+str(x)) 
+                #SI NO EXISTE, LA CREO
+                if InteresesUsuario.objects.filter(id_interes=Intereses.objects.get(id=x),id_usuario=request.user).count() == 0:
+                    InteresesUsuario.objects.create(id_interes=Intereses.objects.get(id=x),id_usuario=request.user)
+            #SI NO VIENE LA SOLICITUD
+            else:
+                #SI EXISTE, ENTONCES LA ELIMINO
+                if InteresesUsuario.objects.filter(id_interes=Intereses.objects.get(id=x),id_usuario=request.user).count() == 1:
+                    InteresesUsuario.objects.filter(id_interes=Intereses.objects.get(id=x),id_usuario=request.user).delete()
+       
+        import pdb; pdb.set_trace()
+        return HttpResponse(json.dumps({'mensaje': ''}), content_type="application/json")
+
+
 def Configuracion_General_Actualizar(request):
+    # NO PUEDO MODIFICAR LOS TATUAJES NI EL DISPONIBLE VIAJES
+    
     if request.method == 'POST':
         datos = getDatosActualizar(User, request)
         User.objects.filter(uuid=request.user.uuid).update(**datos)
+        # TRATANDO DE GUARDARLOS MANUALMENTE
+        # PERO TAMPOCO FUNCIONA
+        usuario = User.objects.get(uuid=request.user.uuid)
+        if request.POST['tatuaje'] != usuario.tatuaje:
+            print (not usuario.tatuaje)
+            usuario.tatuaje = not(usuario.tatuaje)
 
+        if request.POST['disponible_viajes'] != usuario.disponible_viajes:
+            print (not usuario.disponible_viajes)
+            usuario.disponible_viajes = not (usuario.disponible_viajes)
+        usuario.save()
+        #import pdb; pdb.set_trace()
         return HttpResponseRedirect('/perfil/configuraciongeneral/')
 
 
@@ -83,8 +118,14 @@ def Configuracion_General(request):
     cabellos = Cabellos.objects.all()
     ojos = Ojos.objects.all()
     etnias = Etnia.objects.all()
-   
-
+    intereses = Intereses.objects.all()
+    interesesusuario= InteresesUsuario.objects.filter(id_usuario=request.user).values_list('id_interes', flat=True)
+    #talentos del usuario, pero deberia pasar todos los talentos tambien
+    #talentos = UsuarioArte.objects.get(id_usuario=request.user)
+    #todos los generos correspondientes al tipo de arte del usuario
+    #generos = GeneroArtistico.objects.filter(id_tipo_arte=talentos.id_arte)
+    #artes=TipoArte.objects.all()
+    #generos = GeneroArtistico.objects.all()
     data = User.objects.get(uuid=request.user.uuid)
     form_pass = PasswordChangeForm(request.user)
     form_pass.fields['old_password'].widget.attrs = {'required': 'required',
@@ -106,9 +147,11 @@ def Configuracion_General(request):
         'datos_experiencia': Experiencia.objects.filter(usuario=data.id),
         'etnias':etnias,
         'ojos':ojos,
-        'cabellos':cabellos
+        'cabellos':cabellos,
+        'intereses':intereses,
+        'interesesusuario':interesesusuario
     }
-    
+    #import pdb; pdb.set_trace()
     return render(request, "perfiles/configuraciongeneral.html", context)
 
 def ConfiguracionExperiencia(request):
@@ -138,16 +181,23 @@ def Perfil(request, uuid):
     usuario = Usuario(uuid)
     
     datos_personales = usuario.getDatosPersonales()
-    #a=User.objects.get(datos_personales)
+    
+    
     seguir = Seguidores.objects.filter(origen=request.user.id,destino=datos_personales.id)
     enviados = Mensaje.objects.filter(origen=request.user.id)
     recibidos = Mensaje.objects.filter(destino=request.user.id)
-    
-   
-    if datos_personales.tipo_usuario == 'I':
+    interesesusuario = InteresesUsuario.objects.filter(id_usuario=datos_personales.id)
+    castings=''
+    edad=''
+    profesion=''
+    if datos_personales.tipo_usuario == 'I' or datos_personales.tipo_usuario == 'P':
         tema = 'azul'
+        castings = Casting.objects.filter(autor=datos_personales.id).order_by('fecha_fin')[:2]
+        profesion= SectorIndustria.objects.get(id_usuario=datos_personales.id)
     else:
         tema = 'naranja'
+        edad = date.today().year-datos_personales.fecha_nacimiento.year
+        profesion = UsuarioArteGenero.objects.get(id_usuario=datos_personales.id)
 
     context = {
         'datos_personales' : datos_personales,
@@ -158,9 +208,13 @@ def Perfil(request, uuid):
         'usuario':usuario,
         'seguir':len(seguir),
         'enviados':enviados,
-        'recibidos':recibidos
+        'recibidos':recibidos,
+        'edad':edad,
+        'interesesusuario':interesesusuario,
+        'castings': castings,
+        'profesion':profesion
     }
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
     return render(request, "perfiles/perfil.html", context)
 
 def Subir_archivo_perfil(request, tipo_archivo):
@@ -191,6 +245,7 @@ def Subir_archivo_perfil(request, tipo_archivo):
     return HttpResponse(json.dumps({'mensaje': ''}), content_type="application/json")
 
 def Buscar_fotos(request, tipo_archivo):
+    
     try:
         archivo = 'I'
         if tipo_archivo == 'image':
@@ -201,8 +256,8 @@ def Buscar_fotos(request, tipo_archivo):
             archivo = 'A'
 
         #import pdb; pdb.set_trace()
-        #AQUI HAY PROBLEMA PORQUE BUSCA LOS ELEMENTOS DEL USUARIO LOGGEADO Y NO DEL USUARIO QUE SE ESTA VIENDO
-        archivo_list = Multimedia.objects.filter(usuario=User.objects.get(uuid=request.user.uuid), tipo_archivo=archivo)
+        
+        archivo_list = Multimedia.objects.filter(usuario=User.objects.get(uuid=request.META['HTTP_REFERER'].split('/')[4]), tipo_archivo=archivo)
         paginator = Paginator(archivo_list, 9)
         page = request.GET.get('page')
         try:

@@ -21,10 +21,19 @@
            <div class="row align-items-center">
                 <div class="col">
                      <H3 > ¿COMO DESEAS REGISTRARTE EN IVO TALENTS? </H3>
-                    <h4><a href="/registrate">TALENTOS</a></h4>
-                    <h4><a href="/industria">INDUSTRIA</a></h4>
-                    <h4><a href="/proveedor">PROVEEDOR</a></h4>
-                    <h4><a href="/fan">FAN</a></h4>
+
+                     <br><br><br><br><br>
+                    <a href="{% url 'registro' %}" class="ivo-boton-fondoInpt ivo-borde-trs-naranja" style="margin-top: 8px">
+                                <span class="ivo-back-trs-naranja ivo-borde-transparente">TALENTO</span>
+                            </a>
+                    <a href="{% url 'industria' %}" class="ivo-boton-fondo ivo-boton-industria">
+                                    <span>INDUSTRIA</span>
+                                </a>
+                    <a class="ivo-boton-fondoInpt ivo-borde-rosa" href="{% url 'proveedor' %}"><span class="ivo-back-rosa ivo-borde-transparente">PROVEEDOR</span></a>
+
+                <a href="{% url 'fan' %}" class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro" style="margin-top: 8px">
+                                    <span class="ivo-back-trs-azulClaro ivo-borde-transparente">FAN</span>
+                                </a>
                                          
                 </div>                         
            </div>          

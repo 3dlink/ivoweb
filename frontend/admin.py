@@ -9,7 +9,7 @@ from .models import User
 from .models import EventoCo
 from .models import UsuarioArte
 from .models import UsuarioArteGenero
-from .models import Seguidores,Cabellos, Ojos, Etnia
+from .models import Seguidores,Cabellos, Ojos, Etnia, Intereses, InteresesUsuario, Industria, SectorIndustria, Proveedor, SectorProveedor
 
 
 
@@ -28,5 +28,9 @@ admin.site.register(Seguidores)
 admin.site.register(Cabellos)
 admin.site.register(Ojos)
 admin.site.register(Etnia)
-
-
+admin.site.register(Intereses)
+admin.site.register(InteresesUsuario)
+admin.site.register(SectorIndustria)
+admin.site.register(Industria)
+admin.site.register(SectorProveedor)
+admin.site.register(Proveedor)

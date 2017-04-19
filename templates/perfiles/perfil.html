@@ -21,6 +21,9 @@
 
         		$('#foto_perfil').css({'background-image':'url('+foto+')'});
 
+        		$('.ivo-usuario-subMenu').removeClass("activo");
+        		$('#id_perfil').addClass("activo");
+
                 $('#send_form_eduacion').click(function(){
 
                 });
@@ -95,7 +98,7 @@
             success: function (data) {
             	NProgress.done();
                 console.log(data)
-                alert(data.mensaje);
+                $('#boton_subir_cover').removeAttr('disabled');
 
             }
 
@@ -106,7 +109,7 @@
 
 
         		$('.mensaje_lista').click(function() {
-        		// bno estoy recuperando el mensaje completo.. y si tiene fotos?!!!!
+        		// no estoy recuperando el mensaje completo.. y si tiene fotos?!!!!
         		//esto tiene que ser un ajax con el id del mensaje
         			$('#persona_mensaje').text($(this).data('owner'))
         			$('#mensaje_abierto').text($(this).children('h6').text())
@@ -118,7 +121,7 @@
         	});
 
         		$('#responder').click(function() {
-        		// bno estoy recuperando el mensaje completo.. y si tiene fotos?!!!!
+        		// no estoy recuperando el mensaje completo.. y si tiene fotos?!!!!
         		//esto tiene que ser un ajax con el id del mensaje
         			$('#redactar').show()
         			$('#revisar').hide()
@@ -204,7 +207,12 @@
 				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
 				                    }, 1500);
 									*/
-									$('#seguir').css('background-color', 'cyan')
+									if(data.mensaje == 'Ya no sigues al usuario'){
+										$('#seguir').css('background-color', 'white')
+									}else{
+										$('#seguir').css('background-color', 'cyan')
+									}
+									
 
 				                }
 				            }
@@ -317,14 +325,15 @@
 								<div class="ivo-perfil-imgPerfil ivo-perfil-imgPerfil-tope" style="background-image: url(/media/{{datos_personales.get_avatar}})"></div>
 							</div>
 							<!-- Informacion Basica del Perfil -->
+
 							<div class="col-sm-10 col-md-5 col-md-offset-4 col-sm-offset-4">
 								<ul class="ivo-dashboard-infoBasica ivo-perfil-info">
-									<li><span class="ivo-etiqueta-titulo ivo-font-{{tema}} ivo-perfil-etiqueta">M&uacute;sica</span></li>
+									<li><span class="ivo-etiqueta-titulo ivo-font-{{tema}} ivo-perfil-etiqueta">{{profesion.id_genero.id_tipo_arte.name}}</span></li>
 									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre">{{datos_personales.first_name}} {{datos_personales.last_name}}</li>
-									<li class="ivo-perfil-talento">Violinista</li>
+									<li class="ivo-perfil-talento">{{profesion.id_genero.name}}</li>
 									<li style="margin-bottom: 5px !important;">
 										<span class="glyphicon glyphicon-heart ivo-font-naranja ivo-perfil-like"></span>
-										<font class="ivo-perfil-fans ivo-perfil-fans-ver">500 fans</font>
+										<font class="ivo-perfil-fans ivo-perfil-fans-ver">{{fans}} fans</font>
 									</li>
 									<li class="ivo-perfil-estrellas">
 										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
@@ -382,6 +391,8 @@
 									<a class="ivo-font-{{tema}}" href="http://{{datos_personales.website}}" target="_blank">Web Oficial</a>
 								</li>
 							</ul>
+
+
 							<ul class="ivo-perfil-infoComplemento">
 								<li><span class="icon-map-marker"></span> {{datos_personales.ciudad}},  {{datos_personales.pais}}</li>
 								<li><span class="icon-exit"></span> Registrado {{datos_personales.date_joined|date:"M d, Y"}}</li>
@@ -405,6 +416,7 @@
 				<div class="row ivo-perfil-caja2">
 		    		<div class="col-md-3 ivo-perfil-caja2-lateral">
 			    		<div class="row" style="padding: 0 10%;">
+			    		{%if user.tipo_usuario != 'F'%}
 			    			<ul class="ivo-perfil-enlaces">
 			    				<li>
 			    					{%if datos_personales.id != user.id%}
@@ -460,6 +472,8 @@
 									<h6>{{datos_personales.agencia}}</h6>
 								</li>
 							</ul>
+
+							{%endif%}
 							<ul class="ivo-perfil-intereses">
 								<li class="titulo">
 
@@ -471,19 +485,26 @@
 									<div class="ivo-etiqueta-titulo ivo-back-{{tema}} ivo-perfil-bioEtq ivo-font-blanco ivo-dashboard-etiqueta-titulo">
 										Intereses
 									</div>
+									
 								</li>
-								<li>
-									<img src="{% static 'img/musica.png' %}">
-									<h4>Musica</h4>
-								</li>
-								<li>
-									<img src="{% static 'img/conciertos-eventos.png' %}">
-									<h4>Conciertos y Eventos</h4>
-								</li>
-								<li>
-									<img src="{% static 'img/industria-musical.png' %}">
-									<h4>Industria Musical</h4>
-								</li>
+								{% for interes in interesesusuario %}
+									{% if interes.id_interes.id == 1 %}
+										<li>
+											<img src="{% static 'img/musica.png' %}">
+											<h4>Musica</h4>
+										</li>
+									{% elif interes.id_interes.id == 3 %}
+										<li>
+											<img src="{% static 'img/conciertos-eventos.png' %}">
+											<h4>Conciertos y Eventos</h4>
+										</li>
+									{% else %}
+										<li>
+											<img src="{% static 'img/industria-musical.png' %}">
+											<h4>Industria Musical</h4>
+										</li>
+									{% endif %}
+								{% endfor %}
 							</ul>
 			    		</div>
 			    	</div>
@@ -588,68 +609,97 @@
 					{% endif %}
                     {% if datos_personales.tipo_usuario == 'A' %}
 		    		<!-- INFO ADICIONAL -->
+		    		{%if user.tipo_usuario != 'F'%}
 		    		<div class="col-md-12">
 		    			<ul class="ivo-perfil-infoAdicional">
 							<li>
 								<div>
-									<img src="{% static 'img/cinta.png' %}">
+									<img src="{% static 'img/calendario.png'%}">
 								</div>
 								<h4>Nacimiento</h4>
-								<h5>{{ datos_personales.fecha_nacimiento }}</h5>
-								<h6>Edad 24</h6>
+								<h5>{{datos_personales.fecha_nacimiento}}</h5>
+								<!-- FALTAN LOS AÑOS -->
+								
+								<h6>Edad {{ edad }}</h6>
 							</li>
 							<li>
 								<div>
-									<img src="{% static 'img/sexo.png' %}">
+									<img src="{% static 'img/sexo.png'%}">
 								</div>
 								<h4>Sexo</h4>
-								<h5>
-                                    {% if datos_personales.genero == 'M' %}
-                                    Masculino
-                                    {% else %}
-                                    Femenino
-                                    {% endif %}
-                                </h5>
+								{% if datos_personales.genero == 'F'%}
+									<h5>Femenino</h5>
+								{%else%}
+									<h5>Masculino</h5>
+								{%endif%}
 							</li>
 
+							<!-- ESTE DATO ES SOLO PARA LAS MUJERES? EN DONDE LO GUARDO? -->
 							<li>
 								<div>
-									<img src="{% static 'img/etnia.png' %}">
+									<img src="{% static 'img/cinta.png'%}">
+								</div>
+								<h4>Medidas</h4>
+								<h5>Busto: <font>{{datos_personales.busto}} cm</font></h5>
+								<h5>Cintura: <font>{{datos_personales.cintura}} cm</font></h5>
+								<h5>Cadera: <font>{{datos_personales.cadera}} cm</font></h5>
+							</li>
+							<li>
+								<div>
+									<img src="{% static 'img/altura.png'%}">
+								</div>
+								<h4>Altura</h4>
+								<h5>{{datos_personales.estatura}} cm</h5>
+							</li>
+							<li>
+								<div>
+									<img src="{% static 'img/etnia.png'%}">
 								</div>
 								<h4>Etnia</h4>
-								<h5>{{ datos_personales.etnia }}</h5>
+								<h5>{{datos_personales.etnia}}</h5>
 							</li>
 							<li>
 								<div>
-									<img src="{% static 'img/ojos.png' %}">
+									<img src="{% static 'img/ojos.png'%}">
 								</div>
 								<h4>Ojos</h4>
-								<h5>{{ datos_personales.color_ojos }}</h5>
+								<h5>{{datos_personales.color_ojos}}</h5>
 							</li>
 							<li>
 								<div>
-									<img src="{% static 'img/cabello.png' %}">
+									<img src="{% static 'img/cabello.png'%}">
 								</div>
 								<h4>Cabello</h4>
-								<h5>{{ datos_personales.color_cabello }}</h5>
+								<h5>{{datos_personales.color_cabello}}</h5>
 							</li>
 							<li>
 								<div>
-									<img src="{% static 'img/tatuajes.png' %}">
+									<img src="{% static 'img/tatuajes.png'%}">
 								</div>
 								<h4>Tatuajes</h4>
-								<h5>{{ datos_personales.tatuaje }}</h5>
+								{% if datos_personales.tatuaje %}
+								<h5>SI</h5>
+								{%else%}
+								<h5> NO</h5>
+								{%endif%}
 							</li>
+
+							<!-- DONDE SE GUARDA VIAJAR -->
 							<li>
 								<div>
-									<img src="{% static 'img/viajar.png' %}">
+									<img src="{% static 'img/viajar.png'%}">
 								</div>
 								<h4>Viajar</h4>
-								<h5>SI</h5>
+								{% if datos_personales.disponible_viajes %}
+									<h5>SI</h5>
+								{%else%}
+									<h5> NO</h5>
+								{%endif%}
 							</li>
 						</ul>
 		    		</div>
                     <!-- info adicional -->
+                    {%endif%}
                     {% endif %}
 				</div>
 
@@ -760,14 +810,23 @@
         <form id="form_cover_perfil" method="POST" enctype="multipart/form-data" >
         {%csrf_token%}
         <input type="file" name="foto" id="seleccionar_foto_cover" accept="image/*" >
-        <input type="submit" id="submit-form" hidden >
+        <!--input type="submit" id="submit-form" hidden -->
 
 
         </form>
       </div>
+
+
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <label for="submit-form" class="btn btn-primary">Subir imagen</label>
+        <button type="button" class="ivo-boton-fondoInpt ivo-borde-azulClaro" data-dismiss="modal"> <span class="ivo-back-trs-azulClaro ivo-borde-transparente">Cancelar</span></button>
+
+		 <input id="boton_subir_cover" form="form_cover_perfil"  type='submit'  value="Subir imagen" class="btn btn-info"  disabled >
+		
+        <!--label id="boton_subir_cover" for="input_subir_cover" class="ivo-boton-fondoInpt ivo-borde-azulClaro" data-dismiss="modal"><span class="ivo-back-trs-azulClaro ivo-borde-transparente">Subir foto</span></label
+
+			@cahl  te acuerdas del modal para cambiar la foto de cover? he estado tratando de mejorarle el estilo, pero tengo problemas alli. el boton de subir , el que deshablitamos, es tipo input en el formulario... para poder darle el formato adecuado necesito que pueda tener 
+
+        -->
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -901,6 +960,6 @@
 				<!--- FIN REDACTAR -->
 			</div>
 		</div>
-
+<input type="hidden" name="csrfmiddlewaretoken" value="{{csrf_token}}" id="csrf">
 </div>
 {% endblock %}
