@@ -29,7 +29,7 @@ def todos(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
 		posts = paginator.page(paginator.num_pages)
 		#import pdb;   pdb.set_trace()
-	return render_to_response( "blog/blog.html", {"posts": posts })
+	return render(request, "blog/blog.html", {"posts": posts })
 
 
 #def todos(request):

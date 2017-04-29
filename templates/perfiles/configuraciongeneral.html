@@ -26,24 +26,28 @@
 				<li id="show_form_seguridad">
 					<a href="#">Seguridad</a>
 				</li>
+				
 
-				{% if user.get_tipo_usuario == "A" %}
+				
 				<li class="ivo-configuracion-menu-separador"></li>
 				<li id="show_form_bio">
 					<a href="#">Bio</a>
 				</li>
+				{% if user.get_tipo_usuario == "A" %}
 				<li id="show_form_experiencia">
 					<a href="#">Experiencia</a>
-
 				</li >
+				{% endif %}
 				<li id="show_form_interes">
 					<a href="#">Intereses</a>
 				</li>
-				{% endif %}
+				
+				
 
 				{%if user.get_tipo_usuario == "I" %}
 				<li class="ivo-configuracion-menu-separador"></li>
-				<li id="show_form_bio">
+
+				<li >
 					<a href="/casting/crear/">Crear Casting</a>
 				</li>
 				{%endif%}
@@ -76,7 +80,7 @@
 								<label>Empresa</label>
 							</div>
 							<div class="col-md-9">
-								 {% if datos.empresa_provedor != None %}
+							{% if datos.empresa_provedor != None %}
                                 <input type="text" name="empresa_provedor"   value="{{datos.empresa_provedor}}">
                             {% else %}
                                 <input type="text" name="empresa_provedor"   value="">
@@ -88,7 +92,7 @@
 								<label>Razon Social</label>
 							</div>
 							<div class="col-md-9">
-								 {% if datos.razon_social != None %}
+							{% if datos.razon_social != None %}
                                 <input type="text" name="razon_social"   value="{{datos.razon_social}}">
                             {% else %}
                                 <input type="text" name="razon_social"   value="">
@@ -126,60 +130,7 @@
 				{% if user.get_tipo_usuario == "A" %}
 
 
-				<!--div class="row">
-					<div class="col-md-3">
-						<label>Generos para {{talentos.id_arte.name}}</label>
-					</div>
-					<div class="col-md-9">
-						<select name="genero" id="genero" >
-								<optgroup label="-Seleccione el genero-">
-						{% for genero in generos  %}
-							<option value="{{genero.id}}">{{genero.name}}</option>
-						
-						{% endfor %}	
-							</optgroup>
-						</select>
-					</div>
-				</div> 
-
-				<div class="row">
-						<div class= "col-md-3">  <label> ARTE   {{arte.name}} </label></div>
-						<div class="col-md-9">
-										<select name="talento" id="talento" >
-					{% for arte in artes %}					
-							
-											<option value="{{arte.id}}">{{arte.name}}</option>
-					
-					{% endfor %}
-
-					</select>
-									</div>
-								
-				</div>
-
-
-					{% for arte in artes %}
-						<div class="row genero" id='arte-{{arte.id}}' hidden>
-						<div class= "col-md-3">  <label> ARTE   {{arte.name}} </label></div>
-							<div class="col-md-9">
-										<select name="genero" id="genero" >
-						{% for genero in generos %}			
-							<!- LOS GENERO OCULTOS SIEMPRE? ->
-							{% if arte.id == genero.id_tipo_arte.id%}
-											<option value="{{genero.id}}">{{genero.name}}</option>
-							{%endif%}
-							{% endfor %}		
-										</select>
-									</div>
-								
-							</div>
-					
-
-					
-
-					{% endfor %}
-						
-			-->
+				
 
 				<div class="row">
 					<div class="col-md-3">
@@ -729,6 +680,24 @@
 
 		$('.ivo-usuario-subMenu').removeClass("activo");
         $('#id_configuracion').addClass("activo");
+
+        $('#radio-1-2').on("change",function(){
+			    
+			    if ( $(this).is(":checked") ){
+
+			    	alert('naaada');
+			    	$('#dia_hasta2').removeAttr('required')
+			    	$('#mes_hasta2').removeAttr('required')
+			    	$('#anno_hasta2').removeAttr('required')
+			    	$('#dia_hasta2').attr('disabled','true')
+			    	$('#mes_hasta2').attr('disabled','true')
+			    	$('#anno_hasta2').attr('disabled','true')
+			    }
+			   
+			    
+				
+			});
+       
 
 	    $('#send_form_experiencia').click(function(){
             var fecha_desde = $('#dia_desde2').val()+'/'+$('#mes_desde2').val()+'/'+$('#anno_desde2').val();

@@ -156,10 +156,40 @@
 
 			        	
 			    });
-       
+
+
+	$('.industria').on("change",function(){       
+	if ( $(this).is(":checked") ){
+		$('.talento').attr("disabled", true);
+	} else{
+		$('.talento').removeAttr("disabled");
+	}
+
+});
 
 
 
+
+
+	$('.talento').on("change",function(){       
+	if ( $(this).is(":checked")  ){
+		$('.industria').attr("disabled", true);
+	} else{
+		$('.industria').removeAttr("disabled");
+	}
+});
+
+	//SIRVE A MEDIAS... TIENE UN BUG
+	$('.talento-sel').on("change",function(){       
+	if ($('#usr-color_ojos').val() != '' || $('#usr-color_cabello').val()  || $('#usr-etnia').val()) {
+		$('.industria').attr("disabled", true);
+	} else{
+		$('.industria').removeAttr("disabled");
+	}
+
+	
+
+});
 
 	</script>
 
@@ -268,7 +298,7 @@
 											{% if industria.tipo == 'P' %}
 										<li>
 											<div>
-												<input type="checkbox" name="ind-{{industria.id}}" id="ind-{{industria.id}}" class="regular-checkbox" >
+												<input type="checkbox" name="ind-{{industria.id}}" id="ind-{{industria.id}}" class="regular-checkbox industria" >
 												<label class="lateral" for="ind-{{industria.id}}"></label>
 											</div>
 											<div>{{industria}}</div>
@@ -284,7 +314,7 @@
 											
 										<li>
 											<div>
-												<input type="checkbox" name="art-{{arte.id}}" id="art-{{arte.id}}" class="regular-checkbox" >
+												<input type="checkbox" name="art-{{arte.id}}" id="art-{{arte.id}}" class="regular-checkbox talento" >
 												<label class="lateral" for="art-{{arte.id}}"></label>
 											</div>
 											<div>{{arte}}</div>
@@ -298,7 +328,7 @@
 									<ul class="ivo-dashboard-listaSeleccion">
 										<li>
 											<div>
-												<input type="checkbox"  name='usr-agencia' id="agencia" class="regular-checkbox" />
+												<input type="checkbox"  name='usr-agencia' id="agencia" class="regular-checkbox talento" />
 												<label class="lateral" for="agencia"></label>
 											</div>
 											<div>Con Agencia</div>
@@ -306,7 +336,7 @@
 										</li>
 										<li>
 											<div>
-												<input type="checkbox" id='pasaporte' name='usr-pasaporte' class="regular-checkbox" />
+												<input type="checkbox" id='pasaporte' name='usr-pasaporte' class="regular-checkbox talento" />
 												<label class="lateral" for='pasaporte'></label>
 											</div>
 											<div>Con Pasaporte</div>
@@ -314,7 +344,7 @@
 										</li>
 										<li>
 											<div>
-												<input type="checkbox" id='visa' name='usr-visa' class="regular-checkbox" />
+												<input type="checkbox" id='visa' name='usr-visa' class="regular-checkbox talento" />
 												<label class="lateral" for='visa'></label>
 											</div>
 											<div>Con Visa</div>
@@ -322,20 +352,13 @@
 										</li>
 										<li>
 											<div>
-												<input type="checkbox" id='viajar' name='usr-viajar' class="regular-checkbox" />
+												<input type="checkbox" id='viajar' name='usr-viajar' class="regular-checkbox talento" />
 												<label class="lateral" for='viajar'></label>
 											</div>
 											<div>Disponibilidad para Viajar</div>
 											<br />
 										</li>
-										<li>
-											<div>
-												<input type="checkbox" id='actor' name='actor' class="regular-checkbox" />
-												<label class="lateral" for='actor'></label>
-											</div>
-											<div>Actor</div>
-											<br />
-										</li>
+										
 									</ul>
 									<div class="ivo-dashboard-separador-slb"></div>
 									<h5>Requerimientos para Modelo</h5>
@@ -346,13 +369,13 @@
 									</div>
 									<div class="col-xs-3 col-sm-3 col-md-4">
 										<div class="ivo-formulario-radiotext">Si</div>
-										<input type="radio" id="tatuaje-si" name='usr-tatuaje' class="regular-radio">
+										<input type="radio" id="tatuaje-si" name='usr-tatuaje' class="regular-radio talento">
 										<label for="tatuaje-si"></label>
 										<br>
 									</div>
 									<div class="col-xs-3 col-sm-3 col-md-4">
 										<div class="ivo-formulario-radiotext">No</div>
-										<input type="radio" id="tatuaje-no" name="usr-tatuaje" class="regular-radio">
+										<input type="radio" id="tatuaje-no" name="usr-tatuaje" class="regular-radio talento">
 										<label for="tatuaje-no"></label>
 										<br>
 									</div>
@@ -360,20 +383,20 @@
 
 
 
-									<select name="usr-etnia" placeholder="Etnia"  class="ivo-border-width-3">
-                                    <option selected="selected" disabled>Etnia</option>
+									<select id="usr-etnia" name="usr-etnia" placeholder="Etnia"  class="ivo-border-width-3 talento-sel">
+                                    <option selected="selected" value=''>Etnia</option>
                                     {%for etnia in etnias %}
                                         <option value='{{etnia.id}}'> {{etnia.etnia}}</option>
                                     {%endfor%}
                                 </select>
-									<select name="usr-color_ojos" placeholder="Color de Ojos" class="ivo-border-width-3">
-                                    <option selected="selected" disabled>Color de ojos</option>
+									<select id="usr-color_ojos" name="usr-color_ojos" placeholder="Color de Ojos" class="ivo-border-width-3 talento-sel">
+                                    <option selected="selected" value=''>Color de ojos</option>
                                     {%for ojo in ojos %}
                                         <option value='{{ojo.id}}'> {{ojo.color}}</option>
                                     {%endfor%}
                                 </select>
-									<select name="usr-color_cabello" placeholder="Color de Cabello" class="ivo-border-width-3">
-                                    <option selected="selected" disabled>Color de cabello</option>
+									<select id="usr-color_cabello" name="usr-color_cabello" placeholder="Color de Cabello" class="ivo-border-width-3 talento-sel">
+                                    <option selected="selected" value=''>Color de cabello</option>
                                     {%for cabello in cabellos %}
                                         <option value='{{cabello.id}}'> {{cabello.color}}</option>
                                     {%endfor%}

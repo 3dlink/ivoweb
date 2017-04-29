@@ -89,7 +89,7 @@ def Configuracion_Interes(request):
                 if InteresesUsuario.objects.filter(id_interes=Intereses.objects.get(id=x),id_usuario=request.user).count() == 1:
                     InteresesUsuario.objects.filter(id_interes=Intereses.objects.get(id=x),id_usuario=request.user).delete()
        
-        import pdb; pdb.set_trace()
+        #import pdb; pdb.set_trace()
         return HttpResponse(json.dumps({'mensaje': ''}), content_type="application/json")
 
 
@@ -134,8 +134,7 @@ def Configuracion_General(request):
                                                  'label': _('Nueva contraseña')}
     form_pass.fields['new_password2'].widget.attrs = {'required': 'required',
                                                  'label': _('Confirme su nueva contraseña')}
-    print(data.id)
-    print(Experiencia.objects.filter(usuario=data))
+    
     context = {
         'form': FormActualizarDatos,
         'form_pass' : form_pass,
@@ -334,7 +333,7 @@ def paginar_fotos(fotos_paginacion):
     return {'pie_paginacion': xHTML_Paginas, 'contenido_paginacion': xHTML}
 
 def Mensajes(request):
-    import pdb; pdb.set_trace()      
+    #import pdb; pdb.set_trace()      
     return render(request,"perfiles/enviar_mensaje.html",{})
 
 
@@ -385,13 +384,18 @@ def seguidores(request,uuid):
         # If page is out of range (e.g. 9999), deliver last page of results.
         seguidores = paginator.page(paginator.num_pages)
         #import pdb;   pdb.set_trace()
-    return render_to_response("seguidores/seguidores.html", {"seguidores": seguidores })
+    return render(request,"seguidores/seguidores.html", {"seguidores": seguidores })
 
 
 def siguiendo(request,uuid):
 
-    lista = Seguidores.objects.filter(destino=User.objects.get(uuid=uuid))
-    paginator = Paginator(lista, 15)
+    lista = Seguidores.objects.filter(origen=User.objects.get(uuid=uuid)).values_list('destino', flat=True)
+    talentos = User.objects.filter(id__in=lista, tipo_usuario='A').values_list('id', flat=True)
+    industrias = User.objects.filter(id__in=lista, tipo_usuario='I').values_list('id', flat=True)
+    usuarios = UsuarioArteGenero.objects.filter(id_usuario__in=talentos)
+    industriass = SectorIndustria.objects.filter(id_usuario__in=industrias)
+    #import pdb;   pdb.set_trace()
+    paginator = Paginator(usuarios, 15)
     page = request.GET.get('page',1)
     try:
         seguidores = paginator.page(page)
@@ -401,8 +405,8 @@ def siguiendo(request,uuid):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         seguidores = paginator.page(paginator.num_pages)
-        #import pdb;   pdb.set_trace()
-    return render_to_response("seguidores/siguiendo.html", {"seguidores": seguidores })
+        
+    return render(request,"seguidores/siguiendo.html", {"seguidores": seguidores , 'industriass':industriass})
 
 
 

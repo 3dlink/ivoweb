@@ -44,7 +44,7 @@ def registrate(request):
 
 def registrate_artistas(request):
     if request.method == 'POST':
-        import pdb; pdb.set_trace()
+        #import pdb; pdb.set_trace()
         mensaje = ''
         error = ''
         form = FormRegistro(request.POST) 
@@ -323,7 +323,7 @@ def artistadashboard(request):
         'ojos':ojos,
         'etnias':etnias}
         
-        import pdb; pdb.set_trace()
+        #import pdb; pdb.set_trace()
         return render(request, "dashboard/industria.html", context )
 
 def industriadashboard(request):
@@ -343,7 +343,7 @@ def index1(request):
    
     if request.method == 'POST':
         if inicio_sesion(request):
-            import pdb; pdb.set_trace()
+            #import pdb; pdb.set_trace()
             if request.GET:
                 
                 print ("entrando en LUGAR DESCONOCIDO")
@@ -448,10 +448,13 @@ def busqueda_avanzada(request):
 
             #import pdb; pdb.set_trace()
         else:
+            control = 0
             #results_final = UsuarioArteGenero.objects.all()
             result_art = TipoArte.objects.all()
             results_usr = User.objects.filter(tipo_usuario='A')
+            results_ind = SectorIndustria.objects.all()
             #results_pro = SectorProveedor.objects.all()
+            ind = Q(id_sector=0) | Q(id_sector=99)
             usr = Q(color_cabello=99) | Q( color_ojos=0)
             art = Q(id=99) | Q(id=0)
             #pro = Q(id_sector=0) | Q(id_sector=99)
@@ -461,25 +464,39 @@ def busqueda_avanzada(request):
                             art.add((Q(id=key.split('-')[1])),art.OR)
                         elif key.split('-')[0] == 'usr':
                             if key.split('-')[1] == 'color_ojos':
-                                usr.add((Q(color_ojos=request.POST[key])),usr.OR)
+                                if request.POST[key] != '':
+                                    usr.add((Q(color_ojos=request.POST[key])),usr.OR)
                             elif key.split('-')[1] == 'color_cabello':
-                                usr.add((Q(color_cabello=request.POST[key])),usr.OR)
+                                if request.POST[key] != '':
+                                    usr.add((Q(color_cabello=request.POST[key])),usr.OR)
                             elif key.split('-')[1] == 'etnia':
-                                usr.add((Q(etnia=request.POST[key])),usr.OR)
+                                if request.POST[key] != '':
+                                    usr.add((Q(etnia=request.POST[key])),usr.OR)
                             elif key.split('-')[1] == 'agencia':
                                 usr.add((Q(agencia__isnull=False)),usr.OR)
                             elif key.split('-')[1] == 'viajar':
                                 usr.add((Q(disponible_viajes=True)),usr.OR)
                             elif key.split('-')[1] == 'tatuaje':
                                 usr.add((Q(tatuaje=True)),usr.OR)
+                            elif key.split('-')[1] == 'pasaporte':
+                                usr.add((Q(pasaporte__isnull=False)),usr.OR)
+                            elif key.split('-')[1] == 'visa':
+                                usr.add((Q(visa__isnull=False)),usr.OR)
+                        else:
+                            control=1
+                            ind.add((Q(id_sector=key.split('-')[1])),ind.OR)
 
 
-            result_art = result_art.filter(art)
-            generos = GeneroArtistico.objects.filter(id_tipo_arte=result_art)
-            results_usr = results_usr.filter(usr)
-            results = UsuarioArteGenero.objects.filter(id_usuario=results_usr) | UsuarioArteGenero.objects.filter(id_genero=generos)
+            if control == 0:            
+                result_art = result_art.filter(art).values_list('id', flat=True)
+                generos = GeneroArtistico.objects.filter(id_tipo_arte__in=result_art)
+                #
+                results_usr = results_usr.filter(usr).values_list('id', flat=True)
+                results = UsuarioArteGenero.objects.filter(id_usuario__in=results_usr) | UsuarioArteGenero.objects.filter(id_genero__in=generos)
+            else:
+                results_ind = results_ind.filter(ind)
 
-            #import pdb; pdb.set_trace()
+    import pdb; pdb.set_trace()            
     return render(request, 'dashboard/busqueda_avanzada.html',{'results':results})
 
 

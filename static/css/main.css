@@ -5057,6 +5057,15 @@ br.clear {clear: both;}
     background-position: center;
 }
 
+.ivo-imgListado {
+	width: 100px;
+	height: 100px;
+    background-size: cover;
+    background-position: center;
+    cursor:pointer;
+    background-repeat: no repeat;
+}
+
 .ivo-perfil-busquedaPanel {
 	margin-top: 0;
 
@@ -5118,6 +5127,7 @@ br.clear {clear: both;}
 	background-size: cover;
 	background-position: center;
 }
+
 
 .ivo-casting-ganador-imagen > a {
 	color: white;

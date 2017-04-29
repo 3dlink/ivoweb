@@ -1,0 +1,677 @@
+<div class="container-fluid ivo-header ivo-header-normal">
+    <div class="container">
+        <div class="row">
+        
+            <a href="/" title="home">            
+        
+                <div class="col-xs-10 col-sm-5 col-md-5 col-lg-5  ivo-header-logo">
+                    <div class="logo">
+                        <img src="/static/img/ivo-lg2.png">
+                    </div>
+                    <div class="nombre">
+                        <img src="/static/img/ivo-lg1.png">
+                    </div>
+                </div>
+            </a>
+            <!--div class="col-xs-4 col-sm-3 col-md-3 col-lg-4 ivo-header-espacio"></div-->
+            <div class="cols-xs-3 col-sm-4 col-md-3 col-lg-4 col-xs-offset-3 col-sm-offset-2 col-md-offset-1 col-lg-offset-1 ivo-header-panelUsuario">
+                <div class="ivo-header-panelUsuario-perfil">
+                    <div style="background-image: url(/media/);"></div>
+                    <p id="ivo-usuario">
+                        
+                            industria
+                        
+                    </p>
+                    <ul class="ivo-usuario-subMenu">
+                        <li class="ivo-usuario-triangulo"><img src="/static/img/triangulo.png"></li>
+                        <li id="id_dashboard">
+                            <a href="/artistadashboard/">Dashboard</a>
+                        </li>
+                        <li id="id_perfil">                            
+                            <a href="/perfil/2b2e06ca-f58a-4402-9ac6-a7e6203e722c/">Perfil</a>
+                        </li>
+                        <li id="id_configuracion">
+                            <a href="/perfil/configuraciongeneral/">Configuracion</a>
+                        </li>
+                        <li>
+                            <a href="/logout/">Log Out</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ivo-header-panelUsuario-notificacion">
+                    <span id="ivo-notificaciones" class="icon-bell ivo-font-azulClaro" aria-hidden="true"></span>
+                    <div class="ivo-notificaciones-triangulo">
+                        <img src="/static/img/triangulo.png  ">
+                    </div>
+                    <ul class="ivo-notificaciones-subMenu">
+
+                        <li>
+                            <div>
+                                <div style="background-image: url(/static/img/avatar-ivo.jpg);"></div>
+                            </div>
+                            <h6>Titulo Es Un</h6>
+                            <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
+                            <br class="clear">
+                        </li>
+                        <li>
+                            <div>
+                                <div style="background-image: url(/static/img/avatar-ivo.jpg);"></div>
+                            </div>
+                            <h6>Titulo Es Un</h6>
+                            <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
+                            <br class="clear">
+                        </li>
+                        <li>
+                            <div>
+                                <div style="background-image: url(/static/img/avatar-ivo.jpg);"></div>
+                            </div>
+                            <h6>Titulo Es Un</h6>
+                            <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
+                            <br class="clear">
+                        </li>
+                        <li>
+                            <div>
+                                <div style="background-image: url(/static/img/avatar-ivo.jpg);"></div>
+                            </div>
+                            <h6>Titulo Es Un</h6>
+                            <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
+                            <br class="clear">
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xs-2 col-sm-1 col-md-2 col-lg-1 col-lg-offset-1 ivo-header-panelMenu">
+                <div id="ivo-boton-menu">
+                    <span class="icon_menu" aria-hidden="true"></span>
+                    <p>MENU</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+		
+
+        <!--main clock content -->
+         
+        
+
+<!-- Barra lateral -->
+<div class="container">
+	<div class="row ivo-configuracion">
+		<div class="col-md-3 ivo-configuracion-menu">
+			<ul>
+				<li class="activo" id="show_form_general">
+					<a href="#">General</a>
+				</li>
+				<li id="show_form_seguridad">
+					<a href="#">Seguridad</a>
+				</li>
+				
+
+				
+				<li class="ivo-configuracion-menu-separador"></li>
+				<li id="show_form_bio">
+					<a href="#">Bio</a>
+				</li>
+				
+				<li id="show_form_interes">
+					<a href="#">Intereses</a>
+				</li>
+				
+				
+
+				
+				<li class="ivo-configuracion-menu-separador"></li>
+
+				<li id="show_form_bio">
+					<a href="/casting/crear/">Crear Casting</a>
+				</li>
+				
+
+			</ul>
+		</div>
+		<div class="col-md-9 ivo-formularioConf">
+			<form method="post" enctype="multipart/form-data" id="form_foto_perfil">
+				<input type="file" name="foto" id="seleccionar_foto_perfil" class="inputfile">
+				<input type='hidden' name='csrfmiddlewaretoken' value='tXj6pRpmLDv6iu21UG7u0u0pepKe0ls1' />
+			</form>
+			<form class="ivo-formularioConf-form ivo-formularioConf-form-nf from-principal" action="/perfil/configuraciongeneral/actualizar-general/" id="form_general" method="POST" >
+				<input type='hidden' name='csrfmiddlewaretoken' value='tXj6pRpmLDv6iu21UG7u0u0pepKe0ls1' />
+				<h1>Configuraciones Generales</h1>
+				
+					<img  src="/static/img/usuario.png" alt="photo profile" id="foto_actual" class="avatar">
+				
+				<div style=" width: 120px;">
+					<label for="seleccionar_foto_perfil" class = 'seleccionar_foto_perfil'>
+						<p >Cargar foto</p>
+					</label>
+				</div>
+	
+				<div class="ivo-configuracion-form-separador"></div>
+				
+				<div class="row">
+							<div class="col-md-3">
+								<label>Empresa</label>
+							</div>
+							<div class="col-md-9">
+							
+                                <input type="text" name="empresa_provedor"   value="industria">
+                            
+							</div>
+				</div>
+						<div class="row">
+							<div class="col-md-3">
+								<label>Razon Social</label>
+							</div>
+							<div class="col-md-9">
+							
+                                <input type="text" name="razon_social"   value="industria">
+                            
+							</div>
+						</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Pais</label>
+					</div>
+					<div class="col-md-9">
+                        
+                            <input type="text" name="pais" value="yugoslavia">
+                        
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-3">
+						<label>Telefono</label>
+					</div>
+					<div class="col-md-9">
+						
+						<input type="number" name="telefono" onkeypress="return soloNumeros(event)" >
+						
+					</div>
+				</div>
+
+				
+
+				
+				<div class="row">
+					<div class="col-md-3">
+						<label>Redes Sociales</label>
+					</div>
+					<div class="col-md-9">
+						<div class="col-md-6 col-lg-6 ivo-formularioConf-social">
+							<div class="ivo-social-form">
+								<span class="social_facebook_circle"></span>
+							</div>
+                            
+                                <input type="text" name="facebook" class="social" name="facebook"
+								   value="red1">
+                            
+
+						</div>
+						<div class="col-md-6 col-lg-6 ivo-formularioConf-social">
+							<div class="ivo-social-form ">
+								<span class="social_twitter_circle"></span>
+							</div>
+                            
+                                <input type="text" name="twitter" class="social"  value="red2">
+                            
+
+						</div>
+						<div class="col-md-6 col-lg-6 col-md-offset-3 ivo-formularioConf-social">
+							<div class="ivo-social-form">
+								<span class="social_instagram_circle" ></span>
+							</div>
+                            
+                                <input type="text"  class="social" name="instagram" value="red3">
+                            
+
+						</div>
+					</div>
+				</div>
+
+				
+				<div class="row">
+					<div class="col-md-3">
+						<label>Website</label>
+					</div>
+					<div class="col-md-9">
+						
+						<input type="text" name="website" value="www.ind.com">
+						
+					</div>
+				</div>
+				
+				
+				<!-- BOTONES DE ENVIAR -->
+				<div class="row">
+					<div class="col-md-12 text-right">
+						<a href="/perfil/configuraciongeneral/" class="ivo-boton-fondoInpt ivo-borde-azulClaro" style="margin-right:2%; cursor: pointer;">
+							<span class="ivo-back-azulClaro ivo-borde-transparente">Cancelar</span>
+						</a>
+						<a class="ivo-boton-fondoInpt ivo-borde-azulClaro" style="cursor: pointer;">
+							<span class="ivo-back-azulClaro ivo-borde-transparente" id="send_form_general">Actualizar</span>
+						</a>
+					</div>
+				</div>
+			</form>
+			<!-- FIN FORM -->
+
+			<!-- INICIO FORM BIO -->
+			<form style="display:none" action="/perfil/configuraciongeneral/actualizar-general/" class="ivo-formularioConf-form ivo-formularioConf-form-nf from-principal" id="form_bio" method="POST">
+				<!-- bio -->
+				<input type='hidden' name='csrfmiddlewaretoken' value='tXj6pRpmLDv6iu21UG7u0u0pepKe0ls1' />
+				<div class="ivo-configuracion-form-separador"></div>
+				<div class="row">
+					<div class="col-md-12">
+						<h1>Configuracion de Bio</h1>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-2">
+						<label>Breve Biografia</label>
+					</div>
+					<div class="col-md-10">
+						
+							<textarea class="ivo-formularioConfText" name="biografia" required="required"></textarea>
+						
+
+					</div>
+				</div>
+				<!-- fin bio -->
+				<div class="row">
+					<div class="col-md-12 text-right">
+						<a class="ivo-boton-fondoInpt ivo-borde-azulClaro" style="margin-right:2%; cursor: pointer;">
+							<span class="ivo-back-azulClaro ivo-borde-transparente">Cancelar</span>
+						</a>
+						<a class="ivo-boton-fondoInpt ivo-borde-azulClaro" id="send_form_bio" style="cursor: pointer;">
+							<span class="ivo-back-azulClaro ivo-borde-transparente">Actualizar</span>
+						</a>
+					</div>
+				</div>
+			</form>
+			<form style="display:none" action="/perfil/configuraciongeneral/actualizar-seguridad/"  class="ivo-formularioConf-form ivo-formularioConf-form-nf from-principal" id="form_seguridad" method="POST">
+				<!-- seguridad -->
+				<input type="hidden" name="accion" value="actualizar_seguridad">
+				<input type='hidden' name='csrfmiddlewaretoken' value='tXj6pRpmLDv6iu21UG7u0u0pepKe0ls1' />
+				<div class="ivo-configuracion-form-separador"></div>
+				<h1>Configuracion de Seguridad</h1>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Contrase&ntilde;a</label>
+					</div>
+					<div class="col-md-9">
+						<input type="password" name="old_password" id="old_password">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Nueva Contrase&ntilde;a</label>
+					</div>
+					<div class="col-md-9">
+						<input type="password" name="new_password1" id="new_password1">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Repetir Contrase&ntilde;a</label>
+					</div>
+					<div class="col-md-9">
+						<input type="password" name="new_password2" id="new_password2">
+					</div>
+				</div>
+				<div class="ivo-configuracion-form-separador"></div>
+				<h1>Configuracion del Correo Electronico</h1>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Correo Electronico</label>
+					</div>
+					<div class="col-md-9">
+						<input type="email" name="correo" value="ind@ind.com" maxlength="254" id="id_email">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Nuevo Correo Electronico</label>
+					</div>
+					<div class="col-md-9">
+						<input type="text" name="correo1" id="correo1">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Repetir Correo Electronico</label>
+					</div>
+					<div class="col-md-9">
+						<input type="text" name="email" id="correo2">
+					</div>
+				</div>
+				<!--  fin seguridad -->
+				<div class="row">
+					<div class="col-md-12 text-right">
+						<button class="ivo-boton-fondoInpt ivo-borde-azulClaro" style="margin-right:2%;">
+							<span class="ivo-back-azulClaro ivo-borde-transparente">Cancelar</span>
+						</button>
+						<button class="ivo-boton-fondoInpt ivo-borde-azulClaro">
+							<span class="ivo-back-azulClaro ivo-borde-transparente" id = "send_form_seguridad">Actualizar</span>
+						</button>
+					</div>
+				</div>
+			</form>
+
+			<div class="ivo-formularioConf-form ivo-formularioConf-form-nf from-principal" style="display:none" action="/perfil/configuraciongeneral/actualizar-experiencia/"   id="form_experiencia">
+				<div class="ivo-configuracion-form-separador"></div>
+                <h1>Idiomas</h1>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Idiomas</label>
+					</div>
+					<div class="col-md-9">
+						<select id="idiomas" name="idiomas">
+                            <option value=""></option>
+							<option value="Ingles, Espa&ntilde;ol, Frances">Ingles, Espa&ntilde;ol, Frances</option>
+							<option value="Ingles">Ingles</option>
+							<option value="Espa&ntilde;ol">Espa&ntilde;ol</option>
+							<option value="Frances">Frances</option>
+						</select>
+					</div>
+				</div>
+				<div class="ivo-configuracion-form-separador"></div>
+				<!--<h1>Cita</h1>
+				<div class="row">
+					<div class="col-md-3">
+						<label>Cita Favorita</label>
+					</div>
+					<div class="col-md-9">
+						<textarea></textarea>
+					</div>
+				</div>-->
+                
+
+<!-- Modal Cambiar Cover -->
+<h1>Educación</h1>
+<table class="table ivo-table">
+<thead>
+    <tr>
+        <th>Centro de educación</th>
+        <th>Titulo</th>
+        <th>Fecha de estudio</th>
+        <th>Cursando actualmente</th>
+        <th>
+
+        </th>
+    </tr>
+</thead>
+<tbody>
+
+    
+
+</tbody>
+</table>
+<div class="row">
+<div class="col-md-12 text-right">
+    <a href="#" id="agregar_educacion"> + Agregar Educación</a>
+</div>
+</div>
+<div class="ivo-configuracion-form-separador"></div>
+
+<h1>EXPERIENCIA</h1>
+<table class="table ivo-table">
+<thead>
+    <tr>
+        <th>Experiencia</th>
+        <th>Cargo</th>
+        <th>Periodo</th>
+        <th>Trabaja actualmente</th>
+        <th>
+
+        </th>
+    </tr>
+</thead>
+<tbody>
+    
+</tbody>
+</table>
+<div class="row">
+<div class="col-md-12 text-right">
+    <a href="#" id="agregar_experiencia"> + Agregar Experiencia</a>
+</div>
+</div>
+<div class="ivo-configuracion-form-separador"></div>
+
+
+<!-- modal de educacion -->
+<div class="modal fade" id="ModalEducacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ivo-perfil-galeriaFlt">
+            <div class="modal-header ivo-perfil-galeriaFlt-header">
+                <button type="button" class="close" aria-hidden="true" data-dismiss="modal"><span class="icon_close"></span></button>
+                <h4 class="ivo-borde-azulClaro" style="width: 70%;">Agregar educación</h4>
+            </div>
+            <div class="modal-body" style="background: white;">
+                <form id="form_educacion" action="/perfil/configuraciongeneral/actualizar-educacion/"  method="POST" style="display: block" class="ivo-formularioConf-form ivo-formularioConf-form-nf">
+                    <input type="hidden" name="fecha_inicio_estudio" id="fecha_inicio_estudio">
+                    <input type="hidden" name="fecha_fin_estudio" id="fecha_fin_estudio">
+                    <input type="hidden" name="usuario" value="2b2e06ca-f58a-4402-9ac6-a7e6203e722c">
+                    <input type='hidden' name='csrfmiddlewaretoken' value='tXj6pRpmLDv6iu21UG7u0u0pepKe0ls1' />
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Centro de Estudios</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input id="id_institucion" maxlength="100" name="institucion" type="text" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Fecha de Estudio</label>
+                        </div>
+                        <div class="col-md-9 ivo-configuracion-form-fecha">
+                            <input class="fechad" id = "dia_desde" type="text" mensaje="Día es un campo requerido en la fecha de inicio"
+                                    required = "required"> <div class="resaltar-separador">/</div>
+                            <input class="fechad" id="mes_desde" type="text" mensaje="Mes es un campo requerido en la fecha de inicio"
+                                    required = "required"> <div class="resaltar-separador">/</div>
+                            <input class="fechay" id = "anno_desde" type="text" mensaje="Año es un campo requerido en la fecha de inicio"
+                                    required = "required"> <div class="resaltar-separador">-</div>
+
+                            <input class="fechad" id="dia_hasta" type="text" mensaje="Año es un campo requerido en la fecha de culminación"
+                                    required = "required"> <div class="resaltar-separador">/</div>
+                            <input class="fechad" id="mes_hasta" type="text" mensaje="Año es un campo requerido en la fecha de culminación"
+                                    required = "required"> <div class="resaltar-separador">/</div>
+                            <input class="fechay" id="anno_hasta" type="text" mensaje="Año es un campo requerido en la fecha de culminación"
+                                    required = "required">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-7" style="padding-left:0;">
+                            <div class="ivo-formulario-radiotext">Cursando Actualmente </div>
+                            <input class="regular-radio" id="radio-1-1" name="estudiando_actualmente" type="checkbox" />
+                            <label for="radio-1-1" style="margin-top:0;"></label>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>T&iacute;tulo</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input id="id_titulo" maxlength="100" name="titulo" type="text" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <a id="cerrar_modal_educacion" class="ivo-boton-fondoInpt ivo-borde-azulClaro" style="margin-right:2%; cursor: pointer">
+                                <span class="ivo-back-azulClaro ivo-borde-transparente">Cancelar</span>
+                            </a>
+                            <a class="ivo-boton-fondoInpt ivo-borde-azulClaro" id = "send_form_eduacion" style="cursor: pointer">
+                                <span class="ivo-back-azulClaro ivo-borde-transparente">Actualizar</span>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer ivo-perfil-galeriaFlt-footer"></div>
+        </div>
+    </div>
+</div>
+
+<!-- modal de experiencia -->
+<div class="modal fade" id="ModalExperiencia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ivo-perfil-galeriaFlt">
+            <div class="modal-header ivo-perfil-galeriaFlt-header">
+                <button type="button" class="close" aria-hidden="true" data-dismiss="modal"><span class="icon_close"></span></button>
+                <h4 class="ivo-borde-azulClaro" style="width: 70%;">Agregar Experiencia</h4>
+            </div>
+            <div class="modal-body" style="background: white;">
+                <form id="formExperiencia" action="/perfil/configuraciongeneral/actualizar-experiencia/"  method="POST" style="display: block" class="ivo-formularioConf-form ivo-formularioConf-form-nf">
+                    <input type="hidden" name="fecha_desde" id="fechaDesde">
+                    <input type="hidden" name="fecha_hasta" id="fechaHasta">
+                    <input type="hidden" name="usuario" value="2b2e06ca-f58a-4402-9ac6-a7e6203e722c">
+                    <input type='hidden' name='csrfmiddlewaretoken' value='tXj6pRpmLDv6iu21UG7u0u0pepKe0ls1' />
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Empresa</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input id="id_empresa" maxlength="100" name="empresa" type="text" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Cargo</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input id="id_cargo" maxlength="100" name="cargo" type="text" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Período</label>
+                        </div>
+                        <div class="col-md-9 ivo-configuracion-form-fecha">
+                            <input class="fechad" id = "dia_desde2" type="text" mensaje="Día es un campo requerido en la fecha de inicio"
+                                    required = "required"> <div class="resaltar-separador">/</div>
+                            <input class="fechad" id="mes_desde2" type="text" mensaje="Mes es un campo requerido en la fecha de inicio"
+                                    required = "required"> <div class="resaltar-separador">/</div>
+                            <input class="fechay" id = "anno_desde2" type="text" mensaje="Año es un campo requerido en la fecha de inicio"
+                                    required = "required"> <div class="resaltar-separador">-</div>
+
+                            <input class="fechad" id="dia_hasta2" type="text" mensaje="Año es un campo requerido en la fecha de culminación"
+                                    required = "required"> <div class="resaltar-separador">/</div>
+                            <input class="fechad" id="mes_hasta2" type="text" mensaje="Año es un campo requerido en la fecha de culminación"
+                                    required = "required"> <div class="resaltar-separador">/</div>
+                            <input class="fechay" id="anno_hasta2" type="text" mensaje="Año es un campo requerido en la fecha de culminación"
+                                    required = "required">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-6" style="padding-left:30px;">
+                            <div class="ivo-formulario-radiotext">Trabajando aquí actualmente </div>
+                            <input class="regular-radio" id="radio-1-2" name="trabajo_actual" type="checkbox" />
+                            <label for="radio-1-2" style="margin-top:0;"></label>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <a id="cerrar_modal_experiencia" class="ivo-boton-fondoInpt ivo-borde-azulClaro" style="margin-right:2%; cursor: pointer">
+                                <span class="ivo-back-azulClaro ivo-borde-transparente">Cancelar</span>
+                            </a>
+                            <a class="ivo-boton-fondoInpt ivo-borde-azulClaro" id = "send_form_experiencia" style="cursor: pointer">
+                                <span class="ivo-back-azulClaro ivo-borde-transparente">Actualizar</span>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer ivo-perfil-galeriaFlt-footer"></div>
+        </div>
+    </div>
+</div>
+
+			</div>
+			
+
+
+
+			<!-- FORMULARIO PARA LLENAR INTERESES -->
+
+
+			<div class="ivo-formularioConf-form ivo-formularioConf-form-nf from-principal" style="display:none"    id="form_interes">
+				
+				
+                
+
+
+					<form class="ivo-formularioConf-form" method="POST" action="/perfil/configuraciongeneral/actualizar-interes/" id="form_interes1">
+					<input type='hidden' name='csrfmiddlewaretoken' value='tXj6pRpmLDv6iu21UG7u0u0pepKe0ls1' />
+						<h1>Intereses</h1>
+						<div class="row">
+							<div class="col-md-3">
+								<label class="ivo-label-ampliado-lista">Mis Intereses</label>
+							</div>
+							<div class="col-md-9">
+								<div class="ivo-mensajes-select">
+									<div class="dropdown">
+									  <button class="btn btn-default dropdown-toggle ivo-drop-ampliado-lista" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+									   Seleccione sus intereses 
+									    <span class="caret"></span>
+									  </button>
+									  <ul class="dropdown-menu ivo-select-ampliado-lista" aria-labelledby="dropdownMenu1">
+									  
+									 	
+
+									    <li>
+									    	<input type="checkbox" id="1" class="regular-checkbox"  name="interes-1" />
+											<label class="no-margin" for="1"></label>						    		
+									    	<div>Musica</div>
+									   	</li>
+									   	
+									   
+									 	
+
+									    <li>
+									    	<input type="checkbox" id="2" class="regular-checkbox"  name="interes-2" />
+											<label class="no-margin" for="2"></label>						    		
+									    	<div>Industria musical</div>
+									   	</li>
+									   	
+									   
+									 	
+
+									    <li>
+									    	<input type="checkbox" id="3" class="regular-checkbox"  name="interes-3" />
+											<label class="no-margin" for="3"></label>						    		
+									    	<div>Conciertos y Eventos</div>
+									   	</li>
+									   	
+									   
+									  </ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<button class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro" id = "send_form_interes">
+							<span class="ivo-back-trs-azulClaro ivo-borde-transparente">Actualizar</span>
+						</button>
+						<button class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro">
+							<span class="ivo-back-trs-azulClaro ivo-borde-transparente">Cancelar</span>
+						</button>
+					</form>
+				
+			
+			</div>
+
+
+		</div>
+	</div>
+
+</div>

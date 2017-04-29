@@ -24,6 +24,7 @@
         <!--main clock content -->
         {% if login_form.non_field_errors %}
 								    <div class="alert alert-danger" style="position:absolute; z-index: 1000; top: 10%; left: 35%">
+								    		<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">X</a>
 								        {% for error in login_form.non_field_errors %}
 								            <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ error }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
 								        {% endfor %}

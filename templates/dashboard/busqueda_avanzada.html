@@ -27,15 +27,24 @@
 					    </div>
 					</div>
 				</div>
-
+		{% if results.count == 0 %}
+			<h4> No hay resultados para esta busqueda</h4>
+		{% endif %}
+	
 			{% for result in results %}
 				<!-- Fila Listado de Perfiles -->
-				{%if forloop.counter0 < 3 %}
+				{% if forloop.counter0 == 0 %}
 				<div class="row ivo-perfil-busqueda-row">
-					<!-- Item Listado de Perfiles -->
+					
+							<!-- Imagen del perfil -->
+							
+				{%endif %}
+
+
+				{%if forloop.counter0 < 3 %}
+				<!-- Item Listado de Perfiles -->
 					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
 						<div class="row">
-							<!-- Imagen del perfil -->
 							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
 							<!-- FALTA IMAGEN GENERICA -->
 								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
@@ -46,180 +55,257 @@
 								{%if result.id_usuario.tipo_usuario == 'A'%}
 									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.get_full_name}}</li>
 									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{result.id_genero.id_tipo_arte.name}}</li>
-									<li class="ivo-perfil-busqueda-fans">
+									<!--li class="ivo-perfil-busqueda-fans">
 										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
-									</li>
+									</li-->
 								{% elif result.id_usuario.tipo_usuario == 'I' %}
 									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.empresa_provedor}}</li>
 									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{result.id_sector}}</li>
-									<li class="ivo-perfil-busqueda-fans">
+									<!--li class="ivo-perfil-busqueda-fans">
 										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
-									</li>
+									</li-->
 								{%endif%}
-									<li class="ivo-perfil-busqueda-estrellas">
+									<!--li class="ivo-perfil-busqueda-estrellas">
 										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
 										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
 										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
 										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
 										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
-									</li>
+									</li-->
 									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.get_uuid}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
 								</ul>
-							</div>
-						</div>				
+								</div>
+								</div>				
 					</div>
 					<!-- Item Listado de Perfiles -->
-					
-				</div>
-				{% elif foorloop.counter0 > 2 and forloop.counter0 < 6%}
-				<!-- Fila Listado de Perfiles -->
-				<div class="row ivo-perfil-busqueda-row">
-					<!-- Item Listado de Perfiles -->
-					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
-						<div class="row">
-							<!-- Imagen del perfil -->
-							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
-								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
-							</div>
-							<!-- Informacion del perfil -->
-							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
-								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
-								{%if result.id_usuario.tipo_usuario == 'A'%}
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.get_full_name}}</li>
-								{% elif result.id_usuario.tipo_usuario == 'I' %}
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.empresa_provedor}}</li>
-									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Violinista</li>
-									<li class="ivo-perfil-busqueda-fans">
-										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
-									</li>
-								{%endif%}
-									<li class="ivo-perfil-busqueda-estrellas">
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
-									</li>
-									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.get_uuid}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
-								</ul>
-							</div>
-						</div>				
-					</div>
-					<!-- Item Listado de Perfiles -->
-					
-				</div>
-				{% elif foorloop.counter0 > 5 and forloop.counter0 < 9%}
-				<!-- Fila Listado de Perfiles -->
-				<div class="row ivo-perfil-busqueda-row">
-					<!-- Item Listado de Perfiles -->
-					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
-						<div class="row">
-							<!-- Imagen del perfil -->
-							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
-								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
-							</div>
-							<!-- Informacion del perfil -->
-							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
-								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
-								{%if result.id_usuario.tipo_usuario == 'A'%}
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.get_full_name}}</li>
-								{% elif result.id_usuario.tipo_usuario == 'I' %}
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.empresa_provedor}}</li>
-									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Violinista</li>
-									<li class="ivo-perfil-busqueda-fans">
-										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
-									</li>
-								{%endif%}
-									<li class="ivo-perfil-busqueda-estrellas">
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
-									</li>
-									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.get_uuid}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
-								</ul>
-							</div>
-						</div>				
-					</div>
-					<!-- Item Listado de Perfiles -->
-					
-				</div>
-				{% elif foorloop.counter0 > 8 and forloop.counter0 < 12%}
-				<!-- Fila Listado de Perfiles -->
-				<div class="row ivo-perfil-busqueda-row">
-					<!-- Item Listado de Perfiles -->
-					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
-						<div class="row">
-							<!-- Imagen del perfil -->
-							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
-								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
-							</div>
-							<!-- Informacion del perfil -->
-							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
-								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
-								{%if result.id_usuario.tipo_usuario == 'A'%}
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.get_full_name}}</li>
-								{% elif result.id_usuario.tipo_usuario == 'I' %}
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.empresa_provedor}}</li>
-									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Violinista</li>
-									<li class="ivo-perfil-busqueda-fans">
-										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
-									</li>
-								{%endif%}
-									<li class="ivo-perfil-busqueda-estrellas">
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
-									</li>
-									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.get_uuid}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
-								</ul>
-							</div>
-						</div>				
-					</div>
-					<!-- Item Listado de Perfiles -->
-					
-				</div>
-				{% elif foorloop.counter0 > 11 and forloop.counter0 < 15%}
-				<!-- Fila Listado de Perfiles -->
-				<div class="row ivo-perfil-busqueda-row">
-					<!-- Item Listado de Perfiles -->
-					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
-						<div class="row">
-							<!-- Imagen del perfil -->
-							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
-								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
-							</div>
-							<!-- Informacion del perfil -->
-							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
-								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
-								{%if result.id_usuario.tipo_usuario == 'A'%}
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.get_full_name}}</li>
-								{% elif result.id_usuario.tipo_usuario == 'I' %}
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.empresa_provedor}}</li>
-									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Violinista</li>
-									<li class="ivo-perfil-busqueda-fans">
-										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
-									</li>
-								{%endif%}
-									<li class="ivo-perfil-busqueda-estrellas">
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
-									</li>
-									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.get_uuid}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
-								</ul>
-							</div>
-						</div>				
-					</div>
-					<!-- Item Listado de Perfiles -->
+					{% if results.count > 0 and results.count < 4%}
+					{%if forloop.counter == results.count %}
+
+							
+						
 					
 				</div>
 				{% endif %}
+				{% endif %}
+					
+				{%endif%}
+	
+				{% if forloop.counter0 == 3 %}
+				<div class="row ivo-perfil-busqueda-row">
+					
+							<!-- Imagen del perfil -->
+							
+				{%endif %}
+
+
+				{% if foorloop.counter0 > 2 and forloop.counter0 < 6%}
+				<!-- Fila Listado de Perfiles -->
+				
+					<!-- Item Listado de Perfiles -->
+					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<!-- Imagen del perfil -->
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							</div>
+							<!-- Informacion del perfil -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+								{%if result.id_usuario.tipo_usuario == 'A'%}
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.get_full_name}}</li>
+								{% elif result.id_usuario.tipo_usuario == 'I' %}
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.empresa_provedor}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Violinista</li>
+									<!--li class="ivo-perfil-busqueda-fans">
+										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
+									</li-->
+								{%endif%}
+									<!--li class="ivo-perfil-busqueda-estrellas">
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
+									</li-->
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.get_uuid}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+								</ul>
+							</div>
+						</div>				
+					</div>
+					{% if results.count > 3 and results.count < 7%}
+					{%if forloop.counter == results.count %}						
+						
+					
+				</div>
+				{% endif %}
+				{% endif %}
+					
+				{%endif%}
+
+
+				{% if forloop.counter0 == 6 %}
+				<div class="row ivo-perfil-busqueda-row">
+					
+							<!-- Imagen del perfil -->
+							
+				{%endif %}
+
+				{% if foorloop.counter0 > 5 and forloop.counter0 < 9%}
+				<!-- Fila Listado de Perfiles -->
+				<div class="row ivo-perfil-busqueda-row">
+					<!-- Item Listado de Perfiles -->
+					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<!-- Imagen del perfil -->
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							</div>
+							<!-- Informacion del perfil -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+								{%if result.id_usuario.tipo_usuario == 'A'%}
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.get_full_name}}</li>
+								{% elif result.id_usuario.tipo_usuario == 'I' %}
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.empresa_provedor}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Violinista</li>
+									<!--li class="ivo-perfil-busqueda-fans">
+										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
+									</li-->
+								{%endif%}
+									<!--li class="ivo-perfil-busqueda-estrellas">
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
+									</li-->
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.get_uuid}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+								</ul>
+							</div>
+						</div>				
+					</div>
+					<!-- Item Listado de Perfiles -->
+
+					
+				{% if results.count > 6 and results.count < 10%}
+					{%if forloop.counter == results.count %}						
+						
+					
+				</div>
+				{% endif %}
+				{% endif %}
+					
+				{%endif%}
+
+
+
+
+				{% if forloop.counter0 == 9 %}
+				<div class="row ivo-perfil-busqueda-row">
+					
+							<!-- Imagen del perfil -->
+							
+				{%endif %}
+
+				{% if foorloop.counter0 > 8 and forloop.counter0 < 12%}
+				<!-- Fila Listado de Perfiles -->
+				<div class="row ivo-perfil-busqueda-row">
+					<!-- Item Listado de Perfiles -->
+					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<!-- Imagen del perfil -->
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							</div>
+							<!-- Informacion del perfil -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+								{%if result.id_usuario.tipo_usuario == 'A'%}
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.get_full_name}}</li>
+								{% elif result.id_usuario.tipo_usuario == 'I' %}
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.empresa_provedor}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Violinista</li>
+									<!--li class="ivo-perfil-busqueda-fans">
+										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
+									</li-->
+								{%endif%}
+									<!--
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
+									</li-->
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.get_uuid}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+								</ul>
+							</div>
+						</div>				
+					</div>
+					<!-- Item Listado de Perfiles -->
+					
+				{% if results.count > 9 and results.count < 13%}
+					{%if forloop.counter == results.count %}						
+						
+					
+				</div>
+				{% endif %}
+				{% endif %}
+					
+				{%endif%}
+
+				{% if forloop.counter0 == 12 %}
+				<div class="row ivo-perfil-busqueda-row">
+					
+							<!-- Imagen del perfil -->
+							
+				{%endif %}
+
+				{% if foorloop.counter0 > 11 and forloop.counter0 < 15%}
+				<!-- Fila Listado de Perfiles -->
+				<div class="row ivo-perfil-busqueda-row">
+					<!-- Item Listado de Perfiles -->
+					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<!-- Imagen del perfil -->
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							</div>
+							<!-- Informacion del perfil -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+								{%if result.id_usuario.tipo_usuario == 'A'%}
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.get_full_name}}</li>
+								{% elif result.id_usuario.tipo_usuario == 'I' %}
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.empresa_provedor}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Violinista</li>
+									<!--li class="ivo-perfil-busqueda-fans">
+										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
+									</li-->
+								{%endif%}
+									<!--li class="ivo-perfil-busqueda-estrellas">
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
+										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
+									</li-->
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.get_uuid}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+								</ul>
+							</div>
+						</div>				
+					</div>
+					<!-- Item Listado de Perfiles -->
+					
+				{% if results.count > 12 and results.count < 16%}
+					{%if forloop.counter == results.count %}						
+						
+					
+				</div>
+				{% endif %}
+				{% endif %}
+					
+				{%endif%}
+				
 			{% endfor %}
 
 				<!-- Numero de Paginas del Listado de Perfiles -->
@@ -261,13 +347,13 @@
 					<div class="col-md-12 col-lg-12 ivo-artistas-app">
 						<div class="row">
 							<div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-0 col-lg-5 col-lg-offset-0">
-								<img src="assets/img/ivo-lg3.png" class="img-responsive ivo-app-logo general">
+								<img src="{% static 'img/ivo-lg3.png' %}" class="img-responsive ivo-app-logo general">
 								<h2>Descarga nuestra App Movil</h2>
 								<a href="#" class="ivo-app-goplay general">
-									<img src="assets/img/google-play.png">
+									<img src="{% static 'img/google-play.png' %}">
 								</a>
 								<a href="#" class="ivo-app-appsto general">
-									<img src="assets/img/appstore.png">
+									<img src="{% static 'img/appstore.png' %}">
 								</a>
 								<br class="clear">
 							</div>

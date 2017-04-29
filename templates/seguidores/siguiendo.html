@@ -36,28 +36,28 @@
 						<div class="row">
 							<!-- Imagen del perfil -->
 							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
-								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{seguidor.destino.get_avatar}});"></div>
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{seguidor.id_usuario.get_avatar}});"></div>
 							</div>
 							<!-- Informacion del perfil -->
 							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
 								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
-								{%if seguidor.destino.tipo_usuario == 'A'%}
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.destino.get_full_name}}</li>
-								{% elif seguidor.destino.tipo_usuario == 'I' %}
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.destino.empresa_provedor}}</li>
-									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Violinista</li>
-									<li class="ivo-perfil-busqueda-fans">
+								
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.id_usuario.get_full_name}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{seguidor.id_genero.id_tipo_arte.name}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{seguidor.id_genero.name}}</li>
+									<!--li class="ivo-perfil-busqueda-fans">
 										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
-									</li>
-								{%endif%}
-									<li class="ivo-perfil-busqueda-estrellas">
+									</li-->
+								
+								<!-- NO TENGO MANERA DE VER ESA PUNTUACION -->
+									<!--li class="ivo-perfil-busqueda-estrellas">
 										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
 										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
 										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
 										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
 										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
-									</li>
-									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{seguidor.destino.get_uuid}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+									</li-->
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{seguidor.id_usuario.get_uuid}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
 								</ul>
 							</div>
 						</div>				
@@ -65,36 +65,42 @@
 					<!-- Item Listado de Perfiles -->
 					
 				</div>
-				{% elif foorloop.counter0 > 2 and forloop.counter0 < 6%}
+			
+				{%endif%}
+			{% endfor %}
+
+
+			{% for industria in industriass %}
 				<!-- Fila Listado de Perfiles -->
+				{%if forloop.counter0 < 3 %}
 				<div class="row ivo-perfil-busqueda-row">
 					<!-- Item Listado de Perfiles -->
 					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
 						<div class="row">
 							<!-- Imagen del perfil -->
 							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
-								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{seguidor.destino.get_avatar}});"></div>
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{industria.id_usuario.get_avatar}});"></div>
 							</div>
 							<!-- Informacion del perfil -->
 							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
 								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
-								{%if seguidor.destino.tipo_usuario == 'A'%}
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.destino.get_full_name}}</li>
-								{% elif seguidor.destino.tipo_usuario == 'I' %}
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.destino.empresa_provedor}}</li>
-									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Violinista</li>
-									<li class="ivo-perfil-busqueda-fans">
+								
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{industria.id_usuario.empresa_provedor}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Industria</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{industria.id_sector}}</li>
+									<!--li class="ivo-perfil-busqueda-fans">
 										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
-									</li>
-								{%endif%}
-									<li class="ivo-perfil-busqueda-estrellas">
+									</li-->
+								
+								<!-- NO TENGO MANERA DE VER ESA PUNTUACION -->
+									<!--li class="ivo-perfil-busqueda-estrellas">
 										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
 										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
 										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
 										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
 										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
-									</li>
-									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{seguidor.destino.get_uuid}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+									</li-->
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{industria.id_usuario.get_uuid}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
 								</ul>
 							</div>
 						</div>				
@@ -102,133 +108,23 @@
 					<!-- Item Listado de Perfiles -->
 					
 				</div>
-				{% elif foorloop.counter0 > 5 and forloop.counter0 < 9%}
-				<!-- Fila Listado de Perfiles -->
-				<div class="row ivo-perfil-busqueda-row">
-					<!-- Item Listado de Perfiles -->
-					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
-						<div class="row">
-							<!-- Imagen del perfil -->
-							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
-								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{seguidor.destino.get_avatar}});"></div>
-							</div>
-							<!-- Informacion del perfil -->
-							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
-								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
-								{%if seguidor.destino.tipo_usuario == 'A'%}
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.destino.get_full_name}}</li>
-								{% elif seguidor.destino.tipo_usuario == 'I' %}
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.destino.empresa_provedor}}</li>
-									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Violinista</li>
-									<li class="ivo-perfil-busqueda-fans">
-										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
-									</li>
-								{%endif%}
-									<li class="ivo-perfil-busqueda-estrellas">
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
-									</li>
-									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{seguidor.destino.get_uuid}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
-								</ul>
-							</div>
-						</div>				
-					</div>
-					<!-- Item Listado de Perfiles -->
-					
-				</div>
-				{% elif foorloop.counter0 > 8 and forloop.counter0 < 12%}
-				<!-- Fila Listado de Perfiles -->
-				<div class="row ivo-perfil-busqueda-row">
-					<!-- Item Listado de Perfiles -->
-					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
-						<div class="row">
-							<!-- Imagen del perfil -->
-							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
-								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{seguidor.destino.get_avatar}});"></div>
-							</div>
-							<!-- Informacion del perfil -->
-							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
-								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
-								{%if seguidor.destino.tipo_usuario == 'A'%}
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.destino.get_full_name}}</li>
-								{% elif seguidor.destino.tipo_usuario == 'I' %}
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.destino.empresa_provedor}}</li>
-									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Violinista</li>
-									<li class="ivo-perfil-busqueda-fans">
-										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
-									</li>
-								{%endif%}
-									<li class="ivo-perfil-busqueda-estrellas">
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
-									</li>
-									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{seguidor.destino.get_uuid}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
-								</ul>
-							</div>
-						</div>				
-					</div>
-					<!-- Item Listado de Perfiles -->
-					
-				</div>
-				{% elif foorloop.counter0 > 11 and forloop.counter0 < 15%}
-				<!-- Fila Listado de Perfiles -->
-				<div class="row ivo-perfil-busqueda-row">
-					<!-- Item Listado de Perfiles -->
-					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
-						<div class="row">
-							<!-- Imagen del perfil -->
-							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
-								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{seguidor.destino.get_avatar}});"></div>
-							</div>
-							<!-- Informacion del perfil -->
-							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
-								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
-								{%if seguidor.destino.tipo_usuario == 'A'%}
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.destino.get_full_name}}</li>
-								{% elif seguidor.destino.tipo_usuario == 'I' %}
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.destino.empresa_provedor}}</li>
-									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Violinista</li>
-									<li class="ivo-perfil-busqueda-fans">
-										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
-									</li>
-								{%endif%}
-									<li class="ivo-perfil-busqueda-estrellas">
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
-									</li>
-									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{seguidor.destino.get_uuid}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
-								</ul>
-							</div>
-						</div>				
-					</div>
-					<!-- Item Listado de Perfiles -->
-					
-				</div>
-				{% endif %}
+			
+				{%endif%}
 			{% endfor %}
 
 				<!-- Numero de Paginas del Listado de Perfiles -->
 				<div class="row">
 					<div class="col-md-6 col-lg-6 col-md-offset-3 ivo-blog-paginas ivo-blog-paginas-invertido">
-				    	{% if posts.has_other_pages %}
+				    	{% if seguidores.has_other_pages %}
 				    	<ul>
-				    		{% if posts.has_previous %}
+				    		{% if seguidores.has_previous %}
 					    			<li class="ivo-blog-paginas-move">
 					    			<a href="?page={{ seguidores.previous_page_number }}">&laquo;</a></li>
 							    
 				    			{% endif %}
 
-							    {% for i in posts.paginator.page_range %}
-							      {% if posts.number == i %}
+							    {% for i in seguidores.paginator.page_range %}
+							      {% if seguidores.number == i %}
 						    		<li class="ivo-blog-paginas-activo">
 						    			<span>{{ i }} <span class="sr-only">(current)</span></span>
 						    		</li>
@@ -238,7 +134,7 @@
 				    		</li>
 				    		{% endif %}
 							    {% endfor %}
-							    {% if posts.has_next %}
+							    {% if seguidores.has_next %}
 							      <li><a href="?page={{ seguidores.next_page_number }}">&raquo;</a></li>
 							    
 							    {% endif %}
@@ -255,13 +151,13 @@
 					<div class="col-md-12 col-lg-12 ivo-artistas-app">
 						<div class="row">
 							<div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-0 col-lg-5 col-lg-offset-0">
-								<img src="assets/img/ivo-lg3.png" class="img-responsive ivo-app-logo general">
+								<img src="{% static 'img/ivo-lg3.png' %}" class="img-responsive ivo-app-logo general">
 								<h2>Descarga nuestra App Movil</h2>
 								<a href="#" class="ivo-app-goplay general">
-									<img src="assets/img/google-play.png">
+									<img src="{% static 'img/google-play.png' %}">
 								</a>
 								<a href="#" class="ivo-app-appsto general">
-									<img src="assets/img/appstore.png">
+									<img src="{% static 'img/appstore.png' %}">
 								</a>
 								<br class="clear">
 							</div>
