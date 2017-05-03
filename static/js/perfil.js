@@ -24,6 +24,10 @@ $(function(){
         }
 
         $('#titulo_modal_subir_archivo').text(x);
+
+        if($(this).attr('id')=='experiencia'){
+            $('#div-boton-subir').hide();
+        }
     });
     paginacion_archivo(pagina_archivo, false, 'image');
     paginacion_archivo(pagina_archivo, false, 'audio');

@@ -553,7 +553,13 @@
                                                             <h4>{{ experiencia.cargo }}</h4>
                                                             <p>
                                                                 {{ experiencia.empresa }}
-                                                                <font>{{ experiencia.fecha_desde }} - {{ experiencia.fecha_hasta }}</font>
+                                                                <font>{{ experiencia.fecha_desde }} -
+																{%if experiencia.fecha_hasta == None %}
+																	Actualidad
+																{% else %} 						
+                                                                 {{ experiencia.fecha_hasta }}
+																{% endif %}
+																</font>
                                                             </p>
 
                                                         </li>
@@ -570,7 +576,15 @@
                                                             <h4>{{ educacion.titulo }}</h4>
                                                             <p>
                                                                 {{ educacion.institucion }}
-                                                                <font>{{ educacion.fecha_inicio_estudio }} - {{ educacion.fecha_fin_estudio }}</font>
+                                                                <font>{{ educacion.fecha_inicio_estudio }} - 
+                                                                {%if educacion.fecha_fin_estudio == None %}
+																	Actualidad
+																{% else %} 						
+                                                                 {{ educacion.fecha_fin_estudio }}
+																{% endif %}
+
+
+                                                               </font>
                                                             </p>
 
                                                         </li>
@@ -590,9 +604,16 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-12 text-right ivo-perfil-barraInf" >
+							<div class="col-md-12 text-right ivo-perfil-barraInf" id="div-boton-subir" >
 							{%if datos_personales.id == user.id%}										
+									{% if tema == 'azul' %}
+										<button id="ivo-subir" data-toggle="modal" data-target="#SubirFoto" style="color:white">
+										
+									
+									{% else %}
 										<button id="ivo-subir" data-toggle="modal" data-target="#SubirFoto">
+										
+									{% endif %}
 									<span class="glyphicon glyphicon-open"></span> Subir
 								</button>
 										

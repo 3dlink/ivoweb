@@ -101,15 +101,7 @@
 
 					</div>
 				</div>
-				<div class="col-md-6 ivo-intro-contenido-artDch hidden-xs hidden-sm">
-					<div class="col-md-6 hidden-xs hidden-sm">
-						<div class="col-md-offset-2 ivo-intro-contenido-artDch-btn">
-							<a  href="{% url 'registro' %}" class="ivo-boton-fondo">
-								<span>UNETE</span>
-							</a>
-						</div>
-					</div>
-				</div>
+
 				<div class="ivo-intro-artistas-contenedor">
 					<div class="container">
 						<div class="ivo-layer-gry" style="background-color: rgba(97, 97, 97,0.2)"></div>
@@ -122,7 +114,7 @@
 								</p>
 							</div>
 							<div class="hidden-xs hidden-sm col-lg-6 col-xs-offset-1 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-intro-contenido-artIzq-top">
-								<a href="{% url 'registro' %}" class="ivo-boton-fondoInpt ivo-borde-trs-naranja hidden-md hidden-lg" style="margin-top: 8px">
+								<a href="{% url 'registro' %}" class="ivo-boton-fondoInpt ivo-borde-trs-naranja hidden-md hidden-lg" style="margin-top: 8px; cursor:pointer">
 									<span class="ivo-back-trs-naranja ivo-borde-transparente">Unete</span>
 								</a>
 							</div>
@@ -130,6 +122,16 @@
 						</div>
 					</div>
 				</div>
+				<div class="col-md-6 ivo-intro-contenido-artDch hidden-xs hidden-sm">
+					<div class="col-md-6 hidden-xs hidden-sm">
+						<div class="col-md-offset-2 ivo-intro-contenido-artDch-btn">
+							<a  href="{% url 'registro' %}" class="ivo-boton-fondo">
+								<span>UNETE</span>
+							</a>
+						</div>
+					</div>
+				</div>
+				
 			</div>
 		</div>
 		<!-- Intro - Industria -->
@@ -165,9 +167,9 @@
 							<p class="ivo-intro-contenido-fansIzq-texto">
 								<span>Usan su perfil para actualizar trabajos, Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</span>
 							</p>
-							<button class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro hidden-md hidden-lg" style="margin-top: 8px">
+							<a  href="{% url 'fan' %}" class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro hidden-md hidden-lg" style="margin-top: 8px">
 								<span class="ivo-back-trs-azulClaro ivo-borde-transparente">Unete</span>
-							</button>
+							</a>
 						</div>
 						<div class="col-md-4 col-lg-4 col-md-offset-1 hidden-xs hidden-sm ivo-intro-fans-botonUnir">
 							<a class="ivo-boton-fondo ivo-boton-fans">
@@ -189,12 +191,12 @@
 								<p class="ivo-intro-contenido-fansIzq-texto">
 									<span>Usan su perfil para actualizar trabajos, Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</span>
 								</p>
-								<button class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro hidden-md hidden-lg" style="margin-top: 8px">
+								<a href="{% url 'fan' %}" class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro hidden-md hidden-lg" style="margin-top: 8px">
 									<span class="ivo-back-trs-azulClaro ivo-borde-transparente">Unete</span>
-								</button>
+								</a>
 							</div>
 							<div class="hidden-xs hidden-sm col-md-4 col-lg-4 col-md-offset-1 hidden-xs hidden-sm ivo-intro-fans-botonUnir">
-								<a class="ivo-boton-fondo ivo-boton-fans">
+								<a href="{% url 'fan' %}" class="ivo-boton-fondo ivo-boton-fans">
 									<span>&Uacute;NETE</span>
 								</a>
 							</div>

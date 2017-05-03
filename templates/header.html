@@ -23,7 +23,7 @@
                         {% if user.get_tipo_usuario == 'A' %}
                             {{user.get_short_name}}
                         {%else%}
-                            {{user.razon_social}}
+                            {{user.empresa_provedor}}
                         {%endif%}
                     </p>
                     <ul class="ivo-usuario-subMenu">
@@ -37,6 +37,13 @@
                         <li id="id_configuracion">
                             <a href="/perfil/configuraciongeneral/">Configuracion</a>
                         </li>
+                       {% if user.get_tipo_usuario == 'I' %}
+                           <li>
+                            <a  href="/casting/crear/">Crear Casting</a>
+                        </li>
+                       
+                        {%endif%}
+                        
                         <li>
                             <a href="/logout/">Log Out</a>
                         </li>

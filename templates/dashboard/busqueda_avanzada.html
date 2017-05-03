@@ -58,12 +58,13 @@
 									<!--li class="ivo-perfil-busqueda-fans">
 										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
 									</li-->
-								{% elif result.id_usuario.tipo_usuario == 'I' %}
+								{% elif result.id_usuario.tipo_usuario == 'I' or result.id_usuario.tipo_usuario == 'P' %}
 									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.empresa_provedor}}</li>
 									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{result.id_sector}}</li>
 									<!--li class="ivo-perfil-busqueda-fans">
 										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
 									</li-->
+
 								{%endif%}
 									<!--li class="ivo-perfil-busqueda-estrellas">
 										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>

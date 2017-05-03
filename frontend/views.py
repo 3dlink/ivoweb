@@ -259,7 +259,24 @@ def faninteres(request):
     
 
 def RegistroProveedor(request):
+    # datos = Industria.objects.filter(tipo='I')
+    # context = {'form': FormRegistroIndustria,'sectores':datos}
+    # return render(request, "registroproveedor.html", context)
+    if request.method == 'GET' and request.is_ajax():
+        mensaje = ''
+        xHTML = '<option value = "">Seleccione un sector</option>'
+        #datos = TipoArte.objects.filter(active=True)
+        datos = Industria.objects.filter(tipo='P')
+        if not datos:
+            mensaje = ('no hay datos')
+        else:
+            for sector in datos:
+                xHTML += '<option value = "' + str(sector.id) + '">' + sector.nombre + '</option>'
+
+        return HttpResponse(json.dumps({'mensaje': mensaje, 'data': xHTML}), content_type="application/json")
+    #sectores = Industria.objects.get.all()
     context = {'form': FormRegistroIndustria}
+    
     return render(request, "registroproveedor.html", context)
 
 
@@ -494,9 +511,9 @@ def busqueda_avanzada(request):
                 results_usr = results_usr.filter(usr).values_list('id', flat=True)
                 results = UsuarioArteGenero.objects.filter(id_usuario__in=results_usr) | UsuarioArteGenero.objects.filter(id_genero__in=generos)
             else:
-                results_ind = results_ind.filter(ind)
+                results = results_ind.filter(ind)
 
-    import pdb; pdb.set_trace()            
+    #import pdb; pdb.set_trace()            
     return render(request, 'dashboard/busqueda_avanzada.html',{'results':results})
 
 

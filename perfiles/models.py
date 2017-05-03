@@ -7,7 +7,7 @@ class Experiencia(models.Model):
     empresa = models.CharField(max_length=100, null=False, blank=False, verbose_name= _('Empresa'))
     cargo = models.CharField(max_length=100, null=False, blank=False, verbose_name= _('Cargo'))
     fecha_desde = models.DateField(null=False, blank=False, verbose_name=_('Desde'))
-    fecha_hasta = models.DateField(null=True, blank=True, verbose_name=_('Desde'))
+    fecha_hasta = models.DateField(null=True, blank=True, verbose_name=_('Hasta'))
     trabajo_actual = models.BooleanField(default=False, verbose_name=_('Laborando actualmente?'))
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='experiencia')
 

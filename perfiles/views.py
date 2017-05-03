@@ -159,6 +159,8 @@ def ConfiguracionExperiencia(request):
         if form.is_valid():
             experiencia = form.save(commit=False)
             experiencia.usuario = User.objects.get(uuid=request.POST['usuario'])
+            if 'fecha_hasta' in request.POST:
+                experiencia.fecha_hasta=request.POST['fecha_hasta']
             experiencia.save()
             return HttpResponse(json.dumps({'success': True}), content_type="application/json")
         else:

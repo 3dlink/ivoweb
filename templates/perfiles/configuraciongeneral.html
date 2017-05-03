@@ -8,7 +8,6 @@
     	body {
     		background-color: white;
     	}
-
     </style>
 
 {% endblock %}
@@ -74,7 +73,7 @@
 				</div>
 	
 				<div class="ivo-configuracion-form-separador"></div>
-				{% if user.get_tipo_usuario == 'I' %}
+				{% if user.get_tipo_usuario == 'I' or  user.get_tipo_usuario == 'P' %}
 				<div class="row">
 							<div class="col-md-3">
 								<label>Empresa</label>
@@ -677,14 +676,11 @@
 
 <script>
 	$(function(){
-
 		$('.ivo-usuario-subMenu').removeClass("activo");
         $('#id_configuracion').addClass("activo");
-
         $('#radio-1-2').on("change",function(){
 			    
 			    if ( $(this).is(":checked") ){
-
 			    	alert('naaada');
 			    	$('#dia_hasta2').removeAttr('required')
 			    	$('#mes_hasta2').removeAttr('required')
@@ -698,7 +694,6 @@
 				
 			});
        
-
 	    $('#send_form_experiencia').click(function(){
             var fecha_desde = $('#dia_desde2').val()+'/'+$('#mes_desde2').val()+'/'+$('#anno_desde2').val();
             var fecha_hasta = $('#dia_hasta2').val()+'/'+$('#mes_hasta2').val()+'/'+$('#anno_hasta2').val();
@@ -714,7 +709,6 @@
             var fecha_hasta = $('#dia_hasta').val()+'/'+$('#mes_hasta').val()+'/'+$('#anno_hasta').val();
             $('#fecha_inicio_estudio').val(fecha_desde);
             $('#fecha_fin_estudio').val(fecha_hasta);
-
             if( validarForm($('#form_educacion input')) ){
                 guardarEducacion();
             }
@@ -738,21 +732,19 @@
             $("#disponible_viajes option[value=True]").attr("selected",true);
         {% else %}
             $("#disponible_viajes option[value=False]").attr("selected",true);
-
         {% endif %}
 		*/
-		{% if datos.genero != None %}
-			$("#genero option[value={{ datos.genero}}]").attr("selected",true);
-		{% endif %}
-
-		{% if datos.pais != None and datos.pais != '' %}
-			$("#pais option[value={{ datos.pais}}]").attr("selected",true);
-		{% endif %}
-
+		{% if user.get_tipo_usuario == "A"%}
+			{% if datos.genero != None %}
+				$("#genero option[value={{ datos.genero}}]").attr("selected",true);
+			{% endif %}
+			{% if datos.pais != None and datos.pais != '' %}
+				$("#pais option[value={{ datos.pais}}]").attr("selected",true);
+			{% endif %}
+			{% endif %}
 		/*{% if datos.tatuaje != None %}
 			$("#tatuaje option[value={{ datos.tatuaje}}]").attr("selected",true);
 		{% endif %}*/
-
         $('#idiomas').change(function(){
             $.ajax({
                 url: '/perfil/configuraciongeneral/idiomas/',
@@ -761,36 +753,29 @@
                 data: {idioma: $(this).val(), csrfmiddlewaretoken:'{{csrf_token }}' },
                 success: function (data) {
                     NProgress.done();
-
                 }
-
             });
         });
-
 		$('#send_form_general').click(function(){
-			alert("si estoy entrando")
+			
 			if (validarForm( $('#form_general input') ) ) {
 			    if( $('#fecha_a_o').val().trim() != ''  && $('#fecha_mes').val().trim() != ''  && $('#fecha_dia').val().trim() != ''   ){
 			        $('#fecha_nacimiento').val($('#fecha_a_o').val()+"-"+$('#fecha_mes').val()+'-'+$('#fecha_dia').val());
                 }
-
 				$('#form_general').submit();
 			}
 		});
-
 		$('#send_form_bio').click(function(){
 			if (validarForm( $('#form_bio input') ) ) {
 				$('#form_bio').submit();
 			}
 		})
-
 		$('#send_form_interes').click(function(){
 			
 			if (validarForm( $('#form_interes1 input') ) ) {
 				$('#form_interes1').submit();
 			}
 		})
-
 		$('#send_form_seguridad').click(function(){
 			var enviar = true;
 			if( $('#new_password1').val().trim() == '' && $('#correo1').val().trim() == '' ){
@@ -798,7 +783,6 @@
 				return;
 			}
 			if( $('#new_password1').val().trim() != ''){
-
 				if ( $('#new_password1').val().trim() != $('#new_password2').val().trim() ){
 					alert('El campo nueva contraseña y repetir contraseña debe ser iguales, Corrija e intente nuevamente');
 					enviar = false;
@@ -808,7 +792,6 @@
 						enviar = false;
 					}
 				}
-
 			}else{
 				if ( $('#correo1').val().trim() != $('#correo2').val().trim() ){
 					alert('El campo nuevo correo electronico y repetir correo electronico debe ser iguales, Corrija e intente nuevamente');
@@ -819,7 +802,6 @@
 				NProgress.start();
 				enviarForm( $('#form_seguridad').serialize(), '/perfil/configuraciongeneral/foto-perfil/' );
 			}
-
 		});
 		$('.ivo-configuracion-menu > ul > li').click(function(){
 			$('.ivo-configuracion-menu > ul > li').removeClass('activo');
@@ -829,18 +811,14 @@
 			$('.from-principal').fadeOut();
 			$('#'+elem).fadeIn();
 		})
-
 		$('.carousel').carousel({
 			interval: 5000 //changes the speed
 		});
-
 	   $('ivo-contador').countdown({since: new Date(2017, 12-1, 25)});
-
 	   /*seleccion de foto de perfil*/
 	    $('#seleccionar_foto_perfil').change(function(e){
 	        handleImage(e)
 	    });
-
 	});
     function guardarExperiencia(){
         NProgress.start();
@@ -860,7 +838,6 @@
                     setTimeout(function(){
                       location.href  ='/perfil/configuraciongeneral/'
                     }, 1500);
-
                 }
             }
         });
@@ -883,7 +860,6 @@
                     setTimeout(function(){
                       location.href  ='/perfil/configuraciongeneral/'
                     }, 1500);
-
                 }
             }
         });
@@ -924,17 +900,13 @@
                 }
                 canvas.width = width;
                 canvas.height = height;
-
                 var ctx = canvas.getContext('2d');
                 ctx.drawImage( image, 0, 0, width, height );
-
                 $('#hidden_image').val(canvas.toDataURL());
                 //$('#img_canvas').html(['<img src="', canvas.toDataURL(), '"/>'].join(''));
                 $('#foto_actual').attr('src',canvas.toDataURL())
-
             }
             image.src = event.target.result;
-
             subitFotoPerfil();
         }
         reader.readAsDataURL(e.target.files[0]);
@@ -951,13 +923,10 @@
             success: function (data) {
             	NProgress.done();
                 console.log(data)
-
             }
-
         });
     }
     function enviarForm(form, url){
-
 		$.ajax({
            	url: url,
             type: 'post',
@@ -969,16 +938,11 @@
             }
         });
     }
-
 $('#talento').on('change', function () {
 	$('.genero').hide()
     $('#arte-'+this.value).show()  
       
-
 });
-
-
-
 </script>
 
 {% endblock %}

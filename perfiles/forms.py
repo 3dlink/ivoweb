@@ -19,7 +19,7 @@ class FormExperiencia(forms.ModelForm):
 
     class Meta:
         model = Experiencia
-        exclude = ['usuario']
+        exclude = ['usuario', 'fecha_hasta']
 
 class FormEducacion(forms.ModelForm):
     def __init__(self, *args, **kwargs):

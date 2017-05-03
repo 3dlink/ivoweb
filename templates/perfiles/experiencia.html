@@ -20,7 +20,13 @@
     <tr>
         <td>{{ educacion.institucion }}</td>
         <td>{{ educacion.titulo }}</td>
-        <td>{{ educacion.fecha_inicio_estudio }} - {{ educacion.fecha_fin_estudio }}</td>
+        <td>{{ educacion.fecha_inicio_estudio }} - 
+        {%if educacion.fecha_fin_estudio == None %}
+            Actualidad
+        {% else %}                      
+            {{ educacion.fecha_fin_estudio }}
+        {% endif %}</td>
+        
         {% if educacion.estudiando_actualmente %}
             <td>Si</td>
         {% else %}
@@ -60,7 +66,12 @@
     <tr>
         <td>{{ experiencia.empresa }}</td>
         <td>{{ experiencia.cargo }}</td>
-        <td>{{ experiencia.fecha_desde }} - {{ educacion.fecha_hasta }}</td>
+        <td>{{ experiencia.fecha_desde }} -
+        {%if experiencia.fecha_hasta == None %} 
+            Actualidad
+        {% else %}                      
+        {{ experiencia.fecha_hasta }}
+        {% endif %}</td>
         {% if experiencia.trabajo_actual %}
             <td>Si</td>
         {% else %}
