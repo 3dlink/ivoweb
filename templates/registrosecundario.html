@@ -5,6 +5,9 @@
 {% block cssblock %}
     <style type="text/css">
     .ivo-pregunta { height: auto;}
+    .col-md-3 a{
+                  float:left;
+                }
     </style>
 {% endblock %}
 
@@ -23,17 +26,28 @@
                      <H3 > ¿COMO DESEAS REGISTRARTE EN IVO TALENTS? </H3>
 
                      <br><br><br><br><br>
-                    <a href="{% url 'registro' %}" class="ivo-boton-fondoInpt ivo-borde-trs-naranja" style="margin-top: 8px">
-                                <span class="ivo-back-trs-naranja ivo-borde-transparente">TALENTO</span>
-                            </a>
-                    <a href="{% url 'industria' %}" class="ivo-boton-fondo ivo-boton-industria">
-                                    <span>INDUSTRIA</span>
-                                </a>
-                    <a class="ivo-boton-fondoInpt ivo-borde-rosa" href="{% url 'proveedor' %}"><span class="ivo-back-rosa ivo-borde-transparente">PROVEEDOR</span></a>
 
-                <a href="{% url 'fan' %}" class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro" style="margin-top: 8px">
-                                    <span class="ivo-back-trs-azulClaro ivo-borde-transparente">FAN</span>
+                    <div class="row">
+                        <div class="col-md-3"> 
+                            <a href="{% url 'registro' %}" class="ivo-boton-fondoInpt ivo-borde-trs-naranja" >
+                                    <span class="ivo-back-trs-naranja ivo-borde-transparente">TALENTO</span>
                                 </a>
+                        </div>                     
+                        <div class="col-md-3">
+                            <a href="{% url 'industria' %}" class="ivo-boton-fondo ivo-boton-industria">
+                                        <span>INDUSTRIA</span>
+                                    </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a class="ivo-boton-fondoInpt ivo-borde-rosa" href="{% url 'proveedor' %}"><span class="ivo-back-rosa ivo-borde-transparente">PROVEEDOR</span></a>
+                        </div>
+                        <div class="col-md-3">
+                        <a href="{% url 'fan' %}" class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro" >
+                                        <span class="ivo-back-trs-azulClaro ivo-borde-transparente">FAN</span>
+                                    </a>
+                        </div>                     
+
+                     </div>
                                          
                 </div>                         
            </div>          

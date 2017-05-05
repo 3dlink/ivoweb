@@ -42,18 +42,18 @@
 									<!-- IMPLEMENTAR COUNTDOWN  CON JQUERY -->
 									<!-- IMPLEMENTAR COUNTDOWN  CON JQUERY -->
 								<ul class="ivo-casting-calendario" id="reloj" >
-									<!--li id="dia">
+									<li id="dia">
 										{{casting.fecha_fin | date:"d"}}</br>
 										<span>D&iacute;as</span>
 									</li>
 									<li id="hora">
 										{{casting.fecha_fin | date:"g"}}</br>
-										<span>Hors</span>
+										<span>Horas</span>
 									</li>
 									<li id="minutos">
 										{{casting.fecha_fin | date:"i"}}</br>
 										<span>min</span>
-									</li-->
+									</li>
 								</ul>
 							</div>
 							<div class="col-sm-12 col-md-6">
@@ -209,8 +209,8 @@
 		    $('.carousel').carousel({
 		        interval: 5000 //changes the speed
 		    })
-		    $('#reloj').countdown({until: new Date(2017, 3-1, 25), format: 'DHM'});
-		    //$('#reloj').countdown('2017-04-15 ', function(event) {
+		    //$('#reloj').countdown({until: new Date(2017, 6-1, 25), format: 'DHM'});
+		    //$('#reloj').countdown({ until:new Date(2017,06-1,15), function(event) {
      		//	$(this).html(event.strftime('<li>Quedan %D días  %H:%M:%S </li>'));
     		 //});
 		   
