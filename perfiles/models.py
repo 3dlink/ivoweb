@@ -48,10 +48,24 @@ class Multimedia(models.Model):
         verbose_name = 'Archivo Multimedia'
         verbose_name_plural = 'Archivos Multimedia'
 
+#falta la fecha
 class Mensaje(models.Model):
     origen =  models.ForeignKey(User, on_delete=models.PROTECT, related_name='mensajes_origen')
     destino =  models.ForeignKey(User, on_delete=models.PROTECT, related_name='mensajes_destino')
     mensaje = models.TextField()
     archivo =   models.FileField(upload_to='mensajes', blank=True)
     imagen = models.ImageField(upload_to='mensajes', blank=True)
+
+class Idioma (models.Model):
+    nombre = models.CharField(max_length=20, null=False, blank=False)
+    abreviatura = models.CharField(max_length=3, null=False, blank=False)
+    bandera = models.ImageField(upload_to='idiomas', blank=True)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.nombre
+
+
+class UsuarioIdioma(models.Model):
+    id_idioma = models.ForeignKey(Idioma, on_delete=models.CASCADE)
+    id_usuario = models.ForeignKey(User, on_delete=models.CASCADE,related_name="idiomas")
 

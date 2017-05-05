@@ -63,8 +63,10 @@
 					   	</div>
 
 					   	{% for artista in artistas %}
-
+							{% if artista.counter0 == 0 or artista.counter0 == 6 %}
 					   		 <div class="row">
+							{% endif %}
+							
 					        <div class="col-xs-4 col-sm-4 col-md-2 ivo-artistas-panel-item" >
 
 					        <!-- REVISAR ESTO ... LINK A PERFIL DE USUARIO ALTERA EL CSS -->
@@ -93,10 +95,12 @@
 					        	
 					        </div>
        						 
+       					
    						 {% endfor %}
+       				
 					   
-					        
-					    </div>
+					    </div>    
+					   
 					   <div class="row">
 					   		<div class="col-md-4 col-md-offset-4 text-center">
 					   			{% if artistas.has_other_pages %}

@@ -111,14 +111,44 @@
         		$('.mensaje_lista').click(function() {
         		// no estoy recuperando el mensaje completo.. y si tiene fotos?!!!!
         		//esto tiene que ser un ajax con el id del mensaje
-        			$('#persona_mensaje').text($(this).data('owner'))
-        			$('#mensaje_abierto').text($(this).children('h6').text())
-        			$('.activo').removeClass('activo')
-        			$(this).addClass("activo")   
-        			$('#revisar').show()
-        			$('#redactar').hide()     		
+        				$('.activo').removeClass('activo')
+					        			$(this).addClass("activo")   
+					        			$('#revisar').show()
+					        			$('#redactar').hide()     	
+        				var idmensaje = $(this).data('idmsj')
+			        	
+			        	 $.ajax({
+				            url: '/perfil/mensajes/detalle/',
+				            type: 'post',
+				            dataType: 'json',
+				            data: {'idmensaje':idmensaje, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+				            success: function (data) {
+				                NProgress.done();
+				                if(data.success == false){
+				                    alert(data.mensaje);
+				                   
+				                    
+				                }else{
+				                    alert(data.mensaje);
+				                    /*setTimeout(function(){
+				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
+				                    }, 1500);
+									*/
+									
+										$('#persona_mensaje').text(data.destino)
+					        			$('#mensaje_abierto').text(data.mensaje)
+					        			
+									
+									
+
+				                }
+				            }
+				        });			        	
+			    });
+
+        				
         		
-        	});
+        	
 
         		$('#responder').click(function() {
         		// no estoy recuperando el mensaje completo.. y si tiene fotos?!!!!
@@ -176,7 +206,7 @@
         	});
 
         	$('#mensaje').click(function() {
-        		// body...
+        		
         		$('#principal').hide();
         		$('#enviar_mensaje').show();
         		$('body').css('background-color', 'white');
@@ -306,7 +336,8 @@
 		{% block content %}
 
 		<!-- Full Page Image Background Carousel Header -->
-		<div id="principal">
+		<div>
+		<div id='principal'>
 	    <header id="myCarousel" class="carousel slide ivo-casting-headerContenedor ivo-borde-{{tema}} ivo-perfil-header principal">
 	        <!-- Wrapper for Slides -->
 	        <div class="carousel-inner">
@@ -431,7 +462,7 @@
 			    				</li>
 			    				<li>
 			    				{%if datos_personales.id != user.id%}
-										<a class="ivo-font-{{tema}} ivo-perfil-enlaces-mensaje" id="mensaje">
+										<a class="ivo-font-{{tema}} ivo-perfil-enlaces-mensaje" id="mensaje" style="cursor:pointer">
 			    						<span class="icon-envelope"></span> Enviar Mensaje
 			    					</a>
 									{%endif%}
@@ -638,7 +669,7 @@
 									<img src="{% static 'img/calendario.png'%}">
 								</div>
 								<h4>Nacimiento</h4>
-								<h5>{{datos_personales.fecha_nacimiento}}</h5>
+								<h5>{{datos_personales.fecha_nacimiento | date:"d N Y"}}</h5>
 								<!-- FALTAN LOS AÑOS -->
 								
 								<h6>Edad {{ edad }}</h6>
@@ -752,6 +783,8 @@
 
 
 		<div class="ivo-perfil-imgPerfil ivo-perfil-imgPerfil-header principal" id = "foto_perfil"></div>
+
+		</div>
 		<!-- Galeria -->
 		<div id="blueimp-gallery" class="blueimp-gallery principal">
 		    <!-- The container for the modal slides -->
@@ -949,7 +982,7 @@
 
 		<!-- REDACTAR MENSAJES -->
 
-		<div id="redactar">
+		<div id="redactar" >
 				<div class="col-sm-8 col-md-9 ivo-formularioConf ivo-mensajes-central">
 					<form class="ivo-formularioConf-form ivo-mensaje-enviarM" method="POST" action="/perfil/mensajes/enviar/">
 					{%csrf_token%}

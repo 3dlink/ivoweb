@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.forms import PasswordChangeForm
 from django.utils.translation import ugettext_lazy as _
 from frontend.models import User, Etnia, Cabellos,Ojos, Seguidores, UsuarioArteGenero ,Intereses, InteresesUsuario, GeneroArtistico, TipoArte, SectorIndustria
-from .models import Multimedia, Experiencia, Educacion, Mensaje
+from .models import *
 from .forms import FormActualizarDatos, FormExperiencia, FormEducacion, FormMensaje
 from core.UploadFile import UploadFile
 from core.utils import getDatosActualizar
@@ -72,6 +72,16 @@ def Configuracion_Idioma_Actualizar(request):
 
         return HttpResponse(json.dumps({'mensaje': ''}), content_type="application/json")
 
+def Agregar_Idioma(request):
+    if request.method == 'POST':
+        if UsuarioIdioma.objects.get(id_idioma=Idioma.objects.get(id=request.POST['id_idioma']), id_usuario=request.user) is None:
+            UsuarioIdioma.objects.create(id_idioma=Idioma.objects.get(id=request.POST['id_idioma']), id_usuario=request.user)
+            html=' <tr ><td>'
+            html+=Idioma.objects.get(id=request.POST['id_idioma']).nombre
+            html+= '</td><td><a href = "#">icono Editar</a></td> </tr>'
+            return HttpResponse(json.dumps({'html':html,'mensaje': 'Idioma Agregado', 'success': True}), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({'mensaje': 'Ya existe este idioma en tu experiencia', 'success': False}), content_type="application/json")            
 
 def Configuracion_Interes(request):
     if request.method == 'POST':
@@ -79,7 +89,7 @@ def Configuracion_Interes(request):
         for x in range(1,total+1):    
             #SI VIENE LA SOLICITUD       
             if 'interes-'+str(x) in request.POST:   
-                print(" AGREGAR INTERES--"+str(x)) 
+                
                 #SI NO EXISTE, LA CREO
                 if InteresesUsuario.objects.filter(id_interes=Intereses.objects.get(id=x),id_usuario=request.user).count() == 0:
                     InteresesUsuario.objects.create(id_interes=Intereses.objects.get(id=x),id_usuario=request.user)
@@ -90,28 +100,23 @@ def Configuracion_Interes(request):
                     InteresesUsuario.objects.filter(id_interes=Intereses.objects.get(id=x),id_usuario=request.user).delete()
        
         #import pdb; pdb.set_trace()
-        return HttpResponse(json.dumps({'mensaje': ''}), content_type="application/json")
+        return HttpResponseRedirect('/perfil/configuraciongeneral/')
 
 
 def Configuracion_General_Actualizar(request):
-    # NO PUEDO MODIFICAR LOS TATUAJES NI EL DISPONIBLE VIAJES
     
-    if request.method == 'POST':
+   if request.method == 'POST':
         datos = getDatosActualizar(User, request)
-        User.objects.filter(uuid=request.user.uuid).update(**datos)
-        # TRATANDO DE GUARDARLOS MANUALMENTE
-        # PERO TAMPOCO FUNCIONA
-        usuario = User.objects.get(uuid=request.user.uuid)
-        if request.POST['tatuaje'] != usuario.tatuaje:
-            print (not usuario.tatuaje)
-            usuario.tatuaje = not(usuario.tatuaje)
+        user = User.objects.filter(uuid=request.user.uuid).update(**datos)     
+       
+        if 'tatuaje' in request.POST:           
+            User.objects.filter(uuid=request.user.uuid).update(tatuaje=(request.POST['tatuaje'] == 'True'))
 
-        if request.POST['disponible_viajes'] != usuario.disponible_viajes:
-            print (not usuario.disponible_viajes)
-            usuario.disponible_viajes = not (usuario.disponible_viajes)
-        usuario.save()
+        if 'disponible_viajes' in request.POST:
+            User.objects.filter(uuid=request.user.uuid).update(disponible_viajes=(request.POST['disponible_viajes'] == 'True'))
+                
         #import pdb; pdb.set_trace()
-        return HttpResponseRedirect('/perfil/configuraciongeneral/')
+        return HttpResponseRedirect('/perfil/configuraciongeneral/') 
 
 
 def Configuracion_General(request):
@@ -120,12 +125,7 @@ def Configuracion_General(request):
     etnias = Etnia.objects.all()
     intereses = Intereses.objects.all()
     interesesusuario= InteresesUsuario.objects.filter(id_usuario=request.user).values_list('id_interes', flat=True)
-    #talentos del usuario, pero deberia pasar todos los talentos tambien
-    #talentos = UsuarioArte.objects.get(id_usuario=request.user)
-    #todos los generos correspondientes al tipo de arte del usuario
-    #generos = GeneroArtistico.objects.filter(id_tipo_arte=talentos.id_arte)
-    #artes=TipoArte.objects.all()
-    #generos = GeneroArtistico.objects.all()
+    idiomas = Idioma.objects.all()
     data = User.objects.get(uuid=request.user.uuid)
     form_pass = PasswordChangeForm(request.user)
     form_pass.fields['old_password'].widget.attrs = {'required': 'required',
@@ -134,7 +134,7 @@ def Configuracion_General(request):
                                                  'label': _('Nueva contraseña')}
     form_pass.fields['new_password2'].widget.attrs = {'required': 'required',
                                                  'label': _('Confirme su nueva contraseña')}
-    
+    idiomas_user = UsuarioIdioma.objects.filter(id_usuario=request.user.id)
     context = {
         'form': FormActualizarDatos,
         'form_pass' : form_pass,
@@ -148,7 +148,9 @@ def Configuracion_General(request):
         'ojos':ojos,
         'cabellos':cabellos,
         'intereses':intereses,
-        'interesesusuario':interesesusuario
+        'interesesusuario':interesesusuario,
+        'idiomas':idiomas,
+        'idiomas_user':idiomas_user
     }
     #import pdb; pdb.set_trace()
     return render(request, "perfiles/configuraciongeneral.html", context)
@@ -334,9 +336,17 @@ def paginar_fotos(fotos_paginacion):
 
     return {'pie_paginacion': xHTML_Paginas, 'contenido_paginacion': xHTML}
 
-def Mensajes(request):
+def detalle_mensajes(request):
     #import pdb; pdb.set_trace()      
-    return render(request,"perfiles/enviar_mensaje.html",{})
+    if request.method == 'POST':
+        mensaje = Mensaje.objects.get(id=request.POST['idmensaje'])
+        #si es mensaje lo envie
+        if mensaje.origen.id == request.user.id:
+            destino = mensaje.destino.email
+        else:
+            destino = mensaje.origen.email
+        
+    return HttpResponse(json.dumps({'mensaje':'desde el ajax','destino':destino, 'mensaje':mensaje.mensaje,'success':True}), content_type="application/json")    
 
 
 # OJO   OJO    OJO     OJO     OJO   OJO 

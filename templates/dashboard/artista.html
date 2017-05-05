@@ -32,15 +32,43 @@
         	});
 
 			$('.mensaje_lista').click(function() {
-        		// bno estoy recuperando el mensaje completo.. y si tiene fotos?!!!!
+        		// no estoy recuperando el mensaje completo.. y si tiene fotos?!!!!
         		//esto tiene que ser un ajax con el id del mensaje
-        			$('#persona_mensaje').text($(this).data('owner'))
-        			$('#mensaje_abierto').text($(this).children('h6').text())
-        			$('.activo').removeClass('activo')
-        			$(this).addClass("activo")   
-        			$('#revisar').show()
-        			$('#redactar').hide()        		
-        	});
+        				$('.activo').removeClass('activo')
+					        			$(this).addClass("activo")   
+					        			$('#revisar').show()
+					        			$('#redactar').hide()     	
+        				var idmensaje = $(this).data('idmsj')
+			        	
+			        	 $.ajax({
+				            url: '/perfil/mensajes/detalle/',
+				            type: 'post',
+				            dataType: 'json',
+				            data: {'idmensaje':idmensaje, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+				            success: function (data) {
+				                NProgress.done();
+				                if(data.success == false){
+				                    alert(data.mensaje);
+				                   
+				                    
+				                }else{
+				                    alert(data.mensaje);
+				                    /*setTimeout(function(){
+				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
+				                    }, 1500);
+									*/
+									
+										$('#persona_mensaje').text(data.destino)
+					        			$('#mensaje_abierto').text(data.mensaje)
+					        			
+									
+									
+
+				                }
+				            }
+				        });			        	
+			    });
+
 
 
         		$('#responder').click(function() {
@@ -508,30 +536,19 @@
 									<br />
 								</div>
 							</div>
+							{% for proveedor in proveedores %}
 					        <div class="col-xs-6 col-sm-3 ivo-artistas-panel-item" >
-					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3 class="ivo-font-negro">Musico</h3>
-					    		<h4 class="ivo-font-negro nombre"><b>Catherine Lewis</b></h4>
-					    		<h4 class="ivo-font-negro">Compositora</h4>
+					        	{% if proveedor.id_usuario.avatar == ''%}
+						        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
+						        {% else %}
+									<img src="{{proveedor.id_usuario.avatar.url}}" class="img-responsive">
+						        {% endif %}
+
+					            <h3 class="ivo-font-negro">{{proveedor.id_genero.id_tipo_arte.name}}</h3>
+					    		<h4 class="ivo-font-negro nombre"><b>{{proveedor.id_usuario.empresa_provedor}}</b></h4>
+					    		<h4 class="ivo-font-negro">{{proveedor.id_genero.name}}</h4>
 					        </div>
-					        <div class="col-xs-6 col-sm-3 ivo-artistas-panel-item" >
-					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3 class="ivo-font-negro">Musico</h3>
-					    		<h4 class="ivo-font-negro nombre"><b>Catherine Lewis</b></h4>
-					    		<h4 class="ivo-font-negro">Compositora</h4>
-					        </div>
-					        <div class="col-xs-6 col-sm-3 ivo-artistas-panel-item" >
-					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3 class="ivo-font-negro">Musico</h3>
-					    		<h4 class="ivo-font-negro nombre"><b>Catherine Lewis</b></h4>
-					    		<h4 class="ivo-font-negro">Compositora</h4>
-					        </div>
-					        <div class="col-xs-6 col-sm-3 ivo-artistas-panel-item" >
-					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
-					            <h3 class="ivo-font-negro">Musico</h3>
-					    		<h4 class="ivo-font-negro nombre"><b>Catherine Lewis</b></h4>
-					    		<h4 class="ivo-font-negro">Compositora</h4>
-					        </div>
+					        {% endfor %}
 					    </div>
 					</div>
 				</div>

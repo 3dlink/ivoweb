@@ -135,6 +135,10 @@ class User(AbstractBaseUser,PermissionsMixin):
         verbose_name = _('Usuario')
         verbose_name_plural = ('Usuarios')
 
+    def save(self, *args, **kwargs):
+        #import pdb; pdb.set_trace()
+        super(User, self).save(*args, **kwargs)
+
     @property
     def get_avatar(self):
         return str(self.avatar)

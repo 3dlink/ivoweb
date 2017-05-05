@@ -33,7 +33,7 @@ def todos(request):
 
 def casting_por_categoria(request, idcategoria):
 	categorias= Categoria.objects.all()
-	import pdb; pdb.set_trace()
+	#import pdb; pdb.set_trace()
 	categoria = Categoria.objects.get(nombre=idcategoria.replace("-"," "))
 
 	all_casting = categoria.casting_set.order_by("fecha_fin")

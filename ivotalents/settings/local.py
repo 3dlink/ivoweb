@@ -30,11 +30,12 @@ ALLOWED_HOSTS = []
 
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'ivotalents@gmail.com'
-EMAIL_HOST_PASSWORD = '1v0t4l3nt5'
+EMAIL_HOST_USER = 'ati2mortiz@gmail.com'
+EMAIL_HOST_PASSWORD = '18815251'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
+DEFAULT_FROM_EMAIL= EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
 
 # Application definition
 

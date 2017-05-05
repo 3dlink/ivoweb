@@ -561,7 +561,11 @@
 								<!-- Seccion Resumen de Artistas -->
 								{% for talento in talentos %}
 								<div class="col-sm-3 ivo-artistas-panel-item" >
+								{% if talento.id_usuario.avatar == ''%}
 						        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
+						        {% else %}
+									<img src="{{talento.id_usuario.avatar.url}}" class="img-responsive">
+						        {% endif %}
 						            <h3 class="ivo-font-negro">{{talento.id_genero.id_tipo_arte.name}}</h3>
 						    		<h4 class="ivo-font-negro nombre"><b>{{talento.id_usuario.get_full_name}}</b></h4>
 						    		<h4 class="ivo-font-negro">{{talento.id_genero.name}}</h4>

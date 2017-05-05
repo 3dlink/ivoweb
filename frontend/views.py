@@ -298,8 +298,8 @@ def artistadashboard(request):
         enviados = Mensaje.objects.filter(origen=request.user.id)
         recibidos = Mensaje.objects.filter(destino=request.user.id)
         industrias = Industria.objects.all()
-        proveedores = Proveedor.objects.all()
-        #import pdb; pdb.set_trace()
+        proveedores = SectorIndustria.objects.filter(id_sector__in=Industria.objects.filter(tipo='P').values_list('id',flat=True))[:4]
+        
 
         if len(generos)>0:
             genero= generos[0]
@@ -317,12 +317,13 @@ def artistadashboard(request):
         talentos = UsuarioArteGenero.objects.all()[:8]
         enviados = Mensaje.objects.filter(origen=request.user.id)
         recibidos = Mensaje.objects.filter(destino=request.user.id)
-        proveedores = SectorIndustria.objects.filter(id_sector=Industria.objects.filter(tipo='P'))[:4]
+        proveedores = SectorIndustria.objects.filter(id_sector__in=Industria.objects.filter(tipo='P').values_list('id',flat=True))[:4]
         industrias = Industria.objects.filter(tipo='P')
         artes = TipoArte.objects.all()
         cabellos = Cabellos.objects.all()
         ojos = Ojos.objects.all()
         etnias = Etnia.objects.all()
+        
 
 
         context= {"posts":posts, 

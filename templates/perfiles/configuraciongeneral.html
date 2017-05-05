@@ -433,7 +433,7 @@
 					</div>
 					<div class="col-md-9">
 						<select id="tatuaje" name="tatuaje">
-						{% if datos.tatuajes %}
+						{% if datos.tatuaje %}
 							<option value='True' selected>  Si</option>
 							<option value='False'>No</option>
 						{% else %}
@@ -627,15 +627,43 @@
 						<label>Idiomas</label>
 					</div>
 					<div class="col-md-9">
-						<select id="idiomas" name="idiomas">
-                            <option value=""></option>
-							<option value="Ingles, Espa&ntilde;ol, Frances">Ingles, Espa&ntilde;ol, Frances</option>
-							<option value="Ingles">Ingles</option>
-							<option value="Espa&ntilde;ol">Espa&ntilde;ol</option>
-							<option value="Frances">Frances</option>
+						<select id="idioma" name="idioma">
+                            
+							{% for idioma in idiomas %}
+								<option value="{{idioma.id}}"> {{idioma.nombre}}</option>
+							{% endfor %}
 						</select>
 					</div>
 				</div>
+
+				<div class="row">
+				<div class="col-md-12 text-right">
+				    <a href="#" id="agregar_idioma"> + Agregar Idioma</a>
+				</div>
+				</div>
+				<table class="table ivo-table">
+				<thead>
+				    <tr>
+				        <th>Idioma</th>
+				        
+				        <th>
+
+				        </th>
+				    </tr>
+				</thead>
+				<tbody id='tbody_idiomas'>
+				    {% for idioma_user in idiomas_user %}
+				    <tr >
+				        <td>{{ idioma_user.id_idioma.nombre}}</td>
+				        <td>
+				            <a href = "#">icono Editar</a>
+				        </td>
+				    </tr>
+				    {% endfor %}
+				</tbody>
+				</table>
+
+				
 				<div class="ivo-configuracion-form-separador"></div>
 				<!--<h1>Cita</h1>
 				<div class="row">
@@ -742,20 +770,39 @@
 				$("#pais option[value={{ datos.pais}}]").attr("selected",true);
 			{% endif %}
 			{% endif %}
-		/*{% if datos.tatuaje != None %}
-			$("#tatuaje option[value={{ datos.tatuaje}}]").attr("selected",true);
-		{% endif %}*/
-        $('#idiomas').change(function(){
-            $.ajax({
-                url: '/perfil/configuraciongeneral/idiomas/',
-                type: 'post',
-                dataType: 'json',
-                data: {idioma: $(this).val(), csrfmiddlewaretoken:'{{csrf_token }}' },
-                success: function (data) {
-                    NProgress.done();
-                }
-            });
-        });
+		
+       
+		 $('#agregar_idioma').click(function(){
+		 				id_idioma=$('#idioma').val();
+			        	
+			        	 $.ajax({
+				            url: '/perfil/configuraciongeneral/idioma/',
+				            type: 'post',
+				            dataType: 'json',
+				            data: {'id_idioma':id_idioma, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+				            success: function (data) {
+				                NProgress.done();
+				                if(data.success == false){
+				                    alert(data.mensaje);
+				                   
+				                    
+				                }else{
+				                    alert(data.mensaje);
+				                    /*setTimeout(function(){
+				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
+				                    }, 1500);
+									*/
+									
+										$('#tbody_idiomas').append(data.html)
+									
+									
+
+				                }
+				            }
+				        });			        	
+			    });
+
+
 		$('#send_form_general').click(function(){
 			
 			if (validarForm( $('#form_general input') ) ) {
