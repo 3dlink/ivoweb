@@ -27,7 +27,7 @@
 	            <div class="item active">
 	            	<div class="ivo-layer-gry"></div>
 	                <!-- Set the first background image using inline CSS below. -->
-	                <div class="fill" style="background-image:url('assets/img/castings-header.jpg');"></div>
+	                <div class="fill" style="background-image:url({% static 'img/castings-header.jpg' %});"></div>
 	                <div class="carousel-caption" style="text-align:left;">
 	                	<h1 class="ivo-catsting-carousel-h1">
 							<span>Has tu audicion desde IVO Apps</span>
@@ -40,14 +40,14 @@
 	            </div>
 	            <div class="item">
 	                <!-- Set the second background image using inline CSS below. -->
-	                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Two');"></div>
+	                <div class="fill" style="background-image:url({% static 'img/casting-concierto.jpg' %});"></div>
 	                <div class="carousel-caption">
 	                    <h2>Caption 2</h2>
 	                </div>
 	            </div>
 	            <div class="item">
 	                <!-- Set the third background image using inline CSS below. -->
-	                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Three');"></div>
+	                <div class="fill" style="background-image:url({% static 'img/Banner1-3Casting.png' %});"></div>
 	                <div class="carousel-caption">
 	                    <h2>Caption 3</h2>
 	                </div>
@@ -93,7 +93,12 @@
 						{% for casting in castings %}
 							{% if forloop.counter0 == 0 or forloop.counter0 == 1 or forloop.counter0 == 2 or  forloop.counter0 == 4 or forloop.counter0 == 5 or forloop.counter0 == 6 or forloop.counter0 == 7 or forloop.counter0 == 9 %}
 								
-								<div class="image-block col-xs-6  col-sm-4 ivo-castings-noticia" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg) no-repeat center top;background-size:cover;">
+							{% if casting.imagen_1 == ''%}
+					    	<div class="image-block col-xs-6  col-sm-4 ivo-castings-noticia" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg) no-repeat center top;background-size:cover;">
+					    	{% else %}
+					    	<div class="image-block col-xs-6  col-sm-4 ivo-castings-noticia" style="background: url('{{casting.imagen_1.url}}') no-repeat center top;background-size:cover;">
+					    	{%endif%}
+								
 					    		<h4 class="ivo-casting-categoria no-background"> {{casting.categoria.nombre}} </h4>
 					    		<h4 class="ivo-casting-titulo no-background ivo-castings-titulo">{{casting.titulo}}</h4>
 					            <p class="ivo-casting-noticia-descripcion">{{casting.descripcion_breve}}</p>
@@ -104,8 +109,15 @@
 					            
 
 							{%else%}
+								{% if casting.imagen_1 == ''%}
+					    	<div class="image-block col-xs-6 col-sm-8 ivo-castings-noticia" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city6.jpg) no-repeat center top;background-size:cover;">
+					    	{% else %}
+					    	<div class="image-block col-xs-6 col-sm-8 ivo-castings-noticia" style="background: url('{{casting.imagen_1.url}}') no-repeat center top;background-size:cover;">
+					    	
+					    	{%endif%}
+
 								
-								<div class="image-block col-xs-6 col-sm-8 ivo-castings-noticia" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city6.jpg) no-repeat center top;background-size:cover;">
+								
 					    		<h4 class="ivo-casting-categoria no-background"> {{casting.categoria.nombre}} </h4>
 					    		<h4 class="ivo-casting-titulo no-background ivo-castings-titulo">{{casting.titulo}}</h4>
 					            <p class="ivo-casting-noticia-descripcion">{{casting.descripcion_breve}}</p>
@@ -164,7 +176,8 @@
 							      	{% if castings.number == i %}
 									<li class="activo ivo-font-verde"><span class="icon_circle-slelected"></span></li>
 									{% else %}
-									<li class="ivo-font-blanco"> <a href="?page={{ i }}"><span class="icon_circle-empty"></span></a></li>
+									<!--li><span class="icon_circle-empty"></span></li-->
+									<li ><a href="?page={{ i }}"><span class="icon_circle-empty ivo-font-blanco"></span></a></li>
 									{% endif %}
 							    {% endfor %}
 								</ul>
@@ -183,13 +196,13 @@
 					<div class="col-md-12 col-lg-12 ivo-artistas-app">
 						<div class="row">
 							<div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-0 col-lg-5 col-lg-offset-0">
-								<img src="assets/img/ivo-lg3.png" class="img-responsive ivo-app-logo general">
+								<img src="{% static 'img/ivo-lg3.png' %}" class="img-responsive ivo-app-logo general">
 								<h2>Descarga nuestra App Movil</h2>
 								<a href="#" class="ivo-app-goplay general">
-									<img src="assets/img/google-play.png">
+									<img src=" {% static 'img/google-play.png' %}">
 								</a>
 								<a href="#" class="ivo-app-appsto general">
-									<img src="assets/img/appstore.png">
+									<img src="{% static 'img/appstore.png' %}">
 								</a>
 								<br class="clear">
 							</div>

@@ -10,7 +10,11 @@
 					    <div class="row text-center">
 					    {% for casting in castings %}
 					    	{% if forloop.counter0 == 0%}
+					    	{% if casting.imagen_1 == ''%}
 					    	<div class="image-block col-sm-8 col-md-4 col-sm-offset-2 ivo-casting-imageblock derecha" style="background: url({% static 'img/artista-t1.jpg' %}) no-repeat center top;background-size:cover;">
+					    	{% else %}
+					    	<div class="image-block col-sm-8 col-md-4 col-sm-offset-2 ivo-casting-imageblock derecha" style="background: url('{{casting.imagen_1.url}}') no-repeat center top;background-size:cover;">
+					    	{%endif%}
 					    		<h3 class="ivo-back-naranja">{{casting.categoria.nombre}}</h3>
 					    		<h4 class="ivo-noticia-titulo">{{casting.titulo}}</h4>
 					    		<!--h4 class="ivo-noticia-subtitulo">SubTitulo de la noticia</h4-->
@@ -20,7 +24,12 @@
 					            <a href={% url 'casting:casting_detalle' idcasting=casting.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link ivo-perfilINd-boton">Ver Casting</a>
 					        </div>
 							{% else %}
-								<div class="image-block col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-0 ivo-casting-imageblock" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg) no-repeat center top;background-size:cover;">
+									{% if casting.imagen_1 == ''%}
+					    	<div class="image-block col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-0 ivo-casting-imageblock" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg) no-repeat center top;background-size:cover;">
+					    	{% else %}
+					    	<div class="image-block col-sm-8 col-md-4 col-sm-offset-2 ivo-casting-imageblock derecha" style="background: url('{{casting.imagen_1.url}}') no-repeat center top;background-size:cover;">
+					    	{%endif%}
+								
 					            <h3 class="ivo-back-naranja">{{casting.categoria.nombre}}</h3>
 					    		<h4 class="ivo-noticia-titulo">{{casting.titulo}}</h4>
 					    		<p class="ivo-noticia-descripcion ivo-noticia-descripcion-sub">
