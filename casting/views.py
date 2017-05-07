@@ -1,10 +1,10 @@
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render_to_response, render, redirect
+from django.core.urlresolvers import reverse
 from .models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import  FormRegistro, FormAudicion
 from frontend.models import User, SectorIndustria, Industria, UsuarioArteGenero
 import json
-from django.shortcuts import render
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from frontend.funciones import form_invalid
@@ -13,6 +13,7 @@ from datetime import date
 
 
 # Create your views here.
+#LISTA GENERAL
 def todos(request):
 	
 	categorias= Categoria.objects.all()
@@ -31,6 +32,7 @@ def todos(request):
 	#import pdb;   pdb.set_trace()
 	return render(request, "casting/inicio.html", {"castings": castings, "categorias":categorias })
 
+#LISTADO POR CATEGORIA
 def casting_por_categoria(request, idcategoria):
 	categorias= Categoria.objects.all()
 	#import pdb; pdb.set_trace()
@@ -50,6 +52,7 @@ def casting_por_categoria(request, idcategoria):
 	#import pdb;   pdb.set_trace()
 	return render(request, "casting/inicio.html", {"castings": castings,"categorias":categorias })
 
+#DETALLES DE UN CASTING
 def detalle(request,idcasting):
 
 	casting = Casting.objects.get(id=idcasting)
@@ -61,11 +64,13 @@ def detalle(request,idcasting):
 #def crear(request):
 #	return render_to_response("casting/crear.html",{},)
 
+#CREACION DE UN CASTING
 def crear(request):	
 
 	if request.user.tipo_usuario == 'I':
 		categorias=Categoria.objects.all()
-		if request.method == 'POST':			
+		if request.method == 'POST':	
+			#import pdb; pdb.set_trace()		
 			mensaje = ''
 			error = ''
 			form = FormRegistro(request.POST, request.FILES)
@@ -84,12 +89,13 @@ def crear(request):
 				messages.success(request, 'No pudo ser creado')
 				#REVISAR ESTE RETURN DEL MENSAJE... SE MUESTRA EL JSON Y NO UN MENSAJE "REGULAR"
 				#return HttpResponse(json.dumps(mensaje), content_type="application/json")
-		#import pdb; pdb.set_trace()
+		#
 		context = {'from': FormRegistro, "categorias":categorias }
 		return render(request, "casting/crear.html", context)
 	else:
 		return HttpResponseRedirect( "/",{})	
 
+#COMO QUE NO HACE NADA PORQUE LO QUE PENSABA HACER, LO RESOLVI CON EL MESSAGE DE LA FUNCION ANTERIOR
 def guardar(request):
     if request.method == 'POST':
         form = FormRegistro(request.POST)
@@ -116,17 +122,20 @@ def audicion1(request, casting):
 				audicion.id_usuario = User.objects.get(email=request.user.email)
 				audicion.id_casting = Casting.objects.get(id=casting)					
 				audicion.save()		
-				mensaje = {'mensaje': str(_('Audicion creada con exito')), 'success': True}		
+				mensaje = {'mensaje': str(_('Audicion creada con exito')), 'success': True}	
+				#messages.success(request, 'Audicion creada con exito')	
 			else:
 				mensaje = form_invalid(form)
-				#REVISAR ESTE RETURN DEL MENSAJE... SE MUESTRA EL JSON Y NO UN MENSAJE "REGULAR"
-			return HttpResponse(json.dumps(mensaje), content_type="application/json")
+				#messages.warning(request, 'No se pudo registrar su audicion')
+							
+			return redirect(reverse("casting:casting_detalle", args=[casting]))
+			
 		context = {'from': FormAudicion,'casting':casting }
 		return render(request,'casting/audicion-1.html',context)
 	else:
 		return HttpResponseRedirect( "/",{})
 
-	
+#PANEL DE ADMINISTRACION DE AUDICIONES
 def panel (request):
 	castings = Casting.objects.filter(fecha_fin__gte=date.today()).order_by("fecha_fin")[:6]
 	fincastings = Casting.objects.filter(autor=request.user, fecha_fin__lt=date.today())
@@ -135,7 +144,7 @@ def panel (request):
 	#import pdb; pdb.set_trace()
 	return render(request, 'casting/castingpanel.html',{'proveedores':proveedores,'castings':castings, 'usercastings':usercastings,'fincastings':fincastings})
 
-
+#MUESTRA  EL CASTING Y SU AUDICIONES
 def casting_ind(request,idcasting):
 	casting = Casting.objects.get(id=idcasting)
 	audiciones = Audicion.objects.filter(id_casting=idcasting)
@@ -202,7 +211,7 @@ def casting_ind(request,idcasting):
 
 
 
-
+#MUESTRA LA AUDICION
 def casting_aud(request,idaudicion):
 	
 	
@@ -243,7 +252,7 @@ def casting_aud(request,idaudicion):
 	return HttpResponse(json.dumps({'audiciones':audi,'mensaje': str(_('Casting Encontrado')), 'success': True}), content_type="application/json")
 	
 
-
+#GUARDA EL GANADOR DEL CASTING
 def casting_ganador(request):
 	if request.method=='POST':
 		audicion=Audicion.objects.get(id=request.POST['idaudicion'])

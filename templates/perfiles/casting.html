@@ -27,7 +27,8 @@
 									{% if casting.imagen_1 == ''%}
 					    	<div class="image-block col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-0 ivo-casting-imageblock" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg) no-repeat center top;background-size:cover;">
 					    	{% else %}
-					    	<div class="image-block col-sm-8 col-md-4 col-sm-offset-2 ivo-casting-imageblock derecha" style="background: url('{{casting.imagen_1.url}}') no-repeat center top;background-size:cover;">
+					    	<div class="image-block col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-0 ivo-casting-imageblock" style="background: url('{{casting.imagen_1.url}}') no-repeat center top;background-size:cover;">
+					    	
 					    	{%endif%}
 								
 					            <h3 class="ivo-back-naranja">{{casting.categoria.nombre}}</h3>

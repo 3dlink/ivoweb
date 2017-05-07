@@ -32,9 +32,10 @@ class Audicion(models.Model):
     id_casting = models.ForeignKey(Casting)
     motivo_participar = models.TextField()
     cuentanos = models.TextField()
-    archivo =  models.FileField(upload_to='audiciones', blank=True)
+    archivo =  models.FileField(upload_to='audiciones', blank=False)
     ganador = models.BooleanField(default=False)
 
+    
 
 
 

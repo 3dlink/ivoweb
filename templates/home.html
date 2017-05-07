@@ -68,16 +68,24 @@
 								<p  class="ivo-intro-contenido-casting-texto">
 									<span>Usan su perfil para actualizar trabajos, Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Usan su perfil para actualizar trabajos.</span>
 								</p>
-								<button class="ivo-boton-fondoInpt ivo-borde-verde" style="margin-top: 8px">
+								<br>
+								
+									{% if user.is_authenticated %}
+									<a href= "{%url 'casting:casting_inicio' %}" class="ivo-boton-fondoInpt ivo-borde-verde" style="margin-top: 8px">
 									<span class="ivo-back-verde ivo-borde-transparente">
-										Unete
+										Descubre
+									{% else %}
+									<a href= "{%url 'registro' %}" class="ivo-boton-fondoInpt ivo-borde-verde" style="margin-top: 8px">
+									<span class="ivo-back-verde ivo-borde-transparente">									
+										Unete						
+									{% endif %}
 									</span>
-								</button>
-								<button class="ivo-boton-fondoInpt-simple ivo-borde-trs-verde" style="margin-top: 8px">
+								</a> &nbsp
+								<a href="{% url 'casting:casting_inicio' %}" class="ivo-boton-fondoInpt-simple ivo-borde-trs-verde" style="margin-top: 8px">
 									<span class="ivo-back-transparente ivo-borde-transparente ivo-font-verde">
 										Hacer Casting / Audicion
 									</span>
-								</button>
+								</a>
 							</div>
 						</div>
 					</div>

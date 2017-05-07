@@ -9,6 +9,7 @@
 		<style type="text/css">
 			.ivo-pregunta { height: auto;}
 			.ivo-form  select {width: 100%}
+			.ivo-casting-industriaBck {background-image: url("{% static 'img/casting-concierto.jpg' %}");}
 		</style>
 {% endblock %}
 
@@ -24,6 +25,7 @@
 	                <div class="carousel-caption ivo-casting-header" style="text-align:left;">
 						<div class="row">
 							<div class="col-sm-12 col-md-6">
+							
 
 							<!-- RESOLVER ESTO PORQUE NO PUEDE SER CON  ETIQUETAS BR -->
 							<!-- RESOLVER ESTO PORQUE NO PUEDE SER CON  ETIQUETAS BR -->
@@ -152,7 +154,13 @@
 					    <div class="row text-center">
 					    	{%for castingasociado in asociados%}
 								{%if forloop.counter0 == 0%}
-						    	<div class="image-block col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-2 ivo-casting-imageblock derecha" style="background: url(assets/img/artista-t1.jpg) no-repeat center top;background-size:cover;">
+
+								{%if castingasociado.imagen_1 == '' %}
+									 <div class="image-block col-sm-8  col-md-4 col-sm-offset-2 col-md-offset-0 ivo-casting-imageblock" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg) no-repeat center top;background-size:cover;">
+								{%else%}
+										<div class="image-block col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-2 ivo-casting-imageblock derecha" style="background: url('{{castingasociado.imagen_1.url}}') no-repeat center top;background-size:cover;">
+								{%endif%}
+						    	
 						    		<h3 style="background-color: #0032A0">{{castingasociado.categoria.nombre}}</h3>
 						    		<h4 class="ivo-noticia-titulo">{{castingasociado.titulo}}</h4>
 						            <p class="ivo-noticia-descripcion">
@@ -161,7 +169,14 @@
 						            <a href={% url 'casting:casting_detalle' idcasting=castingasociado.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Ver Casting</a>
 						        </div>
 						        {%else%}
-						        <div class="image-block col-sm-8  col-md-4 col-sm-offset-2 col-md-offset-0 ivo-casting-imageblock" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg) no-repeat center top;background-size:cover;">
+
+						        {%if castingasociado.imagen_1 == '' %}
+									  <div class="image-block col-sm-8  col-md-4 col-sm-offset-2 col-md-offset-0 ivo-casting-imageblock" style="background: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg) no-repeat center top;background-size:cover;">
+								{%else%}
+										 <div class="image-block col-sm-8  col-md-4 col-sm-offset-2 col-md-offset-0 ivo-casting-imageblock" style="background: url('{{castingasociado.imagen_1.url}}') no-repeat center top;background-size:cover;">
+										
+								{%endif%}
+						       
 						            <h3 style="background-color: #00C4B4">{{castingasociado.categoria.nombre}}</h3>
 						    		<h4 class="ivo-noticia-titulo">{{castingasociado.titulo}}</h4>
 						            <p class="ivo-noticia-descripcion">
@@ -206,6 +221,8 @@
 	<script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
 
 		<script>
+
+			
 		    $('.carousel').carousel({
 		        interval: 5000 //changes the speed
 		    })
