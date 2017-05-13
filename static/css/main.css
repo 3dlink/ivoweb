@@ -1238,6 +1238,23 @@ br.clear {clear: both;}
 			font-family: 'exo-l';
 		}
 
+		.ivo-intro-texto > h3 {
+			font-size: 30px;
+    		
+    		font-family: 'exo-bold';
+    		text-align: right;
+    		margin: auto;
+		}
+
+		.ivo-intro-texto > h4 {
+			font-size: 24px;
+			font-weight: lighter;
+			margin-bottom: 40px;
+			font-family: 'exo-m';
+			
+    		margin: auto;
+		}
+
 		.ivo-intro-texto > a {
 			margin-top: 40px;
 			font-weight: bold;
@@ -2957,7 +2974,7 @@ br.clear {clear: both;}
 		}
 
 		.ivo-blog-item-lg > p {
-			height: 440px;
+			height: 100%;
 		}
 
 .ivo-blog-item-extendido {

@@ -71,10 +71,12 @@
 							<h1 class="headermessage ivo-headermessage-titulo">Castings</h1>
 					       	<h3 class="headermessage">Las Oportunidades Est&aacute;n en IVO Talents</h3>
 					       	<ul class="list-inline ivo-castings-panel-filtros">
+
+	<!-- 	ESTO NO VA A SERVIR POR EL CAMBIO EN MODELO DE CATEGORIA A ELEMENTO INDUSTRIA -->
 							{% for categoria in categorias %}
 
 							<li>
-							<a href='/casting/categoria/{{categoria.nombre | slugify }}' style="text-decoration: none; color: white;">
+							<a href='/casting/categoria/{{categoria.id}}/' style="text-decoration: none; color: white;">
 								{{categoria.nombre}}
 								</a>
 							</li>

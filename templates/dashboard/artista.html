@@ -4,12 +4,22 @@
 
     {% block javascript %}
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript">
+</script> <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+
         <script type="text/javascript" src="{% static 'js/jquery.plugin.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
          <script type="text/javascript" src="{% static 'js/jquery.blueimp-gallery.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/bootstrap-image-gallery.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/perfil.js' %}"></script>
 		<script type="text/javascript">
+
+		$(function() {
+		  $("#nombre").autocomplete({
+		    source: "/mensaje/get_user/",
+		    minLength: 2,
+		  });
+		});
 
 		$(function(){ 
         		$('.ivo-usuario-subMenu').removeClass("activo");
@@ -52,7 +62,7 @@
 				                   
 				                    
 				                }else{
-				                    alert(data.mensaje);
+				                    //alert(data.mensaje);
 				                    /*setTimeout(function(){
 				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
 				                    }, 1500);
@@ -60,6 +70,18 @@
 									
 										$('#persona_mensaje').text(data.destino)
 					        			$('#mensaje_abierto').text(data.mensaje)
+					        			if(data.imagen!=''){
+					        				$('#enlace_imagen').attr('href',data.imagen)
+					        			$('#enlace_imagen').text('descargar imagen adjunta')
+					        			}
+
+					        			if(data.archivo!=''){
+					        				$('#enlace_archivo').attr('href',data.archivo)
+					        			$('#enlace_archivo').text('descargar archivo adjunto')
+					        			}
+
+
+					        			
 					        			
 									
 									
@@ -198,6 +220,7 @@
     {% endblock %}
 
     {% block cssblock %}
+    	<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
 
         <link rel="stylesheet" href="{% static 'css/main.css' %}" crossorigin="anonymous">
         <!-- Css Mquery ivo-talents -->
@@ -601,6 +624,7 @@
 							<div class="mensaje_lista" style="background-image: url(assets/img/avatar-ivo.jpg)"></div>
 							<h5>{{recibido.origen.get_full_name}}</h5>
 							<h6>{{recibido.mensaje}}</h6>
+
 						</li>
 						{%endfor%}
 						
@@ -626,8 +650,9 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12 ivo-mensaje-contenido" id="mensaje_abierto">
-							
 						</div>
+						<p><a id='enlace_imagen' download></a></p>
+						<p><a id='enlace_archivo' download></a></p>
 					</div>
 					<div class="row">
 						<div class="col-md-12 text-right">
@@ -650,21 +675,28 @@
 
 		<div id="redactar" hidden>
 				<div class="col-sm-8 col-md-9 ivo-formularioConf ivo-mensajes-central">
-					<form class="ivo-formularioConf-form ivo-mensaje-enviarM" method="POST" action="/perfil/mensajes/enviar/">
+					<form class="ivo-formularioConf-form ivo-mensaje-enviarM" method="POST" action="/perfil/mensajes/enviar/" enctype="multipart/form-data">
 					{%csrf_token%}
-						<!-- DEBE LLEVAR UN AJAX, O MEJOR UN SOCKET, PARA RECUPERAR LAS INSTANCIAS A LOS DATOS-->
-						<input type="text" placeholder="Escribe un nombre" name="destino" id="nombre">
+						
+						
+							  <!--esto llevaba un div con el class cubriendolo
+							  		con el div, se ve mal el input. sin el div se ve mal el resultado
+							  		 -->
+							 
+							  <input class="ui-widget" type="text" placeholder="Escribe el correo" name="destino" id="nombre">
+							
+						
 						<textarea placeholder="Escribe tu mensaje" name="mensaje" id="cuerpo_mensaje"></textarea>
 						<div>	
-						<input type="file" id='archivo'  style="display: none;">
+						<input type="file" id='archivo' name="archivo"  style="display:none">
 							
 							
 								<label for="archivo" class="glyphicon glyphicon-paperclip" ></label>
 								
 							
-							<input type="file" name='imagen' style="display: none;">
+							<input type="file" id="imagen" name='imagen' accept="image/*" style="display:none">
 								
-							<label for="archivo" class="glyphicon glyphicon-picture" ></label>						
+							<label for="imagen" class="glyphicon glyphicon-picture" ></label>						
 								
 							
 						</div>

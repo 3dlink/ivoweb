@@ -1,5 +1,5 @@
 from django.db import models
-from frontend.models import User
+from frontend.models import User, Industria
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=40)
@@ -21,7 +21,7 @@ class Casting(models.Model):
     info_adicional = models.TextField()
     descripcion_breve= models.CharField(max_length=255, blank=False)
     autor = models.ForeignKey(User)
-    categoria = models.ForeignKey(Categoria)
+    categoria = models.ForeignKey(Industria)
 
 
     def __str__(self):

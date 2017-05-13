@@ -40,6 +40,11 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Application definition
 
+AUTHENTICATION_BACKENDS = (
+    'allauth.account.auth_backends.AuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,6 +54,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'rest_framework',
+    'django.contrib.sites',
+'allauth',
+'allauth.account',
+'allauth.socialaccount',
+'allauth.socialaccount.providers.facebook',
     #'registration',
     'frontend',
     'perfiles',
@@ -58,6 +68,7 @@ INSTALLED_APPS = [
     'casting'
 
 ]
+
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -104,6 +115,35 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ivotalents.wsgi.application'
 
+SOCIALACCOUNT_PROVIDERS = \
+    {'facebook':
+       {'METHOD': 'oauth2',
+        'SCOPE': ['email','public_profile', 'user_friends'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'locale',
+            'timezone',
+            'link',
+            'gender',
+            'updated_time'],
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': lambda request: 'kr_KR',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v2.4'}}
+
+SOCIAL_AUTH_FACEBOOK_KEY = '194311034382699'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET ='0a6bd942753b882cc52ecb9ab440dbae' #app key
+
+SITE_ID = 'localhost' # for the dev mode, you need to use localhost's id facebook does not support the name 127.0.0.1:8000
+#little options for your page's signup.
+ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_USERNAME_REQURIED=True
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
@@ -193,7 +233,7 @@ ACCOUNT_ACTIVATION_DAYS = 2
 REGISTRATION_AUTO_LOGIN = True
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-SITE_ID=1
+SITE_ID=2
 
 
 LOGIN_URL = '/'
@@ -202,3 +242,8 @@ LOGOUT_REDIRECT_URL = '/'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_AGE = 40 * 60
+
+AUTH_USER_MODEL ='frontend.User'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
+ACCOUNT_USER_EMAIL_FIELD = 'email'

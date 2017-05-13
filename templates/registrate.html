@@ -211,9 +211,18 @@
                             <input type="text" name="nacionalidad" placeholder="{% trans 'Nacionalidad' %}" required="required" mensaje = "{% trans 'Nacionalidad es una campo requerido' %}">
                         </div>
                         <div class="col-md-4 col-lg-4">
-                            <select id="pais" name="pais">
-                                <option value="VEN">Venezuela</option>
-                                <option value="COL">Colombia</option>
+
+                           <select id="pais" name="pais">
+                                    <option selected="selected" disabled>Pais de residencia</option> 
+                                        {% for pais in paises %}         
+                            <!-- LOS GENERO OCULTOS SIEMPRE? -->
+                                            
+                                                <option value="{{pais.id}}">{{pais.nombre}}</option>
+                                            
+                                        {% endfor %}        
+                                    </select>
+                            
+                                
                             </select>
                         </div>
                         <div class="col-md-4 col-lg-4">

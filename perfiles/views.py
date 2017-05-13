@@ -8,7 +8,7 @@ from django.views.generic import UpdateView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.forms import PasswordChangeForm
 from django.utils.translation import ugettext_lazy as _
-from frontend.models import User, Etnia, Cabellos,Ojos, Seguidores, UsuarioArteGenero ,Intereses, InteresesUsuario, GeneroArtistico, TipoArte, SectorIndustria
+from frontend.models import User, Etnia, Cabellos,Ojos, Seguidores, UsuarioArteGenero ,Intereses, InteresesUsuario, GeneroArtistico, TipoArte, SectorIndustria,Pais
 from .models import *
 from .forms import FormActualizarDatos, FormExperiencia, FormEducacion, FormMensaje
 from core.UploadFile import UploadFile
@@ -135,6 +135,7 @@ def Configuracion_General(request):
     form_pass.fields['new_password2'].widget.attrs = {'required': 'required',
                                                  'label': _('Confirme su nueva contraseña')}
     idiomas_user = UsuarioIdioma.objects.filter(id_usuario=request.user.id)
+    paises=Pais.objects.all()
     context = {
         'form': FormActualizarDatos,
         'form_pass' : form_pass,
@@ -150,7 +151,8 @@ def Configuracion_General(request):
         'intereses':intereses,
         'interesesusuario':interesesusuario,
         'idiomas':idiomas,
-        'idiomas_user':idiomas_user
+        'idiomas_user':idiomas_user,
+        'paises':paises
     }
     #import pdb; pdb.set_trace()
     return render(request, "perfiles/configuraciongeneral.html", context)
@@ -345,8 +347,15 @@ def detalle_mensajes(request):
             destino = mensaje.destino.email
         else:
             destino = mensaje.origen.email
+        imagen=''
+        archivo=''
+        if mensaje.imagen != '':
+            imagen=mensaje.imagen.url
+
+        if mensaje.archivo != '':
+            archivo=mensaje.archivo.url
         
-    return HttpResponse(json.dumps({'mensaje':'desde el ajax','destino':destino, 'mensaje':mensaje.mensaje,'success':True}), content_type="application/json")    
+    return HttpResponse(json.dumps({'mensaje':'desde el ajax','destino':destino, 'mensaje':mensaje.mensaje,'imagen':imagen,'archivo':archivo,'success':True}), content_type="application/json")    
 
 
 # OJO   OJO    OJO     OJO     OJO   OJO 
@@ -355,7 +364,8 @@ def enviar_mensajes(request):
     if request.method == 'POST':   
        
         mensaje=''
-        form = FormMensaje(request.POST, request.FILES)        
+        form = FormMensaje(request.POST, request.FILES) 
+        import pdb; pdb.set_trace()       
         if form.is_valid():
             registro = form.save(commit =False)
             registro.destino = User.objects.get(email=request.POST['destino'])

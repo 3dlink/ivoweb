@@ -11,7 +11,14 @@ from django.core.mail import send_mail
 from uuid import uuid4
 # Create your models here.
 
+class Pais (models.Model):
+    nombre = models.CharField(max_length=30)
+    codigo = models.CharField(max_length=3)
 
+    def __str__(self):              # __unicode__ on Python 2
+        return self.nombre
+
+        
 class Ojos(models.Model):
     color = models.CharField(max_length=60, default='default')
     def __str__(self):
@@ -81,7 +88,7 @@ class User(AbstractBaseUser,PermissionsMixin):
                                         db_column='Fechanacimiento')
     nacionalidad = models.CharField(max_length=60, blank=True, null=True, verbose_name=_('Nacionalidad'),
                                     db_column='Nacionalidad')
-    pais = models.CharField(max_length=60, blank=False, null=False, verbose_name=_('Pais'), db_column='Pais')
+    pais = models.ForeignKey(Pais,related_name='pais',default=227)
     ciudad = models.CharField(max_length=60, blank=True, null=True, verbose_name=_('Ciudad'), db_column='Ciudad')
     etnia =  models.ForeignKey(Etnia,  related_name='tipo_etnia',blank=True, null=True)
     pasaporte = models.CharField(max_length=60, blank=True, null=True, verbose_name=_('Pasaporte'),
@@ -333,3 +340,5 @@ class Proveedor (models.Model):
 class SectorProveedor(models.Model):
     id_sector = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
     id_usuario = models.ForeignKey(User, on_delete=models.CASCADE,related_name="sectorproveedor")
+
+

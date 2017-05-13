@@ -37,9 +37,10 @@ def registrate(request):
     etnias = Etnia.objects.all()
     artes = TipoArte.objects.all()
     generos = GeneroArtistico.objects.all()
+    pais= Pais.objects.all()
     
     
-    context = {'from': FormRegistro, 'cabellos':cabellos, 'ojos':ojos, 'etnias':etnias, 'artes':artes, 'generos':generos}
+    context = {'from': FormRegistro, 'cabellos':cabellos, 'ojos':ojos, 'etnias':etnias, 'artes':artes, 'generos':generos, 'paises':pais}
     return render(request, "registrate.html", context)
 
 def registrate_artistas(request):
@@ -132,8 +133,9 @@ def RegistroIndustria(request):
                 xHTML += '<option value = "' + str(sector.id) + '">' + sector.nombre + '</option>'
 
         return HttpResponse(json.dumps({'mensaje': mensaje, 'data': xHTML}), content_type="application/json")
-    #sectores = Industria.objects.get.all()
-    context = {'form': FormRegistroIndustria}
+    sectores = Industria.objects.filter(tipo='I')
+    pais= Pais.objects.all()
+    context = {'form': FormRegistroIndustria,'sectores':sectores,'paises':pais }
     
     return render(request, "registraIndustria.html", context)
 
@@ -174,7 +176,8 @@ def industria(request):
 
         return HttpResponse(json.dumps(mensaje), content_type="application/json")
     sectores = Industria.objects.get.all()
-    context = {'form': FormRegistroIndustria, 'sectores':sectores}
+    pais= Pais.objects.all()
+    context = {'form': FormRegistroIndustria, 'sectores':sectores, 'paises': pais}
     return render(request, "registraIndustria.html", context)
 
 
@@ -274,8 +277,9 @@ def RegistroProveedor(request):
                 xHTML += '<option value = "' + str(sector.id) + '">' + sector.nombre + '</option>'
 
         return HttpResponse(json.dumps({'mensaje': mensaje, 'data': xHTML}), content_type="application/json")
-    #sectores = Industria.objects.get.all()
-    context = {'form': FormRegistroIndustria}
+    sectores = Industria.objects.filter(tipo='P')
+    pais= Pais.objects.all()
+    context = {'form': FormRegistroIndustria,'sectores':sectores,'paises':pais}
     
     return render(request, "registroproveedor.html", context)
 
@@ -323,10 +327,13 @@ def artistadashboard(request):
         cabellos = Cabellos.objects.all()
         ojos = Ojos.objects.all()
         etnias = Etnia.objects.all()
+        paises=Pais.objects.all()
         
 
 
-        context= {"posts":posts, 
+        context= {
+        'paises':paises,
+        "posts":posts, 
         "talentos":talentos, 
         "siguiendo":siguiendo, 
         "seguidores":seguidores,
@@ -490,6 +497,9 @@ def busqueda_avanzada(request):
                             elif key.split('-')[1] == 'etnia':
                                 if request.POST[key] != '':
                                     usr.add((Q(etnia=request.POST[key])),usr.OR)
+                            elif key.split('-')[1] == 'pais':
+                                if request.POST[key] != '':
+                                    usr.add((Q(pais=request.POST[key])),usr.OR)
                             elif key.split('-')[1] == 'agencia':
                                 usr.add((Q(agencia__isnull=False)),usr.OR)
                             elif key.split('-')[1] == 'viajar':
@@ -516,6 +526,24 @@ def busqueda_avanzada(request):
 
     #import pdb; pdb.set_trace()            
     return render(request, 'dashboard/busqueda_avanzada.html',{'results':results})
+
+
+def get_user(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '')
+        users = User.objects.filter(email__icontains = q )[:20]
+        results = []
+        for user in users:
+            user_json = {}
+            user_json['id'] = user.id
+            user_json['label'] = user.email
+            user_json['value'] = user.email
+            results.append(user_json)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
 
 
 def olvidoclave(request):

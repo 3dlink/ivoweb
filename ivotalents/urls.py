@@ -58,10 +58,11 @@ urlpatterns = [
         auth_views.password_reset_confirm, name='password_reset_confirm'),
     url(r'^reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
 
+    url(r'^mensaje/get_user/', views.get_user, name='get_user'),
     
     #url(r'^artistas/$', views.artistas, name='listado'),
 
-
+    url(r'^accounts/',include('allauth.urls')),
     url(r'^login/', views.index, name='index'),
     url(r'^logout/', views.cerrar_sesion, name='logout'),
 

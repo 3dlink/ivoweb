@@ -35,7 +35,15 @@
 
                         <div class="row">
                             <div class="col-md-6 col-lg-6">
-                                <input type="text" name="pais" required="required" placeholder="{% trans 'Pais' %}" class="inputlft">
+                                 <select id="pais" name="pais">
+                                    <option selected="selected" disabled>Pais</option> 
+                                        {% for pais in paises %}         
+                            <!-- LOS GENERO OCULTOS SIEMPRE? -->
+                                            
+                                                <option value="{{pais.id}}">{{pais.nombre}}</option>
+                                            
+                                        {% endfor %}        
+                                    </select>
                             </div>
                             <div class="col-md-6 col-lg-6">
                                 <input type="text" name="email" required="required" placeholder="{% trans 'mail' %}">
@@ -95,7 +103,7 @@
                                     <option selected="selected" disabled>{% trans 'Sector' %}</option>
                                     {% for sector in sectores %}
                                     
-                                    <option value='{{sector.id}}'> {{sector.name}}</option>
+                                    <option value='{{sector.id}}'> {{sector.nombre}}</option>
                                    {% endfor %} 
                                 </select>
                             </div>

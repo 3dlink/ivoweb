@@ -26,22 +26,47 @@
 	            </div>
 	            <div class="item">
 	                <!-- Set the second background image using inline CSS below. -->
-	                <div class="fill" style="background-image:url({% static 'img/Banner-3.jpg' %});"></div>
+	                <div class="fill" style="background-image:url({% static 'img/Banner3.png' %});"></div>
+
+	                <div class="carousel-caption ivo-intro-texto">
+	                	<h3 style="text-align: right;">Haz tu casting gratis aqui<br> y consigue el talento que necesitas</h3>
+						<h4 style="text-align: right;">Agencias de Casting, Agencias de publicidad</br>productores, empresas de eventos,</br> academias, teatros... </h4>
+						<a href="#" class="ivo-boton ivo-home-boton pull-right" style="padding-left: 80px; padding-right: 80px;"> Unete </a>
+						<div class="ivo-white-box pull-right"></div>
+	                </div>
 	                
 	            </div>
 	            <div class="item">
 	                <!-- Set the third background image using inline CSS below. -->
-	                <div class="fill" style="background-image:url({% static 'img/Banner-2-Artistas.jpg' %});"></div>
+	                <div class="fill" style="background-image:url({% static 'img/Banner-2-Artistas.png' %});"></div>
+	                <div class="carousel-caption ivo-intro-texto">
+	                	<h3 style="text-align: left;">forma parte de la base de datos<br>de talentos artisticos<br> mas grande de latinoamerica</h3>
+						<h4 style="text-align: left;">bailarines, cantantes, actores, y modelos </h4>
+						<a href="#" class="ivo-boton ivo-home-boton pull-left" style="padding-left: 80px; padding-right: 80px;">Unete     </a>
+						<div class="ivo-white-box pull-right"></div>
+	                </div>
 	               
 	            </div>
 	            <div class="item">
 	                <!-- Set the third background image using inline CSS below. -->
-	                <div class="fill" style="background-image:url({% static 'img/Banner-4-Provedor.jpg' %});"></div>
+	                <div class="fill" style="background-image:url({% static 'img/Banner-4-Provedor.png' %});"></div>
+	                 <div class="carousel-caption ivo-intro-texto ">
+	                	<h3 style="text-align: right;">La mejor web que ofrece <br> lista de proveedores para tus proyectos</h3>
+						<h4 style="text-align: right;">fotografos, make up, peinados</br>director de arte, escenografo... </h4>
+						<a href="#" class="ivo-boton ivo-home-boton pull-right" style="padding-left: 80px; padding-right: 80px;">Unete     </a>
+						<div class="ivo-white-box pull-right"></div>
+	                </div>
 	                
 	            </div>
 	            <div class="item">
 	                <!-- Set the third background image using inline CSS below. -->
-	                <div class="fill" style="background-image:url({% static 'img/Banner1-3Casting.jpg' %});"></div>
+	                <div class="fill" style="background-image:url({% static 'img/Banner-1-3Casting.png' %});"></div>
+	                <div class="carousel-caption ivo-intro-texto ">
+	                	<h3 style="text-align: left;">Haz tu casting online</h3>
+						<h4 style="text-align: left;">desde tu celular</br>y envia de inmediato </h4>
+						<a href="#" class="ivo-boton ivo-home-boton pull-left">Descarga la app de Ivo Talents</a>
+						<div class="ivo-white-box pull-right"></div>
+	                </div>
 	               
 	            </div>
 	        </div>
@@ -73,19 +98,30 @@
 									{% if user.is_authenticated %}
 									<a href= "{%url 'casting:casting_inicio' %}" class="ivo-boton-fondoInpt ivo-borde-verde" style="margin-top: 8px">
 									<span class="ivo-back-verde ivo-borde-transparente">
-										Descubre
-									{% else %}
-									<a href= "{%url 'registro' %}" class="ivo-boton-fondoInpt ivo-borde-verde" style="margin-top: 8px">
-									<span class="ivo-back-verde ivo-borde-transparente">									
-										Unete						
-									{% endif %}
-									</span>
-								</a> &nbsp
-								<a href="{% url 'casting:casting_inicio' %}" class="ivo-boton-fondoInpt-simple ivo-borde-trs-verde" style="margin-top: 8px">
+										Descubre</span>
+								</a> &nbsp	
+
+
+										<a href="{% url 'casting:casting_inicio' %}" class="ivo-boton-fondoInpt-simple ivo-borde-trs-verde" style="margin-top: 8px">
 									<span class="ivo-back-transparente ivo-borde-transparente ivo-font-verde">
 										Hacer Casting / Audicion
 									</span>
 								</a>
+									{% else %}
+									<a href= "{%url 'registro' %}" class="ivo-boton-fondoInpt ivo-borde-verde" style="margin-top: 8px">
+									<span class="ivo-back-verde ivo-borde-transparente">									
+										Unete	
+										</span>
+								</a> &nbsp		
+
+								<a href="{%url 'registro' %}" class="ivo-boton-fondoInpt-simple ivo-borde-trs-verde" style="margin-top: 8px">
+									<span class="ivo-back-transparente ivo-borde-transparente ivo-font-verde">
+										Hacer Casting / Audicion
+									</span>
+								</a>			
+									{% endif %}
+									
+								
 							</div>
 						</div>
 					</div>

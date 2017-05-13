@@ -16,7 +16,7 @@ from datetime import date
 #LISTA GENERAL
 def todos(request):
 	
-	categorias= Categoria.objects.all()
+	categorias= Industria.objects.filter(tipo='I')
 	all_casting = Casting.objects.all().order_by("fecha_fin")
 	paginator = Paginator(all_casting, 10) # Show 25 contacts per page
 	page = request.GET.get('page',1)
@@ -34,9 +34,9 @@ def todos(request):
 
 #LISTADO POR CATEGORIA
 def casting_por_categoria(request, idcategoria):
-	categorias= Categoria.objects.all()
+	categorias= Industria.objects.all()
 	#import pdb; pdb.set_trace()
-	categoria = Categoria.objects.get(nombre=idcategoria.replace("-"," "))
+	categoria = Industria.objects.get(id=idcategoria)
 
 	all_casting = categoria.casting_set.order_by("fecha_fin")
 	paginator = Paginator(all_casting, 10) # Show 25 contacts per page	
@@ -68,7 +68,7 @@ def detalle(request,idcasting):
 def crear(request):	
 
 	if request.user.tipo_usuario == 'I':
-		categorias=Categoria.objects.all()
+		categorias=Industria.objects.filter(tipo='I')
 		if request.method == 'POST':	
 			#import pdb; pdb.set_trace()		
 			mensaje = ''
@@ -124,10 +124,11 @@ def audicion1(request, casting):
 				audicion.save()		
 				mensaje = {'mensaje': str(_('Audicion creada con exito')), 'success': True}	
 				#messages.success(request, 'Audicion creada con exito')	
+				#ver como devuelvo estatus correcto print('bueeeno')
 			else:
 				mensaje = form_invalid(form)
 				#messages.warning(request, 'No se pudo registrar su audicion')
-							
+				#ver como devuelvo estatus incorrecto print("maaalo")			
 			return redirect(reverse("casting:casting_detalle", args=[casting]))
 			
 		context = {'from': FormAudicion,'casting':casting }

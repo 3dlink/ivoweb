@@ -103,11 +103,26 @@
 						<label>Pais</label>
 					</div>
 					<div class="col-md-9">
-                        {% if datos.pais == '' or datos.pais == None  %}
-						    <input type="text" name="pais" value="">
-                        {% else %}
-                            <input type="text" name="pais" value="{{datos.pais}}">
-                        {% endif %}
+					<select id="pais" name="pais">
+					{% if datos.pais != None %}
+							<!--input type="text" name="etnia" value="{{datos.etnia}}"-->						
+								<option value = "{{datos.pais.id}}" selected="true"> {{datos.pais }}</option>
+								 {% for pais in paises %}
+									{% if pais.id != datos.pais.id %}
+										<option value = "{{pais.id}}"> {{pais.nombre }}</option>
+									{% endif  %}
+								{% endfor %}				
+
+						{% else %}
+								
+								 {% for pais in paises %}							
+								<option value = "{{pais.id}}"> {{pais.nombre }}</option>
+								{% endfor %}
+								
+						
+						{% endif %}
+						</select>
+                        
 					</div>
 				</div>
 
@@ -190,10 +205,25 @@
 						<label>Pais de Residencia</label>
 					</div>
 					<div class="col-md-9">
-						<select id="pais" name="pais">
-                            <option value="VEN">Venezuela</option>
-                            <option value="COL">Colombia</option>
-                        </select>
+					<select id="pais" name="pais">
+						{% if datos.pais != None %}
+							<!--input type="text" name="etnia" value="{{datos.etnia}}"-->						
+								<option value = "{{datos.pais.id}}" selected="true"> {{datos.pais.nombre }}</option>
+								 {% for pais in paises %}
+									{% if pais.id != datos.pais.id %}
+										<option value = "{{pais.id}}"> {{pais.nombre }}</option>
+									{% endif  %}
+								{% endfor %}				
+
+						{% else %}
+								
+								 {% for pais in paises %}							
+								<option value = "{{pais.id}}"> {{pais.nombre }}</option>
+								{% endfor %}
+								
+						
+						{% endif %}
+						</select>
 					</div>
 				</div>
 				<div class="row">
@@ -766,10 +796,8 @@
 			{% if datos.genero != None %}
 				$("#genero option[value={{ datos.genero}}]").attr("selected",true);
 			{% endif %}
-			{% if datos.pais != None and datos.pais != '' %}
-				$("#pais option[value={{ datos.pais}}]").attr("selected",true);
-			{% endif %}
-			{% endif %}
+			
+		{% endif %}
 		
        
 		 $('#agregar_idioma').click(function(){

@@ -4,10 +4,20 @@
 
 {% block javascript %}
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript">
+</script> <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+
     <script type="text/javascript" src="{% static 'js/jquery.plugin.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
 
     <script type="text/javascript">
+
+    $(function() {
+		  $("#nombre").autocomplete({
+		    source: "/mensaje/get_user/",
+		    minLength: 2,
+		  });
+		});
 
     $(function(){ 
         		$('.ivo-usuario-subMenu').removeClass("activo");
@@ -161,8 +171,10 @@
 	$('.industria').on("change",function(){       
 	if ( $(this).is(":checked") ){
 		$('.talento').attr("disabled", true);
+		$('.talento-sel').attr('disabled',true);
 	} else{
 		$('.talento').removeAttr("disabled");
+		$('.talento-sel').removeAttr("disabled");
 	}
 
 });
@@ -179,11 +191,11 @@
 	}
 });
 
-	//SIRVE A MEDIAS... TIENE UN BUG
-	$('.talento-sel').on("change",function(){       
-	if ($('#usr-color_ojos').val() != '' || $('#usr-color_cabello').val()  || $('#usr-etnia').val()) {
+	//SIRVE A MEDIAS... no puedo volver al estado inicial (sin seleccion)
+	$('.talento-sel').on("change",function(){      
+	if ($('#usr-color_ojos').val() != '' || $('#usr-color_cabello').val() != ''  || $('#usr-etnia').val()!= '' || $('#usr-pais').val() != '') {
 		$('.industria').attr("disabled", true);
-	} else{
+	} else if ($('#usr-color_ojos').val() == '' && $('#usr-color_cabello').val() == ''  && $('#usr-etnia').val() == '' && $('#usr-pais').val() == '') {
 		$('.industria').removeAttr("disabled");
 	}
 
@@ -196,6 +208,8 @@
 {% endblock %}
 
 {% block cssblock %}
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
 
     <link rel="stylesheet" href="{% static 'css/main.css' %}" crossorigin="anonymous">
     <!-- Css Mquery ivo-talents -->
@@ -403,13 +417,14 @@
                                 </select>
 									<div class="ivo-dashboard-separador-slb"></div>
 									<h5>Pais de Residencia</h5>
-									<select class="ivo-border-width-3 final" name='usr-pais'>
-										<option>Venezuela</option>
-										<option>Pais 1</option>
-										<option>Pais 1</option>
-										<option>Pais 1</option>
-										<option>Pais 1</option>
-										<option>Pais 1</option>
+									<select class="ivo-border-width-3 final talento-sel" name='usr-pais'>
+										<option selected="selected" value="">Pais</option> 
+                                        {% for pais in paises %}         
+                            <!-- LOS GENERO OCULTOS SIEMPRE? -->
+                                            
+                                                <option value="{{pais.id}}">{{pais.nombre}}</option>
+                                            
+                                        {% endfor %}    
 									</select>
 									<input type="submit" value="BUSCAR">
 								</form>
@@ -696,7 +711,7 @@
 					<form class="ivo-formularioConf-form ivo-mensaje-enviarM" method="POST" action="/perfil/mensajes/enviar/">
 					{%csrf_token%}
 						<!-- DEBE LLEVAR UN AJAX, O MEJOR UN SOCKET, PARA RECUPERAR LAS INSTANCIAS A LOS DATOS-->
-						<input type="text" placeholder="Escribe un nombre" name="destino" id="nombre">
+						 <input class="ui-widget" type="text" placeholder="Escribe un nombre" name="destino" id="nombre">
 						<textarea placeholder="Escribe tu mensaje" name="mensaje" id="cuerpo_mensaje"></textarea>
 						<div>	
 						<input type="file" id='archivo'  style="display: none;">
