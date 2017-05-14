@@ -1,0 +1,345 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+
+{% block cssblock %}
+
+		<style type="text/css">
+			.ivo-pregunta { height: auto;}
+			.ivo-form  select {width: 100%}
+			.ivo-imgListado {
+								width: 110px;
+								height: 110px;
+							    background-size: cover;
+							    background-position: center;
+							    cursor:pointer;
+							    background-repeat: no repeat;
+							}
+			.ivo-artistas {
+				background-image: url("{% static 'img/industria3.jpg' %}");
+			}
+
+			.ivo-layer-gry {
+				height: 550px;
+			}
+		</style>
+{% endblock %}
+
+{% block content %}
+
+
+
+
+<div class="container-fluid ivo-artistas">
+			<div class="ivo-layer-gry ivo-layer-gry-artistas"></div>
+			<div class="container">
+			<div class="row">
+				<div class="col-xs-8 col-sm-6 col-md-6 col-lg-6">
+					<h1 style="border-bottom: 3px solid  #D8006C;">
+						<span>Larry Sanchéz</span>
+						</br>
+						Fotógrafo
+					</h1>
+				</div>
+			</div>
+			</div>
+		</div>
+		<!-- Artistas -->
+		<div class="container-fluid ivo-artistas-bck-cont">
+			<div class="container">
+				<div class="row ivo-artistas-panel">
+					<div class="col-xs-10 col-sm-10 col-md-12 col-lg-12 col-xs-offset-1 col-sm-offset-1 col-md-offset-0 col-lg-offset-0">
+						<div class="row text-center ivo-artistas-panel-texto">
+							<h1 class="headermessage">Proveedores</h1>
+					       	<h3 class="headermessage">Encuentra los mejores servicios</h3>
+					       	<ul class="list-inline ivo-artistas-panel-filtros">
+
+					       	<!-- SE PUEDE AUTOMATIZAR PARA QUE SE GENEREN LOS LINKS SOLOS-->
+
+					       	{% for tipoindustria in tipoindustrias %}
+								<li style="background-color: #D8006C;"> <a style="text-decoration: none; color: white;" href={% url 'listado:proveedor_categoria' idcategoria=tipoindustria.id %} >{{tipoindustria.nombre}}</a>  </li>
+							
+							  
+							
+							 
+							 {% endfor %}
+							</ul>
+					   	</div>
+
+					   	{% for industria in industrias %}
+							{% if industria.counter0 == 0 or industria.counter0 == 6 %}
+					   		 <div class="row">
+							{% endif %}
+							
+					        <div class="col-xs-4 col-sm-4 col-md-2 ivo-artistas-panel-item" >
+
+					        
+					        	{% if industria.id_usuario.avatar %}
+					        	
+					        	<!--img src="{{ industria.id_usuario.avatar.url }}/" class="img-responsive"-->
+					        	<a href="/perfil/{{industria.id_usuario.get_uuid}}/">
+								<div class="ivo-imgListado" style="background-image: url(/media/{{industria.id_usuario.avatar}});"></div>
+					        		</a>
+
+					        	{%  else %}	
+
+								<a href="/perfil/{{industria.id_usuario.get_uuid}}/">
+					        	<div class="ivo-imgListado" style="background-image: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg);"></div>
+					        		</a>
+
+					        	{% endif %}			            
+					            <h3 style="border-bottom: 2px solid  #D8006C;">Proveedor</h3> 
+					    		<h4 class="nombre">{{ industria.id_usuario.empresa_provedor }}</h4>
+					    		<h4>{{industria.id_sector}}</h4>
+					        
+					        	
+					        </div>
+       						 
+       					
+   						 {% endfor %}
+       				
+					   
+					    </div>    
+					   
+					   <div class="row">
+					   		<div class="col-md-4 col-md-offset-4 text-center">
+					   			{% if industrias.has_other_pages %}
+					   			<ul class="ivo-panel-indice">
+					   				{% for i in industrias.paginator.page_range %}
+							      	{% if industrias.number == i %}
+									<li class="activo"><span class="icon_circle-slelected"></span></li>
+									{% else %}
+									<li>
+										<a href="?page={{ i }}">
+											<span class="icon_circle-empty"></span>
+										</a>
+										</li>
+									{% endif %}
+							    {% endfor %}
+								</ul>
+								{% endif %}
+					   		</div>
+					   </div>
+				    </div>
+				</div>
+			</div>
+		</div>
+		<!-- App -->
+		<div class="container-fluid ivo-artistas-appBck">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-lg-12 ivo-artistas-app">
+						<div class="row">
+							<div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-0 col-lg-5 col-lg-offset-0">
+								<img src="{% static 'img/ivo-lg3.png' %}" class="img-responsive ivo-app-logo general">
+								<h2>Descarga nuestra App Movil</h2>
+								<a href="#" class="ivo-app-goplay general">
+									<img src="{% static 'img/google-play.png' %} ">
+								</a>
+								<a href="#" class="ivo-app-appsto general">
+									<img src="{% static 'img/appstore.png' %}">
+								</a>
+								<br class="clear">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Blog Posts -->
+		<div class="container-fluid ivo-artistas-bck-cont">
+			<div class="container">
+				<div class="row ivo-noticias">
+					<div class="col-md-12 col-lg-12">
+						<div class="row text-left">
+					       	<h3 class="headermessage">&Uacute;ltimas Entradas</h3>
+					   	</div>
+					    <div class="row">
+							{% for post in posts %}
+								{% if forloop.counter0 == 0 %}
+									<div class="image-block col-xs-6 col-sm-4" style="background: url('{{post.imagen.url}}'); no-repeat center top;background-size:cover;">
+
+								{% if post.categoria.nombre == 'Novedades' %}
+
+								<h3 class="ivo-back-rosa">{{post.categoria}}</h3>					    		
+
+								{% elif post.categoria.nombre == 'Fanatico' %}
+
+								<h3 class="ivo-back-azulClaro">{{post.categoria}}</h3>
+
+								{% elif post.categoria.nombre == 'Industria' %}
+
+								<h3 class="ivo-back-azul">{{post.categoria}}</h3>
+
+								{% elif post.categoria.nombre == 'Casting' %}
+
+								<h3 class="ivo-back-verde-c">{{post.categoria}}</h3>
+
+								{% else %}
+
+								<h3 class="ivo-back-naranja">{{post.categoria}}</h3>
+
+								{% endif %}
+								
+
+					    		<h4 class="ivo-noticia-titulo">{{post.titulo}}</h4>
+					            <p class="ivo-noticia-descripcion">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+					            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Leer Mas</a>
+					            <div class="ivo-layer ivo-noticia-layer ivo-layer-light"></div>
+
+					    		
+
+					        </div>
+
+								{% elif forloop.counter0 == 1 %}
+								<div class="image-block col-xs-6 col-sm-4" style="background: url('{{post.imagen.url}}'); no-repeat center top;background-size:cover;">
+
+					            {% if post.categoria.nombre == 'Novedades' %}
+
+								<h3 class="ivo-back-rosa">{{post.categoria}}</h3>					    		
+
+								{% elif post.categoria.nombre == 'Fanatico' %}
+
+								<h3 class="ivo-back-azulClaro">{{post.categoria}}</h3>
+
+								{% elif post.categoria.nombre == 'Industria' %}
+
+								<h3 class="ivo-back-azul">{{post.categoria}}</h3>
+
+								{% elif post.categoria.nombre == 'Casting' %}
+
+								<h3 class="ivo-back-verde-c">{{post.categoria}}</h3>
+
+								{% else %}
+
+								<h3 class="ivo-back-naranja">{{post.categoria}}</h3>
+
+								{% endif %}
+
+					    		<h4 class="ivo-noticia-titulo">{{post.titulo}}</h4>
+					            <p class="ivo-noticia-descripcion">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
+					            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Leer Mas</a>
+					            <div class="ivo-layer ivo-noticia-layer ivo-layer-light"></div>
+					        </div>
+
+								{% elif forloop.counter0 == 2 %}
+
+								 <div class="image-block col-xs-6 col-sm-4" style="background: url('{{post.imagen.url}}'); no-repeat center top;background-size:cover;">
+								           
+								{% if post.categoria.nombre == 'Novedades' %}
+
+								<h3 class="ivo-back-rosa">{{post.categoria}}</h3>					    		
+
+								{% elif post.categoria.nombre == 'Fanatico' %}
+
+								<h3 class="ivo-back-azulClaro">{{post.categoria}}</h3>
+
+								{% elif post.categoria.nombre == 'Industria' %}
+
+								<h3 class="ivo-back-azul">{{post.categoria}}</h3>
+
+								{% elif post.categoria.nombre == 'Casting' %}
+
+								<h3 class="ivo-back-verde-c">{{post.categoria}}</h3>
+
+								{% else %}
+
+								<h3 class="ivo-back-naranja">{{post.categoria}}</h3>
+
+								{% endif %}
+
+					    		<h4 class="ivo-noticia-titulo">{{post.titulo}}</h4>
+					            <p class="ivo-noticia-descripcion">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+					            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Leer Mas</a>
+					            <div class="ivo-layer ivo-noticia-layer ivo-layer-light"></div>
+					        </div>
+
+								{% elif forloop.counter0 == 3 %}
+
+								<div class="image-block col-xs-6 col-sm-8" style="background: url('{{post.imagen.url}}'); no-repeat center top;background-size:cover;">
+
+								{% if post.categoria.nombre == 'Novedades' %}
+
+								<h3 class="ivo-back-rosa">{{post.categoria}}</h3>					    		
+
+								{% elif post.categoria.nombre == 'Fanatico' %}
+
+								<h3 class="ivo-back-azulClaro">{{post.categoria}}</h3>
+
+								{% elif post.categoria.nombre == 'Industria' %}
+
+								<h3 class="ivo-back-azul">{{post.categoria}}</h3>
+
+								{% elif post.categoria.nombre == 'Casting' %}
+
+								<h3 class="ivo-back-verde-c">{{post.categoria}}</h3>
+
+								{% else %}
+
+								<h3 class="ivo-back-naranja">{{post.categoria}}</h3>
+
+								{% endif %}
+					            
+					    		<h4 class="ivo-noticia-titulo">{{post.titulo}}</h4>
+					            <p class="ivo-noticia-descripcion">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+					            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Leer Mas</a>
+					            <div class="ivo-layer ivo-noticia-layer ivo-layer-light"></div>
+					        </div>
+
+								{% elif forloop.counter0 == 4 %}			    	
+					        
+					       
+					        
+					        <div class="image-block col-xs-6 col-sm-4" style="background: url('{{post.imagen.url}}'); no-repeat center top;background-size:cover;">
+
+					            {% if post.categoria.nombre == 'Novedades' %}
+
+								<h3 class="ivo-back-rosa">{{post.categoria}}</h3>					    		
+
+								{% elif post.categoria.nombre == 'Fanatico' %}
+
+								<h3 class="ivo-back-azulClaro">{{post.categoria}}</h3>
+
+								{% elif post.categoria.nombre == 'Industria' %}
+
+								<h3 class="ivo-back-azul">{{post.categoria}}</h3>
+
+								{% elif post.categoria.nombre == 'Casting' %}
+
+								<h3 class="ivo-back-verde-c">{{post.categoria}}</h3>
+
+								{% else %}
+
+								<h3 class="ivo-back-naranja">{{post.categoria}}</h3>
+
+								{% endif %}
+
+					    		<h4 class="ivo-noticia-titulo">{{post.titulo}}</h4>
+					            <p class="ivo-noticia-descripcion">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+					            <a href={% url 'blog:detalle' idpost=post.id %} class="ivo-boton ivo-noticiaslink ivo-casting-noticia-link">Leer Mas</a>
+					            <div class="ivo-layer ivo-noticia-layer ivo-layer-light"></div>      
+					        </div>
+
+					        {% endif %}
+					    	{% endfor %}
+					    </div>
+				    </div>
+				</div>
+			</div>
+		</div>
+		{% endblock %}
+
+	{% block javascript %}
+		<script>
+		    $('.carousel').carousel({
+		        interval: 5000 //changes the speed
+		    })
+	    
+
+		    $('#enlace-proveedores').addClass('activo');
+	
+		</script>
+	{% endblock %}

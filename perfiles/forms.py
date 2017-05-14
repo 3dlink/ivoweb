@@ -28,7 +28,7 @@ class FormEducacion(forms.ModelForm):
 
     class Meta:
         model = Educacion
-        exclude = ['usuario']
+        exclude = ['usuario','fecha_fin_estudio']
 
 class FormMensaje(forms.ModelForm):
     class Meta:

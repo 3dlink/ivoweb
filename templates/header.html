@@ -18,22 +18,31 @@
             <!--div class="col-xs-4 col-sm-3 col-md-3 col-lg-4 ivo-header-espacio"></div-->
             <div class="cols-xs-3 col-sm-4 col-md-3 col-lg-4 col-xs-offset-3 col-sm-offset-2 col-md-offset-1 col-lg-offset-1 ivo-header-panelUsuario">
                 <div class="ivo-header-panelUsuario-perfil">
-                    <div style="background-image: url(/media/{{ user.get_avatar }});"></div>
+                    {% if user.get_avatar == '' or user.get_avatar == None %}
+                        <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+                    {%else%}
+                        <div style="background-image: url(/media/{{ user.get_avatar }});"></div>
+                    {% endif %}
+                    
                     <p id="ivo-usuario">
-                        {% if user.get_tipo_usuario == 'A' %}
+                        {% if user.get_tipo_usuario == 'A' or user.get_tipo_usuario == 'F' %}
                             {{user.get_short_name}}
+
                         {%else%}
                             {{user.empresa_provedor}}
                         {%endif%}
                     </p>
                     <ul class="ivo-usuario-subMenu">
                         <li class="ivo-usuario-triangulo"><img src="{% static 'img/triangulo.png' %}"></li>
+                         {% if user.get_tipo_usuario != 'F' %}
                         <li id="id_dashboard">
                             <a href="/artistadashboard/">Dashboard</a>
                         </li>
+                         
                         <li id="id_perfil">                            
                             <a href="/perfil/{{user.get_uuid}}/">Perfil</a>
                         </li>
+                        {%endif%}
                         <li id="id_configuracion">
                             <a href="/perfil/configuraciongeneral/">Configuracion</a>
                         </li>

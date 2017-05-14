@@ -27,7 +27,8 @@
 				</li>
 				
 
-				
+				{% if user.get_tipo_usuario != "F" %}
+
 				<li class="ivo-configuracion-menu-separador"></li>
 				<li id="show_form_bio">
 					<a href="#">Bio</a>
@@ -41,15 +42,12 @@
 					<a href="#">Intereses</a>
 				</li>
 				
+				{% endif %}
+				
+				
 				
 
-				{%if user.get_tipo_usuario == "I" %}
-				<li class="ivo-configuracion-menu-separador"></li>
-
-				<li >
-					<a href="/casting/crear/">Crear Casting</a>
-				</li>
-				{%endif%}
+				
 
 			</ul>
 		</div>
@@ -132,9 +130,9 @@
 					</div>
 					<div class="col-md-9">
 						{% if datos.telefono != None %}
-						<input type="number" onkeypress="return soloNumeros(event)" name="telefono" value="{{datos.telefono}}">
+						<input type="text" onkeypress="return soloNumeros(event)" name="telefono" value="{{datos.telefono}}">
 						{% else %}
-						<input type="number" name="telefono" onkeypress="return soloNumeros(event)" >
+						<input type="text" name="telefono" onkeypress="return soloNumeros(event)" >
 						{% endif %}
 					</div>
 				</div>
@@ -331,9 +329,9 @@
 					</div>
 					<div class="col-md-9">
 						{% if datos.telefono != None %}
-						<input type="number" onkeypress="return soloNumeros(event)" name="telefono" value="{{datos.telefono}}">
+						<input type="text" onkeypress="return soloNumeros(event)" name="telefono" value="{{datos.telefono}}">
 						{% else %}
-						<input type="number" name="telefono" onkeypress="return soloNumeros(event)" >
+						<input type="text" name="telefono" onkeypress="return soloNumeros(event)" >
 						{% endif %}
 					</div>
 				</div>
@@ -481,9 +479,9 @@
 					</div>
 					<div class="col-md-9">
 						{% if datos.estatura != None %}
-						<input type="number" onkeypress="return soloNumeros(event)" name="estatura" value="{{datos.estatura}}">
+						<input type="text" onkeypress="return soloNumeros(event)" name="estatura" value="{{datos.estatura}}">
 						{% else %}
-						<input type="number" name="estatura" onkeypress="return soloNumeros(event)" >
+						<input type="text" name="estatura" onkeypress="return soloNumeros(event)" >
 						{% endif %}						
 							
 					</div>
@@ -494,9 +492,9 @@
 					</div>
 					<div class="col-md-9">
 						{% if datos.busto != None %}
-						<input type="number" onkeypress="return soloNumeros(event)" name="busto" value="{{datos.busto}}">
+						<input type="text" onkeypress="return soloNumeros(event)" name="busto" value="{{datos.busto}}">
 						{% else %}
-						<input type="number" name="busto" onkeypress="return soloNumeros(event)" >
+						<input type="textf" name="busto" onkeypress="return soloNumeros(event)" >
 						{% endif %}							
 							
 					</div>
@@ -507,9 +505,9 @@
 					</div>
 					<div class="col-md-9">
 						{% if datos.cintura != None %}
-						<input type="number" onkeypress="return soloNumeros(event)" name="cintura" value="{{datos.cintura}}">
+						<input type="text" onkeypress="return soloNumeros(event)" name="cintura" value="{{datos.cintura}}">
 						{% else %}
-						<input type="number" name="cintura" onkeypress="return soloNumeros(event)" >
+						<input type="text" name="cintura" onkeypress="return soloNumeros(event)" >
 						{% endif %}							
 							
 					</div>
@@ -520,9 +518,9 @@
 					</div>
 					<div class="col-md-9">
 						{% if datos.cadera != None %}
-						<input type="number" onkeypress="return soloNumeros(event)" name="cadera" value="{{datos.cadera}}">
+						<input type="text" onkeypress="return soloNumeros(event)" name="cadera" value="{{datos.cadera}}">
 						{% else %}
-						<input type="number" name="cadera" onkeypress="return soloNumeros(event)" >
+						<input type="text" name="cadera" onkeypress="return soloNumeros(event)" >
 						{% endif %}						
 							
 					</div>
@@ -674,20 +672,19 @@
 				<table class="table ivo-table">
 				<thead>
 				    <tr>
+
 				        <th>Idioma</th>
 				        
-				        <th>
-
-				        </th>
+				        
 				    </tr>
 				</thead>
 				<tbody id='tbody_idiomas'>
 				    {% for idioma_user in idiomas_user %}
 				    <tr >
+				    
 				        <td>{{ idioma_user.id_idioma.nombre}}</td>
-				        <td>
-				            <a href = "#">icono Editar</a>
-				        </td>
+				        <!-- FALTA ELIMINAR -->
+				        
 				    </tr>
 				    {% endfor %}
 				</tbody>
@@ -736,37 +733,72 @@
 	$(function(){
 		$('.ivo-usuario-subMenu').removeClass("activo");
         $('#id_configuracion').addClass("activo");
-        $('#radio-1-2').on("change",function(){
-			    
-			    if ( $(this).is(":checked") ){
-			    	alert('naaada');
+
+        $('#radio-1-2').on("change",function(){			    
+			    if ( $(this).is(":checked") ){			    	
 			    	$('#dia_hasta2').removeAttr('required')
 			    	$('#mes_hasta2').removeAttr('required')
 			    	$('#anno_hasta2').removeAttr('required')
 			    	$('#dia_hasta2').attr('disabled','true')
 			    	$('#mes_hasta2').attr('disabled','true')
 			    	$('#anno_hasta2').attr('disabled','true')
+			    }else{
+			    	$('#dia_hasta2').removeAttr('disabled')
+			    	$('#mes_hasta2').removeAttr('disabled')
+			    	$('#anno_hasta2').removeAttr('disabled')
+			    	$('#dia_hasta2').attr('required','true')
+			    	$('#mes_hasta2').attr('required','true')
+			    	$('#anno_hasta2').attr('required','true')
 			    }
-			   
-			    
+				
+			});
+
+        $('#radio-1-1').on("change",function(){			    
+			    if ( $(this).is(":checked") ){			    	
+			    	$('#dia_hasta').removeAttr('required')
+			    	$('#mes_hasta').removeAttr('required')
+			    	$('#anno_hasta').removeAttr('required')
+			    	$('#dia_hasta').attr('disabled','true')
+			    	$('#mes_hasta').attr('disabled','true')
+			    	$('#anno_hasta').attr('disabled','true')
+			    }else{
+			    	$('#dia_hasta').removeAttr('disabled')
+			    	$('#mes_hasta').removeAttr('disabled')
+			    	$('#anno_hasta').removeAttr('disabled')
+			    	$('#dia_hasta').attr('required','true')
+			    	$('#mes_hasta').attr('required','true')
+			    	$('#anno_hasta').attr('required','true')
+			    }
 				
 			});
        
 	    $('#send_form_experiencia').click(function(){
             var fecha_desde = $('#dia_desde2').val()+'/'+$('#mes_desde2').val()+'/'+$('#anno_desde2').val();
-            var fecha_hasta = $('#dia_hasta2').val()+'/'+$('#mes_hasta2').val()+'/'+$('#anno_hasta2').val();
+            if( $('#radio-1-2').attr('checked')){
+            	var fecha_hasta = $('#dia_hasta2').val()+'/'+$('#mes_hasta2').val()+'/'+$('#anno_hasta2').val();
+            	$('#fechaHasta').val(fecha_hasta);
+            }
+            
             $('#fechaDesde').val(fecha_desde);
-            $('#fechaHasta').val(fecha_hasta);
-            console.log('adad');
+            
+            
             if( validarForm($('#formExperiencia input')) ){
                 guardarExperiencia();
             }
         });
+
+
 	    $('#send_form_eduacion').click(function(){
             var fecha_desde = $('#dia_desde').val()+'/'+$('#mes_desde').val()+'/'+$('#anno_desde').val();
-            var fecha_hasta = $('#dia_hasta').val()+'/'+$('#mes_hasta').val()+'/'+$('#anno_hasta').val();
+
+            if( $('#radio-1-1').attr('checked')){
+            	
+            	var fecha_hasta = $('#dia_hasta').val()+'/'+$('#mes_hasta').val()+'/'+$('#anno_hasta').val();
+            	$('#fecha_fin_estudio').val(fecha_hasta);
+            }
+            
             $('#fecha_inicio_estudio').val(fecha_desde);
-            $('#fecha_fin_estudio').val(fecha_hasta);
+            
             if( validarForm($('#form_educacion input')) ){
                 guardarEducacion();
             }
@@ -783,15 +815,7 @@
 	    $('#cerrar_modal_educacion').click(function(){
 	        $('#ModalEducacion').modal('hide');
         });
-	    //	QUE ES ESTO? QUE ES LO QUE REALMENTE HACE?? 
-        //$("#idiomas option[value='{{ datos.idioma }}']").attr("selected",true);
-        /*
-        {% if disponible_viajes == True %}
-            $("#disponible_viajes option[value=True]").attr("selected",true);
-        {% else %}
-            $("#disponible_viajes option[value=False]").attr("selected",true);
-        {% endif %}
-		*/
+	  
 		{% if user.get_tipo_usuario == "A"%}
 			{% if datos.genero != None %}
 				$("#genero option[value={{ datos.genero}}]").attr("selected",true);
@@ -831,12 +855,16 @@
 			    });
 
 
-		$('#send_form_general').click(function(){
-			
+		$('#send_form_general').click(function(){	
+
 			if (validarForm( $('#form_general input') ) ) {
-			    if( $('#fecha_a_o').val().trim() != ''  && $('#fecha_mes').val().trim() != ''  && $('#fecha_dia').val().trim() != ''   ){
-			        $('#fecha_nacimiento').val($('#fecha_a_o').val()+"-"+$('#fecha_mes').val()+'-'+$('#fecha_dia').val());
-                }
+
+				{% if user.get_tipo_usuario == "A"%}
+					alert("aqui")
+				    if( $('#fecha_a_o').val().trim() != ''  && $('#fecha_mes').val().trim() != ''  && $('#fecha_dia').val().trim() != ''   ){
+				        $('#fecha_nacimiento').val($('#fecha_a_o').val()+"-"+$('#fecha_mes').val()+'-'+$('#fecha_dia').val());
+	                }
+                {% endif %}
 				$('#form_general').submit();
 			}
 		});
@@ -946,7 +974,7 @@
             var image = new Image();
             image.src = e.target.result;
             image.onload = function(){
-                if (image.width < 400) {
+               /* if (image.width < 400) {
                     alert("Please choose a larger size");
                     return false;
                 } else if (image.height < 300) {
@@ -956,7 +984,7 @@
                 if(image.height > image.width){
                     alert("Sorry allowed only horizontal images");
                     return false;
-                }
+                }*/
                 var canvas = document.createElement('canvas');
                 var MAX_WIDTH = 160;
                 var MAX_HEIGHT = 160;

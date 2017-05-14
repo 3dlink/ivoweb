@@ -16,10 +16,17 @@
         <script>
         	$(function(){
         		var foto = '{{datos_personales.avatar}}';
-        		foto = foto.split('/');
-        		foto  = '/media/avatar/md_'+foto[1];
+                
+                if (foto != ''){
+                    foto = foto.split('/');
+                foto  = '/media/avatar/md_'+foto[1];
 
-        		$('#foto_perfil').css({'background-image':'url('+foto+')'});
+                $('#foto_perfil').css({'background-image':'url('+foto+')'});
+            }else{
+                $('#foto_perfil').css({'background-image':"url('/static/img/avatar-ivo.jpg'"});
+
+            }
+        		
 
         		$('.ivo-usuario-subMenu').removeClass("activo");
         		$('#id_perfil').addClass("activo");
@@ -129,7 +136,7 @@
 				                   
 				                    
 				                }else{
-				                    alert(data.mensaje);
+				                    //alert(data.mensaje);
 				                    /*setTimeout(function(){
 				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
 				                    }, 1500);
@@ -137,6 +144,18 @@
 									
 										$('#persona_mensaje').text(data.destino)
 					        			$('#mensaje_abierto').text(data.mensaje)
+					        			$('#enlace_imagen').removeAttr('href')
+					        			$('#enlace_imagen').text('')
+
+					        			if(data.imagen!=''){
+					        				$('#enlace_imagen').attr('href',data.imagen)
+					        			$('#enlace_imagen').text('descargar imagen adjunta')
+					        			}
+
+					        			if(data.archivo!=''){
+					        				$('#enlace_archivo').attr('href',data.archivo)
+					        			$('#enlace_archivo').text('descargar archivo adjunto')
+					        			}
 					        			
 									
 									
@@ -283,6 +302,77 @@
 
 			        	
 			    });
+
+
+$('#seleccionar_foto_perfil').change(function(e){
+	        handleImage(e)
+	    });
+function handleImage(e){
+       NProgress.start();
+        var reader = new FileReader();
+        reader.onload = function(event){
+            var image = new Image();
+            image.src = e.target.result;
+            image.onload = function(){
+                // if (image.width < 400) {
+                //     alert("Please choose a larger size");
+                //     return false;
+                // } else if (image.height < 300) {
+                //     alert("Please choose a larger size");
+                //     return false;
+                // }
+                // if(image.height > image.width){
+                //     alert("Sorry allowed only horizontal images");
+                //     return false;
+                // }
+                var canvas = document.createElement('canvas');
+                var MAX_WIDTH = 160;
+                var MAX_HEIGHT = 160;
+                var width = image.width;
+                var height = image.height;
+                if (width > height) {
+                    if (width > MAX_WIDTH) {
+                        height *= MAX_WIDTH / width;
+                        width = MAX_WIDTH;
+                    }
+                } else {
+                    if (height > MAX_HEIGHT) {
+                        width *= MAX_HEIGHT / height;
+                        height = MAX_HEIGHT;
+                    }
+                }
+                canvas.width = width;
+                canvas.height = height;
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage( image, 0, 0, width, height );
+                //$('#hidden_image').val(canvas.toDataURL());
+                //$('#img_canvas').html(['<img src="', canvas.toDataURL(), '"/>'].join(''));
+                //"background-image: url(/media/{{datos_personales.get_avatar}})"
+                //$('#foto_actual').css('background-image','url(/'+canvas.toDataURL());
+                	//alert(canvas.toDataURL());
+            }
+            image.src = event.target.result;
+            subitFotoPerfil();
+        }
+        reader.readAsDataURL(e.target.files[0]);
+    }
+    function subitFotoPerfil(){
+    	var formData = new FormData($("#form_foto_perfil")[0]);
+    	$.ajax({
+           url: '/perfil/configuraciongeneral/foto-perfil/',
+            type: 'post',
+            dataType: 'json',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+            	NProgress.done();
+                console.log(data)
+               window.location.reload(true);
+            //$('#foto_actual').css('background-image','url(/'+;
+            }
+        });
+    }
        
 
 
@@ -344,24 +434,48 @@
 	            <div class="item active">
 	            	<div class="ivo-layer-gry"></div>
 	                <!-- Set the first background image using inline CSS below. -->
+	                
+	               
 	                {% if datos_personales.get_portada == '' or datos_personales.get_portada == None  %}
 					<div class="fill" id="cover_actual" style="background-image:url( '{% static "img/header-casting.jpg" %}');"></div>
 				{% else %}
-					<div class="fill" id="cover_actual" style="background-image:url(/media/{{datos_personales.get_portada}});"></div>
+					<div class="fill" id="cover_actual" style="background-image:url(/media/{{datos_personales.get_portada}});"> </div>
 				{% endif %}
+					
 	                
 	                <div class="carousel-caption ivo-casting-header ivo-casting-header-anchoCaja" style="text-align:left;">
 						<div class="row">
 							<div class="col-xs-12 visible-xs">
-								<div class="ivo-perfil-imgPerfil ivo-perfil-imgPerfil-tope" style="background-image: url(/media/{{datos_personales.get_avatar}})"></div>
+							
+							
+								<div id="foto_actual" class="ivo-perfil-imgPerfil ivo-perfil-imgPerfil-tope" style="background-image: url(/media/{{datos_personales.get_avatar}})"> </div>
+								
 							</div>
 							<!-- Informacion Basica del Perfil -->
 
 							<div class="col-sm-10 col-md-5 col-md-offset-4 col-sm-offset-4">
 								<ul class="ivo-dashboard-infoBasica ivo-perfil-info">
-									<li><span class="ivo-etiqueta-titulo ivo-font-{{tema}} ivo-perfil-etiqueta">{{profesion.id_genero.id_tipo_arte.name}}</span></li>
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre">{{datos_personales.first_name}} {{datos_personales.last_name}}</li>
-									<li class="ivo-perfil-talento">{{profesion.id_genero.name}}</li>
+                                    {% if datos_personales.tipo_usuario == 'A' %}
+    									<li><span class="ivo-etiqueta-titulo ivo-font-{{tema}} ivo-perfil-etiqueta">{{profesion.id_genero.id_tipo_arte.name}}</span></li>
+    									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre">{{datos_personales.first_name}} {{datos_personales.last_name}}</li>
+    									<li class="ivo-perfil-talento">{{profesion.id_genero.name}}</li>
+                                    {%else%}
+                                    
+                                        <li><span class="ivo-etiqueta-titulo ivo-font-{{tema}} ivo-perfil-etiqueta">    
+                                        {% if profesion.id_sector.tipo == 'I' %}
+                                            INDUSTRIA
+                                        {% else %}
+                                            PROVEEDOR
+                                        {% endif %}
+
+                                        
+
+
+                                        </span></li>
+                                        <li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre">{{datos_personales.empresa_provedor}}</li>
+                                        <li class="ivo-perfil-talento">{{profesion.id_sector}}</li>
+                                    {%endif%}
+
 									<li style="margin-bottom: 5px !important;">
 										<span class="glyphicon glyphicon-heart ivo-font-naranja ivo-perfil-like"></span>
 										<font class="ivo-perfil-fans ivo-perfil-fans-ver">{{fans}} fans</font>
@@ -425,7 +539,10 @@
 
 
 							<ul class="ivo-perfil-infoComplemento">
-								<li><span class="icon-map-marker"></span> {{datos_personales.ciudad}},  {{datos_personales.pais}}</li>
+								{%if datos_personales.tipo_usuario != 'F' %}
+								<li><span class="icon-map-marker"></span> 
+								{{datos_personales.ciudad}},  {{datos_personales.pais}}</li>
+								{%endif%}
 								<li><span class="icon-exit"></span> Registrado {{datos_personales.date_joined|date:"M d, Y"}}</li>
 							</ul>
 			    		</div>
@@ -462,9 +579,11 @@
 			    				</li>
 			    				<li>
 			    				{%if datos_personales.id != user.id%}
+                                    {% if user.tipo_usuario != 'F' %}
 										<a class="ivo-font-{{tema}} ivo-perfil-enlaces-mensaje" id="mensaje" style="cursor:pointer">
 			    						<span class="icon-envelope"></span> Enviar Mensaje
 			    					</a>
+                                    {%endif%}
 									{%endif%}
 			    					
 			    				</li>
@@ -555,7 +674,7 @@
 				    				<div id="video" class="col-xs-12 col-sm-3 col-md-3 link_galeria">
 				    					<h3><a>Videos</a></h3>
 				    				</div>
-									{% if datos_personales.tipo_usuario != 'I' %}
+									{% if datos_personales.tipo_usuario == 'A'  %}
 				    				<div id="experiencia" class="col-xs-12 col-sm-3 col-md-3 link_galeria">
 				    					<h3><a>Experiencia</a></h3>
 				    				</div>
@@ -648,11 +767,12 @@
 									<span class="glyphicon glyphicon-open"></span> Subir
 								</button>
 										
+                                        <ul id="item_paginas">
+
+                                </ul>
 									{%endif%}
 								
-								<ul id="item_paginas">
-
-								</ul>
+								
 							</div>
 						</div>
 		    		</div>
@@ -780,10 +900,20 @@
 			</div>
 		</div>
 
+	<div hidden>
+								<form method="post" enctype="multipart/form-data" id="form_foto_perfil">
+									<input type="file" name="foto" id="seleccionar_foto_perfil" class="inputfile" hidden>
+									{% csrf_token %}
+								</form>
+							</div>
+            {%if datos_personales.id == user.id%}
 
-
-		<div class="ivo-perfil-imgPerfil ivo-perfil-imgPerfil-header principal" id = "foto_perfil"></div>
-
+            	<label for="seleccionar_foto_perfil">
+            		<div class="ivo-perfil-imgPerfil ivo-perfil-imgPerfil-header principal" id = "foto_perfil" style="cursor:pointer"> <h2>cambiar foto</h2></div>
+            	</label>
+            {%else%}
+                <div class="ivo-perfil-imgPerfil ivo-perfil-imgPerfil-header principal" id = "foto_perfil" ></div>
+            {%endif%}
 		</div>
 		<!-- Galeria -->
 		<div id="blueimp-gallery" class="blueimp-gallery principal">
@@ -962,6 +1092,8 @@
 						<div class="col-md-12 ivo-mensaje-contenido" id="mensaje_abierto">
 							
 						</div>
+						<p><a id='enlace_imagen' download></a></p>
+						<p><a id='enlace_archivo' download></a></p>
 					</div>
 					<div class="row">
 						<div class="col-md-12 text-right">
@@ -984,21 +1116,18 @@
 
 		<div id="redactar" >
 				<div class="col-sm-8 col-md-9 ivo-formularioConf ivo-mensajes-central">
-					<form class="ivo-formularioConf-form ivo-mensaje-enviarM" method="POST" action="/perfil/mensajes/enviar/">
+					<form class="ivo-formularioConf-form ivo-mensaje-enviarM" method="POST" action="/perfil/mensajes/enviar/" enctype="multipart/form-data">
 					{%csrf_token%}
 						<!-- DEBE LLEVAR UN AJAX, O MEJOR UN SOCKET, PARA RECUPERAR LAS INSTANCIAS A LOS DATOS-->
 						<input type="text" placeholder="Escribe un nombre" name="destino" id="nombre">
 						<textarea placeholder="Escribe tu mensaje" name="mensaje" id="cuerpo_mensaje"></textarea>
 						<div>	
-						<input type="file" id='archivo'  style="display: none;">
+						<input type="file" id='archivo' name="archivo"  style="display:none">					
+							<label for="archivo" class="glyphicon glyphicon-paperclip" ></label>							
 							
-							
-								<label for="archivo" class="glyphicon glyphicon-paperclip" ></label>
+							<input type="file" id="imagen" name='imagen' accept="image/*" style="display:none">
 								
-							
-							<input type="file" name='imagen' style="display: none;">
-								
-							<label for="archivo" class="glyphicon glyphicon-picture" ></label>						
+							<label for="imagen" class="glyphicon glyphicon-picture" ></label>						
 								
 							
 						</div>

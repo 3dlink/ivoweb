@@ -62,7 +62,7 @@ urlpatterns = [
     
     #url(r'^artistas/$', views.artistas, name='listado'),
 
-    url(r'^accounts/',include('allauth.urls')),
+    #url(r'^accounts/',include('allauth.urls')),
     url(r'^login/', views.index, name='index'),
     url(r'^logout/', views.cerrar_sesion, name='logout'),
 

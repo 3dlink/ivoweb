@@ -23,11 +23,16 @@
                 </ul>
             </div>
             <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 ivo-footer-lista2">
-                <ul>
-                    
+                <ul>   
+                {% if user.is_authenticated %}
+                    {% if user.tipo_usuario != 'F' %}
+
                     <li>
                         <a href="#"  class="ivo-footer-top-blanco">paquetes</a>
                     </li>
+                    {%endif%}
+                {%endif%}
+                    
                     <li>
                         <a href="/faq/"  class="ivo-footer-top-blanco">preguntas frecuentes</a>
                     </li>
@@ -75,14 +80,16 @@
                 <li>
                     <a id="enlace-talentos" href={% url 'listado:artistas' %} class="naranja">Talentos</a>
                 </li>
+                {% if user.tipo_usuario != 'F' %}
                 <li>
-                    <a id="enlace-industria" href="#" class="azul">Industria</a>
+                    <a id="enlace-industria" href={% url 'listado:industrias' %} class="azul">Industria</a>
                 </li>
                 <li>
                     <a id="enlace-casting" href={% url 'casting:casting_inicio' %} class="verde">Casting / Audiciones</a>
                 </li>
+                {%endif%}
                 <li>
-                    <a id="enlace-proveedores" href="#" class="rosa">Proveedores</a>
+                    <a id="enlace-proveedores" href={% url 'listado:proveedores' %} class="rosa">Proveedores</a>
                 </li>
                 {% endif %}
                 <li>

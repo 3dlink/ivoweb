@@ -1,6 +1,5 @@
 {% load staticfiles %}
-{% load socialaccount %}
-{% providers_media_js %}
+
 <!-- Header -->
 		<div class="container-fluid ivo-header ivo-header-normal">
 			<div class="container">
@@ -28,9 +27,9 @@
 									<h2>Login</h2>
 								</li>
 								<li class="ivo-login-redes text-center">
-									<a href="{% provider_login_url "facebook" method="js_sdk" %}" class="ivo-boton-fondoInpt ivo-border-fcb" style="margin-bottom: 20px;">
+									<button class="ivo-boton-fondoInpt ivo-border-fcb" style="margin-bottom: 20px;">
 										<div class="ivo-back-fcb ivo-borde-transparente">Ingresa con facebook</div>
-									</a>
+									</button>
 									<button class="ivo-boton-fondoInpt ivo-borde-red">
 										<div class="ivo-back-red ivo-borde-transparente">Ingresa con Google</div>
 									</button>

@@ -22,6 +22,7 @@ from itertools import chain
 
 # Create your views here.
 def home(request):
+    import pdb; pdb.set_trace()
     return render(request, "home.html", {})
 
 def registrosecundario(request):
@@ -175,13 +176,13 @@ def industria(request):
             mensaje = form_invalid(form)
 
         return HttpResponse(json.dumps(mensaje), content_type="application/json")
-    sectores = Industria.objects.get.all()
+    sectores = Industria.objects.filter(tipo='I')
     pais= Pais.objects.all()
     context = {'form': FormRegistroIndustria, 'sectores':sectores, 'paises': pais}
     return render(request, "registraIndustria.html", context)
 
 
-
+#REVISAR ESTOS INTERERES
 def fan(request):
     intereses = TipoArte.objects.all()    
     context = {'from': FormRegistroFan, 'intereses':intereses}
@@ -202,6 +203,7 @@ def registrofan(request):
                 user = authenticate(username=registro.email, password=request.POST['password1'])
                 if user is not None:
                     if user.is_active:
+                        SectorIndustria.objects.create(id_sector=Industria.objects.filter(tipo='F')[0].id, id_usuario=user)
                         login(request, user)
                         mensaje = {'mensaje': str(_('Registro realizado con exito')), 'success': True}
                     else:
@@ -303,13 +305,14 @@ def artistadashboard(request):
         recibidos = Mensaje.objects.filter(destino=request.user.id)
         industrias = Industria.objects.all()
         proveedores = SectorIndustria.objects.filter(id_sector__in=Industria.objects.filter(tipo='P').values_list('id',flat=True))[:4]
+        paises=Pais.objects.all()
         
 
         if len(generos)>0:
             genero= generos[0]
         else:
             genero=''
-        return render(request, "dashboard/artista.html", {"posts":posts, "castings":castings, "siguiendo":siguiendo, "seguidores":seguidores, "genero":genero, 'enviados':enviados,'recibidos':recibidos, 'fans':numero_seguidores,'industrias': industrias, 'proveedores':proveedores })
+        return render(request, "dashboard/artista.html", {'paises':paises,"posts":posts, "castings":castings, "siguiendo":siguiendo, "seguidores":seguidores, "genero":genero, 'enviados':enviados,'recibidos':recibidos, 'fans':numero_seguidores,'industrias': industrias, 'proveedores':proveedores })
 
     else:
        
@@ -461,17 +464,25 @@ def busqueda_avanzada(request):
 
         if request.user.tipo_usuario == 'A':
             results_ind = SectorIndustria.objects.all()
+            results_usr = User.objects.filter(tipo_usuario='I')|User.objects.filter(tipo_usuario='P')
             #results_pro = SectorProveedor.objects.all()
             ind = Q(id_sector=0) | Q(id_sector=99)
+            usr = Q(pais=400) | Q(pais=401)
             #pro = Q(id_sector=0) | Q(id_sector=99)
-            for key in request.POST.keys():
-                
+            for key in request.POST.keys():                
                 if key != 'csrfmiddlewaretoken':
+                    if key.split('-')[0] == 'usr':
+                        if key.split('-')[1] == 'pais':
+                                if request.POST[key] != '':
+                                    usr.add((Q(pais=request.POST[key])),usr.OR)
+                    else:            
                         ind.add((Q(id_sector=key.split('-')[1])),ind.OR)
 
-            results = results_ind.filter(ind)
+            results_usr = results_usr.filter(usr).values_list('id', flat=True)
 
-            #import pdb; pdb.set_trace()
+            results = results_ind.filter(ind) | SectorIndustria.objects.filter(id_usuario__in=results_usr)
+
+            import pdb; pdb.set_trace()
         else:
             control = 0
             #results_final = UsuarioArteGenero.objects.all()

@@ -20,7 +20,7 @@ class Casting(models.Model):
     info_destacada = models.TextField()
     info_adicional = models.TextField()
     descripcion_breve= models.CharField(max_length=255, blank=False)
-    autor = models.ForeignKey(User)
+    autor = models.ForeignKey(User, blank=False)
     categoria = models.ForeignKey(Industria)
 
 

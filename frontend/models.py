@@ -316,9 +316,11 @@ class InteresesUsuario(models.Model):
 class Industria (models.Model):
     INDUSTRIA = 'I'
     PROVEEDOR = 'P'
+    FANATICO = 'F'
     TIPO = (
         (INDUSTRIA, 'INDUSTRIA'),
-        (PROVEEDOR, 'PROVEEDOR')
+        (PROVEEDOR, 'PROVEEDOR'),
+        (FANATICO,'FANATICO')
     )
     nombre = models.CharField(_('Sector Industria'), max_length=255, blank=True)
     tipo = models.CharField(max_length=1, null=False, blank=False, default='I', choices=TIPO)

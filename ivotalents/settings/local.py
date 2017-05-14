@@ -40,10 +40,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Application definition
 
-AUTHENTICATION_BACKENDS = (
-    'allauth.account.auth_backends.AuthenticationBackend',
-    'django.contrib.auth.backends.ModelBackend',
-)
+# AUTHENTICATION_BACKENDS = (
+#     'allauth.account.auth_backends.AuthenticationBackend',
+#     'django.contrib.auth.backends.ModelBackend',
+# )
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -54,11 +54,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'rest_framework',
-    'django.contrib.sites',
-'allauth',
-'allauth.account',
-'allauth.socialaccount',
-'allauth.socialaccount.providers.facebook',
+    #'django.contrib.sites',
+# 'allauth',
+# 'allauth.account',
+# 'allauth.socialaccount',
+# 'allauth.socialaccount.providers.facebook',
     #'registration',
     'frontend',
     'perfiles',
@@ -95,7 +95,7 @@ REST_FRAMEWORK = {
 
 ROOT_URLCONF = 'ivotalents.urls'
 
-AUTH_USER_MODEL = 'frontend.User'
+#AUTH_USER_MODEL = 'frontend.User'
 
 TEMPLATES = [
     {
@@ -108,6 +108,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.request',
             ],
         },
     },
@@ -115,35 +116,35 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ivotalents.wsgi.application'
 
-SOCIALACCOUNT_PROVIDERS = \
-    {'facebook':
-       {'METHOD': 'oauth2',
-        'SCOPE': ['email','public_profile', 'user_friends'],
-        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-        'FIELDS': [
-            'id',
-            'email',
-            'name',
-            'first_name',
-            'last_name',
-            'verified',
-            'locale',
-            'timezone',
-            'link',
-            'gender',
-            'updated_time'],
-        'EXCHANGE_TOKEN': True,
-        'LOCALE_FUNC': lambda request: 'kr_KR',
-        'VERIFIED_EMAIL': False,
-        'VERSION': 'v2.4'}}
+# SOCIALACCOUNT_PROVIDERS = \
+#     {'facebook':
+#        {'METHOD': 'oauth2',
+#         'SCOPE': ['email','public_profile', 'user_friends'],
+#         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+#         'FIELDS': [
+#             'id',
+#             'email',
+#             'name',
+#             'first_name',
+#             'last_name',
+#             'verified',
+#             'locale',
+#             'timezone',
+#             'link',
+#             'gender',
+#             'updated_time'],
+#         'EXCHANGE_TOKEN': True,
+#         'LOCALE_FUNC': lambda request: 'kr_KR',
+#         'VERIFIED_EMAIL': False,
+#         'VERSION': 'v2.4'}}
 
-SOCIAL_AUTH_FACEBOOK_KEY = '194311034382699'  # App ID
-SOCIAL_AUTH_FACEBOOK_SECRET ='0a6bd942753b882cc52ecb9ab440dbae' #app key
+# SOCIAL_AUTH_FACEBOOK_KEY = '194311034382699'  # App ID
+# SOCIAL_AUTH_FACEBOOK_SECRET ='0a6bd942753b882cc52ecb9ab440dbae' #app key
 
-SITE_ID = 'localhost' # for the dev mode, you need to use localhost's id facebook does not support the name 127.0.0.1:8000
+#SITE_ID = 'localhost' # for the dev mode, you need to use localhost's id facebook does not support the name 127.0.0.1:8000
 #little options for your page's signup.
 ACCOUNT_EMAIL_REQUIRED=True
-ACCOUNT_USERNAME_REQURIED=True
+#ACCOUNT_USERNAME_REQUiRED=True
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
@@ -204,13 +205,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
 LANGUAGE_CODE = 'es-ES'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -233,7 +230,7 @@ ACCOUNT_ACTIVATION_DAYS = 2
 REGISTRATION_AUTO_LOGIN = True
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-SITE_ID=2
+SITE_ID=1
 
 
 LOGIN_URL = '/'
@@ -243,7 +240,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_AGE = 40 * 60
 
-AUTH_USER_MODEL ='frontend.User'
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
-ACCOUNT_USER_EMAIL_FIELD = 'email'
+# AUTH_USER_MODEL ='frontend.User'
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
+# ACCOUNT_USER_EMAIL_FIELD = 'email'

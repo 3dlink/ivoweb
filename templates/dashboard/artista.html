@@ -347,13 +347,15 @@
 									</ul>
 									<div class="ivo-dashboard-separador-slb"></div>
 									<h5>Pa&iacute;s de residencia</h5>
-									<select class="ivo-border-width-3">
-										<option>Pais 1</option>
-										<option>Pais 1</option>
-										<option>Pais 1</option>
-										<option>Pais 1</option>
-										<option>Pais 1</option>
-										<option>Pais 1</option>
+									<select class="ivo-border-width-3" name='usr-pais'>
+										<option selected="selected" value="">Pais</option> 
+                                        {% for pais in paises %}         
+                            <!-- LOS GENERO OCULTOS SIEMPRE? -->
+                                            
+                                                <option value="{{pais.id}}">{{pais.nombre}}</option>
+                                            
+                                        {% endfor %}    
+									</select>
 									</select>
 									<input type="submit" value="BUSCAR">
 								</form>

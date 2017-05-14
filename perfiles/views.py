@@ -163,7 +163,7 @@ def ConfiguracionExperiencia(request):
         if form.is_valid():
             experiencia = form.save(commit=False)
             experiencia.usuario = User.objects.get(uuid=request.POST['usuario'])
-            if 'fecha_hasta' in request.POST:
+            if request.POST['fecha_hasta'] != '':
                 experiencia.fecha_hasta=request.POST['fecha_hasta']
             experiencia.save()
             return HttpResponse(json.dumps({'success': True}), content_type="application/json")
@@ -173,9 +173,12 @@ def ConfiguracionExperiencia(request):
 def Configuracion_Educacion(request):
     if request.method == 'POST':
         form = FormEducacion(request.POST)
+        import pdb; pdb.set_trace()
         if form.is_valid():
             educacion = form.save(commit=False)
             educacion.usuario = User.objects.get(uuid=request.POST['usuario'])
+            if request.POST['fecha_fin_estudio'] != '':
+                educacion.fecha_fin_estudio=request.POST['fecha_fin_estudio']
             educacion.save()
             return HttpResponse(json.dumps({'success': True}), content_type="application/json")
         else:
@@ -195,7 +198,7 @@ def Perfil(request, uuid):
     castings=''
     edad=''
     profesion=''
-    if datos_personales.tipo_usuario == 'I' or datos_personales.tipo_usuario == 'P':
+    if datos_personales.tipo_usuario == 'I' or datos_personales.tipo_usuario == 'P' or datos_personales.tipo_usuario == 'F' :
         tema = 'azul'
         castings = Casting.objects.filter(autor=datos_personales.id).order_by('fecha_fin')[:2]
         profesion= SectorIndustria.objects.get(id_usuario=datos_personales.id)
@@ -211,7 +214,7 @@ def Perfil(request, uuid):
         'tema' : tema,
         'titulo': _('Perfil de usuario '),
         'usuario':usuario,
-        'seguir':len(seguir),
+        'fans':len(seguir),
         'enviados':enviados,
         'recibidos':recibidos,
         'edad':edad,
