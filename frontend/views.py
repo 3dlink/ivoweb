@@ -22,7 +22,7 @@ from itertools import chain
 
 # Create your views here.
 def home(request):
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
     return render(request, "home.html", {})
 
 def registrosecundario(request):
