@@ -172,8 +172,9 @@ def ConfiguracionExperiencia(request):
 
 def Configuracion_Educacion(request):
     if request.method == 'POST':
-        form = FormEducacion(request.POST)
         import pdb; pdb.set_trace()
+        form = FormEducacion(request.POST)
+        
         if form.is_valid():
             educacion = form.save(commit=False)
             educacion.usuario = User.objects.get(uuid=request.POST['usuario'])

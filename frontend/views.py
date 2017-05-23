@@ -7,7 +7,7 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 from .models import * 
-from .forms import FormRegistro, FormRegistroIndustria, FormRegistroFan, LoginForm, FormSeguir
+from .forms import *
 from .funciones import form_invalid
 import json
 from casting.models import Casting
@@ -16,6 +16,7 @@ from perfiles.models import Mensaje
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from itertools import chain
+from django.core.mail import send_mail, BadHeaderError
 
 
 
@@ -221,27 +222,7 @@ def registrofan(request):
 
 
 
-# def registrofan(request):
 
-#     if request.method == 'GET' and request.is_ajax():
-#         mensaje = ''
-#         xHTML = ''
-#         datos = TipoArte.objects.filter(active=True)
-#         if not datos:
-#             mensaje = ('no hay datos')
-#         else:
-#             for talento in datos:
-#                 xHTML += '<li>'
-#                 xHTML += '<input type="checkbox" name = "artes" id = "checkbox-' + str(talento.id) + '" value = "' + str(
-#                     talento.id) + '"  class="regular-checkbox" />'
-#                 xHTML += '<label for="checkbox-' + str(talento.id) + '"></label>'
-#                 xHTML += '<div>' + str(talento.name) + '</div>'
-#                 xHTML += '</li>'
-#         return HttpResponse(json.dumps({'mensaje': mensaje, 'data': xHTML}), content_type="application/json")
-
-
-#     context = {'form': FormRegistroFan}
-#     return render(request, "fanatico.html", {})
 
 
 def faninteres(request):
@@ -574,6 +555,25 @@ def faqpregunta(request):
     return render(request, "estaticas/faq-pregunta.html", {})
 
 def corporativa(request):
-    return render(request, "estaticas/corporativa.html", {})
+    form = contactoForm
+    return render(request, "estaticas/corporativa.html", {'form':form})
 
 
+def contacto(request):
+    form = contactoForm
+    if request.method == 'POST':
+        
+        form = contactoForm(request.POST)       
+       
+        if form.is_valid():
+            subject = form.cleaned_data['asunto']
+            from_email = form.cleaned_data['email']
+            message = form.cleaned_data['mensaje']
+            name= form.cleaned_data['nombre']
+            try:
+                send_mail(subject, name+'\n\n'+message, from_email, ['ivotalents@gmail.com','ati2mortiz@gmail.com'])
+                return redirect('/corporativa/')
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')           
+
+    return render(request, "estaticas/corporativa.html", {'form':form})

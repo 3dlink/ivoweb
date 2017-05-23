@@ -71,3 +71,9 @@ class FormSeguir(forms.ModelForm):
     class Meta:
         model = Seguidores
         fields =("__all__")
+
+class contactoForm(forms.Form):
+    email = forms.EmailField(max_length=254, required=True)
+    nombre = forms.CharField(required=True,max_length=30 )
+    asunto = forms.CharField(required=True)
+    mensaje = forms.CharField(required=True, widget=forms.Textarea)

@@ -146,7 +146,7 @@ br.clear {clear: both;}
 	margin: 20px 0;
 }
 
-.ivo-registro > input[type="text"], .ivo-registro > input[type="password"] {
+.ivo-registro > input[type="text"], .ivo-registro > input[type="password"],  > input[type="email"] {
 	background-color: transparent;
 	border-style: solid;
 	border-color: white;

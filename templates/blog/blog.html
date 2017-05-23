@@ -92,12 +92,16 @@
 				</div>
 				<!-- Blog Posts -->
   
-
-
+					
 				<!-- Blog Posts -->
 				<div class="row ivo-noticias ivo-blog">
 					<div class="col-md-10 col-lg-10 col-md-offset-1">
 					    <div class="row">
+							
+							{% if posts.object_list|length == 0 %}
+								<h4> No hay resultados para esta busqueda</h4>
+							{% endif %}
+
 							{% for post in posts %}
 								{% if forloop.counter0 == 0 %}
 					        <div class="image-block col-sm-8 ivo-blog-item ivo-blog-item-lg" style="background: url('{{post.imagen.url}}'); no-repeat center top;background-size:cover;">

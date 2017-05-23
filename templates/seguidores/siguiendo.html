@@ -27,6 +27,10 @@
 					</div>
 				</div>
 
+				 {% if seguidores.object_list|length == 0 %}
+								<h4> Aun no sigue a ningun usuario</h4>
+							{% endif %}
+
 			{% for seguidor in seguidores %}
 				<!-- Fila Listado de Perfiles -->
 				{%if forloop.counter0 < 3 %}

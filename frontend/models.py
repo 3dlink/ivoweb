@@ -303,6 +303,7 @@ class Seguidores(models.Model):
 
 class Intereses (models.Model):
     nombre = models.CharField(_('Nombre Interes'), max_length=255, blank=True)
+    imagen = models.ImageField(upload_to='intereses', blank=True, null=True, max_length=200)
 
     def __str__(self):              # __unicode__ on Python 2
         return self.nombre

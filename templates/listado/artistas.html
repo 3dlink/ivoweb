@@ -69,6 +69,10 @@
 							</ul>
 					   	</div>
 
+					   {% if artistas.object_list|length == 0 %}
+								<h4> No hay resultados para esta busqueda</h4>
+							{% endif %}
+
 					   	{% for artista in artistas %}
 							{% if artista.counter0 == 0 or artista.counter0 == 6 %}
 					   		 <div class="row">

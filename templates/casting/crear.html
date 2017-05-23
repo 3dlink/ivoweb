@@ -17,6 +17,17 @@
 
    <script type="text/javascript">
    	$(function(){
+   				$('#boton_img_1').click(function(){
+   					$('#seleccionar_imagen_1').click();
+
+   				})
+
+   				$('#boton_img_2').click(function(){
+   					$('#seleccionar_imagen_2').click();
+
+   				})
+
+
 			$('#send_form_general').click(function(){
 			if (validarForm( $('#form_general input') ) ) {
 			    if( $('#inicio_fecha_a_o').val().trim() != ''  && $('#inicio_fecha_mes').val().trim() != ''  && $('#inicio_fecha_dia').val().trim() != ''   ){
@@ -67,6 +78,7 @@
 	body {
 		background-color: white;
 	}
+
 	</style>
 {% endblock %}
 
@@ -125,14 +137,22 @@
 								<div class="row ivo-formularioConf-form-grid">
 								
 									<div class="col-md-12 ivo-formularioConf-form-grid-img1 text-center">
-									<input type="file" name="imagen_1" id="seleccionar_imagen_1">
-									<span class="glyphicon glyphicon-picture" ><label for="seleccionar_imagen_1">&nbsp;</label></span>
+									
+									
+										<!--label for="seleccionar_imagen_1"-->
+										<input type="file" name="imagen_1" id="seleccionar_imagen_1" style="display:none">
+										<span id="boton_img_1" class="glyphicon glyphicon-picture"></span>
+									
 										
 									</div>
 									<div class="col-md-6 ivo-formularioConf-form-grid-img2 text-center">
 
-										<input type="file" name="imagen_2" id="seleccionar_imagen_2" >
-										<span class="glyphicon glyphicon-picture"> <label for="seleccionar_imagen_2">&nbsp;&nbsp;</label></span>
+										<input type="file" name="imagen_2" id="seleccionar_imagen_2" style="display:none" >
+										
+										
+											<span id="boton_img_2" class="glyphicon glyphicon-picture"></span>
+										
+										
 									</div>
 									
 									<div class="col-md-6 ivo-formularioConf-form-grid-text">

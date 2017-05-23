@@ -67,6 +67,10 @@
 							</ul>
 					   	</div>
 
+					   	 {% if industrias.object_list|length == 0 %}
+								<h4> No hay resultados para esta busqueda</h4>
+							{% endif %}
+
 					   	{% for industria in industrias %}
 							{% if industria.counter0 == 0 or industria.counter0 == 6 %}
 					   		 <div class="row">

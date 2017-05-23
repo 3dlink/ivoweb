@@ -22,27 +22,68 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 ivo-footer-lista2">
-                <ul>   
-                {% if user.is_authenticated %}
-                    {% if user.tipo_usuario != 'F' %}
 
-                    <li>
-                        <a href="#"  class="ivo-footer-top-blanco">paquetes</a>
-                    </li>
-                    {%endif%}
-                {%endif%}
-                    
-                    <li>
-                        <a href="/faq/"  class="ivo-footer-top-blanco">preguntas frecuentes</a>
-                    </li>
-                    <li>
-                        <a href="#"  class="ivo-footer-top-blanco">registrate</a>
-                    </li>
-                    
-                    
-                </ul>
-            </div>
+
+            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 ivo-footer-lista2">
+                        <ul>
+                            <li>
+
+                                <a data-toggle="collapse" data-target="#artista_collapse" style="cursor:pointer">artistas</a>
+                            </li>
+                            <div id="artista_collapse" class="collapse">
+                                       {% if user.is_authenticated %}
+                                {% if user.tipo_usuario != 'F' %}
+
+                                <li>
+                                    <a href="#"  class="ivo-footer-top-blanco">paquetes</a>
+                                </li>
+                                {%endif%}
+                            {%endif%}
+                            <li>
+                                <a href="#" class="ivo-footer-top-blanco">preguntas frecuentes</a>
+                            </li>
+                            <li>
+                                <a href="#" class="ivo-footer-top-blanco">registrate</a>
+                            </li>
+                            </div>
+                            <li>
+                                <a data-toggle="collapse" data-target="#industria_collapse" style="cursor:pointer">industria</a>
+                            </li>
+                                <div id="industria_collapse" class="collapse">
+                                       {% if user.is_authenticated %}
+                                {% if user.tipo_usuario != 'F' %}
+
+                                <li>
+                                    <a href="#"  class="ivo-footer-top-blanco">paquetes</a>
+                                </li>
+                                {%endif%}
+                            {%endif%}
+                            <li>
+                                <a href="#" class="ivo-footer-top-blanco">preguntas frecuentes</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'industria' %]" class="ivo-footer-top-blanco">registrate</a>
+                            </li>
+                            </div>
+
+                            <li>
+                                <a data-toggle="collapse" data-target="#fan_collapse" style="cursor:pointer" >fans</a>
+                            </li>
+                                <div id="fan_collapse" class="collapse">
+                                       
+                            <li>
+                                <a href="#preguntas_fan" class="ivo-footer-top-blanco">preguntas frecuentes</a>
+                            </li>
+                            <li>
+                                <a href="{%url 'fan' %}" class="ivo-footer-top-blanco">registrate</a>
+                            </li>
+                            </div>
+                            <li>
+                                <a >casting</a>
+                            </li>
+                        </ul>
+                    </div>
+            
             <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 ivo-footer-listaS">
                 <ul class="ivo-footer-social">
                     <li><span class="social_facebook_circle"></span></li>

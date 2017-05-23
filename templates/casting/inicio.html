@@ -92,6 +92,11 @@
 				<div class="row ivo-castings">
 					<div class="col-md-12 col-lg-12">
 					    <div class="row">
+					    {% if castings.object_list|length == 0 %}
+								<h4> No hay resultados para esta busqueda</h4>
+							{% endif %}
+
+
 						{% for casting in castings %}
 							{% if forloop.counter0 == 0 or forloop.counter0 == 1 or forloop.counter0 == 2 or  forloop.counter0 == 4 or forloop.counter0 == 5 or forloop.counter0 == 6 or forloop.counter0 == 7 or forloop.counter0 == 9 %}
 								

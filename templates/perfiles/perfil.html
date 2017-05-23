@@ -47,17 +47,7 @@
             var image = new Image();
             image.src = e.target.result;
             image.onload = function(){
-                if (image.width < 400) {
-                    alert("Please choose a larger size");
-                    return false;
-                } else if (image.height < 300) {
-                    alert("Please choose a larger size");
-                    return false;
-                }
-                if(image.height > image.width){
-                    alert("Sorry allowed only horizontal images");
-                    return false;
-                }
+               
                 var canvas = document.createElement('canvas');
                 var MAX_WIDTH = 160;
                 var MAX_HEIGHT = 160;
@@ -305,9 +295,9 @@
 
 
 $('#seleccionar_foto_perfil').change(function(e){
-	        handleImage(e)
+	        handleImagee(e)
 	    });
-function handleImage(e){
+function handleImagee(e){
        NProgress.start();
         var reader = new FileReader();
         reader.onload = function(event){
@@ -638,22 +628,12 @@ function handleImage(e){
 									
 								</li>
 								{% for interes in interesesusuario %}
-									{% if interes.id_interes.id == 1 %}
+									
 										<li>
-											<img src="{% static 'img/musica.png' %}">
-											<h4>Musica</h4>
+											<img src="/media/{{interes.id_interes.imagen}}">
+											<h4>{{interes.id_interes.nombre}}</h4>
 										</li>
-									{% elif interes.id_interes.id == 3 %}
-										<li>
-											<img src="{% static 'img/conciertos-eventos.png' %}">
-											<h4>Conciertos y Eventos</h4>
-										</li>
-									{% else %}
-										<li>
-											<img src="{% static 'img/industria-musical.png' %}">
-											<h4>Industria Musical</h4>
-										</li>
-									{% endif %}
+									
 								{% endfor %}
 							</ul>
 			    		</div>

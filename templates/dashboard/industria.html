@@ -229,21 +229,21 @@
 	if ( $(this).is(":checked")  ){
 		$('.industria').attr("disabled", true);
 	} else{
+		 if ($('#usr-color_ojos').val() == '' && $('#usr-color_cabello').val() == ''  && $('#usr-etnia').val() == '' && $('#usr-pais').val() == '') {
 		$('.industria').removeAttr("disabled");
+	}
 	}
 });
 
 	//SIRVE A MEDIAS... no puedo volver al estado inicial (sin seleccion)
 	$('.talento-sel').on("change",function(){      
-	if ($('#usr-color_ojos').val() != '' || $('#usr-color_cabello').val() != ''  || $('#usr-etnia').val()!= '' || $('#usr-pais').val() != '') {
-		$('.industria').attr("disabled", true);
-	} else if ($('#usr-color_ojos').val() == '' && $('#usr-color_cabello').val() == ''  && $('#usr-etnia').val() == '' && $('#usr-pais').val() == '') {
-		$('.industria').removeAttr("disabled");
-	}
 
-	
-
-});
+    if ($('#usr-color_ojos').val() != '' || $('#usr-color_cabello').val() != ''  || $('#usr-etnia').val() != '' || $('#usr-pais').val() != '') {
+        $('.industria').attr("disabled", true);
+    } else{
+        $('.industria').removeAttr("disabled");
+    }
+})
 
 	</script>
 
@@ -459,8 +459,8 @@
                                 </select>
 									<div class="ivo-dashboard-separador-slb"></div>
 									<h5>Pais de Residencia</h5>
-									<select class="ivo-border-width-3 final talento-sel" name='usr-pais'>
-										<option selected="selected" value="">Pais</option> 
+									<select class="ivo-border-width-3 final talento-sel"  id='usr-pais' name='usr-pais'>
+										<option selected="selected" value=''>Pais</option> 
                                         {% for pais in paises %}         
                             <!-- LOS GENERO OCULTOS SIEMPRE? -->
                                             
@@ -617,7 +617,8 @@
 
 								<!-- Seccion Resumen de Artistas -->
 								{% for talento in talentos %}
-								<div class="col-sm-3 ivo-artistas-panel-item" >
+								<a href="/perfil/{{talento.id_usuario.get_uuid}}/">
+								<div class="col-sm-3 ivo-artistas-panel-item" >								
 								{% if talento.id_usuario.avatar == ''%}
 						        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
 						        {% else %}
@@ -627,7 +628,7 @@
 						    		<h4 class="ivo-font-negro nombre"><b>{{talento.id_usuario.get_full_name}}</b></h4>
 						    		<h4 class="ivo-font-negro">{{talento.id_genero.name}}</h4>
 						        </div>
-
+								</a>
 						        {% endfor %}
 						        
 							</div>
@@ -642,12 +643,14 @@
 								</div>
 							</div>
 							{% for proveedor in proveedores %}
+							<a href="/perfil/{{proveedor.id_usuario.get_uuid}}/">
 					        <div class="col-sm-3 ivo-artistas-panel-item" >
 					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
 					            <h3 class="ivo-font-negro">{{proveedor.id_sector}}</h3>
 					    		<h4 class="ivo-font-negro nombre"><b>{{proveedor.id_usuario.empresa_provedor}}</b></h4>
 					    		<!--h4 class="ivo-font-negro">Compositora</h4-->
 					        </div>
+					        </a>
 					       {% endfor %}
 					       {% endif %}
 					    </div>

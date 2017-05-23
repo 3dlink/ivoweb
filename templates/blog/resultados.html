@@ -25,6 +25,10 @@
 			<div class="row ivo-noticias ivo-blog ivo-blog-invertido">
 				<div class="col-md-10 col-lg-10 col-md-offset-1">
 				    <div class="row">
+					{% if posts.count == 0 %}
+						<h4> No hay resultados para esta busqueda</h4>
+					{% endif %}
+
 				    {% for post in posts %}
 								
 				    	
