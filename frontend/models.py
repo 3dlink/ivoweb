@@ -110,6 +110,7 @@ class User(AbstractBaseUser,PermissionsMixin):
                                     db_column='Tipousuario', verbose_name=_('Tipo de usuario'))
     uuid = models.CharField( unique=True, max_length=100, default= generateUUID())
     biografia = models.TextField(db_column='Biografia', null=True, blank=True, verbose_name=_('Biografia'))
+    cita = models.TextField(db_column='Cita', null=True, blank=True, verbose_name=_('Cita'))
     disponible_viajes = models.BooleanField(default=False, verbose_name='Disponibilidad de viaje')
     idioma = models.CharField(max_length=60,null=True, blank=True, verbose_name=_('Idiomas'))
     usuario = models.CharField(max_length=60,null=True, blank=True, verbose_name=_('ID-Usuario'))

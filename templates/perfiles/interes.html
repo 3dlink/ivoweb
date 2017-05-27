@@ -1,7 +1,7 @@
 {% load staticfiles %}
 {% load i18n %}
 
-					<form class="ivo-formularioConf-form" method="POST" action="/perfil/configuraciongeneral/actualizar-interes/" id="form_interes1">
+					<form class="ivo-formularioConf-form" method="POST"  id="form_interes1">
 					{% csrf_token %}
 						<h1>Intereses</h1>
 						<div class="row">
@@ -37,12 +37,16 @@
 								</div>
 							</div>
 						</div>
-						<button class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro" id = "send_form_interes">
-							<span class="ivo-back-trs-azulClaro ivo-borde-transparente">Actualizar</span>
-						</button>
-						<button class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro">
-							<span class="ivo-back-trs-azulClaro ivo-borde-transparente">Cancelar</span>
-						</button>
+						<div class="row">
+                    <div class="col-md-12 text-right">
+                        <a class="ivo-boton-fondoInpt ivo-borde-azulClaro" style="margin-right:2%; cursor: pointer;">
+                            <span class="ivo-back-azulClaro ivo-borde-transparente">Cancelar</span>
+                        </a>
+                        <a class="ivo-boton-fondoInpt ivo-borde-azulClaro" id="send_form_interes" style="cursor: pointer;">
+                            <span class="ivo-back-azulClaro ivo-borde-transparente">Actualizar</span>
+                        </a>
+                    </div>
+                </div>
 					</form>
 				
 			

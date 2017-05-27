@@ -95,7 +95,9 @@
             success: function (data) {
             	NProgress.done();
                 console.log(data)
-                $('#boton_subir_cover').removeAttr('disabled');
+                window.location.reload(true);
+
+                
 
             }
 
@@ -248,8 +250,14 @@
 									*/
 									if(data.mensaje == 'Ya no sigues al usuario'){
 										$('#seguir').css('background-color', 'white')
+                                        $('#seguir').text("Seguir")
+
 									}else{
-										$('#seguir').css('background-color', 'cyan')
+										$('#seguir').css('background-color', '#00c5b4')
+                                        $('#seguir').removeClass("ivo-font-azulClaro")
+                                        $('#seguir').addClass("ivo-font-blanco")
+                                        $('#seguir').text("Siguiendo")
+
 									}
 									
 
@@ -484,7 +492,7 @@ function handleImagee(e){
 								<div class="row ivo-casting-headerDer text-right ivo-perfil-socialH">
 									<div class="col-md-12">
 									{%if datos_personales.id == user.id%}										
-										<a href="#modal_portada" class="ivo-boton-fondo ivo-casting-botonP ivo-perfil-botonH" data-toggle="modal" >Cambiar Cover Foto</a>
+										<label for="seleccionar_foto_cover" class="ivo-boton-fondo ivo-casting-botonP ivo-perfil-botonH" style="cursor:pointer">   Cambiar Cover Foto</label>
 										
 										
 									{%endif%}
@@ -519,12 +527,21 @@ function handleImagee(e){
 			    		<div class="row " style="padding: 0 10%;">
 			   				<ul class="ivo-casting-socialR ivo-perfil-panelSocial">
 								<li class="titulo">Sigue a {{datos_personales.first_name}}</li>
+                                
+                                {% if datos_personales.facebook != ''  %}
 								<li class="redes"><a class="ivo-font-{{tema}}" href="http://www.facebook.com/{{datos_personales.facebook}}" target="_blank"><span class="social_facebook_circle"></span></a></li>
+{% endif %}
+                                 {% if datos_personales.twitter != ''  %}
 								<li class="redes"><a class="ivo-font-{{tema}}" href="http://www.twitter.com/{{datos_personales.twitter}}" target="_blank"><span class="social_twitter_circle"></span></a></li>
-								<li class="redes"><a class="ivo-font-{{tema}}" href="http://www.instagram.com/{{datos_personales.instagram}}" target="_blank"><span class="social_instagram_circle"></span></a></li>
-								<li class="enlace">
+{% endif %}
+								 {% if datos_personales.instagram != ''  %}
+                                <li class="redes"><a class="ivo-font-{{tema}}" href="http://www.instagram.com/{{datos_personales.instagram}}" target="_blank"><span class="social_instagram_circle"></span></a></li>
+{% endif %}
+								{% if datos_personales.website != ''  %}
+                                <li class="enlace">
 									<a class="ivo-font-{{tema}}" href="http://{{datos_personales.website}}" target="_blank">Web Oficial</a>
 								</li>
+                                {% endif %}
 							</ul>
 
 
@@ -672,8 +689,17 @@ function handleImagee(e){
 
 							</div>
                             <div  id="gallery-experiencia" class="galerias" style="display: none">
+
+
+                                    
                                 <div class="row">
                                     <div class="col-md-11 col-md-offset-1">
+                                    <div class="row">
+                                            <div class="col-md-12 ivo-perfil-experiencia">
+                                                <h2>Cita</h2>
+                                                <p><i> {{datos_personales.cita}}</i></p>
+                                            </div>
+                                        </div>
                                         <div class="row">
                                             <div class="col-md-12 ivo-perfil-experiencia">
                                                 <h2>Experiencia</h2>
@@ -723,13 +749,7 @@ function handleImagee(e){
                                             </div>
                                         </div>
                                     </div>
-                                    <!--div class="col-md-5">
-                                        <div class="row">
-                                            <div class="col-md-12 ivo-perfil-experiencia">
-                                                <h2>Cita</h2>
-                                            </div>
-                                        </div>
-                                    </div-->
+                                    
                                 </div>
 							</div>
 						</div>
@@ -963,17 +983,11 @@ function handleImagee(e){
 
 		<!--MODAL PORTADA-->
 
-		<div class="modal fade" tabindex="-1" role="dialog" id="modal_portada">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Seleccione la imagen de cover</h4>
-      </div>
-      <div class="modal-body">
+		
+      <div hidden>
         <form id="form_cover_perfil" method="POST" enctype="multipart/form-data" >
         {%csrf_token%}
-        <input type="file" name="foto" id="seleccionar_foto_cover" accept="image/*" >
+        <input type="file" name="foto" id="seleccionar_foto_cover" accept="image/*" hidden>
         <!--input type="submit" id="submit-form" hidden -->
 
 
@@ -981,20 +995,7 @@ function handleImagee(e){
       </div>
 
 
-      <div class="modal-footer">
-        <button type="button" class="ivo-boton-fondoInpt ivo-borde-azulClaro" data-dismiss="modal"> <span class="ivo-back-trs-azulClaro ivo-borde-transparente">Cancelar</span></button>
-
-		 <input id="boton_subir_cover" form="form_cover_perfil"  type='submit'  value="Subir imagen" class="btn btn-info"  disabled >
-		
-        <!--label id="boton_subir_cover" for="input_subir_cover" class="ivo-boton-fondoInpt ivo-borde-azulClaro" data-dismiss="modal"><span class="ivo-back-trs-azulClaro ivo-borde-transparente">Subir foto</span></label
-
-			@cahl  te acuerdas del modal para cambiar la foto de cover? he estado tratando de mejorarle el estilo, pero tengo problemas alli. el boton de subir , el que deshablitamos, es tipo input en el formulario... para poder darle el formato adecuado necesito que pueda tener 
-
-        -->
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+     
 
 	
 	

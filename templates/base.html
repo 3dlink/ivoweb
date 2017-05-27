@@ -22,8 +22,17 @@
 		{% endif %}
 
         <!--main clock content -->
+           <!--	QUE NO CIERRE.. QUE LO ESCONDA!!!!!!! O MEJOR EL MODAL!! -->
+         <div id="div_errores" class="alert alert-danger" style="position:absolute; z-index: 1000; top: 25%; left: 35%" hidden>
+								    		<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">X</a>
+								        
+								            <span id="mensaje_error"></span>
+								        
+								    </div>
         {% if login_form.non_field_errors %}
-								    <div class="alert alert-danger" style="position:absolute; z-index: 1000; top: 10%; left: 35%">
+
+		        				
+								    <div class="alert alert-danger" style="position:absolute; z-index: 1000; top: 25%; left: 35%">
 								    		<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">X</a>
 								        {% for error in login_form.non_field_errors %}
 								            <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ error }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>

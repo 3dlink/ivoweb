@@ -9,15 +9,14 @@
 		<style type="text/css">
 			.ivo-pregunta { height: auto;}
 			.ivo-form  select {width: 100%}
-			body {
-					background-color: white;
-				}
+			
 		</style>
+		
 {% endblock %}
 
 {%block content%}
 <!-- Contenido Planes -->
-		<div class="container-fluid ivo-pregunta" style="background-image: url(assets/img/pregunta2.jpg);">
+		<div class="container-fluid ivo-pregunta" style="background-image: url({% static 'img/pregunta2.jpg' %});">
 			<div class="container">
 				<!-- Titulo Planes -->
 				<div class="row ivo-planes-titulo">

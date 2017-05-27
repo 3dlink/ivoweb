@@ -14,10 +14,10 @@
         </th>
     </tr>
 </thead>
-<tbody>
+<tbody id='tbody_educacion'>
 
     {% for educacion in datos_educacion %}
-    <tr>
+    <tr id='tr_educacion_{{educacion.id}}'>
         <td>{{ educacion.institucion }}</td>
         <td>{{ educacion.titulo }}</td>
         <td>{{ educacion.fecha_inicio_estudio }} - 
@@ -32,7 +32,7 @@
         {% else %}
             <td>No</td>
         {% endif %}
-
+    <td><a class="editar_educacion" data-id="{{educacion.id}}" href="#"><span class="glyphicon glyphicon-pencil"></span></a></td>
        
     </tr>
     {% endfor %}
@@ -59,9 +59,9 @@
         </th>
     </tr>
 </thead>
-<tbody>
+<tbody id='tbody_experiencia'>
     {% for experiencia in datos_experiencia %}
-    <tr>
+    <tr id='tr_experiencia_{{experiencia.id}}'>
         <td>{{ experiencia.empresa }}</td>
         <td>{{ experiencia.cargo }}</td>
         <td>{{ experiencia.fecha_desde }} -
@@ -75,6 +75,7 @@
         {% else %}
             <td>No</td>
         {% endif %}
+        <td><a class="editar_experiencia" data-id="{{experiencia.id}}" href="#"><span class="glyphicon glyphicon-pencil"></span></a></td>
 
         
     </tr>
@@ -89,6 +90,60 @@
 <div class="ivo-configuracion-form-separador"></div>
 
 
+<form  class="ivo-formularioConf-form ivo-formularioConf-form-nf " id="form_cita" method="POST">
+                
+                <!-- bio -->
+                {% csrf_token %}
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>Cita</h1>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Cita favorita</label>
+                    </div>
+                    <div class="col-md-10">
+                        {% if datos.cita != None %}
+                            <textarea  id='cita' class="ivo-formularioConfText" name="cita" required="required">{{datos.cita}}</textarea>
+                        {% else %}
+                            <textarea  id='cita' class="ivo-formularioConfText" name="cita" required="required"></textarea>
+                        {% endif %}
+
+                    </div>
+                </div>
+                <!-- fin bio -->
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <a class="ivo-boton-fondoInpt ivo-borde-azulClaro" style="margin-right:2%; cursor: pointer;">
+                            <span class="ivo-back-azulClaro ivo-borde-transparente">Cancelar</span>
+                        </a>
+                        <a class="ivo-boton-fondoInpt ivo-borde-azulClaro" id="send_form_cita" style="cursor: pointer;">
+                            <span class="ivo-back-azulClaro ivo-borde-transparente">Actualizar</span>
+                        </a>
+                    </div>
+                </div>
+            </form>
+
+
+                        <!--h1>Cita</h1>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Cita Favorita</label>
+                            </div>
+                            <div class="col-md-9">
+                                <textarea class="ivo-formularioConfText" name="cita" required="required"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-md-12 text-right">
+                            <a href="#" id="agregar_cita">  Agregar Cita</a>
+                        </div>
+                        </div-->
+
+
 <!-- modal de educacion -->
 <div class="modal fade" id="ModalEducacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
@@ -98,10 +153,11 @@
                 <h4 class="ivo-borde-azulClaro" style="width: 70%;">Agregar educación</h4>
             </div>
             <div class="modal-body" style="background: white;">
-                <form id="form_educacion" action="/perfil/configuraciongeneral/actualizar-educacion/"  method="POST" style="display: block" class="ivo-formularioConf-form ivo-formularioConf-form-nf">
+                <form id="form_educacion"   method="POST" style="display: block" class="ivo-formularioConf-form ivo-formularioConf-form-nf">
                     <input type="hidden" name="fecha_inicio_estudio" id="fecha_inicio_estudio">
                     <input type="hidden" name="fecha_fin_estudio" id="fecha_fin_estudio">
                     <input type="hidden" name="usuario" value="{{user.get_uuid}}">
+                    <input type="hidden" name="id_educacion" id="id_educacion">
                     {% csrf_token %}
 
                     <div class="row">
@@ -154,6 +210,9 @@
                                 <span class="ivo-back-azulClaro ivo-borde-transparente">Cancelar</span>
                             </a>
                             <a class="ivo-boton-fondoInpt ivo-borde-azulClaro" id = "send_form_eduacion" style="cursor: pointer">
+                                <span class="ivo-back-azulClaro ivo-borde-transparente">Agregar</span>
+                            </a>
+                             <a class="ivo-boton-fondoInpt ivo-borde-azulClaro" id="update_educacion" style="cursor: pointer; display:none" >
                                 <span class="ivo-back-azulClaro ivo-borde-transparente">Actualizar</span>
                             </a>
                         </div>
@@ -175,10 +234,13 @@
                 <h4 class="ivo-borde-azulClaro" style="width: 70%;">Agregar Experiencia</h4>
             </div>
             <div class="modal-body" style="background: white;">
-                <form id="formExperiencia" action="/perfil/configuraciongeneral/actualizar-experiencia/"  method="POST" style="display: block" class="ivo-formularioConf-form ivo-formularioConf-form-nf">
+                <form id="formExperiencia"  style="display: block" class="ivo-formularioConf-form ivo-formularioConf-form-nf">
+                   
                     <input type="hidden" name="fecha_desde" id="fechaDesde">
                     <input type="hidden" name="fecha_hasta" id="fechaHasta">
                     <input type="hidden" name="usuario" value="{{user.get_uuid}}">
+                    <input type="hidden" name="id_experiencia" id="id_experiencia">
+
                     {% csrf_token %}
 
                     <div class="row">
@@ -230,7 +292,10 @@
                             <a id="cerrar_modal_experiencia" class="ivo-boton-fondoInpt ivo-borde-azulClaro" style="margin-right:2%; cursor: pointer">
                                 <span class="ivo-back-azulClaro ivo-borde-transparente">Cancelar</span>
                             </a>
-                            <a class="ivo-boton-fondoInpt ivo-borde-azulClaro" id = "send_form_experiencia" style="cursor: pointer">
+                            <a class="ivo-boton-fondoInpt ivo-borde-azulClaro" id="send_form_experiencia" style="cursor: pointer">
+                                <span class="ivo-back-azulClaro ivo-borde-transparente">Agregar</span>
+                            </a>
+                             <a class="ivo-boton-fondoInpt ivo-borde-azulClaro" id="update_experiencia" style="cursor: pointer; display:none" >
                                 <span class="ivo-back-azulClaro ivo-borde-transparente">Actualizar</span>
                             </a>
                         </div>

@@ -20,6 +20,8 @@ import json
 from django.shortcuts import redirect
 from datetime import date
 from casting.models import Casting
+from django.utils import formats
+from django.utils.dateparse import parse_date
 
 
 # Create your views here.
@@ -100,13 +102,15 @@ def Configuracion_Interes(request):
                     InteresesUsuario.objects.filter(id_interes=Intereses.objects.get(id=x),id_usuario=request.user).delete()
        
         #import pdb; pdb.set_trace()
-        return HttpResponseRedirect('/perfil/configuraciongeneral/')
+        #return HttpResponseRedirect('/perfil/configuraciongeneral/')
+        return HttpResponse(json.dumps({'mensaje':'Intereses Modificados exitosamente','success':True}), content_type="application/json")    
 
 
 def Configuracion_General_Actualizar(request):
     
    if request.method == 'POST':
         datos = getDatosActualizar(User, request)
+        #
         user = User.objects.filter(uuid=request.user.uuid).update(**datos)     
        
         if 'tatuaje' in request.POST:           
@@ -116,7 +120,8 @@ def Configuracion_General_Actualizar(request):
             User.objects.filter(uuid=request.user.uuid).update(disponible_viajes=(request.POST['disponible_viajes'] == 'True'))
                 
         #import pdb; pdb.set_trace()
-        return HttpResponseRedirect('/perfil/configuraciongeneral/') 
+        #return HttpResponseRedirect('/perfil/configuraciongeneral/') 
+        return HttpResponse(json.dumps({'mensaje':'Datos guardados exitosamente','success':True}), content_type="application/json")    
 
 
 def Configuracion_General(request):
@@ -158,41 +163,189 @@ def Configuracion_General(request):
     return render(request, "perfiles/configuraciongeneral.html", context)
 
 def ConfiguracionExperiencia(request):
-    if request.method == 'POST':
-        form = FormExperiencia(request.POST)
-        if form.is_valid():
-            experiencia = form.save(commit=False)
-            experiencia.usuario = User.objects.get(uuid=request.POST['usuario'])
-            if request.POST['fecha_hasta'] != '':
-                experiencia.fecha_hasta=request.POST['fecha_hasta']
-            experiencia.save()
-            return HttpResponse(json.dumps({'success': True}), content_type="application/json")
+    if request.method == 'POST':  
+        if request.POST['id_experiencia'] == '':
+            form = FormExperiencia(request.POST)
+            if form.is_valid():
+                experiencia = form.save(commit=False)
+                experiencia.usuario = User.objects.get(uuid=request.POST['usuario'])
+                if request.POST['fecha_hasta'] != '':
+                    experiencia.fecha_hasta=request.POST['fecha_hasta']
+                experiencia.save()
+                xHTML="<tr><td>"+request.POST['empresa']+"</td>"
+                xHTML+="<td>"+request.POST['cargo']+"</td>"
+                xHTML+="<td>"+request.POST['fecha_desde']+" - "
+                if request.POST['fecha_hasta'] == '':
+                    xHTML+= "Actualidad</td>"
+                else:                     
+                    xHTML+=request.POST['fecha_hasta']+"</td>"
+                if 'trabajo_actual' in request.POST:
+                    xHTML+="<td>Si</td>"
+                else:
+                    xHTML+="<td>No</td>"  
+                xHTML+='<td><a class="editar_experiencia" data-id='+str(experiencia.id)+"href=#><span class='glyphicon glyphicon-pencil'></span></a></td></tr>"   
+                 
+                return HttpResponse(json.dumps({'xHTML':xHTML,'success': True}), content_type="application/json")
+            else:
+                return HttpResponse(json.dumps(form_invalid(form)), content_type="application/json")
         else:
-            return HttpResponse(json.dumps(form_invalid(form)), content_type="application/json")
+            #a=getDatosActualizar(Experiencia,request)
+            import pdb; pdb.set_trace()
+
+            exp=Experiencia.objects.get(id=request.POST['id_experiencia'])
+            exp.empresa=request.POST['empresa']
+            exp.cargo=request.POST['cargo']
+           
+            exp.fecha_desde=request.POST['fecha_desde'].split('/')[2]+'-'+request.POST['fecha_desde'].split('/')[1]+'-'+request.POST['fecha_desde'].split('/')[0]
+            if request.POST['fecha_hasta'] != '':                
+                exp.fecha_hasta=request.POST['fecha_hasta']
+            else:
+                exp.fecha_hasta=None;
+
+            if 'trabajo_actual' in request.POST:
+                exp.trabajo_actual=True;
+            else:
+                exp.trabajo_actual=False;
+            #exp.fecha_desde=request.POST['fecha_desde']
+            exp.save()
+
+            xHTML='<td>'+request.POST['empresa']+'</td>'
+            xHTML+='<td>'+request.POST['cargo']+'</td>'
+            xHTML+="<td>"+request.POST['fecha_desde']+" - "
+            if request.POST['fecha_hasta'] == '':
+                xHTML+= "Actualidad</td>"
+            else:                     
+                xHTML+=request.POST['fecha_hasta']+"</td>"
+            if 'trabajo_actual' in request.POST:
+                xHTML+="<td>Si</td>"
+            else:
+                xHTML+="<td>No</td>"  
+            xHTML+='<td><a class="editar_experiencia" data-id='+request.POST['id_experiencia']+" href=#><span class='glyphicon glyphicon-pencil'></span></a></td>"
+            return HttpResponse(json.dumps({'xHTML':xHTML,'success': True}), content_type="application/json")
+
+def Buscar_Experiencia(request):
+    if request.method == 'POST':
+        exp= Experiencia.objects.get(id=request.POST['id'])
+        #import pdb; pdb.set_trace()
+        dia_hasta=''
+        mes_hasta=''
+        anno_hasta=''
+        if exp.fecha_hasta:
+            dia_hasta=exp.fecha_hasta.day
+            mes_hasta=exp.fecha_hasta.month
+            anno_hasta=exp.fecha_hasta.year
+
+        context={'empresa':exp.empresa, 
+                'cargo':exp.cargo,
+                'dia_desde':exp.fecha_desde.day,
+                'mes_desde':exp.fecha_desde.month,
+                'anno_desde':exp.fecha_desde.year,
+                'dia_hasta':dia_hasta,
+                'mes_hasta':mes_hasta,
+                'anno_hasta':anno_hasta,
+                'success': True}
+
+        
+        return HttpResponse(json.dumps(context), content_type="application/json")
 
 def Configuracion_Educacion(request):
     if request.method == 'POST':
-        import pdb; pdb.set_trace()
-        form = FormEducacion(request.POST)
-        
-        if form.is_valid():
-            educacion = form.save(commit=False)
-            educacion.usuario = User.objects.get(uuid=request.POST['usuario'])
-            if request.POST['fecha_fin_estudio'] != '':
-                educacion.fecha_fin_estudio=request.POST['fecha_fin_estudio']
-            educacion.save()
-            return HttpResponse(json.dumps({'success': True}), content_type="application/json")
+        #import pdb; pdb.set_trace()
+        if request.POST['id_educacion'] == '':
+            form = FormEducacion(request.POST)
+            
+            if form.is_valid():
+                educacion = form.save(commit=False)
+                educacion.usuario = User.objects.get(uuid=request.POST['usuario'])
+                if request.POST['fecha_fin_estudio'] != '':
+                    educacion.fecha_fin_estudio=request.POST['fecha_fin_estudio']
+                educacion.save()
+                xHTML="<tr><td>"+request.POST['institucion']+"</td>"
+                xHTML+="<td>"+request.POST['titulo']+"</td>"
+                xHTML+="<td>"+request.POST['fecha_inicio_estudio']+" - "
+                if request.POST['fecha_fin_estudio'] == '':
+                    xHTML+= "Actualidad</td>"
+                else:                     
+                    xHTML+=request.POST['fecha_fin_estudio']+"</td>"
+                if 'estudiando_actualmente' in request.POST:
+                    xHTML+="<td>Si</td>"
+                else:
+                    xHTML+="<td>No</td>"
+                xHTML+='<td><a class="editar_educacion" data-id='+str(educacion.id)+"href=#><span class='glyphicon glyphicon-pencil'></span></a></td></tr>"
+                return HttpResponse(json.dumps({'xHTML':xHTML,'success': True}), content_type="application/json")
+            else:
+                return HttpResponse(json.dumps(form_invalid(form)), content_type="application/json")
         else:
-            return HttpResponse(json.dumps(form_invalid(form)), content_type="application/json")
+            #a=getDatosActualizar(Experiencia,request)
+            #import pdb; pdb.set_trace()
+            print("editar_educacion")
+            edu=Educacion.objects.get(id=request.POST['id_educacion'])
+            edu.institucion=request.POST['institucion']
+            edu.titulo=request.POST['titulo']
+           
+            edu.fecha_inicio_estudio=request.POST['fecha_inicio_estudio'].split('/')[2]+'-'+request.POST['fecha_inicio_estudio'].split('/')[1]+'-'+request.POST['fecha_inicio_estudio'].split('/')[0]
+            if request.POST['fecha_fin_estudio'] != '':                
+                edu.fecha_fin_estudio=request.POST['fecha_fin_estudio']
+            else:
+                edu.fecha_fin_estudio=None;
+
+            if 'estudiando_actualmente' in request.POST:
+                edu.estudiando_actualmente=True;
+            else:
+                edu.estudiando_actualmente=False;
+            #edu.fecha_desde=request.POST['fecha_desde']
+            edu.save()
+            xHTML="<td>"+request.POST['institucion']+"</td>"
+            xHTML+="<td>"+request.POST['titulo']+"</td>"
+            xHTML+="<td>"+request.POST['fecha_inicio_estudio']+" - "
+            if request.POST['fecha_fin_estudio'] == '':
+                xHTML+= "Actualidad</td>"
+            else:                     
+                xHTML+=request.POST['fecha_fin_estudio']+"</td>"
+            if 'estudiando_actualmente' in request.POST:
+                xHTML+="<td>Si</td>"
+            else:
+                xHTML+="<td>No</td>"
+            xHTML+='<td><a class="editar_educacion" data-id='+request.POST['id_educacion']+"href=#><span class='glyphicon glyphicon-pencil'></span></a></td></tr>"
+
+          
+            return HttpResponse(json.dumps({'xHTML':xHTML,'success': True}), content_type="application/json")
+
+def Buscar_Educacion(request):
+    if request.method == 'POST':
+        print("Buscar_Educacion")
+        edu= Educacion.objects.get(id=request.POST['id'])
+        #import pdb; pdb.set_trace()
+        dia_hasta=''
+        mes_hasta=''
+        anno_hasta=''
+        if edu.fecha_fin_estudio:
+            dia_hasta=edu.fecha_fin_estudio.day
+            mes_hasta=edu.fecha_fin_estudio.month
+            anno_hasta=edu.fecha_fin_estudio.year
+
+        context={'institucion':edu.institucion, 
+                'titulo':edu.titulo,
+                'dia_desde':edu.fecha_inicio_estudio.day,
+                'mes_desde':edu.fecha_inicio_estudio.month,
+                'anno_desde':edu.fecha_inicio_estudio.year,
+                'dia_hasta':dia_hasta,
+                'mes_hasta':mes_hasta,
+                'anno_hasta':anno_hasta,
+                'success': True}
+
+        #import pdb; pdb.set_trace()
+        
+        return HttpResponse(json.dumps(context), content_type="application/json")
 
 
 def Perfil(request, uuid):
     usuario = Usuario(uuid)
     
     datos_personales = usuario.getDatosPersonales()
+    seguir =len(Seguidores.objects.filter(destino=request.user))
     
-    
-    seguir = Seguidores.objects.filter(origen=request.user.id,destino=datos_personales.id)
+   
     enviados = Mensaje.objects.filter(origen=request.user.id)
     recibidos = Mensaje.objects.filter(destino=request.user.id)
     interesesusuario = InteresesUsuario.objects.filter(id_usuario=datos_personales.id)
@@ -215,7 +368,7 @@ def Perfil(request, uuid):
         'tema' : tema,
         'titulo': _('Perfil de usuario '),
         'usuario':usuario,
-        'fans':len(seguir),
+        'fans':seguir,
         'enviados':enviados,
         'recibidos':recibidos,
         'edad':edad,

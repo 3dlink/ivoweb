@@ -4,6 +4,7 @@
 {% block cssblock %}
 
     <link href="{% static 'css/jquery.countdown.css' %}" rel="stylesheet">
+    
     <style type="text/css">
     	body {
     		background-color: white;
@@ -20,10 +21,10 @@
 		<div class="col-md-3 ivo-configuracion-menu">
 			<ul>
 				<li class="activo" id="show_form_general">
-					<a href="#">General</a>
+					<a href="#general">General</a>
 				</li>
 				<li id="show_form_seguridad">
-					<a href="#">Seguridad</a>
+					<a href="#seguridad">Seguridad</a>
 				</li>
 				
 
@@ -35,11 +36,11 @@
 				</li>
 				{% if user.get_tipo_usuario == "A" %}
 				<li id="show_form_experiencia">
-					<a href="#">Experiencia</a>
+					<a href="#experiencia">Experiencia</a>
 				</li >
 				{% endif %}
 				<li id="show_form_interes">
-					<a href="#">Intereses</a>
+					<a href="#interes">Intereses</a>
 				</li>
 				
 				{% endif %}
@@ -648,7 +649,7 @@
 			</form>
 
 			<div class="ivo-formularioConf-form ivo-formularioConf-form-nf from-principal" style="display:none" action="/perfil/configuraciongeneral/actualizar-experiencia/"   id="form_experiencia">
-				<div class="ivo-configuracion-form-separador"></div>
+				
                 <h1>Idiomas</h1>
 				<div class="row">
 					<div class="col-md-3">
@@ -702,7 +703,9 @@
 					</div>
 				</div>-->
                 {% include 'perfiles/experiencia.html' %}
-			</div>
+
+                
+		</div>
 			
 
 
@@ -716,6 +719,10 @@
                 {% include 'perfiles/interes.html' %}
 			</div>
 
+
+
+				
+	
 
 		</div>
 	</div>
@@ -774,8 +781,8 @@
        
 	    $('#send_form_experiencia').click(function(){
             var fecha_desde = $('#dia_desde2').val()+'/'+$('#mes_desde2').val()+'/'+$('#anno_desde2').val();
-            if( $('#radio-1-2').attr('checked')){
-            	var fecha_hasta = $('#dia_hasta2').val()+'/'+$('#mes_hasta2').val()+'/'+$('#anno_hasta2').val();
+            if( !$('#radio-1-2').is(":checked")){
+            	var fecha_hasta =$('#anno_hasta2').val()+'-'+$('#mes_hasta2').val()+'-'+ $('#dia_hasta2').val();
             	$('#fechaHasta').val(fecha_hasta);
             }
             
@@ -788,12 +795,12 @@
         });
 
 
-	    $('#send_form_eduacion').click(function(){
+	    $('#send_form_educacion').click(function(){
             var fecha_desde = $('#dia_desde').val()+'/'+$('#mes_desde').val()+'/'+$('#anno_desde').val();
 
-            if( $('#radio-1-1').attr('checked')){
+            if( !$('#radio-1-1').is(":checked")){
             	
-            	var fecha_hasta = $('#dia_hasta').val()+'/'+$('#mes_hasta').val()+'/'+$('#anno_hasta').val();
+            	var fecha_hasta =$('#anno_hasta').val()+'-'+$('#mes_hasta').val()+'-'+ $('#dia_hasta').val();
             	$('#fecha_fin_estudio').val(fecha_hasta);
             }
             
@@ -806,14 +813,159 @@
 	    $('#agregar_experiencia').click(function(){
             $('#ModalExperiencia').modal('show');
         });
+
+
+
+
+        $(document).on('click', '.editar_experiencia', function(){
+
+        	variable= $(this).data('id');
+        	$.ajax({
+				            url: '/perfil/configuraciongeneral/buscar-experiencia/',
+				            type: 'post',
+				            dataType: 'json',
+				            data: {'id':$(this).data('id'), 'csrfmiddlewaretoken':'{{csrf_token}}'},
+				            success: function (data) {
+				                if(data.success == false){
+				                    alert(data.mensaje);
+				                }else{
+				                    $('#id_empresa').val(data.empresa);
+				                    $('#id_cargo').val(data.cargo);
+				                    $('#dia_desde2').val(data.dia_desde);
+				                    $('#mes_desde2').val(data.mes_desde);
+				                    $('#anno_desde2').val(data.anno_desde);
+				                    $('#dia_hasta2').val(data.dia_hasta);
+				                    $('#mes_hasta2').val(data.mes_hasta);
+				                    $('#anno_hasta2').val(data.anno_hasta);
+				                    if(data.dia_hasta==''){
+				                    	$('#radio-1-2').attr('checked', true);
+				                    	$('#dia_hasta2').removeAttr('required')
+								    	$('#mes_hasta2').removeAttr('required')
+								    	$('#anno_hasta2').removeAttr('required')
+								    	$('#dia_hasta2').attr('disabled','true')
+								    	$('#mes_hasta2').attr('disabled','true')
+								    	$('#anno_hasta2').attr('disabled','true')
+				                    }
+
+
+				                    /*setTimeout(function(){
+				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
+				                    }, 1500);
+									*/	
+									
+									$('#id_experiencia').val(variable);
+						        	$('#send_form_experiencia').hide();
+						        	$('#update_experiencia').show();
+						        	
+						            $('#ModalExperiencia').modal('show');
+				                }
+				            }
+				        });	
+        	//llamada AJAX
+			 
+        	
+        });
+
+         $('#update_experiencia').click(function(){
+            var fecha_desde = $('#dia_desde2').val()+'/'+$('#mes_desde2').val()+'/'+$('#anno_desde2').val();
+            if( !$('#radio-1-2').is(":checked")){
+            	var fecha_hasta =$('#anno_hasta2').val()+'-'+$('#mes_hasta2').val()+'-'+ $('#dia_hasta2').val();
+            	$('#fechaHasta').val(fecha_hasta);
+            }
+            
+            $('#fechaDesde').val(fecha_desde);
+            
+            
+            if( validarForm($('#formExperiencia input')) ){
+            	//alert("debug updateExperiencia")
+                updateExperiencia();
+            }
+        });
 	    $('#cerrar_modal_experiencia').click(function(){
+	    	$('#update_experiencia').hide();
+	    	$('#send_form_experiencia').show();
+	    	$('#id_experiencia').val('');
+	    	//$('#formExperiencia').remove('#id_experiencia');
 	        $('#ModalExperiencia').modal('hide');
+	        $('#formExperiencia').trigger("reset");
         });
 	    $('#agregar_educacion').click(function(){
             $('#ModalEducacion').modal('show');
+           });
+
+             $(document).on('click', '.editar_educacion', function(){
+
+        	variable= $(this).data('id');
+        	$.ajax({
+				            url: '/perfil/configuraciongeneral/buscar-educacion/',
+				            type: 'post',
+				            dataType: 'json',
+				            data: {'id':$(this).data('id'), 'csrfmiddlewaretoken':'{{csrf_token}}'},
+				            success: function (data) {
+				                if(data.success == false){
+				                    alert(data.mensaje);
+				                }else{
+				                    $('#id_institucion').val(data.institucion);
+				                    $('#id_titulo').val(data.titulo);
+				                    $('#dia_desde').val(data.dia_desde);
+				                    $('#mes_desde').val(data.mes_desde);
+				                    $('#anno_desde').val(data.anno_desde);
+				                    $('#dia_hasta').val(data.dia_hasta);
+				                    $('#mes_hasta').val(data.mes_hasta);
+				                    $('#anno_hasta').val(data.anno_hasta);
+				                    if(data.dia_hasta==''){
+				                    	$('#radio-1-1').attr('checked', true);
+				                    	$('#dia_hasta').removeAttr('required')
+								    	$('#mes_hasta').removeAttr('required')
+								    	$('#anno_hasta').removeAttr('required')
+								    	$('#dia_hasta').attr('disabled','true')
+								    	$('#mes_hasta').attr('disabled','true')
+								    	$('#anno_hasta').attr('disabled','true')
+				                    }
+
+
+				                    /*setTimeout(function(){
+				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
+				                    }, 1500);
+									*/	
+									
+									$('#id_educacion').val(variable);
+						        	$('#send_form_eduacion').hide();
+						        	$('#update_educacion').show();
+						        	
+						            $('#ModalEducacion').modal('show');
+				                }
+				            }
+				        });	
+        	//llamada AJAX
+			 
+        	
         });
+
+		$('#update_educacion').click(function(){
+            var fecha_desde = $('#dia_desde').val()+'/'+$('#mes_desde').val()+'/'+$('#anno_desde').val();
+            if( !$('#radio-1-1').is(":checked")){
+            	var fecha_hasta =$('#anno_hasta').val()+'-'+$('#mes_hasta').val()+'-'+ $('#dia_hasta').val();
+            	$('#fecha_fin_estudio').val(fecha_hasta);
+            }
+            
+            $('#fecha_inicio_estudio').val(fecha_desde);
+            
+            
+            if( validarForm($('#form_educacion input')) ){
+            	//alert("debug updateExperiencia")
+                updateEducacion();
+            }
+        });
+
+
+      
 	    $('#cerrar_modal_educacion').click(function(){
+	    	$('#update_educacion').hide();
+	    	$('#send_form_educacion').show();
+	    	$('#id_educacion').val('');        
 	        $('#ModalEducacion').modal('hide');
+	        $('#form_educacion').trigger("reset");
         });
 	  
 		{% if user.get_tipo_usuario == "A"%}
@@ -870,15 +1022,80 @@
 		});
 		$('#send_form_bio').click(function(){
 			if (validarForm( $('#form_bio input') ) ) {
-				$('#form_bio').submit();
+				
+				 $.ajax({
+				            url: '/perfil/configuraciongeneral/actualizar-general/',
+				            type: 'post',
+				            dataType: 'json',
+				            data: $('#form_bio').serialize(),
+				            success: function (data) {
+				                
+				                if(data.success == false){
+				                    alert(data.mensaje);
+				                   
+				                    
+				                }else{
+				                    alert(data.mensaje);
+				                    /*setTimeout(function(){
+				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
+				                    }, 1500);
+									*/				
+									
+									
+
+				                }
+				            }
+				        });	
 			}
 		})
+
+		$('#send_form_cita').click(function(){
+			if (validarForm( $('#form_cita input') ) ) {
+					     $.ajax({
+				            url: '/perfil/configuraciongeneral/actualizar-general/',
+				            type: 'post',
+				            dataType: 'json',
+				            data: $('#form_cita').serialize(),
+				            success: function (data) {
+				                
+				                if(data.success == false){
+				                    alert(data.mensaje);
+				                }else{
+				                    alert(data.mensaje);
+				                    /*setTimeout(function(){
+				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
+				                    }, 1500);
+									*/	
+				                }
+				            }
+				        });	
+			}
+		})
+
 		$('#send_form_interes').click(function(){
 			
 			if (validarForm( $('#form_interes1 input') ) ) {
-				$('#form_interes1').submit();
+				$.ajax({
+				            url: '/perfil/configuraciongeneral/actualizar-interes/',
+				            type: 'post',
+				            dataType: 'json',
+				            data: $('#form_interes1').serialize(),
+				            success: function (data) {
+				                if(data.success == false){
+				                    alert(data.mensaje);
+				                }else{
+				                    alert("se cambiaron los intereses");
+				                    /*setTimeout(function(){
+				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
+				                    }, 1500);
+									*/	
+				                }
+				            }
+				        });	
 			}
-		})
+		});
+
+
 		$('#send_form_seguridad').click(function(){
 			var enviar = true;
 			if( $('#new_password1').val().trim() == '' && $('#correo1').val().trim() == '' ){
@@ -923,46 +1140,150 @@
 	        handleImage(e)
 	    });
 	});
+
+	function updateExperiencia(){
+       
+        $.ajax({
+            url: '/perfil/configuraciongeneral/experiencia/',
+		    type : "POST",            
+            dataType: 'json',
+            data:  $('#formExperiencia').serialize(),
+            success: function (data) {
+               
+                if(data.success == false){
+                    $.each(data.errors.fields, function(i, item) {
+                        if(i != 'undefined')
+                            alert(i+ " "+item);
+                    });
+
+                    $('#update_experiencia').attr('id','send_form_experiencia')
+	    			$('#formExperiencia').remove('#id_experiencia');
+        			$('#ModalExperiencia').modal('hide');
+        			//MODIFICAR EL DOM CON LOS DATOS NUEVOS DE EXP
+        			//$('#tbody_experiencia').append(data.xHTML)
+        			$('#formExperiencia').trigger("reset");
+                }else{
+                	/*
+                    setTimeout(function(){
+                      location.href  ='/perfil/configuraciongeneral/'
+                    }, 1500);*/
+        			alert("se modifico la experiencia");
+
+        			$('#update_experiencia').hide();
+        			$('#send_form_experiencia').show();
+        			variable=$('#id_experiencia').val();
+        			$('#tbody_experiencia').find('#tr_experiencia_'+variable).html(data.xHTML)
+        			$('#id_experiencia').val('');
+	    			//$('#formExperiencia').remove('#id_experiencia');
+        			$('#ModalExperiencia').modal('hide');
+        			//MODIFICAR EL DOM CON LOS DATOS NUEVOS DE EXP
+        			//$('#tbody_experiencia').append(data.xHTML)
+        			$('#formExperiencia').trigger("reset");
+
+                }
+            }
+        });
+    }
+
     function guardarExperiencia(){
-        NProgress.start();
+       
         $.ajax({
             url: '/perfil/configuraciongeneral/experiencia/',
             type: 'post',
             dataType: 'json',
             data:  $('#formExperiencia').serialize(),
             success: function (data) {
-                NProgress.done();
+               
                 if(data.success == false){
                     $.each(data.errors.fields, function(i, item) {
                         if(i != 'undefined')
                             alert(i+ " "+item);
                     });
                 }else{
+                	/*
                     setTimeout(function(){
                       location.href  ='/perfil/configuraciongeneral/'
-                    }, 1500);
+                    }, 1500);*/
+        			alert("se guardo la experiencia");
+        			$('#ModalExperiencia').modal('hide');
+        			$('#tbody_experiencia').append(data.xHTML)
+        			$('#formExperiencia').trigger("reset");
+
                 }
             }
         });
     }
+
+
+
+    function updateEducacion(){
+       
+        $.ajax({
+            url: '/perfil/configuraciongeneral/educacion/',
+		    type : "POST",            
+            dataType: 'json',
+            data:  $('#form_educacion').serialize(),
+            success: function (data) {
+               
+                if(data.success == false){
+                    $.each(data.errors.fields, function(i, item) {
+                        if(i != 'undefined')
+                            alert(i+ " "+item);
+                    });
+
+                    $('#update_educacion').attr('id','send_form_educacion')
+	    			$('#form_educacion').remove('#id_educacion');
+        			$('#ModalEducacion').modal('hide');
+        			//MODIFICAR EL DOM CON LOS DATOS NUEVOS DE EXP
+        			//$('#tbody_experiencia').append(data.xHTML)
+        			$('#form_educacion').trigger("reset");
+                }else{
+                	/*
+                    setTimeout(function(){
+                      location.href  ='/perfil/configuraciongeneral/'
+                    }, 1500);*/
+        			alert("se modifico la educacion");
+
+        			$('#update_educacion').hide();
+        			$('#send_form_educacion').show();
+        			variable=$('#id_educacion').val();
+        			$('#tbody_educacion').find('#tr_educacion_'+variable).html(data.xHTML)
+        			$('#id_educacion').val('');
+	    			//$('#formExperiencia').remove('#id_experiencia');
+        			$('#ModalEducacion').modal('hide');
+        			//MODIFICAR EL DOM CON LOS DATOS NUEVOS DE EXP
+        			//$('#tbody_experiencia').append(data.xHTML)
+        			$('#form_educacion').trigger("reset");
+
+                }
+            }
+        });
+    }
+
+
     function guardarEducacion(){
-        NProgress.start();
+       
         $.ajax({
             url: '/perfil/configuraciongeneral/educacion/',
             type: 'post',
             dataType: 'json',
             data:  $('#form_educacion').serialize(),
             success: function (data) {
-                NProgress.done();
+                
                 if(data.success == false){
                     $.each(data.errors.fields, function(i, item) {
                         if(i != 'undefined')
                             alert(i+ " "+item);
                     });
-                }else{
+                }else{/*
                     setTimeout(function(){
                       location.href  ='/perfil/configuraciongeneral/'
-                    }, 1500);
+                    }, 1500);*/
+        			alert("se guardo la educacion");
+        			$('#ModalEducacion').modal('hide');
+        			$('#tbody_educacion').append(data.xHTML)
+        			$('#form_educacion').trigger("reset");
+
                 }
             }
         });
