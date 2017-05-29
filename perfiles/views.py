@@ -57,7 +57,7 @@ def Configuracion_Seguriad_Actualizar(request):
             User.objects.filter(uuid=request.user.uuid, email=request.POST['correo']).update(
                 email=request.POST['email']
             )
-        if len(request.POST['email']) > 0:
+        if len(request.POST['old_password']) > 0:
             form_pass = PasswordChangeForm(request.user, request.POST)
             if form_pass.is_valid():
                 form = form_pass.save(commit=False)
@@ -65,7 +65,7 @@ def Configuracion_Seguriad_Actualizar(request):
             else:
                 messages.add_message(request, messages.WARNING, form_pass.errors)
 
-        return HttpResponseRedirect('/perfil/configuraciongeneral/')
+        return HttpResponse(json.dumps({'success':True}), content_type="application/json")
 
 def Configuracion_Idioma_Actualizar(request):
     if request.method == 'POST':
@@ -120,8 +120,8 @@ def Configuracion_General_Actualizar(request):
             User.objects.filter(uuid=request.user.uuid).update(disponible_viajes=(request.POST['disponible_viajes'] == 'True'))
                 
         #import pdb; pdb.set_trace()
-        #return HttpResponseRedirect('/perfil/configuraciongeneral/') 
-        return HttpResponse(json.dumps({'mensaje':'Datos guardados exitosamente','success':True}), content_type="application/json")    
+        return HttpResponseRedirect('/perfil/configuraciongeneral/') 
+        #return HttpResponse(json.dumps({'mensaje':'Datos guardados exitosamente','success':True}), content_type="application/json")    
 
 
 def Configuracion_General(request):
@@ -190,7 +190,7 @@ def ConfiguracionExperiencia(request):
                 return HttpResponse(json.dumps(form_invalid(form)), content_type="application/json")
         else:
             #a=getDatosActualizar(Experiencia,request)
-            import pdb; pdb.set_trace()
+            #import pdb; pdb.set_trace()
 
             exp=Experiencia.objects.get(id=request.POST['id_experiencia'])
             exp.empresa=request.POST['empresa']

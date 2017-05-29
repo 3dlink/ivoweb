@@ -22,22 +22,45 @@
 		{% endif %}
 
         <!--main clock content -->
-           <!--	QUE NO CIERRE.. QUE LO ESCONDA!!!!!!! O MEJOR EL MODAL!! -->
-         <div id="div_errores" class="alert alert-danger" style="position:absolute; z-index: 1000; top: 25%; left: 35%" hidden>
-								    		<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">X</a>
+           
+           <div class="modal fade bs-example-modal-sm " id="mensajes" tabindex="-1" role="dialog" aria-labelledby="mensajesLabel" style=" top: 15%;">
+							  <div class="modal-dialog" role="document">
+							    <div class="modal-content" style="background:rgba(0,0,0,0.7); color:white;">
+							      
+							      <div  class="modal-body">
+							        
+								            <span id='texto_mensaje'></span>
 								        
-								            <span id="mensaje_error"></span>
-								        
-								    </div>
+								     <span id="close_mensajes"  class="close"  style="color:white; opacity:0.9">X</span>
+							      </div>
+							      
+							    </div>
+							  </div>
+							</div>
+        
         {% if login_form.non_field_errors %}
 
-		        				
-								    <div class="alert alert-danger" style="position:absolute; z-index: 1000; top: 25%; left: 35%">
-								    		<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">X</a>
-								        {% for error in login_form.non_field_errors %}
+
+					<div class="modal fade bs-example-modal-sm in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display:block; top: 15%;">
+							  <div class="modal-dialog" role="document">
+							    <div class="modal-content" style="background:rgba(0,0,0,0.7); color:white;">
+							      
+							      <div class="modal-body">
+							        {% for error in login_form.non_field_errors %}
 								            <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ error }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
 								        {% endfor %}
-								    </div>
+								     <span id="close"  class="close"  style="color:white; opacity:0.9">X</span>
+							      </div>
+							      
+							    </div>
+							  </div>
+							</div>
+								
+		        				
+								    <!--div class="alert alert-danger" style="position:absolute; z-index: 1000; top: 25%; left: 35%">
+								    		<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">X</a>
+								        
+								    </div-->
 								{% endif %} 
         {% block content %}
 

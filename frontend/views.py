@@ -45,6 +45,23 @@ def registrate(request):
     context = {'from': FormRegistro, 'cabellos':cabellos, 'ojos':ojos, 'etnias':etnias, 'artes':artes, 'generos':generos, 'paises':pais}
     return render(request, "registrate.html", context)
 
+
+def buscar_ciudad(request):
+    if request.method == 'POST':
+        #VALIDAR QUE TENGA CIUDADES???
+        ciudades = Ciudad.objects.filter(pais=Pais.objects.get(id=request.POST['id_pais']))
+        #import pdb; pdb.set_trace()
+        xHTML='<option selected="selected" disabled>Ciudad de Residencia</option> '
+        for ciudad in ciudades:
+            xHTML+='<option value="'+ciudad.nombre+'">'+ciudad.nombre+'</option>'
+
+
+        context={'xHTML':xHTML,                
+                'success': True}
+
+        
+        return HttpResponse(json.dumps(context), content_type="application/json")    
+
 def registrate_artistas(request):
     if request.method == 'POST':
         #import pdb; pdb.set_trace()

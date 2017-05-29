@@ -401,6 +401,10 @@
 
 	{% block javascript %}
 		<script>
+			 $(document).on('click', '#close', function(){
+			 		$('#myModal').hide();
+			 });
+
 		    $('.carousel').carousel({
 		        interval: 5000 //changes the speed
 		    })

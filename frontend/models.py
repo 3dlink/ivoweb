@@ -11,9 +11,22 @@ from django.core.mail import send_mail
 from uuid import uuid4
 # Create your models here.
 
+
+
+
+
 class Pais (models.Model):
-    nombre = models.CharField(max_length=30)
+    nombre = models.CharField(max_length=50)
     codigo = models.CharField(max_length=3)
+    prefijo = models.IntegerField(blank=True, null=True)
+    nacionalidad = models.CharField(blank=True, null=True, max_length=20)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.nombre
+
+class Ciudad (models.Model):
+    nombre = models.CharField(max_length=50)
+    pais = models.ForeignKey(Pais)
 
     def __str__(self):              # __unicode__ on Python 2
         return self.nombre

@@ -1,5 +1,9 @@
 $(document).ready(function(){
 
+	$(document).on('click', '#close_mensajes', function(){
+			 		$('#mensajes').modal('hide');
+			 });
+
 	$('#ivo-boton-menu').on('click', function(){
 	  $('.ivo-menu-principal-panel').addClass('ivo-menu-principal-mostrar');
 	});

@@ -108,8 +108,7 @@
 
 
         		$('.mensaje_lista').click(function() {
-        		// no estoy recuperando el mensaje completo.. y si tiene fotos?!!!!
-        		//esto tiene que ser un ajax con el id del mensaje
+        		
         				$('.activo').removeClass('activo')
 					        			$(this).addClass("activo")   
 					        			$('#revisar').show()
@@ -124,7 +123,9 @@
 				            success: function (data) {
 				                NProgress.done();
 				                if(data.success == false){
-				                    alert(data.mensaje);
+				                    //alert(data.mensaje);
+                                    $('#texto_mensaje').text();
+                                    $('#mensajes').modal('show');
 				                   
 				                    
 				                }else{
@@ -237,13 +238,19 @@
 				            success: function (data) {
 				                NProgress.done();
 				                if(data.success == false){
-				                    alert(data.mensaje);
+				                    //alert(data.mensaje);
+                                    $('#texto_mensaje').text(data.mensaje);
+                                    $('#mensajes').modal('show');
 				                    $.each(data.errors.fields, function(i, item) {
-				                        alert(item);
+				                        //alert(item);
+                                        $('#texto_mensaje').text(item);
+                                        $('#mensajes').modal('show');
 				                    });
 				                    
 				                }else{
-				                    alert(data.mensaje);
+				                    //alert(data.mensaje);
+                                    $('#texto_mensaje').text(data.mensaje)
+                                    $('#mensajes').modal('show');
 				                    /*setTimeout(function(){
 				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
 				                    }, 1500);
@@ -277,13 +284,19 @@
 				            success: function (data) {
 				                NProgress.done();
 				                if(data.success == false){
-				                    alert(data.mensaje);
+				                    //alert(data.mensaje);
+                                    $('#texto_mensaje').text(data.mensaje);
+                                    $('#mensajes').modal('show');
 				                    $.each(data.errors.fields, function(i, item) {
-				                        alert(item);
+				                        //alert(item);
+                                        $('#texto_mensaje').text(item);
+                                    $('#mensajes').modal('show');
 				                    });
 				                    
 				                }else{
-				                    alert(data.mensaje);				                   
+				                    //alert(data.mensaje);
+                                    $('#texto_mensaje').text(data.mensaje)
+                                    $('#mensajes').modal('show');				                   
 				                    /*setTimeout(function(){
 				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
 				                    }, 1500);
@@ -909,7 +922,7 @@ function handleImagee(e){
             {%if datos_personales.id == user.id%}
 
             	<label for="seleccionar_foto_perfil">
-            		<div class="ivo-perfil-imgPerfil ivo-perfil-imgPerfil-header principal" id = "foto_perfil" style="cursor:pointer"> <h2>cambiar foto</h2></div>
+            		<div class="ivo-perfil-imgPerfil ivo-perfil-imgPerfil-header principal" id = "foto_perfil" style="cursor:pointer"> <p class="ivo-perfil-botonH" style="position:relative; top:40%; left:30%">cambiar foto</p> </div>
             	</label>
             {%else%}
                 <div class="ivo-perfil-imgPerfil ivo-perfil-imgPerfil-header principal" id = "foto_perfil" ></div>

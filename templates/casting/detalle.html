@@ -15,6 +15,27 @@
 
 {% block content %}
 <!-- Full Page Image Background Carousel Header -->
+
+		{% if messages %}
+
+
+				<div class="modal fade bs-example-modal-sm in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display:block; top: 15%;">
+							  <div class="modal-dialog" role="document">
+							    <div class="modal-content" style="background:rgba(0,0,0,0.7); color:white;">
+							      
+							      <div class="modal-body">
+							        {% for message in messages %}
+								            <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ message }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+								        {% endfor %}
+								     <span id="close"  class="close"  style="color:white; opacity:0.9">X</span>
+							      </div>
+							      
+							    </div>
+							  </div>
+							</div>
+				
+				    
+				{% endif %}
 	    <header id="myCarousel" class="carousel slide ivo-casting-headerContenedor ivo-borde-verde ivo-casting-header">
 	        <!-- Wrapper for Slides -->
 	        <div class="carousel-inner">
@@ -43,20 +64,11 @@
 									<!-- IMPLEMENTAR COUNTDOWN  CON JQUERY -->
 									<!-- IMPLEMENTAR COUNTDOWN  CON JQUERY -->
 									<!-- IMPLEMENTAR COUNTDOWN  CON JQUERY -->
-								<ul class="ivo-casting-calendario" id="reloj" >
-									<li id="dia">
-										{{casting.fecha_fin | date:"d"}}</br>
-										<span>D&iacute;as</span>
-									</li>
-									<li id="hora">
-										{{casting.fecha_fin | date:"g"}}</br>
-										<span>Horas</span>
-									</li>
-									<li id="minutos">
-										{{casting.fecha_fin | date:"i"}}</br>
-										<span>min</span>
-									</li>
+									
+								<ul id="reloj" class="ivo-casting-calendario"  >
+									
 								</ul>
+								
 							</div>
 							<div class="col-sm-12 col-md-6">
 								<div class="row ivo-casting-headerDer">
@@ -202,6 +214,7 @@
 							<div class="col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-0 col-lg-5 col-lg-offset-0">
 								<img src="{% static 'img/ivo-lg3.png' %}" class="img-responsive ivo-app-logo general">
 								<h2>Descarga nuestra App Movil</h2>
+								
 								<a href="#" class="ivo-app-goplay general">
 									<img src=" {% static 'img/google-play.png' %}">
 								</a>
@@ -223,15 +236,32 @@
 	<script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
 
 		<script>
-
+			$(document).on('click', '#close', function(){
+			 		$('#myModal').hide();
+			 });
 			
 		    $('.carousel').carousel({
 		        interval: 5000 //changes the speed
 		    })
-		    //$('#reloj').countdown({until: new Date(2017, 6-1, 25), format: 'DHM'});
-		    //$('#reloj').countdown({ until:new Date(2017,06-1,15), function(event) {
-     		//	$(this).html(event.strftime('<li>Quedan %D días  %H:%M:%S </li>'));
-    		 //});
+		   
+		    	
+		 
+
+		    $('#reloj').countdown('{{casting.fecha_fin | date:"Y/m/d" }}', function(event) {
+				  var $this = $(this).html(event.strftime(''
+				   
+				    + '<li id="dia" style="font-family: "exo"">%d <br><span>Dias</span></li>'
+				    + '<li id="hora" style="font-family: "exo"">%H <br><span>Horas</span></li> '
+				    + '<li id="minuto" style="font-family: "exo"">%M <br><span>Min</span></li> '
+				    ));
+				});
+		    
+		    
+			
+									
+									
+								
+			
 		   
 		</script>
 	{% endblock %}

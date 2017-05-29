@@ -39,8 +39,9 @@
                                     <option selected="selected" disabled>Pais</option> 
                                         {% for pais in paises %}         
                             <!-- LOS GENERO OCULTOS SIEMPRE? -->
-                                            
-                                                <option value="{{pais.id}}">{{pais.nombre}}</option>
+                                             {% if pais.prefijo %}
+                                                <option data-pre='{{pais.prefijo}}' value="{{pais.id}}">{{pais.nombre}}</option>
+                                            {% endif %}
                                             
                                         {% endfor %}        
                                     </select>
@@ -52,7 +53,7 @@
 
                         <div class="row">
                             <div class="col-md-6 col-lg-6">
-                                <input type="text" name="telefono" required="required" placeholder="{% trans 'Telefono' %}" class="inputlft" onkeypress="return soloNumeros(event)">
+                                <input type="text" id='telefono' name="telefono" required="required" placeholder="{% trans 'Telefono' %}" class="inputlft" onkeypress="return soloNumeros(event)">
                             </div>
                             <div class="col-md-6 col-lg-6">
                                 <input type="text" name="website" required="required" placeholder="{% trans 'Website' %}">
@@ -147,26 +148,46 @@
 {% endblock %}
 {% block javascript %}
 <script>
+
+$('#pais').on('change', function () {
+    if ($( "#pais option:selected" ).data('pre')!='None'){
+        $('#telefono').val($( "#pais option:selected" ).data('pre'));
+    }else{
+        $('#telefono').val('');
+    }
+    
+    
+      
+
+});
     $(function(){
-        getSector();
+        
         $('#ivo-form').submit(function(){
             return false;
         });
         $('#btn_registrar').click(function(){
             if( !$('#checkbox-terminos').is(':checked') ) {
-                alert('Debe aceptar los terminos y condiciones');
+                //alert('Debe aceptar los terminos y condiciones');
+                $('#texto_mensaje').text('Debe aceptar los terminos y condiciones');
+                    $('#mensajes').modal('show');
                 return;
             }
             if( $('#password1').val().trim() != $('#password2').val().trim()){
-                alert(' {% trans 'Las contraseñas no coinciden' %} ')
+                //alert(' {% trans 'Las contraseñas no coinciden' %} ')
+                $('#texto_mensaje').text('Las contraseñas no coinciden');
+                $('#mensajes').modal('show');
                 return;
             }
             if( $('#password1').val().trim()=='' || $('#password2').val().trim()==''){
-                alert(' {% trans 'el campo contraseña es requerido' %} ')
+                //alert(' {% trans 'el campo contraseña es requerido' %} ')
+                $('#texto_mensaje').text('el campo contraseña es requerido');
+                $('#mensajes').modal('show');
                 return;
             }
             if( $('#password1').val().trim().length<8 || $('#password2').val().trim().length<8){
-                alert(' {% trans 'el campo contraseña debe ser mayor a ocho caracteres' %} ')
+                //alert(' {% trans 'el campo contraseña debe ser mayor a ocho caracteres' %} ')
+                $('#texto_mensaje').text('el campo contraseña \ndebe ser mayor a ocho caracteres');
+                $('#mensajes').modal('show');
                 return;
             }
 
@@ -203,12 +224,16 @@
             success: function (data) {
                 NProgress.done();
                 if(data.success == false){
-                    alert(data.mensaje);
+                   // alert(data.mensaje);
+                   $('#texto_mensaje').text(data.mensaje);
+                    $('#mensajes').modal('show');
                     $.each(data.errors.fields, function(i, item) {
                         alert(i + " "+item);
                     });
                 }else{
-                    alert(data.mensaje);
+                    //alert(data.mensaje);
+                    $('#texto_mensaje').text(data.mensaje);
+                    $('#mensajes').modal('show');
                     setTimeout(function(){
                       location.href  ='/perfil/configuraciongeneral/'
                     }, 1500);

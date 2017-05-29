@@ -123,11 +123,12 @@ def audicion1(request, casting):
 				audicion.id_casting = Casting.objects.get(id=casting)					
 				audicion.save()		
 				mensaje = {'mensaje': str(_('Audicion creada con exito')), 'success': True}	
-				#messages.success(request, 'Audicion creada con exito')	
+				messages.success(request, 'Audicion creada con exito')	
 				#ver como devuelvo estatus correcto print('bueeeno')
 			else:
+				#	ESTA DEVOLVIENDO ESTO, PERO NI IDEA DE POR QUE
 				mensaje = form_invalid(form)
-				#messages.warning(request, 'No se pudo registrar su audicion')
+				messages.warning(request, 'Audicion creada con exito')
 				#ver como devuelvo estatus incorrecto print("maaalo")			
 			return redirect(reverse("casting:casting_detalle", args=[casting]))
 			

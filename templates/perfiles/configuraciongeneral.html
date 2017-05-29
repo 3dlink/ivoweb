@@ -4,7 +4,7 @@
 {% block cssblock %}
 
     <link href="{% static 'css/jquery.countdown.css' %}" rel="stylesheet">
-    
+
     <style type="text/css">
     	body {
     		background-color: white;
@@ -579,7 +579,7 @@
 					</div>
 				</div>
 			</form>
-			<form style="display:none" action="/perfil/configuraciongeneral/actualizar-seguridad/"  class="ivo-formularioConf-form ivo-formularioConf-form-nf from-principal" id="form_seguridad" method="POST">
+			<form style="display:none"   class="ivo-formularioConf-form ivo-formularioConf-form-nf from-principal" id="form_seguridad" method="POST">
 				<!-- seguridad -->
 				<input type="hidden" name="accion" value="actualizar_seguridad">
 				{% csrf_token %}
@@ -693,22 +693,11 @@
 
 				
 				<div class="ivo-configuracion-form-separador"></div>
-				<!--<h1>Cita</h1>
-				<div class="row">
-					<div class="col-md-3">
-						<label>Cita Favorita</label>
-					</div>
-					<div class="col-md-9">
-						<textarea></textarea>
-					</div>
-				</div>-->
+				
                 {% include 'perfiles/experiencia.html' %}
 
                 
 		</div>
-			
-
-
 
 			<!-- FORMULARIO PARA LLENAR INTERESES -->
 
@@ -812,6 +801,7 @@
         });
 	    $('#agregar_experiencia').click(function(){
             $('#ModalExperiencia').modal('show');
+
         });
 
 
@@ -827,7 +817,10 @@
 				            data: {'id':$(this).data('id'), 'csrfmiddlewaretoken':'{{csrf_token}}'},
 				            success: function (data) {
 				                if(data.success == false){
-				                    alert(data.mensaje);
+				                    //alert(data.mensaje);
+				                    $('#texto_mensaje').text(data.mensaje)
+            						$('#mensajes').modal('show');
+
 				                }else{
 				                    $('#id_empresa').val(data.empresa);
 				                    $('#id_cargo').val(data.cargo);
@@ -877,7 +870,7 @@
             
             
             if( validarForm($('#formExperiencia input')) ){
-            	//alert("debug updateExperiencia")
+            	
                 updateExperiencia();
             }
         });
@@ -903,7 +896,9 @@
 				            data: {'id':$(this).data('id'), 'csrfmiddlewaretoken':'{{csrf_token}}'},
 				            success: function (data) {
 				                if(data.success == false){
-				                    alert(data.mensaje);
+				                    //alert(data.mensaje);
+				                    $('#texto_mensaje').text(data.mensaje)
+            						$('#mensajes').modal('show');
 				                }else{
 				                    $('#id_institucion').val(data.institucion);
 				                    $('#id_titulo').val(data.titulo);
@@ -953,7 +948,7 @@
             
             
             if( validarForm($('#form_educacion input')) ){
-            	//alert("debug updateExperiencia")
+            	
                 updateEducacion();
             }
         });
@@ -987,11 +982,15 @@
 				            success: function (data) {
 				                NProgress.done();
 				                if(data.success == false){
-				                    alert(data.mensaje);
+				                    //alert(data.mensaje);
+				                    $('#texto_mensaje').text(data.mensaje)
+            						$('#mensajes').modal('show');
 				                   
 				                    
 				                }else{
-				                    alert(data.mensaje);
+				                    //alert(data.mensaje);
+				                    $('#texto_mensaje').text(data.mensaje)
+            						$('#mensajes').modal('show');
 				                    /*setTimeout(function(){
 				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
 				                    }, 1500);
@@ -1012,7 +1011,14 @@
 			if (validarForm( $('#form_general input') ) ) {
 
 				{% if user.get_tipo_usuario == "A"%}
-					alert("aqui")
+					
+				if( $('#fecha_a_o').val() < 1900 || $('#fecha_a_o').val() > new Date().getFullYear()){
+                
+                $('#texto_mensaje').text('Ingrese un año valido');
+                $('#mensajes').modal('show');
+                return;
+                
+            }
 				    if( $('#fecha_a_o').val().trim() != ''  && $('#fecha_mes').val().trim() != ''  && $('#fecha_dia').val().trim() != ''   ){
 				        $('#fecha_nacimiento').val($('#fecha_a_o').val()+"-"+$('#fecha_mes').val()+'-'+$('#fecha_dia').val());
 	                }
@@ -1031,11 +1037,15 @@
 				            success: function (data) {
 				                
 				                if(data.success == false){
-				                    alert(data.mensaje);
+				                    //alert(data.mensaje);
+				                    $('#texto_mensaje').text(data.mensaje)
+            						$('#mensajes').modal('show');
 				                   
 				                    
 				                }else{
-				                    alert(data.mensaje);
+				                    //alert(data.mensaje);
+				                    $('#texto_mensaje').text(data.mensaje)
+            						$('#mensajes').modal('show');
 				                    /*setTimeout(function(){
 				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
 				                    }, 1500);
@@ -1059,9 +1069,13 @@
 				            success: function (data) {
 				                
 				                if(data.success == false){
-				                    alert(data.mensaje);
+				                    //alert(data.mensaje);
+				                    $('#texto_mensaje').text(data.mensaje)
+            						$('#mensajes').modal('show');
 				                }else{
-				                    alert(data.mensaje);
+				                    //alert(data.mensaje);
+				                    $('#texto_mensaje').text(data.mensaje)
+            						$('#mensajes').modal('show');
 				                    /*setTimeout(function(){
 				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
 				                    }, 1500);
@@ -1082,9 +1096,13 @@
 				            data: $('#form_interes1').serialize(),
 				            success: function (data) {
 				                if(data.success == false){
-				                    alert(data.mensaje);
+				                    //alert(data.mensaje);
+				                    $('#texto_mensaje').text(data.mensaje)
+            						$('#mensajes').modal('show');
 				                }else{
-				                    alert("se cambiaron los intereses");
+				                    //alert("se cambiaron los intereses");
+				                    $('#texto_mensaje').text("Los intereses fueron modificados")
+            						$('#mensajes').modal('show');
 				                    /*setTimeout(function(){
 				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
 				                    }, 1500);
@@ -1100,27 +1118,33 @@
 			var enviar = true;
 			if( $('#new_password1').val().trim() == '' && $('#correo1').val().trim() == '' ){
 				enviar = false;
-				return;
+				return false;
 			}
 			if( $('#new_password1').val().trim() != ''){
 				if ( $('#new_password1').val().trim() != $('#new_password2').val().trim() ){
-					alert('El campo nueva contraseña y repetir contraseña debe ser iguales, Corrija e intente nuevamente');
+					//alert('El campo nueva contraseña y repetir contraseña debe ser iguales, Corrija e intente nuevamente');
+					$('#texto_mensaje').htlm('El campo nueva contraseña y repetir contraseña debe ser iguales,<br> Corrija e intente nuevamente</p>')
+            		$('#mensajes').modal('show');
 					enviar = false;
 				}else{
 					if ( $('#correo1').val().trim() != $('#correo2').val().trim() ){
-						alert('El campo nuevo correo electronico y repetir correo electronico debe ser iguales, Corrija e intente nuevamente');
+						//alert('El campo nuevo correo electronico y repetir correo electronico debe ser iguales, Corrija e intente nuevamente');
+						$('#texto_mensaje').text('El campo nuevo correo electronico y repetir correo electronico debe ser iguales,\n Corrija e intente nuevamente')
+            		$('#mensajes').modal('show');
 						enviar = false;
 					}
 				}
 			}else{
 				if ( $('#correo1').val().trim() != $('#correo2').val().trim() ){
-					alert('El campo nuevo correo electronico y repetir correo electronico debe ser iguales, Corrija e intente nuevamente');
+					//alert('El campo nuevo correo electronico y repetir correo electronico debe ser iguales, Corrija e intente nuevamente');
+					$('#texto_mensaje').text('El campo nuevo correo electronico y repetir correo electronico debe ser iguales,\n Corrija e intente nuevamente')
+            		$('#mensajes').modal('show');
 					enviar = false;
 				}
 			}
 			if(enviar){
 				NProgress.start();
-				enviarForm( $('#form_seguridad').serialize(), '/perfil/configuraciongeneral/foto-perfil/' );
+				enviarForm( $('#form_seguridad').serialize(), '/perfil/configuraciongeneral/actualizar-seguridad/' );
 			}
 		});
 		$('.ivo-configuracion-menu > ul > li').click(function(){
@@ -1167,7 +1191,9 @@
                     setTimeout(function(){
                       location.href  ='/perfil/configuraciongeneral/'
                     }, 1500);*/
-        			alert("se modifico la experiencia");
+        			//alert("se modifico la experiencia");
+        			$('#texto_mensaje').text("se modifico la experiencia")
+            		$('#mensajes').modal('show');
 
         			$('#update_experiencia').hide();
         			$('#send_form_experiencia').show();
@@ -1204,7 +1230,11 @@
                     setTimeout(function(){
                       location.href  ='/perfil/configuraciongeneral/'
                     }, 1500);*/
-        			alert("se guardo la experiencia");
+        			//alert("se guardo la experiencia");
+        			$('#texto_mensaje').text("se guardo la experiencia")
+            		$('#mensajes').modal('show');
+
+
         			$('#ModalExperiencia').modal('hide');
         			$('#tbody_experiencia').append(data.xHTML)
         			$('#formExperiencia').trigger("reset");
@@ -1231,8 +1261,8 @@
                             alert(i+ " "+item);
                     });
 
-                    $('#update_educacion').attr('id','send_form_educacion')
-	    			$('#form_educacion').remove('#id_educacion');
+                    $('#update_educacion').hide();
+        			$('#send_form_educacion').show();
         			$('#ModalEducacion').modal('hide');
         			//MODIFICAR EL DOM CON LOS DATOS NUEVOS DE EXP
         			//$('#tbody_experiencia').append(data.xHTML)
@@ -1242,7 +1272,9 @@
                     setTimeout(function(){
                       location.href  ='/perfil/configuraciongeneral/'
                     }, 1500);*/
-        			alert("se modifico la educacion");
+        			//alert("se modifico la educacion");
+        			$('#texto_mensaje').text("se modifico la educacion")
+            		$('#mensajes').modal('show');
 
         			$('#update_educacion').hide();
         			$('#send_form_educacion').show();
@@ -1279,7 +1311,9 @@
                     setTimeout(function(){
                       location.href  ='/perfil/configuraciongeneral/'
                     }, 1500);*/
-        			alert("se guardo la educacion");
+        			//alert("se guardo la educacion");
+        			$('#texto_mensaje').text("se guardo la educacion")
+            		$('#mensajes').modal('show');
         			$('#ModalEducacion').modal('hide');
         			$('#tbody_educacion').append(data.xHTML)
         			$('#form_educacion').trigger("reset");
@@ -1359,6 +1393,23 @@
             success: function (data) {
             	NProgress.done();
             	console.log(data);
+            	if(data.success == false){
+                    $.each(data.errors.fields, function(i, item) {
+                        if(i != 'undefined')
+                            alert(i+ " "+item);
+                    });
+                }else{/*
+                    setTimeout(function(){
+                      location.href  ='/perfil/configuraciongeneral/'
+                    }, 1500);*/
+        			//alert("se guardo la educacion");
+        			$('#texto_mensaje').text("Los datos fueron modificados")
+            		$('#mensajes').modal('show');
+        			
+        			
+        			$('#form_seguridad').trigger("reset");
+
+                }
             }
         });
     }

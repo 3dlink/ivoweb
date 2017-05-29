@@ -208,17 +208,15 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4 col-lg-4">
-                            <input type="text" name="nacionalidad" placeholder="{% trans 'Nacionalidad' %}" required="required" mensaje = "{% trans 'Nacionalidad es una campo requerido' %}">
-                        </div>
-                        <div class="col-md-4 col-lg-4">
+                            <!--input type="text" name="nacionalidad" placeholder="{% trans 'Nacionalidad' %}" required="required" mensaje = "{% trans 'Nacionalidad es una campo requerido' %}"-->
 
-                           <select id="pais" name="pais">
-                                    <option selected="selected" disabled>Pais de residencia</option> 
+                             <select id="nacionalidad" name="nacionalidad" required="required">
+                                    <option selected="selected" disabled>Nacionalidad</option> 
                                         {% for pais in paises %}         
                             <!-- LOS GENERO OCULTOS SIEMPRE? -->
-                                            
-                                                <option value="{{pais.id}}">{{pais.nombre}}</option>
-                                            
+                                                    {% if pais.nacionalidad %}
+                                                <option value="{{pais.nacionalidad}}">{{pais.nacionalidad}}</option>
+                                                    {%endif%}
                                         {% endfor %}        
                                     </select>
                             
@@ -226,7 +224,25 @@
                             </select>
                         </div>
                         <div class="col-md-4 col-lg-4">
-                            <input type="text" name="ciudad" placeholder="{% trans 'Ciudad de Residencia' %}" required="required" mensaje = "{% trans 'Ciudad es una campo requerido' %}">
+
+                           <select id="pais" name="pais">
+                                    <option selected="selected" disabled>Pais de residencia</option> 
+                                        {% for pais in paises %}         
+                            <!-- LOS GENERO OCULTOS SIEMPRE? -->
+                                            {% if pais.prefijo %}
+                                                <option value="{{pais.id}}">{{pais.nombre}}</option>
+                                            {% endif %}
+                                            
+                                        {% endfor %}        
+                            </select>
+                            
+                                
+                            </select>
+                        </div>
+                        <div class="col-md-4 col-lg-4">
+                            <select id="ciudad" name="ciudad">
+                                <option selected="selected" disabled>Ciudad de residencia</option> 
+                            </select>
                         </div>
                     </div>
                     <div class="row">
@@ -297,6 +313,33 @@
 
 {% block javascript %}
 <script>
+
+   $(document).on('change', '#pais', function(){
+
+            variable= $(this).val();
+            $.ajax({
+                            url: '/ciudad/',
+                            type: 'post',
+                            dataType: 'json',
+                            data: {'id_pais':$(this).val(), 'csrfmiddlewaretoken':'{{csrf_token}}'},
+                            success: function (data) {
+                                if(data.success == false){
+                                   
+
+                                }else{
+                                    
+                                    $('#ciudad').html(data.xHTML);
+
+                                   
+                                  
+                                }
+                            }
+                        }); 
+            //llamada AJAX
+             
+            
+        });
+
     var cantidad_seleccion_tanlento = 0;
     $(function(){
         //getTalentos();
@@ -334,19 +377,33 @@
         
         $('#btn_registrar').click(function(){
             if( !$('#checkbox-terminos').is(':checked') ) {
-                    alert('Debe aceptar los terminos y condiciones');
+                    //alert('Debe aceptar los terminos y condiciones');
+                    $('#texto_mensaje').text('Debe aceptar los terminos y condiciones');
+                    $('#mensajes').modal('show');
                     return;
                 }
             if( $('#password1').val().trim() != $('#password2').val().trim()){
-                alert(' {% trans 'Las contraseñas no coinciden' %} ')
+                //alert(' {% trans 'Las contraseñas no coinciden' %} ')
+                $('#texto_mensaje').text('Las contraseñas no coinciden');
+                $('#mensajes').modal('show');
                 return;
             }
             if( $('#password1').val().trim()=='' || $('#password2').val().trim()==''){
-                alert(' {% trans 'el campo contraseña es requerido' %} ')
+                //alert(' {% trans 'el campo contraseña es requerido' %} ')
+                $('#texto_mensaje').text('el campo contraseña es requerido');
+                $('#mensajes').modal('show');
                 return;
             }
             if( $('#password1').val().trim().length<8 || $('#password2').val().trim().length<8){
-                alert(' {% trans 'el campo contraseña debe ser mayor a ocho caracteres' %} ')
+                //alert(' {% trans 'el campo contraseña debe ser mayor a ocho caracteres' %} ')
+                $('#texto_mensaje').text('el campo contraseña \ndebe ser mayor a ocho caracteres');
+                $('#mensajes').modal('show');
+                return;
+            }
+            if( $('#fecha_a_o').val() < 1900 || $('#fecha_a_o').val() > new Date().getFullYear()){
+                //alert(' {% trans 'el campo contraseña debe ser mayor a ocho caracteres' %} ')
+                $('#texto_mensaje').text('Ingrese un año valido');
+                $('#mensajes').modal('show');
                 return;
             }
 
@@ -404,12 +461,18 @@
             success: function (data) {
                 NProgress.done();
                 if(data.success == false){
-                    alert(data.mensaje);
+                    //alert(data.mensaje);
+                    $('#texto_mensaje').text(data.mensaje);
+                $('#mensajes').modal('show');
                     $.each(data.errors.fields, function(i, item) {
-                        alert(item);
+                        //alert(item);
+                        $('#texto_mensaje').text(item);
+                        $('#mensajes').modal('show');
                     });
                 }else{
-                    alert(data.mensaje);
+                    //alert(data.mensaje);
+                    $('#texto_mensaje').text(data.mensaje);
+                    $('#mensajes').modal('show');
                     setTimeout(function(){
                       location.href  ='/perfil/configuraciongeneral/'
                     }, 1500);

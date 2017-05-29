@@ -191,7 +191,9 @@
 				                    });
 				                    
 				                }else{
-				                    alert(data.mensaje);				                   
+				                    //alert(data.mensaje);
+				                    $('#texto_mensaje').text(data.mensaje)
+            						$('#mensajes').modal('show');				                   
 				                    /*setTimeout(function(){
 				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
 				                    }, 1500);
@@ -618,7 +620,7 @@
 								<!-- Seccion Resumen de Artistas -->
 								{% for talento in talentos %}
 								<a href="/perfil/{{talento.id_usuario.get_uuid}}/">
-								<div class="col-sm-3 ivo-artistas-panel-item" >								
+								<div class="col-sm-4 ivo-artistas-panel-item" >								
 								{% if talento.id_usuario.avatar == ''%}
 						        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
 						        {% else %}
@@ -644,7 +646,7 @@
 							</div>
 							{% for proveedor in proveedores %}
 							<a href="/perfil/{{proveedor.id_usuario.get_uuid}}/">
-					        <div class="col-sm-3 ivo-artistas-panel-item" >
+					        <div class="col-sm-4 ivo-artistas-panel-item" >
 					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
 					            <h3 class="ivo-font-negro">{{proveedor.id_sector}}</h3>
 					    		<h4 class="ivo-font-negro nombre"><b>{{proveedor.id_usuario.empresa_provedor}}</b></h4>

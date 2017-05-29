@@ -215,24 +215,25 @@
 
         });
         */
-         $('#btn_registrar').click(function(){
+        $(document).on('click', '#btn_registrar', function(){
+        
             if( !$('#checkbox-terminos').is(':checked') ) {
                     //alert('Debe aceptar los terminos y condiciones');
-                     $('#mensaje_error').text('Debe aceptar los terminos y condiciones');
-                    $('#div_errores').show();
+                    $('#texto_mensaje').text('Debe aceptar los terminos y condiciones');
+                    $('#mensajes').modal('show');
 
                     return;
                 }
             if( $('#password1').val().trim() != $('#password2').val().trim()){
                 //alert(' {% trans 'Las contraseñas no coinciden' %} ')
-                 $('#mensaje_error').text('Las contraseñas no coinciden');
-                    $('#div_errores').show();
+                 $('#texto_mensaje').text('Las contraseñas no coinciden');
+                    $('#mensajes').show();
                 return;
             }
             if( $('#password1').val().trim()=='' || $('#password2').val().trim()==''){
                 //alert(' {% trans 'el campo contraseña es requerido' %} ')
-                $('#mensaje_error').text('el campo contraseña es requerido');
-                    $('#div_errores').show();
+                $('#texto_mensaje').text('el campo contraseña es requerido');
+                    $('#mensajes').show();
 
                 return;
             }
@@ -322,8 +323,8 @@ function registrar(){
                 NProgress.done();
                 if(data.success == false){
                     //alert(data.mensaje);
-                    $('#mensaje_error').text(data.mensaje);
-                    $('#div_error').show();
+                    $('#texto_mensaje').text(data.mensaje);
+                    $('#mensajes').show();
                     $.each(data.errors.fields, function(i, item) {
                         alert(item);
                     });

@@ -24,7 +24,9 @@
 
 <div class="container-fluid">
 			<div class="container" >
-			<form action="."  method="POST" enctype="multipart/form-data" id="form_audicion">
+
+			
+			<form   method="POST" enctype="multipart/form-data" id="form_audicion">
 							{% csrf_token %}
 				<div id="audicion-1" >
 					<div class="row ivo-audicion-subir" >
@@ -113,6 +115,9 @@
 
 
 		<script>
+
+
+
 			Dropzone.autoDiscover = false;
 
 
@@ -218,7 +223,9 @@ function registrar(){
                         alert(i+ " "+item);
                     });
                 }else{
-                    alert(data.mensaje);
+                    //alert(data.mensaje);
+                    $('#texto_mensaje').text(data.mensaje)
+            		$('#mensajes').modal('show');
                     setTimeout(function(){
                       location.href  ='/casting/crear/'
                     }, 1500);
