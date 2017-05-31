@@ -22,13 +22,20 @@
 						<h1>Reg&iacute;strate en nuestra plataforma</h1>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row" style="margin-bottom: 50px;">
 					<div class="col-md-10 col-lg-10 col-md-offset-1 text-center">
-						<a href="#" class="ivo-boton-fondo ivo-form-fanBot">
+						<a id="fb-fan" href="#" class="ivo-boton-fondo ivo-form-fanBot">
 							<span>Registrate con facebook</span>
 						</a>
 					</div>
 				</div>
+                <div class="row">
+                    <div class="col-md-10 col-lg-10 col-md-offset-1 text-center">
+                        <a onclick="handleSignInClick()" href="#" class="ivo-boton-fondo ivo-form-gooBot">
+                            <span>Registrate con google&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+                        </a>
+                    </div>
+                </div>
 				<div class="row" style="margin: 40px 0 10px;">
 					<div class="col-md-10 col-lg-10 col-md-offset-1">
 						<div class="ivo-form-avisoFan">
@@ -251,65 +258,7 @@
             
         });
     })
-/*
-    function getGenerosArtisticos(id_arte){
-        NProgress.start();
-        $.ajax({
-            url: '/registro/fan/interes/',
-            type: 'get',
-            dataType: 'json',
-            data: {csrfmiddlewaretoken:'{{csrf_token }}', arte:id_arte},
-            success: function (data) {
-                NProgress.done();
-                if(data.mensaje == ''){
-                    $('#telentos').html(data.data);
-                    $('.ivo-drop-ampliado-lista').trigger( "click" );
-                }
-            }
-        });
-    }
-    function getTalentos(){
-        NProgress.start();
-        $.ajax({
-            url: '/registro/fan/',
-            type: 'get',
-            dataType: 'json',
-            data: {csrfmiddlewaretoken:'{{csrf_token }}'},
-            success: function (data) {
-                NProgress.done();
-                if(data.mensaje == ''){
-                    $('#telentos').html(data.data)
-                }
-            }
-        });
-    }
-    
-    function registrar(){
 
-        NProgress.start();
-        $.ajax({
-            url: '/registro/fan/',
-            type: 'post',
-            dataType: 'json',
-            data:  $('#ivo-form-registro').serialize(),
-            success: function (data) {
-                NProgress.done();
-                if(data.success == false){
-                    alert(data.mensaje);
-                    $.each(data.errors.fields, function(i, item) {
-                        alert(item);
-                    });
-                }else{
-                    alert(data.mensaje);
-                    setTimeout(function(){
-                      location.href  ='/perfil/configuraciongeneral/'
-                    }, 1500);
-
-                }
-            }
-        });
-    }
-*/
 
 function registrar(){
 
@@ -338,6 +287,65 @@ function registrar(){
             }
         });
     }
+
+     $('#facebook,#fb-fan').click(function(){
+                FB.login(function(response) {
+                  if (response.status === 'connected') {
+                    // Logged into your app and Facebook.
+                    console.log('Welcome!  Fetching your information.... ');
+                        FB.api('/me?fields=first_name, last_name, id, picture, gender, email', function(response) {
+                           console.log(response)
+                            
+                                 var genero='';
+                              if (response.gender=='male'){
+                                genero='M';
+                              }else{
+                                genero='F';
+                              };
+                            
+
+                           $.ajax({
+                            url: '/facebook-login/',
+                            type: 'post',
+                            dataType: 'json',
+                            data: {'first_name':response.first_name,'last_name':response.last_name,'gender':response.gender ,'tipo_usuario':'F','name':response.name,'email':response.email,'picture':'http:///graph.facebook.com/'+response.id+'/picture?type=large', 'csrfmiddlewaretoken':'{{csrf_token}}'},
+                            success: function (data) {
+                                if(data.success == false){
+
+                                  }else{
+                                    
+                                   
+                                    
+                                      location.href  ='/perfil/configuraciongeneral/'
+                                        
+                                                  
+                                                                      
+                                }
+                            }
+                        });
+                              
+                        });
+
+                  } else {
+                    // The person is not logged into this app or we are unable to tell.
+                  }
+                },{scope:'email'});
+
+        })
+
+function updateSigninStatus(isSignedIn) {
+        // When signin status changes, this function is called.
+        // If the signin status is changed to signedIn, we make an API call.
+        if (isSignedIn) {
+          makeApiCall('I');
+        }
+      }
+
+        function handleSignInClick(event) {
+        // Ideally the button should only show up after gapi.client.init finishes, so that this
+        // handler won't be called before OAuth is initialized.
+        gapi.auth2.getAuthInstance().signIn();
+      }
 
 </script>
 

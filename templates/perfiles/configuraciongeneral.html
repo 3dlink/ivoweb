@@ -34,11 +34,11 @@
 				<li id="show_form_bio">
 					<a href="#">Bio</a>
 				</li>
-				{% if user.get_tipo_usuario == "A" %}
-				<li id="show_form_experiencia">
-					<a href="#experiencia">Experiencia</a>
-				</li >
-				{% endif %}
+					{% if user.get_tipo_usuario == "A" %}
+					<li id="show_form_experiencia">
+						<a href="#experiencia">Experiencia</a>
+					</li >
+					{% endif %}
 				<li id="show_form_interes">
 					<a href="#interes">Intereses</a>
 				</li>
@@ -102,20 +102,24 @@
 						<label>Pais</label>
 					</div>
 					<div class="col-md-9">
-					<select id="pais" name="pais">
+					<select id="pais_emp" name="pais">
 					{% if datos.pais != None %}
 							<!--input type="text" name="etnia" value="{{datos.etnia}}"-->						
-								<option value = "{{datos.pais.id}}" selected="true"> {{datos.pais }}</option>
+								<option  value = "{{datos.pais.id}}" selected="true"> {{datos.pais }}</option>
 								 {% for pais in paises %}
 									{% if pais.id != datos.pais.id %}
-										<option value = "{{pais.id}}"> {{pais.nombre }}</option>
+										{% if pais.prefijo %}
+										<option data-pre='{{pais.prefijo}}'  value = "{{pais.id}}"> {{pais.nombre }}</option>
+										{% endif %}
 									{% endif  %}
 								{% endfor %}				
 
 						{% else %}
 								
-								 {% for pais in paises %}							
-								<option value = "{{pais.id}}"> {{pais.nombre }}</option>
+								 {% for pais in paises %}	
+									 {% if pais.prefijo %}						
+										<option data-pre='{{pais.prefijo}}' value = "{{pais.id}}"> {{pais.nombre }}</option>
+									{% endif %}
 								{% endfor %}
 								
 						
@@ -131,9 +135,9 @@
 					</div>
 					<div class="col-md-9">
 						{% if datos.telefono != None %}
-						<input type="text" onkeypress="return soloNumeros(event)" name="telefono" value="{{datos.telefono}}">
+						<input id="telefono_emp" type="text" onkeypress="return soloNumeros(event)" name="telefono" value="{{datos.telefono}}">
 						{% else %}
-						<input type="text" name="telefono" onkeypress="return soloNumeros(event)" >
+						<input id="telefono_emp" type="text" name="telefono" onkeypress="return soloNumeros(event)" >
 						{% endif %}
 					</div>
 				</div>
@@ -141,9 +145,6 @@
 				{% endif %}
 
 				{% if user.get_tipo_usuario == "A" %}
-
-
-				
 
 				<div class="row">
 					<div class="col-md-3">
@@ -179,8 +180,19 @@
 					</div>
 					<div class="col-md-9">
 						<select name="genero" id="genero">
-							<option value="F">Femenino</option>
-							<option value="M">Masculino</option>
+							{% if datos.genero != None %}
+								{% if datos.genero == 'M' %}
+									<option value="M" selected="selected">Masculino</option>
+									<option value="F">Femenino</option>
+								{% else %}
+									<option value="M" >Masculino</option>
+									<option value="F" selected="selected">Femenino</option>
+								{% endif %}
+							{% else %}
+									<option selected="selected">Sexo</option>
+									<option value="M" >Masculino</option>
+									<option value="F">Femenino</option>
+							{%endif %}
 						</select>
 					</div>
 				</div>
@@ -190,11 +202,29 @@
 						<label>Nacionalidad</label>
 					</div>
 					<div class="col-md-9">
-                        {% if datos.nacionalidad == '' or datos.nacionalidad == None  %}
-						    <input type="text" name="nacionalidad" value="">
-                        {% else %}
-                            <input type="text" name="nacionalidad" value="{{datos.nacionalidad}}">
-                        {% endif %}
+					<select id="nacionalidad" name="nacionalidad">
+                       {% if datos.nacionalidad != None %}
+							<!--input type="text" name="etnia" value="{{datos.etnia}}"-->						
+								<option value = "{{datos.nacionalidad}}" selected="true"> {{datos.nacionalidad }}</option>
+								 {% for pais in paises %}
+									{% if pais.nacionalidad != datos.nacionalidad %}
+										{% if pais.prefijo %}
+										<option value = "{{pais.nacionalidad}}"> {{pais.nacionalidad }}</option>
+										{% endif %}
+									{% endif  %}
+								{% endfor %}				
+
+						{% else %}
+								
+								 {% for pais in paises %}	
+									 {% if pais.prefijo %}						
+										<option value = "{{pais.nacionalidad}}"> {{pais.nacionalidad }}</option>
+									{% endif %}
+								{% endfor %}
+								
+						
+						{% endif %}
+						</select>
 					</div>
 				</div>
 
@@ -210,14 +240,18 @@
 								<option value = "{{datos.pais.id}}" selected="true"> {{datos.pais.nombre }}</option>
 								 {% for pais in paises %}
 									{% if pais.id != datos.pais.id %}
+										{% if pais.prefijo %}
 										<option value = "{{pais.id}}"> {{pais.nombre }}</option>
+										{% endif %}
 									{% endif  %}
 								{% endfor %}				
 
 						{% else %}
 								
-								 {% for pais in paises %}							
-								<option value = "{{pais.id}}"> {{pais.nombre }}</option>
+								 {% for pais in paises %}	
+									 {% if pais.prefijo %}						
+										<option value = "{{pais.id}}"> {{pais.nombre }}</option>
+									{% endif %}
 								{% endfor %}
 								
 						
@@ -231,9 +265,16 @@
 					</div>
 					<div class="col-md-9">
                         {% if datos.ciudad != None %}
-                            <input type="text" name="ciudad" value="{{datos.ciudad}}">
+                            
+                            <select id="ciudad" name="ciudad">
+                                <option selected="selected" 
+                                value="{{datos.ciudad}}">{{datos.ciudad}}</option> 
+                            </select>
                         {% else %}
-                            <input type="text" name="ciudad" value="">
+                            <select id="ciudad" name="ciudad">
+                                <option selected="selected" 
+                                value="">Ciudad de Residencia</option> 
+                            </select>
                         {% endif %}
 
 					</div>
@@ -295,6 +336,7 @@
 					</div>
 				</div>
 				{% endif %}
+
 				{% if user.get_tipo_usuario == "A" %}
 				<div class="row">
 					<div class="col-md-3">
@@ -495,7 +537,7 @@
 						{% if datos.busto != None %}
 						<input type="text" onkeypress="return soloNumeros(event)" name="busto" value="{{datos.busto}}">
 						{% else %}
-						<input type="textf" name="busto" onkeypress="return soloNumeros(event)" >
+						<input type="text" name="busto" onkeypress="return soloNumeros(event)" >
 						{% endif %}							
 							
 					</div>
@@ -529,6 +571,7 @@
 		
 
 				{% endif %}
+
 				<!-- BOTONES DE ENVIAR -->
 				<div class="row">
 					<div class="col-md-12 text-right">
@@ -726,6 +769,44 @@
 <script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
 
 <script>
+$('#pais_emp').on('change', function () {
+    if ($( "#pais_emp option:selected" ).data('pre')!='None'){
+        $('#telefono_emp').val($( "#pais_emp option:selected" ).data('pre'));
+    }else{
+        $('#telefono_emp').val('');
+    }
+    
+    
+      
+
+});
+
+
+$(document).on('change', '#pais', function(){
+
+            variable= $(this).val();
+            $.ajax({
+                            url: '/ciudad/',
+                            type: 'post',
+                            dataType: 'json',
+                            data: {'id_pais':$(this).val(), 'csrfmiddlewaretoken':'{{csrf_token}}'},
+                            success: function (data) {
+                                if(data.success == false){
+                                   
+
+                                }else{
+                                    
+                                    $('#ciudad').html(data.xHTML);
+
+                                   
+                                  
+                                }
+                            }
+                        }); 
+            //llamada AJAX
+             
+            
+        });
 	$(function(){
 		$('.ivo-usuario-subMenu').removeClass("activo");
         $('#id_configuracion').addClass("activo");
@@ -1017,7 +1098,7 @@
                 $('#texto_mensaje').text('Ingrese un año valido');
                 $('#mensajes').modal('show');
                 return;
-                
+
             }
 				    if( $('#fecha_a_o').val().trim() != ''  && $('#fecha_mes').val().trim() != ''  && $('#fecha_dia').val().trim() != ''   ){
 				        $('#fecha_nacimiento').val($('#fecha_a_o').val()+"-"+$('#fecha_mes').val()+'-'+$('#fecha_dia').val());

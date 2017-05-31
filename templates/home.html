@@ -3,6 +3,8 @@
 
 	{% block content %}
 
+
+
 		<header id="myCarousel" class="carousel slide">
 	        <!-- Indicators -->
 	        <!--ol class="carousel-indicators">
@@ -401,6 +403,24 @@
 
 	{% block javascript %}
 		<script>
+		function updateSigninStatus(isSignedIn) {
+        // When signin status changes, this function is called.
+        // If the signin status is changed to signedIn, we make an API call.
+        if (isSignedIn) {
+          makeApiCall('X');
+        }
+      }
+
+		function handleSignInClick(event) {
+        // Ideally the button should only show up after gapi.client.init finishes, so that this
+        // handler won't be called before OAuth is initialized.
+        gapi.auth2.getAuthInstance().signIn();
+      }
+
+      function handleSignOutClick(event) {
+        gapi.auth2.getAuthInstance().signOut();
+        console.log('nos salimos')
+      }
 			 $(document).on('click', '#close', function(){
 			 		$('#myModal').hide();
 			 });
@@ -408,5 +428,72 @@
 		    $('.carousel').carousel({
 		        interval: 5000 //changes the speed
 		    })
+
+		  $('#facebook').click(function(){
+		  		FB.login(function(response) {
+				  if (response.status === 'connected') {
+				    // Logged into your app and Facebook.
+				    console.log('Welcome!  Fetching your information.... ');
+					    FB.api('/me?fields=first_name, last_name, id, picture, gender, email,name', function(response) {
+					       console.log(response)
+					    	
+					    		 var genero='';
+						      if (response.gender=='male'){
+						      	genero='M';
+						      }else{
+						      	genero='F';
+						      };
+							
+
+					       $.ajax({
+                            url: '/facebook-login/',
+                            type: 'post',
+                            dataType: 'json',
+                            data: {'name':response.name,'genero':genero,'first_name':response.first_name, 'last_name':response.last_name,'email':response.email,'picture':'http:///graph.facebook.com/'+response.id+'/picture?type=large','tipo_usuario':'A', 'csrfmiddlewaretoken':'{{csrf_token}}'},
+                            success: function (data) {
+                                if(data.success == false){
+
+                                  }else{
+                                    
+                                   
+                                   
+                                      location.href  ='/perfil/configuraciongeneral/'
+                                      
+                                                  
+				                                                      
+                                }
+                            }
+                        });
+
+					    });
+
+				  } else {
+				    // The person is not logged into this app or we are unable to tell.
+				  }
+				},{scope:'email'});
+
+		})
+
+
+
+	/*function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+}
+
+
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }*/
+
+
 		</script>
+		  
 	{% endblock %}

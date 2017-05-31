@@ -1,5 +1,5 @@
-pais= input('ingrese el pais')
-ciudades = input('ingrese las ciudades')
+pais= input('ingrese el pais\n')
+ciudades = input('ingrese las ciudades\n')
 array = ciudades.split(',')
 
 for ciudad in array:

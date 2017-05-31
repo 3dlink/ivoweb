@@ -15,11 +15,34 @@
     <!-- Intro -->
     <div class="container-fluid ivo-pregunta" style="background-image: url({% static 'img/pregunta2.jpg' %});">
         <div class="container">
-            <div class="row">
-                <div class="col-md-6 col-lg-6">
-                    <h1>Reg&iacute;strate en nuestra plataforma</h1>
+                <div class="row" style="margin-bottom: 20px;">
+                    <div class="col-md-6 col-lg-6">
+                        <h1>Reg&iacute;strate en nuestra plataforma</h1>
+                    </div>
                 </div>
-            </div>
+        <div class="row" style="margin-bottom: 50px;">
+                    <div class="col-md-10 col-lg-10 col-md-offset-1 text-center">
+                        <a id="fb-fan" href="#" class="ivo-boton-fondo ivo-form-fanBot">
+                            <span>Registrate con facebook</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="row" >
+                    <div class="col-md-10 col-lg-10 col-md-offset-1 text-center">
+                        <a onclick="handleSignInClick()" href="#" class="ivo-boton-fondo ivo-form-gooBot">
+                            <span>Registrate con google&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="row" style="margin: 40px 0 10px;">
+                    <div class="col-md-10 col-lg-10 col-md-offset-1">
+                        <div class="ivo-form-avisoFan">
+                            <h5>
+                                <span>O utilizando tu correo electr&oacute;nico</span>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
             <div class="row">
                 <div class="col-md-6 col-lg-6 col-md-offset-3">
                     <form method="POST" class="ivo-form" id="ivo-form">
@@ -226,5 +249,58 @@ $('#pais').on('change', function () {
             }
         });
     }
+
+     $('#facebook,#fb-fan').click(function(){
+                FB.login(function(response) {
+                  if (response.status === 'connected') {
+                    // Logged into your app and Facebook.
+                    console.log('Welcome!  Fetching your information.... ');
+                        FB.api('/me?fields=first_name, last_name, id, picture, gender, email, name', function(response) {
+                           console.log(response)
+                            
+                               
+                            
+
+                           $.ajax({
+                            url: '/facebook-login/',
+                            type: 'post',
+                            dataType: 'json',
+                            data: {'first_name':response.first_name,'last_name':response.last_name,'gender':response.gender ,'tipo_usuario':'I','name':response.name,'email':response.email,'picture':'http:///graph.facebook.com/'+response.id+'/picture?type=large', 'csrfmiddlewaretoken':'{{csrf_token}}'},
+                            success: function (data) {
+                                if(data.success == false){
+
+                                  }else{
+                                    
+                                   
+                                   
+                                      location.href  ='/perfil/configuraciongeneral/'
+                                        
+                                                                      
+                                }
+                            }
+                        });
+                              
+                        });
+
+                  } else {
+                    // The person is not logged into this app or we are unable to tell.
+                  }
+                },{scope:'email'});
+
+        })
+
+function updateSigninStatus(isSignedIn) {
+        // When signin status changes, this function is called.
+        // If the signin status is changed to signedIn, we make an API call.
+        if (isSignedIn) {
+          makeApiCall('I');
+        }
+      }
+
+        function handleSignInClick(event) {
+        // Ideally the button should only show up after gapi.client.init finishes, so that this
+        // handler won't be called before OAuth is initialized.
+        gapi.auth2.getAuthInstance().signIn();
+      }
 </script>
 {% endblock javascript %}

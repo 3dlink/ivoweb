@@ -28,6 +28,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name='home'),
+    url(r'^facebook-login/$', views.facebook, name='facebook'),
     url(r'^registrate/$', views.registrate, name='registro'),
     url(r'^registrate/artista/$', views.registrate_artistas, name='registro_artistas'),
     url(r'^registrate/talentos/$', views.getArtes, name='registrate'),

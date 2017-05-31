@@ -17,11 +17,51 @@ from django.core.urlresolvers import reverse
 from django.db.models import Q
 from itertools import chain
 from django.core.mail import send_mail, BadHeaderError
+from django.conf import settings
 
 
 
 
 # Create your views here.
+def facebook(request):
+    if request.method=='POST':
+
+
+        nuevo=True;
+        
+        
+        
+        obj, created =User.objects.get_or_create(email=request.POST['email'])
+       #genero=request.POST['genero'],empresa_provedor=request.POST['name'],razon_social=request.POST['name'],first_name=request.POST['first_name'], last_name=request.POST['last_name'],tipo_usuario=request.POST['tipo_usuario']
+            
+        
+        
+        if created:
+            User.objects.filter(email=obj.email).update(genero=request.POST['genero'],empresa_provedor=request.POST['name'],razon_social=request.POST['name'],first_name=request.POST['first_name'], last_name=request.POST['last_name'],tipo_usuario=request.POST['tipo_usuario'])
+            
+            if request.POST['tipo_usuario']=='A':
+                UsuarioArteGenero.objects.create(id_genero=GeneroArtistico.objects.get(id=1), id_usuario=obj)
+            elif request.POST['tipo_usuario']=='I':
+                SectorIndustria.objects.create(id_sector=Industria.objects.get(nombre='Productores'), id_usuario=obj)
+            elif request.POST['tipo_usuario']=='P':
+                SectorIndustria.objects.create(id_sector=Industria.objects.get(nombre='Iluminacion'), id_usuario=obj)
+            elif request.POST['tipo_usuario']=='F':
+                SectorIndustria.objects.create(id_sector=Industria.objects.get(nombre='Fanatico'), id_usuario=obj)
+
+            obj.backend = settings.AUTHENTICATION_BACKENDS[0]
+            login(request, obj)            
+           
+        else:
+            
+            obj.backend = settings.AUTHENTICATION_BACKENDS[0]
+            login(request, obj)
+            nuevo=False
+            
+        
+        #return redirect('/perfil/configuraciongeneral/')
+        return HttpResponse(json.dumps({'nuevo':nuevo,'succes':True}), content_type="application/json")    
+
+
 def home(request):
     #import pdb; pdb.set_trace()
     return render(request, "home.html", {})

@@ -4,6 +4,7 @@
 		<meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <meta name="google-signin-client_id" content="1055413953608-gbgfj0vovnjtink4uf9ttjah3oji8kkn.apps.googleusercontent.com">
         <link rel="shortcut icon" type="image/png" href="{% static 'img/ivo-lg2.png' %} "/>
 	    {% include 'head_css.html' %}
 
@@ -14,11 +15,109 @@
 
 	</head>
 	<body>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.9&appId=194311034382699";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script type="text/javascript">
+      function handleClientLoad() {
+        // Loads the client library and the auth2 library together for efficiency.
+        // Loading the auth2 library is optional here since `gapi.client.init` function will load
+        // it if not already loaded. Loading it upfront can save one network request.
+        gapi.load('client:auth2', initClient);
+      }
+
+      function initClient() {
+        // Initialize the client with API key and People API, and initialize OAuth with an
+        // OAuth 2.0 client ID and scopes (space delimited string) to request access.
+        gapi.client.init({
+
+            apiKey: 'AIzaSyBsey-8PyJtPNYuafrHs7-OYM5Z0fL3_EI',
+            discoveryDocs: ["https://people.googleapis.com/$discovery/rest?version=v1"],
+            clientId: '1055413953608-gcadcqoq57f0viugtovhju01u9as3jr1.apps.googleusercontent.com',
+            scope: 'profile'
+        }).then(function () {
+          // Listen for sign-in state changes.
+          gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+          // Handle the initial sign-in state.
+          updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+        });
+      }
+
+      
+
+      
+
+      function makeApiCall(tipo_usuario) {
+        // Make an API call to the People API, and print the user's given name.
+        gapi.client.people.people.get({
+          'resourceName': 'people/me',
+          'requestMask.includeField': 'person.names,person.emailAddresses,person.genders,person.birthdays,person.photos'
+        }).then(function(response) {
+
+        	 var genero='';
+		      if (response.result.genders[0].value=='male'){
+		      	genero='M';
+		      }else{
+		      	genero='F';
+		      };
+          /*console.log('Nombre, ' + response.result.names[0].givenName);
+          console.log('Apellido, ' + response.result.names[0].familyName);
+          console.log('N-Completo, ' + response.result.names[0].displayName);
+          console.log('Genero, ' + response.result.names[0].displayName);
+          console.log('Email, ' + response.result.emailAddresses[0].value);
+          console.log('Foto, ' + response.result.photos[0].url);*/
+
+
+          $.ajax({
+                            url: '/facebook-login/',
+                            type: 'post',
+                            dataType: 'json',
+                            data: {'name':response.result.names[0].displayName,'genero':genero,'first_name':response.result.names[0].givenName, 'last_name':response.result.names[0].familyName,'email':response.result.emailAddresses[0].value,'picture':response.result.photos[0].url,'tipo_usuario':tipo_usuario, 'csrfmiddlewaretoken':'{{csrf_token}}'},
+                            success: function (data) {
+                                if(data.success == false){
+
+                                  }else{
+                                    
+                                   
+                                   		gapi.auth2.getAuthInstance().signOut();
+                                      location.href  ='/perfil/configuraciongeneral/'
+                                      
+                                                  
+				                                                      
+                                }
+                            }
+                        });
+
+
+
+        }, function(reason) {
+          console.log('Error: ' + reason.result.error.message);
+        });
+      }
+    </script>
+    <script async defer src="https://apis.google.com/js/api.js"
+      onload="this.onload=function(){};handleClientLoad()"
+      onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
+
+
+
+
+
 		<!-- Header menus and stuff-->
 		{% if user.is_authenticated %}
 		{% include 'header.html' %}
 		{% else %}
         {% include 'header_no_login.html' %}
+        	
 		{% endif %}
 
         <!--main clock content -->
@@ -76,4 +175,5 @@
         {% block javascript %}
         {% endblock %}
 	</body>
+
 </html>

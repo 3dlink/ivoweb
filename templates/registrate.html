@@ -12,11 +12,34 @@
 <!-- Intro -->
 <div class="container-fluid ivo-pregunta" style="background-image: url({% static 'img/pregunta2.jpg' %});">
     <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-lg-6">
-                <h1>Reg&iacute;strate en </br>nuestra plataforma</h1>
-            </div>
-        </div>
+                <div class="row" style="margin-bottom: 20px;">
+                    <div class="col-md-6 col-lg-6">
+                        <h1>Reg&iacute;strate en nuestra plataforma</h1>
+                    </div>
+                </div>
+        <div class="row" style="margin-bottom: 50px;">
+                    <div class="col-md-10 col-lg-10 col-md-offset-1 text-center">
+                        <a id="fb-fan" href="#" class="ivo-boton-fondo ivo-form-fanBot">
+                            <span>Registrate con facebook</span>
+                        </a>
+                    </div>
+                </div>
+        <div class="row" >
+                    <div class="col-md-10 col-lg-10 col-md-offset-1 text-center">
+                        <a onclick="handleSignInClick()" href="#" class="ivo-boton-fondo ivo-form-gooBot">
+                            <span>Registrate con google&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="row" style="margin: 40px 0 10px;">
+                    <div class="col-md-10 col-lg-10 col-md-offset-1">
+                        <div class="ivo-form-avisoFan">
+                            <h5>
+                                <span>O utilizando tu correo electr&oacute;nico</span>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
         <div class="row">
             <div class="col-sm-10 col-md-10 col-lg-10  col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
                 <form method="POST" class="ivo-form ivo-form-registro" id="ivo-form-registro" action="/registrate/artista/">
@@ -78,15 +101,7 @@
                         <div class="col-md-8 col-lg-8">
                             <div class="ivo-mensajes-select">
                                 <div >
-                                    <!-- NO ESTA HECHO COMO UN SELECT -->
-                                    <!-- CAMBIAR PARA QUE SEA UN SELECT.. EL COMPORTAMIENTO DEBER SER EL MISMO Y SOLO VAMOS A GUARDAR EL TIPO DE ARTE, QUE EL LUEGO GUARDE EL GENERO ARTISTICO
-                                    <button class="btn btn-default dropdown-toggle ivo-drop-ampliado-lista" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        {% trans "Talentos" %}
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul id = "telentos" class="dropdown-menu ivo-select-ampliado-lista" aria-labelledby="dropdownMenu1">                                        
-                                    </ul>
-                                    -->
+                                  
 
 
 
@@ -296,7 +311,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" style="margin-bottom: 50px;">
                         <div class="col-md-6 col-lg-6 col-md-offset-3" style="text-align: center;">
                             <a class="ivo-boton-fondoInpt ivo-borde-trs-verde" id="btn_registrar" style="cursor: pointer">
                                 <span class="ivo-back-trs-verde ivo-borde-transparente">Registrar</span>
@@ -416,40 +431,7 @@
             
         });
     })
-    /*
-    function getGenerosArtisticos(id_arte){
-        NProgress.start();
-        $.ajax({
-            url: '/registrate/generos-artisticos/',
-            type: 'get',
-            dataType: 'json',
-            data: {csrfmiddlewaretoken:'{{csrf_token }}', arte:id_arte},
-            success: function (data) {
-                NProgress.done();
-                if(data.mensaje == ''){
-                    $('#telentos').html(data.data);
-                    $('.ivo-drop-ampliado-lista').trigger( "click" );
-                }
-            }
-        });
-    }*/
-    /*
-    function getTalentos(){
-        NProgress.start();
-        $.ajax({
-            url: '/registrate/talentos/',
-            type: 'get',
-            dataType: 'json',
-            data: {csrfmiddlewaretoken:'{{csrf_token }}'},
-            success: function (data) {
-                NProgress.done();
-                if(data.mensaje == ''){
-                    $('#telentos').html(data.data)
-                }
-            }
-        });
-    }
-    */
+    
     function registrar(){
 
         NProgress.start();
@@ -473,6 +455,9 @@
                     //alert(data.mensaje);
                     $('#texto_mensaje').text(data.mensaje);
                     $('#mensajes').modal('show');
+                    FB.logout(function(response) {
+                      // user is now logged out
+                        });
                     setTimeout(function(){
                       location.href  ='/perfil/configuraciongeneral/'
                     }, 1500);
@@ -489,5 +474,66 @@ $('#talento').on('change', function () {
       
 
 });
+
+ $('#facebook,#fb-fan').click(function(){
+                FB.login(function(response) {
+                  if (response.status === 'connected') {
+                    // Logged into your app and Facebook.
+                    console.log('Welcome!  Fetching your information.... ');
+                        FB.api('/me?fields=first_name, last_name, id, picture, gender, email,name', function(response) {
+                           console.log(response)
+                            
+                                 var genero='';
+                              if (response.gender=='male'){
+                                genero='M';
+                              }else{
+                                genero='F';
+                              };
+                            
+
+                           $.ajax({
+                            url: '/facebook-login/',
+                            type: 'post',
+                            dataType: 'json',
+                            data: {'first_name':response.first_name,'last_name':response.last_name,'gender':response.gender ,'tipo_usuario':'P','name':response.name,'email':response.email,'picture':'http:///graph.facebook.com/'+response.id+'/picture?type=large', 'csrfmiddlewaretoken':'{{csrf_token}}'},
+                            success: function (data) {
+                                if(data.success == false){
+
+                                  }else{
+                                    
+                                   
+                                   
+                                      location.href  ='/perfil/configuraciongeneral/'
+                                        
+                                                  
+                                                                      
+                                }
+                            }
+                        });
+                              
+                        });
+
+                  } else {
+                    // The person is not logged into this app or we are unable to tell.
+                  }
+                },{scope:'email'});
+
+        })
+
+
+function updateSigninStatus(isSignedIn) {
+        // When signin status changes, this function is called.
+        // If the signin status is changed to signedIn, we make an API call.
+        if (isSignedIn) {
+          makeApiCall('A');
+        }
+      }
+
+        function handleSignInClick(event) {
+        // Ideally the button should only show up after gapi.client.init finishes, so that this
+        // handler won't be called before OAuth is initialized.
+        gapi.auth2.getAuthInstance().signIn();
+      }
+
 </script>
 {% endblock javascript %}

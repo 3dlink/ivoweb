@@ -1779,6 +1779,15 @@ br.clear {clear: both;}
 			background-color: #3B5998;
 			padding: 8px 100px 11px;
 		}
+	.ivo-form-gooBot {
+		border-color: red !important;
+		width: 100%;
+	}
+
+		.ivo-form-gooBot > span {
+			background-color: red !important;
+			padding: 8px 100px 11px;
+		}
 
 	.ivo-form-avisoFan {
 		color: white;
