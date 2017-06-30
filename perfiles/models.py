@@ -37,7 +37,7 @@ class Multimedia(models.Model):
     archivo = models.CharField(max_length=100, null=False, blank=False, verbose_name=_('Archivo'))
     nombre_archivo = models.CharField(max_length=100, null=False, blank=False, verbose_name=_('Nombre del Archivo'))
     tipo_archivo = models.CharField(max_length=1, null=False, blank=False, verbose_name=_('Tipo de archivo'))
-    usuario = models.ForeignKey(User, on_delete=models.PROTECT, related_name='multimedia')
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='multimedia')
     estado = models.CharField(max_length=1, default='R', verbose_name=_('Estado del archivo'))
 
     def absolute_url(self):
@@ -50,8 +50,8 @@ class Multimedia(models.Model):
 
 #falta la fecha
 class Mensaje(models.Model):
-    origen =  models.ForeignKey(User, on_delete=models.PROTECT, related_name='mensajes_origen')
-    destino =  models.ForeignKey(User, on_delete=models.PROTECT, related_name='mensajes_destino')
+    origen =  models.ForeignKey(User, on_delete=models.CASCADE, related_name='mensajes_origen')
+    destino =  models.ForeignKey(User, on_delete=models.CASCADE, related_name='mensajes_destino')
     mensaje = models.TextField()
     archivo =   models.FileField(upload_to='mensajes', blank=True)
     imagen = models.ImageField(upload_to='mensajes', blank=True)

@@ -31,10 +31,10 @@ def Subir_foto_perfil(request):
     archivo = UploadFile(request.FILES['foto'], '', 'avatar')
     if not archivo.upload():
         return HttpResponse(json.dumps({'mensaje': str(archivo.mensaje), 'success': False}), content_type="application/json")
-
     User.objects.filter(uuid=request.user.uuid).update(
-        avatar=archivo.getFile()
-    )
+         avatar=archivo.getFile()
+     )
+    #import pdb; pdb.set_trace()
     return HttpResponse(json.dumps({'mensaje': str(archivo.mensaje),'success': True}), content_type="application/json")
 
 
@@ -75,15 +75,24 @@ def Configuracion_Idioma_Actualizar(request):
         return HttpResponse(json.dumps({'mensaje': ''}), content_type="application/json")
 
 def Agregar_Idioma(request):
-    if request.method == 'POST':
-        if UsuarioIdioma.objects.get(id_idioma=Idioma.objects.get(id=request.POST['id_idioma']), id_usuario=request.user) is None:
-            UsuarioIdioma.objects.create(id_idioma=Idioma.objects.get(id=request.POST['id_idioma']), id_usuario=request.user)
+     if request.method == 'POST':
+        obj, created = UsuarioIdioma.objects.get_or_create(id_idioma=Idioma.objects.get(id=request.POST['id_idioma']), id_usuario=request.user)
+        if created:
+            #UsuarioIdioma.objects.create(id_idioma=Idioma.objects.get(id=request.POST['id_idioma']), id_usuario=request.user)
             html=' <tr ><td>'
             html+=Idioma.objects.get(id=request.POST['id_idioma']).nombre
-            html+= '</td><td><a href = "#">icono Editar</a></td> </tr>'
+            html+= '</td></tr>'
             return HttpResponse(json.dumps({'html':html,'mensaje': 'Idioma Agregado', 'success': True}), content_type="application/json")
         else:
             return HttpResponse(json.dumps({'mensaje': 'Ya existe este idioma en tu experiencia', 'success': False}), content_type="application/json")            
+
+def Borrar_Idioma(request):
+    if request.method=='POST':
+        #import pdb; pdb.set_trace()
+        UsuarioIdioma.objects.get(id=request.POST['idioma_id']).delete();
+
+        return HttpResponse(json.dumps({'success':True}), content_type="application/json")
+
 
 def Configuracion_Interes(request):
     if request.method == 'POST':
@@ -122,6 +131,16 @@ def Configuracion_General_Actualizar(request):
         #import pdb; pdb.set_trace()
         return HttpResponseRedirect('/perfil/configuraciongeneral/') 
         #return HttpResponse(json.dumps({'mensaje':'Datos guardados exitosamente','success':True}), content_type="application/json")    
+
+def Configuracion_Cita(request):
+    
+   if request.method == 'POST':
+        datos = getDatosActualizar(User, request)
+        
+                
+        #import pdb; pdb.set_trace()
+        #return HttpResponseRedirect('/perfil/configuraciongeneral/') 
+        return HttpResponse(json.dumps({'mensaje':'Datos guardados exitosamente','success':True}), content_type="application/json")    
 
 
 def Configuracion_General(request):
@@ -344,7 +363,10 @@ def Perfil(request, uuid):
     
     datos_personales = usuario.getDatosPersonales()
     seguir =len(Seguidores.objects.filter(destino=request.user))
+    siguiendo = False
     
+    if len(Seguidores.objects.filter(origen=request.user,destino=datos_personales.id)) == 1:
+        siguiendo=True
    
     enviados = Mensaje.objects.filter(origen=request.user.id)
     recibidos = Mensaje.objects.filter(destino=request.user.id)
@@ -362,6 +384,7 @@ def Perfil(request, uuid):
         profesion = UsuarioArteGenero.objects.get(id_usuario=datos_personales.id)
 
     context = {
+        'siguiendo':siguiendo,
         'datos_personales' : datos_personales,
         'educacion': usuario.getEducacion(),
         'experiencia' : usuario.getExperiencia(),
@@ -406,6 +429,12 @@ def Subir_archivo_perfil(request, tipo_archivo):
     guardar_archivo.save()
     return HttpResponse(json.dumps({'mensaje': ''}), content_type="application/json")
 
+def borrar_archivos(request):
+    if request.method=='POST':
+        Multimedia.objects.get(id=request.POST['archivo_id']).delete();
+
+        return HttpResponse(json.dumps({'success':True}), content_type="application/json")
+
 def Buscar_fotos(request, tipo_archivo):
     
     try:
@@ -418,7 +447,10 @@ def Buscar_fotos(request, tipo_archivo):
             archivo = 'A'
 
         #import pdb; pdb.set_trace()
-        
+        indicador=False
+        if request.user.id == User.objects.get(uuid=request.META['HTTP_REFERER'].split('/')[4]).id:
+            indicador = True
+
         archivo_list = Multimedia.objects.filter(usuario=User.objects.get(uuid=request.META['HTTP_REFERER'].split('/')[4]), tipo_archivo=archivo)
         paginator = Paginator(archivo_list, 9)
         page = request.GET.get('page')
@@ -431,10 +463,16 @@ def Buscar_fotos(request, tipo_archivo):
 
         #max_item_paginas = 6
         if tipo_archivo == 'image':
-            respuesta = paginar_fotos(archivo_paginacion)
+            respuesta = paginar_fotos(archivo_paginacion,indicador)
 
         if tipo_archivo == 'audio':
-            respuesta = paginar_audio(archivo_paginacion)
+            respuesta = paginar_audio(archivo_paginacion, indicador)
+        if tipo_archivo == 'video':
+            respuesta = paginar_videos(archivo_paginacion, indicador)
+
+        #FALTA PAGINAR VIDEOS
+        #FALTA PAGINAR VIDEOS
+        #FALTA PAGINAR VIDEOS
 
         return HttpResponse(json.dumps({'mensaje': '', 'archivos':respuesta['contenido_paginacion'],
                                         'item_paginas' : respuesta['pie_paginacion']}), content_type="application/json")
@@ -443,7 +481,7 @@ def Buscar_fotos(request, tipo_archivo):
 
         return HttpResponse(json.dumps({'mensaje': 'no datos'}), content_type="application/json")
 
-def paginar_audio(audio_paginacion):
+def paginar_audio(audio_paginacion, indicador):
     xHTML_Paginas = ''
     for nro in range(1, int(audio_paginacion.paginator.num_pages) + 1):
         if nro == audio_paginacion.number:
@@ -456,25 +494,25 @@ def paginar_audio(audio_paginacion):
     xHTML = ''
     indx = 1
     for audio in audio_paginacion:
-        xHTML += '<div class="col-md-12">'
+        xHTML += '<div id="div_archivo_'+str(audio.id)+'"><div class="col-md-11" >'
         xHTML += '	<div class="ivo-mensaje-contenedorAudio ivo-mensaje-contenedorAudio-noBorde ivo-contenedorAudio-bck1">'
         xHTML += '		<div class="ivo-mensaje-contenedorAudio-carga" id = "progreso_audio-'+str(indx)+'" style="width: 0%;"></div>'
         xHTML += '		<div class="ivo-mensaje-contenedorAudio-contenido">'
         xHTML += '			<div>'
         xHTML += '				<span class="arrow_triangle-right_alt ivo-font-naranja play_audio" id = "'+str(indx)+'" audio = "/media/' + audio.cluster + audio.archivo + '"></span>'
         xHTML += '			</div>'
-        xHTML += '			<h5>'+audio.nombre_archivo+'</h5>'
-        xHTML += '		</div>'
+        xHTML += '			<h5>'+audio.nombre_archivo+'</h5> '
+        xHTML += '		</div> '
         xHTML += '		<div class="ivo-mensaje-contenedorAudio-contenido2">'
         xHTML += '			<span class="tiempo" id = "tiempo_audio-'+str(indx)+'">00:00</span>'
-        xHTML += '		</div>'
-        xHTML += '	</div>'
-        xHTML += '</div>'
+        xHTML += '		</div> '
+        xHTML += '	</div> '
+        xHTML += '</div> <div class="col-md-1"> <span data-idarchivo="'+str(audio.id)+'" class="glyphicon glyphicon-trash  borrar-archivo" style="cursor:pointer; color:cyan; position:relative"> </span></div></div>'
         indx = indx + 1
 
     return {'pie_paginacion' : xHTML_Paginas, 'contenido_paginacion': xHTML}
 
-def paginar_fotos(fotos_paginacion):
+def paginar_fotos(fotos_paginacion, indicador):
     xHTML_Paginas = ''
     for nro in range(1, int(fotos_paginacion.paginator.num_pages) + 1):
         if nro == fotos_paginacion.number:
@@ -486,10 +524,35 @@ def paginar_fotos(fotos_paginacion):
 
     xHTML = ''
     for foto in fotos_paginacion:
-        xHTML += '<div class="col-lg-4 col-md-4 col-xs-6 thumb">'
-        xHTML += '   <a style = "background-image:url(/media/' + foto.cluster + 'sm_' + foto.archivo + '); background-position:50% 25%; background-size:cover;" class="thumbnail ivo-perfil-galeria-item " href="/media/' + foto.cluster + '' + foto.archivo + '" data-gallery>'
+        xHTML += '<div class="col-lg-4 col-md-4 col-xs-6 thumb showhim" id="div_archivo_'+str(foto.id)+'" >'
+        if indicador == True:
+            xHTML+= '<span data-idarchivo="'+str(foto.id)+'" class="glyphicon glyphicon-trash showme borrar-archivo" style="position:absolute; margin-top:3%; margin-left:80%; color:cyan"> </span>'
+        xHTML += '   <a  style = "background-image:url(/media/' + foto.cluster + 'sm_' + foto.archivo + '); background-position:50% 25%; background-size:cover;" class="thumbnail ivo-perfil-galeria-item " href="/media/' + foto.cluster + '' + foto.archivo + '" data-gallery>'
 
-        xHTML += '<div class="ivo-perfil-galeria-hover ivo-back-trs-azulClaro"><div><span class="arrow_expand"></span></div></div>'
+        #xHTML += '<div class="ivo-perfil-galeria-hover ivo-back-trs-azulClaro"><div><span class="arrow_expand"></span></div></div>'
+        xHTML += '   </a>'
+        xHTML += '</div>'
+
+    return {'pie_paginacion': xHTML_Paginas, 'contenido_paginacion': xHTML}
+
+def paginar_videos(videos_paginacion, indicador):
+    xHTML_Paginas = ''
+    for nro in range(1, int(videos_paginacion.paginator.num_pages) + 1):
+        if nro == videos_paginacion.number:
+            xHTML_Paginas += '<li style = "cursor:pointer;" onclick = "paginacion_videos(' + str(
+                nro) + ', 1)"><span class="icon_circle-slelected"></span></li>'
+        else:
+            xHTML_Paginas += '<li style = "cursor:pointer;" onclick = "paginacion_videos(' + str(
+                nro) + ', 1)"><span class="icon_circle-empty"></span></li>'
+
+    xHTML = ''
+    for video in videos_paginacion:
+        xHTML += '<div class="col-lg-4 col-md-4 col-xs-6 thumb showhim" id="div_archivo_'+str(video.id)+'" >'
+        if indicador == True:
+            xHTML+= '<span data-idarchivo="'+str(video.id)+'" class="glyphicon glyphicon-trash showme borrar-archivo" style="position:absolute; margin-top:3%; margin-left:80%; color:cyan"> </span>'
+        xHTML += '   <a  style = "background-image:url(/static/img/video.png/); background-position:50% 25%; background-size:cover;" class="thumbnail ivo-perfil-galeria-item " href="/media/' + video.cluster + '' + video.archivo +'" type="video/mp4" data-gallery="#blueimp-gallery-videos">'
+
+        #xHTML += '<div class="ivo-perfil-galeria-hover ivo-back-trs-azulClaro"><div><span class="arrow_expand"></span></div></div>'
         xHTML += '   </a>'
         xHTML += '</div>'
 
@@ -502,17 +565,19 @@ def detalle_mensajes(request):
         #si es mensaje lo envie
         if mensaje.origen.id == request.user.id:
             destino = mensaje.destino.email
+            avatar = mensaje.destino.avatar.url
         else:
             destino = mensaje.origen.email
+            avatar = mensaje.origen.avatar.url
         imagen=''
         archivo=''
         if mensaje.imagen != '':
-            imagen=mensaje.imagen.url
+            imagen=mensaje.imagen
 
         if mensaje.archivo != '':
             archivo=mensaje.archivo.url
-        
-    return HttpResponse(json.dumps({'mensaje':'desde el ajax','destino':destino, 'mensaje':mensaje.mensaje,'imagen':imagen,'archivo':archivo,'success':True}), content_type="application/json")    
+        #import pdb; pdb.set_trace()
+    return HttpResponse(json.dumps({'mensaje':'desde el ajax','destino':destino, 'mensaje':mensaje.mensaje,'imagen':imagen,'archivo':archivo,'avatar':avatar,'success':True}), content_type="application/json")    
 
 
 # OJO   OJO    OJO     OJO     OJO   OJO 
@@ -522,7 +587,7 @@ def enviar_mensajes(request):
        
         mensaje=''
         form = FormMensaje(request.POST, request.FILES) 
-        import pdb; pdb.set_trace()       
+        #import pdb; pdb.set_trace()       
         if form.is_valid():
             registro = form.save(commit =False)
             registro.destino = User.objects.get(email=request.POST['destino'])
@@ -531,7 +596,7 @@ def enviar_mensajes(request):
             mensaje = {'mensaje': str(_('Mensaje Enviado')), 'success': True}       
         else:
             mensaje = {'mensaje': str(_('No se ha podido enviar el mensaje')), 'success': False}
-    return redirect("artistadashboard")
+    return redirect(request.META['HTTP_REFERER'])
 
 
 

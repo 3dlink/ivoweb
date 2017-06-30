@@ -1,0 +1,100 @@
+
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+
+{% block cssblock %}
+	<link href="{% static 'css/jquery.countdown.css' %}" rel="stylesheet">
+		<style type="text/css">
+			.ivo-pregunta { height: auto;}
+			.ivo-form  select {width: 100%}
+			
+		</style>
+		
+{% endblock %}
+
+{%block content%}
+
+<div class="container-fluid ivo-perfil-panel">
+	    	<div class="container ivo-planes-recibo">
+	    		<div class="row">
+	    			<div class="col-md-3">
+	    				<div class="row">
+	    					<div class="col-md-12">
+	    						<h1 class="ivo-borde-verde">Pagar</h1>
+	    					</div>	
+	    				</div>
+	    			</div>
+	    		</div>
+	    		<div class="row">
+	    			<div class="col-md-8">
+	    				<div class="row">
+	    					<div class="col-md-12">
+	    						<form class="ivo-formularioConf-form" method="POST">
+	    							<div class="row">
+		    							<div class="col-md-12">
+		    								<h4>Datos De Tarjeta De Credito</h4>
+		    							</div>
+		    						</div>
+		    						<div class="row">
+		    							<div class="col-md-3">
+											<label>N&uacute;mero de Tarjeta</label>
+										</div>
+										<div class="col-md-9">
+											<input type="text">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-3">
+											<label>Tipo de Tarjeta</label>
+										</div>
+										<div class="col-md-9">
+											<select>
+												<option>Visa / Master AMExpress</option>
+												<option>Visa</option>
+												<option>Master Card</option>
+												<option>AM Express</option>
+											</select>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-3">
+											<label>Fecha de Expiracion</label>
+										</div>
+										<div class="col-md-9">
+											<input class="fechad" type="text"> <div class="resaltar-separador">/</div> 
+											<input class="fechad" type="text"> <div class="resaltar-separador">/</div> 
+											<input class="fechay" type="text">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-3">
+											<label>Codigo De Seguridad</label>
+										</div>
+										<div class="col-md-9">
+											<input class="fechay" type="text">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12 ivo-terminos-condiciones">
+											<input type="radio" id="radio-1-1" name="radio-1-set" class="regular-radio">
+											<label for="radio-1-1" style="margin: 0 5px;"></label>
+											<span>Acepto Terminos y Condiciones - <a href="#">Leer Terminos y Condiciones</a></span>
+										</div>
+									</div>
+								</form>
+	    					</div>	
+	    				</div>
+	    			</div>
+	    			<div class="col-md-9">
+	    				<div class="text-right">
+    						<button class="ivo-boton-fondoInpt ivo-borde-verde" style="margin-top: 8px">
+								<span class="ivo-back-verde ivo-borde-transparente">Procesar Pago</span>
+							</button>
+						</div>
+	    			</div>
+	    		</div>
+	    	</div>
+	    </div>
+	   {%endblock%}

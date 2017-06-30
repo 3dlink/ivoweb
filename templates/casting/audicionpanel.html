@@ -1,0 +1,198 @@
+
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block cssblock %}
+    <style type="text/css">
+    .ivo-pregunta { height: auto;}
+        .ivo-form  select {width: 100%}
+        body {
+		background-color: white;
+	}
+
+	
+
+    </style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+			<div class="row ivo-configuracion">
+				<div class="col-md-3 ivo-configuracion-menu ivo-mensajes-latItems">
+					<ul>
+						<li class="ivo-mensajes-select">
+							<div class="dropdown">
+							  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							    <i>Mis Audiciones</i>
+							    <span class="caret"></span>
+							  </button>
+							  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+							    <li id="boton_todas"><a href="#"><i>Mis Audiciones</i></a></li>
+							    <li id='boton_ganadas'><a href="#"><i>Ganadores</i></a></li>
+							  </ul>
+							</div>					
+						</li>
+					</ul>
+					<ul class="ivo-mensajes-lista ivo-mensajes-lista-audiciones" id='todas'>
+						
+						{% for audicion in audiciones %}
+						<li class="elemento_audicion" data-audicion="{{audicion.id}}">
+							{% if audicion.ganador == True %}
+							<img class="ivo-mensajes-trofeo" src="{% static 'img/trofeo.png' %}">
+							{% endif %}
+							{% if audicion.id_casting.autor.avatar == '' %}
+							<div class="" style="background-image: url(/static/img/avatar-ivo.jpg)"></div>
+							{% else %}
+							<div class="" style="background-image: url('/media/{{audicion.id_casting.autor.avatar}}')"></div>
+							{% endif %}
+							<h5>{{audicion.id_casting.titulo | truncatewords:3}}</h5>
+							<h6>{{audicion.id_casting.descripcion | truncatewords:3}}</h6>
+						</li>
+						{% endfor %}
+					</ul>
+
+					<ul class="ivo-mensajes-lista ivo-mensajes-lista-audiciones" id='ganadas' hidden>
+						
+						{% for audicion in audicionesfin %}
+						<li class="elemento_audicion" data-audicion="{{audicion.id}}">
+							{% if audicion.ganador == True %}
+							<img class="ivo-mensajes-trofeo" src="{% static 'img/trofeo.png' %}">
+							{% endif %}
+							{% if audicion.id_casting.autor.avatar == '' %}
+							<div class="" style="background-image: url(/static/img/avatar-ivo.jpg)"></div>
+							{% else %}
+							<div class="" style="background-image: url('/media/{{audicion.id_casting.autor.avatar}}')"></div>
+							{% endif %}
+							<h5>{{audicion.id_casting.titulo | truncatewords:3}}</h5>
+							<h6>{{audicion.id_casting.descripcion | truncatewords:3}}</h6>
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+				<div class="col-md-9 ivo-formularioConf ivo-mensajes-central" >
+					<!-- Encabezado -->
+					<div class="row ivo-mensaje-header" id='mensaje-header' hidden>
+						<div class="col-md-2 ivo-mensaje-headerImg" id='img_casting'>
+							
+						</div>
+						<div class="col-md-6">
+							<h2 id='titulo_casting'> </h2>
+							<h3 id='descripcion_casting'></h3>
+							<h4 id='fecha_fin'> </h4>
+						</div>
+						<div class="col-md-4" style="margin-top: 20px;">
+							<ul id="reloj" class="ivo-casting-calendario">
+									<li id='dia_fin'>
+										<br>
+										
+									</li>
+									<li id='mes_fin'>
+										<br>
+										
+									</li>
+									<li id='anno_fin'>
+										<br>
+										
+									</li>
+								</ul>
+						</div>
+					</div>
+					<!-- Ganador -->
+					<div id="datos-audicion" hidden>
+						
+
+						
+					</div>
+					
+					
+				</div>
+			</div>
+		</div>
+
+		{%endblock%}
+
+	{% block javascript %}
+	<script type="text/javascript" src="{% static 'js/perfil.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jquery.plugin.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
+	<script type="text/javascript">
+
+	$('#boton_ganadas').click(function() { 
+		    	$('#dropdownMenu1').text('Ganadores')
+		    	$('#dropdownMenu1').append('<span class="caret"></span>')        		
+        		$('#todas').hide();
+        		$('#ganadas').show();
+        		 
+        		
+        		$('#datos-audicion').hide()
+        		
+        		$('#mensaje-header').hide();
+        		    		
+        	});
+
+        	$('#boton_todas').click(function() {  
+        		$('#dropdownMenu1').text('Mis Audiciones')
+        		$('#dropdownMenu1').append('<span class="caret"></span>')         		
+        		$('#ganadas').hide();
+        		$('#todas').show();
+        		
+        		$('#datos-audicion').hide()
+        		
+        		 $('#mensaje-header').hide();
+        	});
+
+		$(document.body).on('click', '.elemento_audicion' ,function(){
+		    	
+			        	var id = $(this).data('audicion');
+			        	//alert(id);
+			        	 $.ajax({
+				            url: '/casting/audi/'+id+'/',
+				            type: 'get',
+				            dataType: 'json',
+				            
+				            success: function (data) {
+				                NProgress.done();
+				                if(data.success == false){
+				                    alert(data.mensaje);
+				                    $.each(data.errors.fields, function(i, item) {
+				                        alert(item);
+				                    });
+				                    
+				                }else{
+				                    //alert(data.mensaje);
+				                    //alert(data.titulo);
+				                     
+				                   $('#mensaje-header').show();
+				                    $('#datos-audicion').html(data.audiciones)
+				                    $('#datos-audicion').show()
+				                    $('#titulo_casting').text(data.titulo)
+				                    $('#descripcion_casting').text(data.descripcion)
+				                    
+				                    $('#reloj').countdown(data.anno_fin+'/'+data.mes_fin+'/'+data.dia_fin, function(event) {
+									  var $this = $(this).html(event.strftime(''
+									   
+									    + '<li id="dia" style="font-family: "exo"">%d <br><span>Dias</span></li>'
+									    + '<li id="hora" style="font-family: "exo"">%H <br><span>Horas</span></li> '
+									    + '<li id="minuto" style="font-family: "exo"">%M <br><span>Min</span></li> '
+									    ));
+									});
+				                    $('#fecha_fin').text('Fecha de culminacion:')
+				                    if(data.img == ''){
+				                    	 $('#img_casting').html('<img class="img-responsive" src="/static/img/avatar-ivo.jpg/">')
+				                    }else{
+				                    	 $('#img_casting').html('<img class="img-responsive" src="'+data.img+'">')
+				                    }
+				                    
+									
+
+				                }
+				            }
+				        });			        	
+			    });
+
+	</script>
+	{% endblock %}

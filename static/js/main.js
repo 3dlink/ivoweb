@@ -164,18 +164,24 @@ function validarForm(form){
 	$(form).each(function(){
 		var tipo = $(this).attr('type');
         if( $(this).attr('required') &&  $(this).val().trim() == '' && retorno == true && tipo != 'hidden'){
-        	alert($(this).attr('mensaje'));
+        	//alert($(this).attr('mensaje'));
+        	 $('#texto_mensaje').text($(this).attr('mensaje'))
+            $('#mensajes').modal('show');
         	retorno = false;
         }
         if(retorno){
         	if (tipo == 'email' && $(this).attr('required')){
 				if(!correoValido( $(this).val() )){
-	    			alert('Ingrese un correo valido');
+	    			
+	    			$('#texto_mensaje').text('Ingrese un correo valido')
+            		$('#mensajes').modal('show');
 	        		retorno = false;		
 	    		}
 	    	}else if (tipo == 'number' && $(this).attr('required')){
 	    		if(!numeroValido( $(this).val() )){
-	    			alert('Ingrese solo numeros en el campo '+$(this).attr('name'));
+	    			
+	    			$('#texto_mensaje').text('Ingrese solo numeros en el campo '+$(this).attr('name'))
+            		$('#mensajes').modal('show');
 	        		retorno = false;		
 	        		
 	        	}

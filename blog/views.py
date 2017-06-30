@@ -65,8 +65,7 @@ def detalle(request,idpost):
 
 def busqueda(request):
 
-	#import pdb;   pdb.set_trace()
-	#search = q.lstrip()
+	
 	terms = request.GET['q']
 	term_list = terms.split(' ')
 
@@ -77,22 +76,15 @@ def busqueda(request):
 		qq.add((Q(contenido__icontains=term) | Q(titulo__icontains=term)), qq.connector)
 
 	results = results.filter(qq)
-
-
-	#results = Post.objects.filter(Q(titulo__icontains = search)|Q(titulo__icontains = q)|Q(contenido__icontains = search)|Q(titulo__icontains = q))
-	#results = .objects.filter(titulo__icontains=request.GET['q'])	
 	
 	import pdb;pdb.set_trace()
-	paginator = Paginator(results, 6) # Show 25 contacts per page	
+	paginator = Paginator(results, 6)
 	page = request.GET.get('page',1)
 	try:
 		posts = paginator.page(page)
-	except PageNotAnInteger:
-	       # If page is not an integer, deliver first page.
+	except PageNotAnInteger:	       
 		posts = paginator.page(1)
-	except EmptyPage:
-	        # If page is out of range (e.g. 9999), deliver last page of results.
-		posts = paginator.page(paginator.num_pages)
-			#import pdb;   pdb.set_trace()
+	except EmptyPage:	       
+		posts = paginator.page(paginator.num_pages)			
 	return render(request,"blog/resultados.html", {"posts": posts})
 	

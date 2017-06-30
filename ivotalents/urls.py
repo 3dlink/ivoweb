@@ -49,6 +49,7 @@ urlpatterns = [
     url(r'^seguir/$', views.seguir, name='seguir'),
     url(r'^terminos/$', views.terminos, name='terminos'),
     url(r'^planes/$', views.planes, name='planes'),
+    url(r'^pagar/$', views.pagar, name='pagar'),
     url(r'^faq/$', views.faq, name='faq'),
     url(r'^faq-pregunta/$', views.faqpregunta, name='faqpregunta'),
     url(r'^corporativa/$', views.corporativa, name='corporativa'),
@@ -67,7 +68,6 @@ urlpatterns = [
     #url(r'^accounts/',include('allauth.urls')),
     url(r'^login/', views.index, name='index'),
     url(r'^logout/', views.cerrar_sesion, name='logout'),
-
     url(r'^perfil/', include('perfiles.urls', namespace='perfiles')),
     url(r'^all/', include('listado.urls', namespace='listado')),
     url(r'^blog/', include('blog.urls', namespace='blog')),

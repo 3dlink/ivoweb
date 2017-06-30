@@ -4,11 +4,28 @@
 {% block cssblock %}
 
     <link href="{% static 'css/jquery.countdown.css' %}" rel="stylesheet">
+     <link rel="stylesheet" href="{% static 'css/cropper.css' %}">
 
     <style type="text/css">
     	body {
     		background-color: white;
     	}
+    	select option{
+        	background-color: black;
+        	color:white;
+        }
+         div#image_container {
+                width:600px;
+                height: 600px;
+            }
+            .cropper-crop-box, .cropper-view-box {
+    border-radius: 50%;
+}
+
+.cropper-view-box {
+    box-shadow: 0 0 0 1px #39f;
+    outline: 0;
+}
     </style>
 
 {% endblock %}
@@ -40,7 +57,11 @@
 					</li >
 					{% endif %}
 				<li id="show_form_interes">
+					{% if user.get_tipo_usuario == 'I' or user.get_tipo_usuario == 'P' %}
+					<a href="#interes">Area laboral</a>
+					{%else%}
 					<a href="#interes">Intereses</a>
+					{% endif %}
 				</li>
 				
 				{% endif %}
@@ -53,10 +74,12 @@
 			</ul>
 		</div>
 		<div class="col-md-9 ivo-formularioConf">
-			<form method="post" enctype="multipart/form-data" id="form_foto_perfil">
-				<input type="file" name="foto" id="seleccionar_foto_perfil" class="inputfile">
-				{% csrf_token %}
-			</form>
+			<div hidden>
+								<!--form method="post" enctype="multipart/form-data" id="form_foto_perfil"-->
+									<input type="file" name="foto" id="seleccionar_foto_perfil" class="inputfile" hidden  onchange="readURL(this)">
+									
+								<!--/form-->
+							</div>
 			<form class="ivo-formularioConf-form ivo-formularioConf-form-nf from-principal" action="/perfil/configuraciongeneral/actualizar-general/" id="form_general" method="POST" >
 				{% csrf_token %}
 				<h1>Configuraciones Generales</h1>
@@ -71,6 +94,34 @@
 					</label>
 				</div>
 	
+
+				<div class="modal fade" id="editar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content ivo-perfil-galeriaFlt">
+                    <div class="modal-header ivo-perfil-galeriaFlt-header">
+                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal"><span class="icon_close"></span></button>
+                        <h4 class="ivo-borde-azulClaro" style="width: 70%;">editar <span id="titulo_modal_editar"></span></h4>
+
+                    </div>
+                    <div  class="modal-body">
+                        <div class="col-md-12  ivo-perfil-galeriaFlt-bodyUp text-center">
+                        <!--input type="file" name="image" id="image" onchange="readURL(this);"/-->
+                            <div class="col-md-8 col-md-offset-3 image_container" style="height:400px; width:400px;">
+                                <img id="blah" src="#" alt="your image" />
+                            </div>
+                            <!--div id="cropped_result"></div-->    
+                            <br><br> <br><br>  
+                            <button class="col-md-2 col-md-offset-5"  id="crop_button">Crop</button> 
+
+                           
+                        </div>
+                    </div>
+                    <div class="modal-footer ivo-perfil-galeriaFlt-footer"></div>
+                </div>
+            </div>
+        </div>
+
+
 				<div class="ivo-configuracion-form-separador"></div>
 				{% if user.get_tipo_usuario == 'I' or  user.get_tipo_usuario == 'P' %}
 				<div class="row">
@@ -726,8 +777,9 @@
 				    {% for idioma_user in idiomas_user %}
 				    <tr >
 				    
-				        <td>{{ idioma_user.id_idioma.nombre}}</td>
+				        <td id='td_idioma_{{idioma_user.id}}'>{{ idioma_user.id_idioma.nombre}}  <span data-ididioma="{{idioma_user.id}}" class="glyphicon glyphicon-trash borrar-idioma pull-right" style="cursor:pointer; color:cyan;"></span></td>
 				        <!-- FALTA ELIMINAR -->
+
 				        
 				    </tr>
 				    {% endfor %}
@@ -767,6 +819,80 @@
 
 <script type="text/javascript" src="{% static 'js/jquery.plugin.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
+ <script type="text/javascript" src="{% static 'js/cropper.js' %}"></script>
+
+
+<script type="text/javascript" defer>
+        
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#blah').attr('src', e.target.result)
+            };
+            reader.readAsDataURL(input.files[0]);
+            setTimeout(initCropper, 1000);
+        }
+    }
+    function initCropper(){
+        
+        var image = $('#blah');
+                    image.cropper({
+                   
+              aspectRatio: 1 / 1,
+              crop: function(e) {
+                // Output the result data for cropping image.
+                console.log(e.x);
+                console.log(e.y);
+                console.log(e.width);
+                console.log(e.height);
+                console.log(e.rotate);
+                console.log(e.scaleX);
+                console.log(e.scaleY);
+              }
+            });
+        $('#editar').modal('show');
+        $('#editar').css('display: inline-block;border:1px solid blue;max-width:700px;max-height:700px;');
+        // On crop button clicked
+      $('#crop_button').on('click', function(){
+
+        var result = image.cropper("getCroppedCanvas", image);
+
+                image.cropper("getCroppedCanvas", image).toBlob(function (blob) {
+                      //var formData = new FormData();
+                      //formData.append('croppedImage', blob);
+
+            var formData = new FormData('croppedImage',blob);
+            formData.append('csrfmiddlewaretoken','{{csrf_token}}')
+            formData.append('foto',blob)
+
+                      $.ajax({
+           url: '/perfil/configuraciongeneral/foto-perfil/',
+            type: 'post',
+            dataType: 'json',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                NProgress.done();
+                console.log(data)
+                window.location.reload(true);
+
+                
+
+            }
+
+        });
+
+                      
+                });
+            
+        })
+    }
+</script>
+
+
 
 <script>
 $('#pais_emp').on('change', function () {
@@ -865,7 +991,8 @@ $(document).on('change', '#pais', function(){
         });
 
 
-	    $('#send_form_educacion').click(function(){
+	    $(document).on('click', '#send_form_educacion', function(){
+	    	console.log("SEND FORM EDUCACION")
             var fecha_desde = $('#dia_desde').val()+'/'+$('#mes_desde').val()+'/'+$('#anno_desde').val();
 
             if( !$('#radio-1-1').is(":checked")){
@@ -877,9 +1004,12 @@ $(document).on('change', '#pais', function(){
             $('#fecha_inicio_estudio').val(fecha_desde);
             
             if( validarForm($('#form_educacion input')) ){
+            	console.log("ANTES DE LLAMAR AJAX")
                 guardarEducacion();
             }
         });
+
+
 	    $('#agregar_experiencia').click(function(){
             $('#ModalExperiencia').modal('show');
 
@@ -1006,7 +1136,7 @@ $(document).on('change', '#pais', function(){
 									*/	
 									
 									$('#id_educacion').val(variable);
-						        	$('#send_form_eduacion').hide();
+						        	$('#send_form_educacion').hide();
 						        	$('#update_educacion').show();
 						        	
 						            $('#ModalEducacion').modal('show');
@@ -1141,9 +1271,10 @@ $(document).on('change', '#pais', function(){
 		})
 
 		$('#send_form_cita').click(function(){
+			console.log("en la cita")
 			if (validarForm( $('#form_cita input') ) ) {
 					     $.ajax({
-				            url: '/perfil/configuraciongeneral/actualizar-general/',
+				            url: '/perfil/configuraciongeneral/cita/',
 				            type: 'post',
 				            dataType: 'json',
 				            data: $('#form_cita').serialize(),
@@ -1240,10 +1371,10 @@ $(document).on('change', '#pais', function(){
 			interval: 5000 //changes the speed
 		});
 	   $('ivo-contador').countdown({since: new Date(2017, 12-1, 25)});
-	   /*seleccion de foto de perfil*/
+	   /*seleccion de foto de perfil
 	    $('#seleccionar_foto_perfil').change(function(e){
 	        handleImage(e)
-	    });
+	    });*/
 	});
 
 	function updateExperiencia(){
@@ -1375,7 +1506,7 @@ $(document).on('change', '#pais', function(){
 
 
     function guardarEducacion(){
-       
+       console.log("DENTRO DE LA FUNCION")
         $.ajax({
             url: '/perfil/configuraciongeneral/educacion/',
             type: 'post',
@@ -1499,6 +1630,35 @@ $('#talento').on('change', function () {
     $('#arte-'+this.value).show()  
       
 });
+
+
+$(document).on('click', '.borrar-idioma', function(){ 
+        var idioma= $(this).data('ididioma')
+
+        $.ajax({
+           url: '/perfil/configuraciongeneral/idioma/borrar/',
+            type: 'post',
+            dataType: 'json',
+            data: {'idioma_id':idioma,'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            success: function (data) {
+               
+               if(data.success == false){
+
+               }else{
+                
+                    $('#td_idioma_'+idioma).remove();
+                    $('#texto_mensaje').text("El idioma fue eliminado")
+            		$('#mensajes').modal('show');
+               }
+            //$('#foto_actual').css('background-image','url(/'+;
+            }
+        });
+ });
+
+$(document).on('click', '.dropdown .dropdown-menu', function (e) {
+  e.stopPropagation();
+});
+
 </script>
 
 {% endblock %}

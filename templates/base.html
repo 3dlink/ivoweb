@@ -88,7 +88,7 @@
                                     
                                    
                                    		gapi.auth2.getAuthInstance().signOut();
-                                      location.href  ='/perfil/configuraciongeneral/'
+                                      location.href  ='/artistadashboard/'
                                       
                                                   
 				                                                      
@@ -164,9 +164,12 @@
         {% block content %}
 
         {% endblock %}
+       
 
         <!-- Footer -->
 	    {% include "footer.html" %}
+
+
 
         <!-- javascript before body ends-->
         {% include "javascript.html" %}
@@ -174,6 +177,133 @@
         <!--javascript block used in each page -->
         {% block javascript %}
         {% endblock %}
+        <!-- Chat -->
+
+        {% if user.is_authenticated %}
+    <div id="live-chat">
+      <div id='ivo-chat-bar' class="ivo-chat-bar">
+        <div  class="ivo-chat-bar-caja">
+          <img  src="{% static 'img/ivo-chat3.png' %}">
+          <br />
+        </div>
+      </div>
+    <header class="clearfix ivo-chat-header">     
+      <a href="#" class="chat-close">
+        <span class="icon_close"></span>
+      </a>
+      <h4>Chat</h4>
+      <span class="chat-message-counter">3</span>
+    </header>
+    <div class="chat ivo-chat-body">      
+      <div class="chat-history">        
+        <div class="chat-message clearfix ivo-chat-otroMensaje">  
+          <img src="http://gravatar.com/avatar/2c0ad52fc5943b78d6abe069cc08f320?s=32" alt="" width="32" height="32">      
+          <div class="chat-message-content clearfix">
+            <!--span class="chat-time">13:35</span>
+            <h5>John Doe</h5-->
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, explicabo quasi ratione odio dolorum harum.</p>
+          </div> <!-- end chat-message-content -->
+        </div> <!-- end chat-message -->
+        <div class="chat-message clearfix">
+          
+          <img src="http://gravatar.com/avatar/2c0ad52fc5943b78d6abe069cc08f320?s=32" alt="" width="32" height="32">
+
+          <div class="chat-message-content clearfix">
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis, nulla accusamus magni vel debitis numquam qui tempora rem voluptatem delectus!</p>
+
+          </div> <!-- end chat-message-content -->
+
+        </div> <!-- end chat-message -->
+        <div class="chat-message clearfix ivo-chat-otroMensaje">
+          
+          <img src="http://gravatar.com/avatar/2c0ad52fc5943b78d6abe069cc08f320?s=32" alt="" width="32" height="32">
+
+          <div class="chat-message-content clearfix">
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
+
+          </div> <!-- end chat-message-content -->
+
+        </div> <!-- end chat-message -->
+    </div> <!-- end chat-history -->
+
+      <!--p class="chat-feedback">Escribiendo…</p-->
+
+      <form action="#" method="post">
+  {%csrf_token%}
+        <fieldset>
+          
+          <input type="text" placeholder="" autofocus>
+          <input type="button" value="Enviar">
+
+        </fieldset>
+
+      </form>
+
+    </div> <!-- end chat -->
+
+  </div> <!-- end live-chat -->
+    <script type="text/javascript" src="assets/js/main.js"></script>
+     <script>
+        
+$(document).on('click','#live-chat .ivo-chat-bar ',function()
+           {
+            
+    if($('#live-chat').css("margin-right") == "0px")
+    {
+        //$('.pollSlider').animate({"margin-right": '-=200'});
+        $('#live-chat').animate({"margin-right": '-=370'});
+    }
+    else
+    {
+       // $('.pollSlider').animate({"margin-right": '+=200'});
+        $('#live-chat').animate({"margin-right": '+=370'});
+    }
+
+
+
+         });
+
+
+$(document).on('click','.chat-close',function()
+           {
+            
+    if($('#live-chat').css("margin-right") == "0px")
+    {
+        //$('.pollSlider').animate({"margin-right": '-=200'});
+        $('#live-chat').animate({"margin-right": '-=370'});
+    }
+    else
+    {
+       // $('.pollSlider').animate({"margin-right": '+=200'});
+        $('#live-chat').animate({"margin-right": '+=370'});
+    }
+
+
+
+         });
+
+/*
+        $('#live-chat header').on('click', function() {
+
+          $('.chat').slideToggle(300, 'swing');
+          $('.chat-message-counter').fadeToggle(300, 'swing');
+
+        });
+
+        $('.chat-close').on('click', function(e) {
+
+          e.preventDefault();
+          $('#live-chat').animate({width:'toggle'},300);
+
+        });
+
+      })
+      ();
+      */ 
+      </script>
+      {% endif %}
 	</body>
 
 </html>

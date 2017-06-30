@@ -2,12 +2,11 @@
 <!-- Header -->
 
 <div class="container-fluid ivo-header ivo-header-normal">
-    <div class="container">
-        <div class="row">
+            <div class="container">
+                <div class="row">
+                     <a href="/" title="home">            
         
-            <a href="/" title="home">            
-        
-                <div class="col-xs-10 col-sm-5 col-md-5 col-lg-5  ivo-header-logo">
+                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5  ivo-header-logo">
                     <div class="logo">
                         <img src="{% static 'img/ivo-lg2.png' %}">
                     </div>
@@ -16,16 +15,15 @@
                     </div>
                 </div>
             </a>
-            <!--div class="col-xs-4 col-sm-3 col-md-3 col-lg-4 ivo-header-espacio"></div-->
-            <div class="cols-xs-3 col-sm-4 col-md-3 col-lg-4 col-xs-offset-3 col-sm-offset-2 col-md-offset-1 col-lg-offset-1 ivo-header-panelUsuario">
-                <div class="ivo-header-panelUsuario-perfil">
-                    {% if user.get_avatar == '' or user.get_avatar == None %}
-                        <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+                    <!--div class="col-xs-4 col-sm-3 col-md-3 col-lg-4 ivo-header-espacio"></div-->
+                    <div class="cols-xs-3 col-sm-4 col-md-4 col-lg-5 col-xs-offset-3 col-sm-offset-2 col-md-offset-1 col-lg-offset-1 ivo-header-panelUsuario">
+                        <div class="ivo-header-panelUsuario-perfil ivo-header-panelUsuario-perfil-carrito">
+                            {% if user.get_avatar == '' or user.get_avatar == None %}
+                        <div class='foto_header' style="background-image: url({% static 'img/avatar-ivo.jpg' %}); background-size: cover;background-position: center;"></div>
                     {%else%}
-                        <div style="background-image: url(/media/{{ user.get_avatar }});"></div>
+                        <div class='foto_header' style="background-image: url(/media/{{ user.get_avatar }}); background-size: cover;background-position: center;"></div>
                     {% endif %}
-                    
-                    <p id="ivo-usuario">
+                             <p id="ivo-usuario">
                         {% if user.get_tipo_usuario == 'A' or user.get_tipo_usuario == 'F' %}
                             {{user.get_short_name}}
 
@@ -33,7 +31,7 @@
                             {{user.empresa_provedor}}
                         {%endif%}
                     </p>
-                    <ul class="ivo-usuario-subMenu">
+                           <ul class="ivo-usuario-subMenu">
                         <li class="ivo-usuario-triangulo"><img src="{% static 'img/triangulo.png' %}"></li>
                          {% if user.get_tipo_usuario != 'F' %}
                         <li id="id_dashboard">
@@ -58,56 +56,112 @@
                             <a id='logout' href="/logout/" >Log Out</a>
                         </li>
                     </ul>
-                </div>
-                <div class="ivo-header-panelUsuario-notificacion">
-                    <span id="ivo-notificaciones" class="icon-bell ivo-font-azulClaro" aria-hidden="true"></span>
-                    <div class="ivo-notificaciones-triangulo">
-                        <img src="{% static 'img/triangulo.png' %}  ">
+                        </div>
+                        <div class="ivo-header-panelUsuario-notificacion ivo-header-panelUsuario-notificacion-carrito">
+                            <span id="ivo-notificaciones" class="icon-bell ivo-font-azulClaro" aria-hidden="true"></span>
+                            <div class="ivo-notificaciones-triangulo">
+                                <img src="{% static 'img/triangulo.png' %}  ">
+                            </div>
+                            <ul class="ivo-notificaciones-subMenu">
+                                <li>
+                                    <div>
+                                        <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+                                    </div>
+                                    <h6>Titulo Es Un</h6>
+                                    <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
+                                    <br class="clear">
+                                </li>
+                                <li>
+                                    <div>
+                                        <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+                                    </div>
+                                    <h6>Titulo Es Un</h6>
+                                    <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
+                                    <br class="clear">
+                                </li>
+                                <li>
+                                    <div>
+                                        <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+                                    </div>
+                                    <h6>Titulo Es Un</h6>
+                                    <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
+                                    <br class="clear">
+                                </li>
+                                <li>
+                                    <div>
+                                         <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+                                    </div>
+                                    <h6>Titulo Es Un</h6>
+                                    <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
+                                    <br class="clear">
+                                </li>
+                                <li>
+                                    <div>
+                                         <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+                                    </div>
+                                    <h6>Titulo Es Un</h6>
+                                    <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
+                                    <br class="clear">
+                                </li>
+                                <li>
+                                    <div>
+                                        <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+                                    </div>
+                                    <h6>Titulo Es Un</h6>
+                                    <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
+                                    <br class="clear">
+                                </li>
+                                <li>
+                                    <div>
+                                         <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+                                    </div>
+                                    <h6>Titulo Es Un</h6>
+                                    <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
+                                    <br class="clear">
+                                </li>
+                                <li>
+                                    <div>
+                                         <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+                                    </div>
+                                    <h6>Titulo Es Un</h6>
+                                    <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
+                                    <br class="clear">
+                                </li>
+                                <li>
+                                    <div>
+                                         <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+                                    </div>
+                                    <h6>Titulo Es Un</h6>
+                                    <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
+                                    <br class="clear">
+                                </li>
+                            </ul>
+                        </div>  
+                        {% if user.get_tipo != 'F' %}
+                        <div class="ivo-header-panelUsuario-notificacion ivo-header-carrito">
+                            <span id="ivo-carrito" class="glyphicon glyphicon-shopping-cart" aria-hidden="true" style="color:#00C5B4"></span>
+                            <ul class="ivo-header-carrito-subMenu">
+                                <li class="ivo-carrito-triangulo"><img src="{% static 'img/triangulo.png' %}  "></li>
+                                <li>
+                                    <a href="#">Plan: <span class="activo">Premium </br> $58.46</span></a>
+                                </li>
+                                <li>
+                                    <a href="/planes/">Ver Planes</a>
+                                </li>
+                                <li>
+                                    <a href="/pagar/">Pagar</a>
+                                </li>
+                            </ul>
+                        </div>
+                         {% endif %}
                     </div>
-                    <ul class="ivo-notificaciones-subMenu">
-
-                        <li>
-                            <div>
-                                <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
-                            </div>
-                            <h6>Titulo Es Un</h6>
-                            <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
-                            <br class="clear">
-                        </li>
-                        <li>
-                            <div>
-                                <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
-                            </div>
-                            <h6>Titulo Es Un</h6>
-                            <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
-                            <br class="clear">
-                        </li>
-                        <li>
-                            <div>
-                                <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
-                            </div>
-                            <h6>Titulo Es Un</h6>
-                            <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
-                            <br class="clear">
-                        </li>
-                        <li>
-                            <div>
-                                <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
-                            </div>
-                            <h6>Titulo Es Un</h6>
-                            <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
-                            <br class="clear">
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-            <div class="col-xs-2 col-sm-1 col-md-2 col-lg-1 col-lg-offset-1 ivo-header-panelMenu">
-                <div id="ivo-boton-menu">
-                    <span class="icon_menu" aria-hidden="true"></span>
-                    <p>MENU</p>
+                   
+                    <div class="col-xs-2 col-sm-1 col-md-1 col-lg-1 ivo-header-panelMenu">
+                        <div id="ivo-boton-menu">                       
+                            <span class="icon_menu" aria-hidden="true"></span>
+                            <p>MENU</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>

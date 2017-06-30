@@ -1,0 +1,450 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block javascript %}
+
+	<!-- Jquery CountDown -->
+	<script type="text/javascript" src="{% static 'js/jquery.plugin.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
+
+	<script>
+	   $('.carousel').carousel({
+		   interval: 5000 //changes the speed
+	   })
+	   $('#ivo-contador').countdown({until: new Date(2017, 12-1, 25)});
+	   $(document).on('click', '#close', function(){
+			 		$('#myModal').hide();
+			 });
+   </script>
+
+   <script type="text/javascript">
+   $('#selectivo').on("change",function(){       
+				if ( $(this).is(":checked") ){
+					$('.caracteristicas').show();
+					
+				} else{
+					$('.caracteristicas').hide();
+				}
+
+			});
+   
+   	$(function(){	
+
+   		if ( $('#selectivo').is(":checked") ){
+					$('.caracteristicas').show();
+					
+				}
+
+
+
+			   		
+
+   				$('#boton_img_1').click(function(){
+   					$('#seleccionar_imagen_1').click();
+
+   				})
+
+   				$('#boton_img_2').click(function(){
+   					$('#seleccionar_imagen_2').click();
+
+   				})
+
+
+			$('#send_form_general').click(function(){
+			if (validarForm( $('#form_general input') ) ) {
+			    if( $('#inicio_fecha_a_o').val().trim() != ''  && $('#inicio_fecha_mes').val().trim() != ''  && $('#inicio_fecha_dia').val().trim() != ''   ){
+			        $('#fecha_inicio').val($('#inicio_fecha_a_o').val()+"-"+$('#inicio_fecha_mes').val()+'-'+$('#inicio_fecha_dia').val());
+                }
+            
+			    if( $('#fin_fecha_a_o').val().trim() != ''  && $('#fin_fecha_mes').val().trim() != ''  && $('#fin_fecha_dia').val().trim() != ''   ){
+			        $('#fecha_fin').val($('#fin_fecha_a_o').val()+"-"+$('#fin_fecha_mes').val()+'-'+$('#fin_fecha_dia').val());
+                }
+
+				registrar();
+
+			}
+		});
+	});
+	function registrar(){
+
+        NProgress.start();
+        $.ajax({
+            url: '/casting/editar/',
+            type: 'post',
+            dataType: 'json',
+            data:  $('#form_general').serialize(),
+            success: function (data) {
+                NProgress.done();
+                if(data.success == false){
+                    alert(data.mensaje);
+                    $.each(data.errors.fields, function(i, item) {
+                        alert(i+ " "+item);
+                    });
+                }else{
+                    //alert(data.mensaje);
+                    $('#texto_mensaje').text(data.mensaje)
+            		$('#mensajes').modal('show');
+                    setTimeout(function(){
+                      location.href  = '/casting/panel/'
+                    }, 1500);
+
+                }
+            }
+        });
+    }
+	</script>	
+
+{% endblock %}
+
+{% block cssblock %}
+
+	<link href="{% static 'css/jquery.countdown.css' %}" rel="stylesheet">
+	<style type="text/css">
+	body {
+		background-color: white;
+	}
+		 .regular-radio:checked + label:after{
+    	background-color:#00C5B4;
+    }
+
+    select option{
+        	background-color: black;
+        	color:#00C5B4;
+        }
+	</style>
+{% endblock %}
+
+
+	{% block content %}
+
+		<div class="container">
+			<div class="row ivo-configuracion">
+				<div class="col-md-3 ivo-configuracion-menu">
+					<ul>
+						<li class="activo">
+							<a href="{{request.META.HTTP_REFERER}}">Volver</a>
+							
+						</li>
+						
+						
+
+					</ul>
+				</div>
+				<div class="col-md-9 ivo-formularioConf">
+				<!-- FORMULARIO -->
+				{% if messages %}
+
+
+				<div class="modal fade bs-example-modal-sm in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display:block; top: 15%;">
+							  <div class="modal-dialog" role="document">
+							    <div class="modal-content" style="background:rgba(0,0,0,0.7); color:white;">
+							      
+							      <div class="modal-body">
+							        {% for message in messages %}
+								            <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ message }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+								        {% endfor %}
+								     <span id="close"  class="close"  style="color:white; opacity:0.9">X</span>
+							      </div>
+							      
+							    </div>
+							  </div>
+							</div>
+				
+				    
+				{% endif %}
+					<form class="ivo-formularioConf-form ivo-formularioConf-form-nf" id="form_general" method="POST" enctype="multipart/form-data" >
+					<input type="hidden" name='idcasting'value='{{casting.id}}' >
+							{% csrf_token %}
+						<h1>Crear Casting</h1>
+						<div class="row">
+							<div class="col-md-3">
+								<label class="ivo-bold">Tipo de Casting</label>
+							</div>
+							<div class="col-md-9" style="margin-top:30px;">
+
+							{% if casting.publico == True %}
+                                <div class="col-md-3">
+									                                <div style="
+									float: left;">Público</div>
+									<div style="
+									float: right;">
+									<input id="radio-1" type="radio" name="publico" value="True" class="regular-radio publico-radio" checked="checked">
+									                                    <label for="radio-1" style="
+									margin: 0 auto; border: 3px solid #00C5B4; background-color: white"></label> 
+									</div>
+									                                </div>
+									 <div class="col-md-1"></div>
+									<div class="col-md-3">
+									                                <div style="
+									float: left;">Privado</div>
+									<div style="
+									float: right;">
+									<input id="radio-2" type="radio" name="publico" value="True" class="regular-radio publico-radio">
+									                                    <label for="radio-2" style="
+									margin: 0 auto; border: 3px solid #00C5B4; background-color: white"></label> 
+									</div>
+                                </div>
+							{% else %}
+                            	<div class="col-md-3">
+									                                <div style="
+									float: left;">Público</div>
+									<div style="
+									float: right;">
+									<input id="radio-1" type="radio" name="publico" value="True" class="regular-radio publico-radio">
+									                                    <label for="radio-1" style="
+									margin: 0 auto; border: 3px solid #00C5B4; background-color: white"></label> 
+									</div>
+									                                </div>
+									 <div class="col-md-1"></div>
+									<div class="col-md-3">
+									                                <div style="
+									float: left;">Privado</div>
+									<div style="
+									float: right;">
+									<input id="radio-2" type="radio" name="publico" value="True" class="regular-radio publico-radio" checked="checked">
+									                                    <label for="radio-2" style="
+									margin: 0 auto; border: 3px solid #00C5B4; background-color: white"></label> 
+									</div>
+                                </div>
+
+							{% endif %}
+
+                            </div>
+							
+						</div>
+
+						<div class="row">
+							<div class="col-md-3">
+								<label class="ivo-bold">Titulo</label>
+							</div>
+							<div class="col-md-9">
+								<input type="text" name="titulo" value="{{casting.titulo}}">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<label class="ivo-bold">Detalles</label>
+							</div>
+							<div class="col-md-9">
+								<textarea name="descripcion" >{{casting.descripcion}}</textarea>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<label class="ivo-bold">Informacion Detallada</label>
+							</div>
+							<div class="col-md-9">
+								<div class="row ivo-formularioConf-form-grid">
+								
+									<div class="col-md-12 ivo-formularioConf-form-grid-img1 text-center">
+									
+									
+										<!--label for="seleccionar_imagen_1"-->
+										<input type="file" name="imagen_1" id="seleccionar_imagen_1" style="display:none" value='{{casting.imagen_1}}'>
+										<span id="boton_img_1" class="glyphicon glyphicon-picture"></span>
+									
+										
+									</div>
+									<div class="col-md-6 ivo-formularioConf-form-grid-img2 text-center">
+
+										<input type="file" name="imagen_2" id="seleccionar_imagen_2" style="display:none" value='{{casting.imagen_2}}'>
+										
+										
+											<span id="boton_img_2" class="glyphicon glyphicon-picture"></span>
+										
+										
+									</div>
+									
+									<div class="col-md-6 ivo-formularioConf-form-grid-text">
+										<div class="col-md-12">
+										
+											<textarea class="uno" placeholder="Agregar Aqui Info Adicional Destacada" name="info_destacada" >{{casting.info_destacada}}</textarea>
+										</div>
+										<div class="col-md-12">
+										
+											<textarea class="dos" placeholder="Agregar Aqui Info Adicional" name="info_adicional" >{{casting.info_adicional}}</textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<label class="ivo-bold">Per&iacute;odo</label>
+							</div>
+							<div class="col-md-9 ivo-configuracion-form-fecha">
+								<input class="fechad" type="text" maxlength="2" minlength="2"  onkeypress="return soloNumeros(event)" id="inicio_fecha_dia" value='{{casting.fecha_inicio | date:"d"}}'> <div class="resaltar-separador">/</div>
+								<input class="fechad" type="text" maxlength="2" minlength="2"  onkeypress="return soloNumeros(event)" id="inicio_fecha_mes" value='{{casting.fecha_inicio | date:"m"}}'> <div class="resaltar-separador">/</div>
+								<input class="fechay" type="text" maxlength="4" minlength="4"  onkeypress="return soloNumeros(event)" id="inicio_fecha_a_o" 
+								value='{{casting.fecha_inicio | date:"Y"}}'> <div class="resaltar-separador">-</div>
+								<input class="fechad" type="text" maxlength="2" minlength="2"  onkeypress="return soloNumeros(event)" id="fin_fecha_dia" value='{{casting.fecha_fin | date:"d"}}'> <div class="resaltar-separador">/</div>
+								<input class="fechad" type="text" maxlength="2" minlength="2"  onkeypress="return soloNumeros(event)" id="fin_fecha_mes" value='{{casting.fecha_fin | date:"m"}}'> <div class="resaltar-separador">/</div>
+								<input class="fechay" type="text" maxlength="4" minlength="4"  onkeypress="return soloNumeros(event)" id="fin_fecha_a_o" value='{{casting.fecha_fin | date:"Y"}}'> 
+								<input type="hidden" name="fecha_inicio" id="fecha_inicio">
+								<input type="hidden" name="fecha_fin" id="fecha_fin">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<label class="ivo-bold">Sector</label>
+
+							</div>
+							<div class="col-md-9">
+
+								<select name='categoria'>
+									<option selected="selected" value='{{casting.categoria.id}}' > {{casting.categoria.nombre}}</option>
+									{%for categoria in categorias %}
+											{%if categoria.id != casting.categoria.id %}
+										<option value='{{categoria.id}}'> {{categoria.nombre}}</option>
+											{% endif %}
+									{%endfor%}
+								</select>
+							</div>
+						</div><div class="row">
+							<div class="col-md-3">
+								<label class=" ivo-bold">Casting Selectivo</label>
+
+							</div>
+							<div class="col-md-9">
+								{% if casting.publico == True %}
+								<input  data-id="aqui" class="regular-checkbox big-checkbox" type="checkbox" name='publico' id="selectivo">
+								{% else %}
+									<input class="regular-checkbox big-checkbox" type="checkbox" name='publico' id="selectivo" checked>
+								{% endif %}
+								<label for="selectivo"></label>
+							</div>
+						</div>
+						<div class="row caracteristicas" hidden>
+							<div class="col-md-3">
+								<label class="ivo-bold">Color Cabello</label>
+
+							</div>
+							<div class="col-md-9">
+								<select name='color_cabello'>
+									
+									{% if casting.color_cabello != None %}
+							<!--input type="text" name="color_cabello" value="{{casting.color_cabello}}"-->						
+								<option value = "{{casting.color_cabello.id}}" selected="true"> {{casting.color_cabello}}</option>
+								 {% for cabello in color_cabello %}
+									{% if cabello.id != casting.color_cabello.id %}
+										<option value = "{{cabello.id}}"> {{cabello.color}}</option>
+									{% endif  %}
+								{% endfor %}				
+
+						{% else %}
+								<option selected="selected" disabled>Seleccione un color</option>
+								 {% for cabello in color_cabello %}							
+								<option value = "{{cabello.id}}"> {{cabello.color}}</option>
+								{% endfor %}
+								
+						
+						{% endif %}
+								</select>
+							</div>
+						</div>
+						<div class="row caracteristicas" hidden>
+							<div class="col-md-3">
+								<label class="ivo-bold">Color Ojos</label>
+
+							</div>
+							<div class="col-md-9">
+								<select name='color_ojos'>
+									
+									{% if casting.color_ojos != None %}
+							<!--input type="text" name="color_ojo" value="{{datos.color_ojo}}"-->						
+								<option value = "{{casting.color_ojos.id}}" selected="true"> {{casting.color_ojos}}</option>
+								 {% for color_ojo in color_ojos %}
+									{% if color_ojo.id != casting.color_ojos.id %}
+										<option value = "{{color_ojo.id}}"> {{color_ojo.color}}</option>
+									{% endif  %}
+								{% endfor %}				
+
+						{% else %}
+								<option selected="selected" disabled>Seleccione un color</option>
+								 {% for color_ojo in color_ojos %}							
+								<option value = "{{color_ojo.id}}"> {{color_ojo.color}}</option>
+								{% endfor %}
+								
+						
+						{% endif %}
+								</select>
+							</div>
+						</div>
+						<div class="row caracteristicas" hidden>
+							<div class="col-md-3">
+								<label class="ivo-bold">Etnia</label>
+
+							</div>
+							<div class="col-md-9">
+								<select name='etnia'>
+									
+									{% if casting.etnia != None %}
+							<!--input type="text" name="etnia" value="{{datos.etnia}}"-->						
+								<option value = "{{casting.etnia.id}}" selected="true"> {{casting.etnia}}</option>
+								 {% for etnia in etnias %}
+									{% if etnia.id != casting.etnia.id %}
+										<option value = "{{etnia.id}}"> {{etnia.etnia}}</option>
+									{% endif  %}
+								{% endfor %}				
+
+						{% else %}
+								<option selected="selected" disabled>Seleccione un grupo</option>
+								 {% for etnia in etnias %}							
+								<option value = "{{etnia.id}}"> {{etnia.etnia}}</option>
+								{% endfor %}
+								
+						
+						{% endif %}
+						</select>
+							</div>
+						</div>
+						<div class="row caracteristicas" hidden>
+							<div class="col-md-3">
+								<label class="ivo-bold">Pais de residencia</label>
+
+							</div>
+							<div class="col-md-9">
+								<select name='pais'>
+								{% if casting.pais != None %}
+							<!--input type="text" name="etnia" value="{{datos.etnia}}"-->						
+								<option  value = "{{casting.pais.id}}" selected="true"> {{casting.pais.nombre }}</option>
+								 {% for pais in paises %}
+									{% if pais.id != casting.pais.id %}
+										{% if pais.prefijo %}
+										<option  value = "{{pais.id}}"> {{pais.nombre }}</option>
+										{% endif %}
+									{% endif  %}
+								{% endfor %}				
+
+						{% else %}
+								<option selected="selected">Seleccione un pais</option>
+								 {% for pais in paises %}	
+									 {% if pais.prefijo %}						
+										<option  value = "{{pais.id}}"> {{pais.nombre }}</option>
+									{% endif %}
+								{% endfor %}
+								
+						
+						{% endif %}
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 text-right">
+								<button class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro">
+									<span class="ivo-back-trs-azulClaro ivo-borde-transparente">Cancelar</span>
+								</button>
+								<button class="ivo-boton-fondoInpt ivo-borde-trs-azulClaro" style="margin-left: 10%;">
+									<span class="ivo-back-trs-azulClaro ivo-borde-transparente" id="send_form_general">Editar</span>
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	{% endblock %}
+
+	

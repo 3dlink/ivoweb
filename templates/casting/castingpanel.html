@@ -10,7 +10,10 @@
         body {
 		background-color: white;
 	}
-
+.boton_ganador{
+		background-color: #00c5b4;
+		color: white;
+	}
     </style>
 {% endblock %}
 
@@ -24,14 +27,14 @@
 					<ul>
 						<!-- Boton Superior -->
 						<li>
-							<a href="#" class="ivo-boton-fondo ivo-boton-mensajes ivo-borde-verde">
+							<a href="#" class="ivo-boton-fondo ivo-boton-mensajes ivo-borde-verde" style="padding: 2px 2px 11px">
 								<span class="ivo-back-verde">Casting</span>
 							</a>
 						</li>
 						<!-- Dropdown -->
 						<li class="ivo-mensajes-select">
 							<div class="dropdown">
-							  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
 							    Mis Castings
 							    <span class="caret"></span>
 							  </button>
@@ -46,7 +49,7 @@
 					<ul class="ivo-mensajes-lista ivo-mensajes-lista-audiciones" id='activos'>
 						{% for usercasting in usercastings %}
 						<li class="lista-activa lista-casting" data-id="{{usercasting.id}}" >
-							<div style="background-image: url(assets/img/avatar-ivo.jpg)"></div>
+							<div style="background-image: url(/static/img/avatar-ivo.jpg/)"></div>
 							<h5>{{usercasting.titulo}}</h5>
 							<h6>{{usercasting.descripcion}}</h6>
 						</li>
@@ -56,7 +59,7 @@
 					<ul class="ivo-mensajes-lista ivo-mensajes-lista-audiciones" id='finalizados' hidden>
 						{% for fincasting in fincastings %}
 						<li class="lista-finalizada lista-casting" data-id="{{fincasting.id}}">
-							<div style="background-image: url(assets/img/avatar-ivo.jpg)"></div>
+							<div style="background-image: url(/static/img/avatar-ivo.jpg/)"></div>
 							<h5>{{fincasting.titulo}}</h5>
 							<h6>{{fincasting.descripcion}}</h6>
 						</li>
@@ -66,7 +69,7 @@
 				<!-- Panel Central-->
 				<div class="col-md-9 ivo-formularioConf ivo-mensajes-central">
 					<!-- Ficha Identificacion del Casting -->
-					<div class="row ivo-mensaje-header">
+					<div class="row ivo-mensaje-header" id='mensaje-header' hidden>
 						<div class="col-md-2 ivo-mensaje-headerImg" id='img_casting'>
 							
 						</div>
@@ -76,7 +79,7 @@
 							<h4 id='fecha_fin'> </h4>
 						</div>
 						<div class="col-md-4" style="margin-top: 20px;">
-							<ul class="ivo-casting-calendario">
+							<ul id="reloj" class="ivo-casting-calendario">
 									<li id='dia_fin'>
 										<br>
 										
@@ -185,9 +188,9 @@
 									<li class="row">
 										<div class="col-md-2">
 										{% if casting.imagen_1 != '' %}
-											<img class="img-responsive" src='{{casting.imagen_1.url}}'>
+											<img class="img-responsive" src='/media/{{casting.imagen_1}}/'>
 										{% else %}
-												<img class="img-responsive" src='cualquier/foto.jpg'>
+												<img class="img-responsive" src='/static/img/avatar-ivo.jpg'>
 										{% endif %}
 										</div>
 										<div class="col-md-7">
@@ -207,7 +210,7 @@
 						</div>
 					</div>
 					<!-- botones Inferiores -->
-					<div class="row" id='botones-casting'>
+					<div class="row" id='botones-casting' hidden>
 						<div class="col-md-12 text-right">
 							<a id='ver_casting' class="ivo-boton" href="#">Ver Casting</a>
 							<a id='config_casting' class="ivo-boton" href="#">Configurar</a>
@@ -223,6 +226,9 @@
 	{% block javascript %}
 
 	<script type="text/javascript" src="{% static 'js/perfil.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jquery.plugin.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jquery.countdown.js' %}"></script>
+
 		<script>
 		   
 		    $('#enlace-casting').addClass('activo');
@@ -232,9 +238,11 @@
 		    	$('#dropdownMenu1').append('<span class="caret"></span>')        		
         		$('#activos').hide();
         		$('#finalizados').show();
-        		$('#ganador').show();
+        		 $('#todos-castings').show()
+        		
         		$('#datos-audicion').hide()
-        		$('#div-audiciones').hide()
+        		$('#div-audiciones').hide();
+        		$('#mensaje-header').hide();
         		    		
         	});
 
@@ -246,6 +254,7 @@
         		$('#ganador').hide();
         		$('#datos-audicion').hide()
         		$('#div-audiciones').hide()
+        		 $('#todos-castings').show()
         	});
 
 
@@ -271,23 +280,44 @@
 				                }else{
 				                    //alert(data.mensaje);
 				                    //alert("recibi algo");
+
 				                    $('#titulo_casting').text(data.titulo)
 				                    $('#descripcion_casting').text(data.descripcion)
-				                    $('#dia_fin').html(data.dia_fin+'<br> Dia')
-				                    $('#mes_fin').html(data.mes_fin+'<br>Mes')
-				                    $('#anno_fin').html(data.anno_fin+'<br>Año')
+				                    
+				                    $('#reloj').countdown(data.anno_fin+'/'+data.mes_fin+'/'+data.dia_fin, function(event) {
+									  var $this = $(this).html(event.strftime(''
+									   
+									    + '<li id="dia" style="font-family: "exo"">%d <br><span>Dias</span></li>'
+									    + '<li id="hora" style="font-family: "exo"">%H <br><span>Horas</span></li> '
+									    + '<li id="minuto" style="font-family: "exo"">%M <br><span>Min</span></li> '
+									    ));
+									});
 				                    $('#fecha_fin').text('Fecha de culminacion:')
-				                    $('#img_casting').html('<img class="img-responsive" src="'+data.img+'">')
+				                    if(data.img == ''){
+				                    	 $('#img_casting').html('<img class="img-responsive" src="/static/img/avatar-ivo.jpg/">')
+				                    }else{
+				                    	 $('#img_casting').html('<img class="img-responsive" src="'+data.img+'">')
+				                    }
+				                   
 				                    $('#ver_casting').attr('href','/casting/id/'+data.id+'/')
-				                    $('#audiciones').html(data.audiciones)
+				                    if (data.audiciones==''){
+				                    	$('#audiciones').html("<p> Aun no hay audiciones disponibles </p>")
+				                    }else{
+				                    	$('#audiciones').html(data.audiciones)
+				                    }
+				                    
 				                    $('#div-audiciones').show()
 				                    $('#datos-audicion').hide()
 									$('#todos-castings').show()
 									$('#botones-casting').show()
-
+									$('#mensaje-header').show()
+									$('#todos-castings').hide()
+									$('#config_casting').attr('href','/casting/config/'+data.id+'/')
+									$('#eliminar_casting').attr('href','/casting/borrar/'+data.id+'/')
 									if($('#dropdownMenu1').text()=='Castings Culminados '){
 										$('#ganador').html(data.ganador);
 										$('#ganador').show();
+
 
 									}
 
@@ -354,6 +384,16 @@
 				                    //alert(data.mensaje);
 				                    $('#texto_mensaje').text(data.mensaje)
             						$('#mensajes').modal('show');
+            						if($('#boton_ganador').text()=='Marcar Ganador'){
+            							$('#boton_ganador').addClass('boton_ganador');
+            							$('#boton_ganador').text('Ganador Actual')
+            						}else{
+            							$('#boton_ganador').removeClass('boton_ganador');
+            							$('#boton_ganador').text('Marcar Ganador')
+            						}
+            						
+
+
 				                    
 				                   
 				                  

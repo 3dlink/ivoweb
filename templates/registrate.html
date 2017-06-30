@@ -27,7 +27,7 @@
         <div class="row" >
                     <div class="col-md-10 col-lg-10 col-md-offset-1 text-center">
                         <a onclick="handleSignInClick()" href="#" class="ivo-boton-fondo ivo-form-gooBot">
-                            <span>Registrate con google&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+                            <span>Registrate con google</span>
                         </a>
                     </div>
                 </div>
@@ -49,11 +49,11 @@
                     <input type="hidden" name="tipo_usuario" value="A">
                     <div class="row">
                         <div class="col-md-4 col-lg-4">
-                            <input type="text" name="first_name" mensaje="{% trans 'Nombre es un campo requerido' %}"
+                            <input type="text" id="nombre" name="first_name" mensaje="{% trans 'Nombre es un campo requerido' %}"
                                    placeholder="{% trans 'Nombre' %}" required = "required" >
                         </div>
                         <div class="col-md-4 col-lg-4">
-                            <input type="text" name="last_name" mensaje="{% trans 'Apellido es un campo requerido' %}"
+                            <input type="text" id="apellido" name="last_name" mensaje="{% trans 'Apellido es un campo requerido' %}"
                                    placeholder="{% trans 'Apellido' %}" required = "required">
                         </div>
 
@@ -65,7 +65,7 @@
                         </div>
                         <div class="col-sm-12 col-md-4 col-lg-4">
                             <div>Fecha de Nacimiento</div>
-                            <input class="fechad" type="text" id="fecha_dia" minlength="2" maxlength="2"
+                            <input class="fechad" type="date" id="fecha_dia" minlength="2" maxlength="2"
                                    onkeypress="return soloNumeros(event)" required = "required"
                                    mensaje="{% trans 'Día de la fecha es un campo requerido' %}">
                             <div class="resaltar-separador">/</div>
@@ -229,7 +229,7 @@
                                     <option selected="selected" disabled>Nacionalidad</option> 
                                         {% for pais in paises %}         
                             <!-- LOS GENERO OCULTOS SIEMPRE? -->
-                                                    {% if pais.nacionalidad %}
+                                                    {% if pais.prefijo %}
                                                 <option value="{{pais.nacionalidad}}">{{pais.nacionalidad}}</option>
                                                     {%endif%}
                                         {% endfor %}        
@@ -389,47 +389,75 @@
             }
 
         });*/
-        
-        $('#btn_registrar').click(function(){
-            if( !$('#checkbox-terminos').is(':checked') ) {
-                    //alert('Debe aceptar los terminos y condiciones');
-                    $('#texto_mensaje').text('Debe aceptar los terminos y condiciones');
-                    $('#mensajes').modal('show');
-                    return;
-                }
+
+
+
+
+$('#btn_registrar').click(function(){
+
+           console.log($('#nombre').val())
+            if (!$('#checkbox-terminos').is(':checked') ||  $('#password1').val().trim() != $('#password2').val().trim() || $('#password1').val().trim()=='' || $('#password2').val().trim()=='' || $('#fecha_a_o').val() < 1900 || $('#fecha_a_o').val() > new Date().getFullYear() || $('#nombre').val()=='' || $('#apellido').val()==''){
+
+                 if( !$('#checkbox-terminos').is(':checked') ) {
+                //alert('Debe aceptar los terminos y condiciones');
+                $('#texto_mensaje').text('Debe aceptar los terminos y condiciones');
+                $('#mensajes').modal('show');
+                return false;
+            }
             if( $('#password1').val().trim() != $('#password2').val().trim()){
                 //alert(' {% trans 'Las contraseñas no coinciden' %} ')
                 $('#texto_mensaje').text('Las contraseñas no coinciden');
                 $('#mensajes').modal('show');
-                return;
+                return false;
             }
             if( $('#password1').val().trim()=='' || $('#password2').val().trim()==''){
                 //alert(' {% trans 'el campo contraseña es requerido' %} ')
                 $('#texto_mensaje').text('el campo contraseña es requerido');
                 $('#mensajes').modal('show');
-                return;
+                return false;
             }
             if( $('#password1').val().trim().length<8 || $('#password2').val().trim().length<8){
                 //alert(' {% trans 'el campo contraseña debe ser mayor a ocho caracteres' %} ')
                 $('#texto_mensaje').text('el campo contraseña \ndebe ser mayor a ocho caracteres');
                 $('#mensajes').modal('show');
-                return;
+                return false;
             }
+            
             if( $('#fecha_a_o').val() < 1900 || $('#fecha_a_o').val() > new Date().getFullYear()){
                 //alert(' {% trans 'el campo contraseña debe ser mayor a ocho caracteres' %} ')
                 $('#texto_mensaje').text('Ingrese un año valido');
                 $('#mensajes').modal('show');
-                return;
+                return false;            
             }
 
+            if($('#nombre').val()==''){
+                    $('#texto_mensaje').text('El campo Nombre es obligatorio');
+                $('#mensajes').modal('show');
+                return false;    
+            }
+            if($('#apellido').vall()==''){
+                    $('#texto_mensaje').text('E campo apellido es obligatorio');
+                $('#mensajes').modal('show');
+                return false;    
+            }
             
+            }else{
 
-        $('#fecha_nacimiento').val($('#fecha_a_o').val()+"-"+$('#fecha_mes').val()+'-'+$('#fecha_dia').val());
-        registrar();    
+                if(validarForm($('#ivo-form input'))){
+                    $('#fecha_nacimiento').val($('#fecha_a_o').val()+"-"+$('#fecha_mes').val()+'-'+$('#fecha_dia').val());
+        //registrar();    
+                
+            }else{
+                console.log('false');
+            }
+            }
+           
+
             
-               
             
         });
+        
+      
     })
     
     function registrar(){
@@ -448,7 +476,7 @@
                 $('#mensajes').modal('show');
                     $.each(data.errors.fields, function(i, item) {
                         //alert(item);
-                        $('#texto_mensaje').text(item);
+                        $('#texto_mensaje').text(i+' '+item);
                         $('#mensajes').modal('show');
                     });
                 }else{

@@ -79,7 +79,7 @@
                                 <input type="text" id='telefono' name="telefono" required="required" placeholder="{% trans 'Telefono' %}" class="inputlft" onkeypress="return soloNumeros(event)">
                             </div>
                             <div class="col-md-6 col-lg-6">
-                                <input type="text" name="website" required="required" placeholder="{% trans 'Website' %}">
+                                <input type="text" name="website"  placeholder="{% trans 'Website' %}">
                             </div>
                         </div>
 
@@ -124,7 +124,7 @@
                             <!-- SECTOR DEBERIA SER UN SELECT TAMBIEN -->
 
                                  <select placheholder="Sector" name="sector" id="sector" required="required">
-                                    <option selected="selected" disabled>{% trans 'Sector' %}</option>
+                                    <option selected="selected" disabled value=''>{% trans 'Sector' %}</option>
                                     {% for sector in sectores %}
                                     
                                     <option value='{{sector.id}}'> {{sector.nombre}}</option>
@@ -189,36 +189,50 @@ $('#pais').on('change', function () {
             return false;
         });
         $('#btn_registrar').click(function(){
-            if( !$('#checkbox-terminos').is(':checked') ) {
+
+           
+            if (!$('#checkbox-terminos').is(':checked') ||  $('#password1').val().trim() != $('#password2').val().trim() || $('#password1').val().trim()=='' || $('#password2').val().trim()=='' || $('#sector').val()==null){
+
+                 if( !$('#checkbox-terminos').is(':checked') ) {
                 //alert('Debe aceptar los terminos y condiciones');
                 $('#texto_mensaje').text('Debe aceptar los terminos y condiciones');
-                    $('#mensajes').modal('show');
-                return;
+                $('#mensajes').modal('show');
+                return false;
             }
             if( $('#password1').val().trim() != $('#password2').val().trim()){
                 //alert(' {% trans 'Las contraseñas no coinciden' %} ')
                 $('#texto_mensaje').text('Las contraseñas no coinciden');
                 $('#mensajes').modal('show');
-                return;
+                return false;
             }
             if( $('#password1').val().trim()=='' || $('#password2').val().trim()==''){
                 //alert(' {% trans 'el campo contraseña es requerido' %} ')
                 $('#texto_mensaje').text('el campo contraseña es requerido');
                 $('#mensajes').modal('show');
-                return;
+                return false;
             }
             if( $('#password1').val().trim().length<8 || $('#password2').val().trim().length<8){
                 //alert(' {% trans 'el campo contraseña debe ser mayor a ocho caracteres' %} ')
                 $('#texto_mensaje').text('el campo contraseña \ndebe ser mayor a ocho caracteres');
                 $('#mensajes').modal('show');
-                return;
+                return false;
             }
+            if($('#sector').val()==null){
+                $('#texto_mensaje').text('seleccione un sector');
+                $('#mensajes').modal('show');
+                return false;
+            }
+            }else{
 
-            if(validarForm($('#ivo-form input'))){
+                if(validarForm($('#ivo-form input'))){
                 registrar();    
             }else{
                 console.log('false');
             }
+            }
+           
+
+            
             
         });
     });

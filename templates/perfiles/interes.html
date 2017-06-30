@@ -3,7 +3,21 @@
 
 					<form class="ivo-formularioConf-form" method="POST"  id="form_interes1">
 					{% csrf_token %}
-						<h1>Intereses</h1>
+					{% if user.get_tipo_usuario == 'I' or user.get_tip_usuario == 'P' %}
+					<h1>Área Laboral</h1>
+						<div class="row">
+							<div class="col-md-3">
+								<label class="ivo-label-ampliado-lista">Área Laboral</label>
+							</div>
+							<div class="col-md-9">
+								<div class="ivo-mensajes-select">
+									<div class="dropdown">
+									  <button class="btn btn-default dropdown-toggle ivo-drop-ampliado-lista" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" multiple>
+									   Seleccione su area laboral 
+									    <span class="caret"></span>
+
+					{%else%}
+					<h1>Intereses</h1>
 						<div class="row">
 							<div class="col-md-3">
 								<label class="ivo-label-ampliado-lista">Mis Intereses</label>
@@ -11,21 +25,25 @@
 							<div class="col-md-9">
 								<div class="ivo-mensajes-select">
 									<div class="dropdown">
-									  <button class="btn btn-default dropdown-toggle ivo-drop-ampliado-lista" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+									  <button class="btn btn-default dropdown-toggle ivo-drop-ampliado-lista" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" multiple>
 									   Seleccione sus intereses 
 									    <span class="caret"></span>
+
+					{%endif%}
+						
+							
 									  </button>
-									  <ul class="dropdown-menu ivo-select-ampliado-lista" aria-labelledby="dropdownMenu1">
+									  <ul class="dropdown-menu ivo-select-ampliado-lista" aria-labelledby="dropdownMenu1" >
 									  {%for interes in intereses %}
 									 	{% if interes.id in interesesusuario %}
-									    <li>
+									    <li class="li_interes">
 									    	<input type="checkbox" id="{{interes.id}}" class="regular-checkbox"  name="interes-{{interes.id}}"  checked/>
 											<label class="no-margin" for="{{interes.id}}"></label>						    		
 									    	<div>{{interes.nombre}}</div>
 									   	</li>
 									   	{% else %}
 
-									    <li>
+									    <li class="li_interes">
 									    	<input type="checkbox" id="{{interes.id}}" class="regular-checkbox"  name="interes-{{interes.id}}" />
 											<label class="no-margin" for="{{interes.id}}"></label>						    		
 									    	<div>{{interes.nombre}}</div>

@@ -74,14 +74,14 @@
 							{% endif %}
 
 					   	{% for artista in artistas %}
+					   		<!-- ESTO PUEDE NO ESTARSE EJECUTANDO NUNCA-->
 							{% if artista.counter0 == 0 or artista.counter0 == 6 %}
 					   		 <div class="row">
 							{% endif %}
 							
 					        <div class="col-xs-4 col-sm-4 col-md-2 ivo-artistas-panel-item" >
 
-					        <!-- REVISAR ESTO ... LINK A PERFIL DE USUARIO ALTERA EL CSS -->
-					        <!-- REVISAR ESTO ... HACER CONDICION IF PARA CUANDO NO TIENE IMAGEN DEFINIDA -->
+					       
 					        	{% if artista.id_usuario.avatar %}
 					        	
 					        	<!--img src="{{ artista.id_usuario.avatar.url }}/" class="img-responsive"-->

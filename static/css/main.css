@@ -1547,7 +1547,7 @@ br.clear {clear: both;}
 			color: white;
 			font-family: 'exo-bold';
 			border-bottom: 4px solid rgba(212, 0, 103,0.7);
-			width: 77%;
+			width: 62%;
 			text-transform: uppercase;
 			margin-top: 40px;
 
@@ -1559,13 +1559,15 @@ br.clear {clear: both;}
 
 	.ivo-intro-contenido-prvIzq {
 		background-color: black;
+		background-size: cover;
+
 	}
 
 		.ivo-intro-contenido-prvIzq > div > div > h2 {
 			color: white;
 			font-weight: bold;
 			border-bottom: 4px solid #D40067;
-			width: 50%;
+			width: 71%;
 			text-transform: uppercase;
 			margin-top: 40px;
 		}
@@ -1586,12 +1588,15 @@ br.clear {clear: both;}
 	.ivo-intro-contenido-prvDch {
 		background-image: url(../img/proveedores.jpg);
 		background-size: cover;
-		padding-top: 140px;
+		
+		background-size: 110% 125%;
+    	background-position: 70% -45px;
+    	padding-bottom: 60px;
 	}
 
 	.ivo-boton-proveedores {
 			border-color: rgba(212, 0, 103,0.7);
-			margin-left: 40%;
+			margin-left: 70%;
 		}
 
 		.ivo-boton-proveedores > span {
@@ -1786,7 +1791,7 @@ br.clear {clear: both;}
 
 		.ivo-form-gooBot > span {
 			background-color: red !important;
-			padding: 8px 100px 11px;
+			padding: 8px 110px 11px;
 		}
 
 	.ivo-form-avisoFan {
@@ -5044,7 +5049,7 @@ br.clear {clear: both;}
 	margin-top: 40px;
 }
 
-	.ivo-audicion-formulario-form > form > textarea {
+	.ivo-audicion-formulario-form > textarea {
 		width: 100%;
 	    border: 3px solid black;
 	    resize: none;
@@ -5052,12 +5057,12 @@ br.clear {clear: both;}
 	    height: 199px;
 	}
 
-		.ivo-audicion-formulario-form > form > button {
+		.ivo-audicion-formulario-form > button {
 			margin-top: 40px;
 		    float: right;
 		}
 
-	.ivo-audicion-formulario-form > form > h2 {
+	.ivo-audicion-formulario-form > h2 {
 		text-transform: uppercase;
 		color: gray;
 		font-family: 'exo-l';

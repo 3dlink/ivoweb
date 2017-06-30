@@ -77,7 +77,7 @@
 
 							<li>
 							<a href='/casting/categoria/{{categoria.id}}/' style="text-decoration: none; color: white;">
-								{{categoria.nombre}}
+								{{categoria.name}}
 								</a>
 							</li>
 							
@@ -92,7 +92,7 @@
 				<div class="row ivo-castings">
 					<div class="col-md-12 col-lg-12">
 					    <div class="row">
-					    {% if castings.object_list|length == 0 %}
+					    {% if castings.count == 0 %}
 								<h4> No hay resultados para esta busqueda</h4>
 							{% endif %}
 

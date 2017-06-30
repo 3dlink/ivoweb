@@ -13,6 +13,7 @@
 	right: 24px;
 	position: fixed;
 	width: 300px;
+	margin-right: -370px;
 }
 
 #live-chat header {

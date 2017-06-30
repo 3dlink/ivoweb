@@ -18,6 +18,7 @@ from django.db.models import Q
 from itertools import chain
 from django.core.mail import send_mail, BadHeaderError
 from django.conf import settings
+from datetime import date
 
 
 
@@ -25,12 +26,7 @@ from django.conf import settings
 # Create your views here.
 def facebook(request):
     if request.method=='POST':
-
-
-        nuevo=True;
-        
-        
-        
+        nuevo=True;        
         obj, created =User.objects.get_or_create(email=request.POST['email'])
        #genero=request.POST['genero'],empresa_provedor=request.POST['name'],razon_social=request.POST['name'],first_name=request.POST['first_name'], last_name=request.POST['last_name'],tipo_usuario=request.POST['tipo_usuario']
             
@@ -79,7 +75,7 @@ def registrate(request):
     etnias = Etnia.objects.all()
     artes = TipoArte.objects.all()
     generos = GeneroArtistico.objects.all()
-    pais= Pais.objects.all()
+    pais= Pais.objects.all().order_by('nombre')
     
     
     context = {'from': FormRegistro, 'cabellos':cabellos, 'ojos':ojos, 'etnias':etnias, 'artes':artes, 'generos':generos, 'paises':pais}
@@ -104,7 +100,7 @@ def buscar_ciudad(request):
 
 def registrate_artistas(request):
     if request.method == 'POST':
-        #import pdb; pdb.set_trace()
+       
         mensaje = ''
         error = ''
         form = FormRegistro(request.POST) 
@@ -135,7 +131,7 @@ def registrate_artistas(request):
             mensaje = form_invalid(form)
         
         return HttpResponse(json.dumps(mensaje), content_type="application/json")
-        #return redirect('/perfil/configuraciongeneral/')
+       
 
 
 
@@ -193,7 +189,7 @@ def RegistroIndustria(request):
 
         return HttpResponse(json.dumps({'mensaje': mensaje, 'data': xHTML}), content_type="application/json")
     sectores = Industria.objects.filter(tipo='I')
-    pais= Pais.objects.all()
+    pais= Pais.objects.all().order_by('nombre')
     context = {'form': FormRegistroIndustria,'sectores':sectores,'paises':pais }
     
     return render(request, "registraIndustria.html", context)
@@ -242,7 +238,7 @@ def industria(request):
 
 #REVISAR ESTOS INTERERES
 def fan(request):
-    intereses = TipoArte.objects.all()    
+    intereses = Intereses.objects.all()    
     context = {'from': FormRegistroFan, 'intereses':intereses}
     return render(request, "fanatico.html", context)
 
@@ -260,8 +256,9 @@ def registrofan(request):
                 registro.save()
                 user = authenticate(username=registro.email, password=request.POST['password1'])
                 if user is not None:
+                    import pdb; pdb.set_trace();
                     if user.is_active:
-                        SectorIndustria.objects.create(id_sector=Industria.objects.filter(tipo='F')[0].id, id_usuario=user)
+                        SectorIndustria.objects.create(id_sector=Industria.objects.get(tipo='F'), id_usuario=user)
                         login(request, user)
                         mensaje = {'mensaje': str(_('Registro realizado con exito')), 'success': True}
                     else:
@@ -318,7 +315,7 @@ def RegistroProveedor(request):
 
         return HttpResponse(json.dumps({'mensaje': mensaje, 'data': xHTML}), content_type="application/json")
     sectores = Industria.objects.filter(tipo='P')
-    pais= Pais.objects.all()
+    pais= Pais.objects.all().order_by('nombre')
     context = {'form': FormRegistroIndustria,'sectores':sectores,'paises':pais}
     
     return render(request, "registroproveedor.html", context)
@@ -335,7 +332,7 @@ def artistadashboard(request):
         #DEBERIA HACERLO DE LA USUARIO-ARTE
         generos = UsuarioArteGenero.objects.filter(id_usuario=request.user)
         posts= Post.objects.all().order_by("-fecha_creacion")[:5]
-        castings = Casting.objects.all().order_by("fecha_fin")[:6]
+        castings = Casting.objects.filter(fecha_fin__gte=date.today()).order_by("fecha_fin")[:6]
         siguiendo = Seguidores.objects.filter(origen=request.user)[:5]
         seguidores = Seguidores.objects.filter(destino=request.user)[:5]
         numero_seguidores =len(Seguidores.objects.filter(destino=request.user))
@@ -343,7 +340,7 @@ def artistadashboard(request):
         recibidos = Mensaje.objects.filter(destino=request.user.id)
         industrias = Industria.objects.all()
         proveedores = SectorIndustria.objects.filter(id_sector__in=Industria.objects.filter(tipo='P').values_list('id',flat=True))[:4]
-        paises=Pais.objects.all()
+        paises=Pais.objects.all().order_by('nombre')
         
 
         if len(generos)>0:
@@ -368,7 +365,7 @@ def artistadashboard(request):
         cabellos = Cabellos.objects.all()
         ojos = Ojos.objects.all()
         etnias = Etnia.objects.all()
-        paises=Pais.objects.all()
+        paises=Pais.objects.all().order_by('nombre')
         
 
 
@@ -427,7 +424,7 @@ def index1(request):
                         return redirect ('/artistadashboard/')
                 else:
                     print ("entrando como industria por primera vez")
-                    return redirect('/perfil/configuraciongeneral/')
+                    return redirect('/artistadashboard/')
         else:
             print ("entrando como NO SE QUE")
             return HttpResponse("Nombre de usuario o contraseña no valido")
@@ -452,7 +449,7 @@ def index(request):
                     return redirect ('/artistadashboard/')
             else:
                     #VER COMO VALIDO QUE SEAN LAS PROXIMAS ENTRADAS DE LA INDUSTRIA
-                return redirect('/perfil/configuraciongeneral/')
+                return redirect('/artistadashboard/')
     #return render(request.META['HTTP_REFERER'], {'login_form': form })
 
     return render (request, "home.html", {'login_form': form })
@@ -520,7 +517,7 @@ def busqueda_avanzada(request):
 
             results = results_ind.filter(ind) | SectorIndustria.objects.filter(id_usuario__in=results_usr)
 
-            import pdb; pdb.set_trace()
+            #import pdb; pdb.set_trace()
         else:
             control = 0
             #results_final = UsuarioArteGenero.objects.all()
@@ -604,6 +601,9 @@ def terminos(request):
 
 def planes(request):
     return render(request, "estaticas/planes.html", {})
+
+def pagar(request):
+    return render(request, "compras/pagar.html", {})
 
 def faq(request):
     return render(request, "estaticas/faq.html", {})

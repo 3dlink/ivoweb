@@ -504,8 +504,8 @@
 
 @media all and (max-width: 768px) {
 
-	.ivo-header-panelUsuario-perfil, .ivo-header-panelUsuario-notificacion {
-		display: none;
+	.foto_header, .ivo-header-panelUsuario-notificacion{
+		display:none;
 	}
 
 	.ivo-header-panelMenu div, .ivo-header-logo div.logo { height: 50px; }
@@ -947,6 +947,7 @@
 	.ivo-intro-contenido-artIzq-top {padding-top: 20px;}
 
 	.ivo-form-fanBot > span { padding: 8px 30px 11px; }
+	.ivo-form-gooBot > span { padding: 8px 40px 11px; }
 
 	.ivo-mensajes-select {
 		width: 90%;

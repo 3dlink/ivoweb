@@ -144,11 +144,3 @@ class MenuUsuarioView(APIView):
         return Response(serializer.data) 
         
 
-# """
-# /*Estilo del reloj Atras*/
-#     var $clock = $('#clock-atras');
-    
-#     $clock.countdown('2017-04-15 23:59:59', function(event) {
-#     $(this).html(event.strftime('<p><span class="block-orange"><img src='+base_url+'/assetsfrontend/img/ico-calendario.png alt=""/> Quedan %D días </span> %H:%M:%S </p>'));
-#     });
-# """

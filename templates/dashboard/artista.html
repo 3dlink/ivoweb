@@ -70,6 +70,7 @@
 									
 										$('#persona_mensaje').text(data.destino)
 					        			$('#mensaje_abierto').text(data.mensaje)
+					        			$('#avatar_mensaje').attr('src', data.avatar)
 					        			if(data.imagen!=''){
 					        				$('#enlace_imagen').attr('href',data.imagen)
 					        			$('#enlace_imagen').text('descargar imagen adjunta')
@@ -79,6 +80,7 @@
 					        				$('#enlace_archivo').attr('href',data.archivo)
 					        			$('#enlace_archivo').text('descargar archivo adjunto')
 					        			}
+					        			$('#revisar').show();
 
 
 					        			
@@ -119,7 +121,7 @@
         		$('#lista_enviados').show()
         		$('#lista_recibidos').hide()
         		$('#redactar').hide()
-        		$('#revisar').show()
+        		$('#revisar').hide()
         		
         	});
 
@@ -128,12 +130,12 @@
         		// body...
         		$('#selector_mensaje').replaceWith("<span class='icon-paper-plane ivo-font-azulClaro' id='selector_mensaje'></span>")
         		$('#texto_selector_mensaje').replaceWith("<i id='texto_selector_mensaje'>Mensajes Enviados</i>");
-        		$('#lista_enviados').show()
-        		$('#lista_recibidos').hide()
-        		$('#redactar').hide()
-        		$('#revisar').show()
-        		$('#dashboard').hide()
-        		$('#enviar_mensaje').show()
+        		$('#lista_enviados').show();
+        		$('#lista_recibidos').hide();
+        		$('#redactar').hide();
+        		$('#revisar').hide();
+        		$('#dashboard').hide();
+        		$('#enviar_mensaje').show();
         		$('body').css('background-color', 'white');        		
         	});
 
@@ -143,8 +145,8 @@
         		$('#texto_selector_mensaje').replaceWith("<i id='texto_selector_mensaje'>Mensajes Recibidos</i>")
         		$('#lista_enviados').hide()
         		$('#lista_recibidos').show()
-        		$('#redactar').hide()
-        		$('#revisar').show()
+        		$('#redactar').hide();
+        		$('#revisar').hide();
         		$('#lista_recibidos').show()
         		$('#dashboard').hide()
         		$('#enviar_mensaje').show()
@@ -160,7 +162,7 @@
         		$('#lista_enviados').hide()
         		$('#lista_recibidos').show()
         		$('#redactar').hide()
-        		$('#revisar').show()
+        		$('#revisar').hide()
         		$('#lista_recibidos').show()       		
         		
         	});
@@ -241,6 +243,11 @@
 
 			
 			.ivo-dashboard-barLateral {height: 3000px;}
+
+			select option{
+        	background-color: black;
+        	color:white;
+        }
 		</style>
 
     {% endblock %}
@@ -254,11 +261,16 @@
 					<div class="col-md-4 ivo-dashboard-barLateral">
 						<div class="row">
 							<div class="col-xs-12 col-sm-3 col-md-6">
+								{% if user.get_avatar == '' or user.get_avatar == None %}
+								<div class="ivo-dashboard-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+								{% else %}
 								<div class="ivo-dashboard-imgPerfil" style="background-image: url(/media/{{ user.get_avatar }});"></div>
+								
+								{% endif %}
 							</div>
 							<div class="col-xs-12 col-sm-6 col-md-6" style="padding:0;">
 								<ul class="ivo-dashboard-infoBasica">
-									<li class="ivo-dashboard-infoBasica-nombre">{{request.user.get_full_name}}</li>
+									<li class="ivo-dashboard-infoBasica-nombre">{{user.get_full_name}}</li>
 									<li>{{profesion.id_genero.id_tipo_arte.name}}</li>
 									<li class="ivo-dashboard-infoBasica-seguidores">
 										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>{{fans}} fans</font>
@@ -307,7 +319,7 @@
 								<div class="ivo-dashboard-separador"></div>
 							</div>
 							<div class="col-md-12">
-								<h5 class="ivo-dashboard-audiciones ivo-bold">Mis Audiciones</h5>
+								<h5 class="ivo-dashboard-audiciones ivo-bold"><a href={% url 'casting:audicionpanel' %} style="color:#333333;">Mis Audiciones</a></h5>
 							</div>
 						</div>
 						<div class="row ivo-dashboard-busquedaAv">
@@ -613,9 +625,18 @@
 						
 						{%for enviado in enviados%}
 						<li class="mensaje_lista" data-owner='{{enviado.destino.email}}' data-idmsj='{{enviado.id}}'>
-							<div  style="background-image: url(assets/img/avatar-ivo.jpg)"></div>
+							{% if enviado.destino.avatar == None or enviado.destino.avatar == '' %}
+							<div  style="background-image: url({% static 'img/avatar-ivo.jpg' %})"></div>
+                            {% else %}
+                            <div  style="background-image: url(/media/{{enviado.destino.get_avatar}})"></div>
+                            {% endif %}
+                            {% if enviado.destino.tipo_usuario == 'A' or enviado.destino.tipo_usuario == 'F' %}
 							<h5>{{enviado.destino.get_full_name}}</h5>
-							<h6>{{enviado.mensaje}}</h6>
+                            {% else %}
+                            <h5>{{enviado.destino.empresa_provedor}}</h5>
+                            {% endif %}
+
+							<h6>{{enviado.mensaje | truncatechars:20}}</h6>
 						</li>
 						{%endfor%}
 						
@@ -625,9 +646,17 @@
 						
 						{%for recibido in recibidos%}
 						<li class="mensaje_lista" data-owner='{{recibido.origen.email}}' data-idmsj='{{recibido.id}}'>
-							<div class="mensaje_lista" style="background-image: url(assets/img/avatar-ivo.jpg)"></div>
-							<h5>{{recibido.origen.get_full_name}}</h5>
-							<h6>{{recibido.mensaje}}</h6>
+							{% if recibido.origen.avatar == None or recibido.origen.avatar == '' %}
+                            <div  style="background-image: url({% static 'img/avatar-ivo.jpg' %})"></div>
+                            {% else %}
+                            <div  style="background-image: url(/media/{{recibido.origen.get_avatar}})"></div>
+                            {% endif %}
+							 {% if recibido.origen.tipo_usuario == 'A' or recibido.origen.tipo_usuario == 'F' %}
+                            <h5 style="text-align: left;">{{recibido.origen.get_full_name}}</h5>
+                            {% else %}
+                            <h5 style="text-align: left;">{{recibido.origen.empresa_provedor}}</h5>
+                            {% endif %}
+							<h6>{{recibido.mensaje | truncatechars:20}}</h6>
 
 						</li>
 						{%endfor%}
@@ -639,12 +668,12 @@
 
 				<!-- INICIO REVISAR MENSAJES -->
 
-		<div id="revisar" hidden>
+		<div id="revisar" style="display:none;">
 					
 			<div class="col-sm-8 col-md-9 ivo-formularioConf ivo-mensajes-central">
 					<div class="row ivo-mensaje-header">
 						<div class="col-sm-3 col-md-2 ivo-mensaje-headerImg">
-							<img src="assets/img/avatar-ivo.jpg">
+							<img id="avatar_mensaje" src="assets/img/avatar-ivo.jpg">
 						</div>
 						<div class="col-sm-9 col-md-10">
 							<h3 class="ivo-bold" id="persona_mensaje"></h3>

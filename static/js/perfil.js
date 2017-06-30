@@ -28,9 +28,19 @@ $(function(){
         if($(this).attr('id')=='experiencia'){
             $('#div-boton-subir').hide();
         }
+
+        if($(this).attr('id')=='video'){
+            $('#titulo_modal_galeria').text('Ver Videos');
+        }
+
+        if($(this).attr('id')=='image'){
+            $('#titulo_modal_galeria').text('Ver Fotos');
+        }
+
     });
     paginacion_archivo(pagina_archivo, false, 'image');
     paginacion_archivo(pagina_archivo, false, 'audio');
+    paginacion_archivo(pagina_archivo, false, 'video');
     $('.subir_archivo').click(function(){
 
         $(input).click();
@@ -188,8 +198,8 @@ function paginacion_archivo(nro_pagina, mover_scroll, tipo_archivo){
                     $('#gallery-image').html(data.archivos);
                 }else if(tipo_archivo == 'audio'){
                     $('#gallery-audio').html(data.archivos);
-                }else if(tipo_archivo == 'audio'){
-                    $('#gallery-audio').video(data.archivos);
+                }else if(tipo_archivo == 'video'){
+                    $('#gallery-video').html(data.archivos);
                 }
 
                 $('#item_paginas').html(data.item_paginas)

@@ -47,7 +47,11 @@
 						<div class="row">
 							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
 							<!-- FALTA IMAGEN GENERICA -->
+							{%if result.id_usuario.avatar == None or result.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
 								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							{% endif %}
 							</div>
 							<!-- Informacion del perfil -->
 							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
@@ -107,7 +111,11 @@
 						<div class="row">
 							<!-- Imagen del perfil -->
 							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+								{%if result.id_usuario.avatar == None or result.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
 								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							{% endif %}
 							</div>
 							<!-- Informacion del perfil -->
 							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
@@ -159,7 +167,11 @@
 						<div class="row">
 							<!-- Imagen del perfil -->
 							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+								{%if result.id_usuario.avatar == None or result.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
 								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							{% endif %}
 							</div>
 							<!-- Informacion del perfil -->
 							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
@@ -216,7 +228,11 @@
 						<div class="row">
 							<!-- Imagen del perfil -->
 							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+								{%if result.id_usuario.avatar == None or result.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
 								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							{% endif %}
 							</div>
 							<!-- Informacion del perfil -->
 							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
@@ -269,7 +285,11 @@
 						<div class="row">
 							<!-- Imagen del perfil -->
 							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+								{%if result.id_usuario.avatar == None or result.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
 								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							{% endif %}
 							</div>
 							<!-- Informacion del perfil -->
 							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">

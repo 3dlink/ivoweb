@@ -5,7 +5,7 @@ class FormRegistro(forms.ModelForm):
     
     class Meta:
         model = Casting
-        exclude = ['imagen_principal','descripcion_breve', 'autor']
+        exclude = ['imagen_principal','descripcion_breve', 'autor','tatuaje','publico']
 
 
 class FormAudicion(forms.ModelForm):

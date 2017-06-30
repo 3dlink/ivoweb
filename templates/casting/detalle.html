@@ -116,7 +116,7 @@
 						
 							<div class="col-md-12 ivo-casting-imagen1" style="background-image:url('{% static 'img/incubus1.jpg'%}');"></div>
 							{% else %}
-							<div class="col-md-12 ivo-casting-imagen1" style="background-image:url(/media/{{ casting.imagen_1 }});"></div>
+							<div class="col-md-12 ivo-casting-imagen1" style="background: transparent url(/media/{{ casting.imagen_1 }}) left center no-repeat; background-size:cover"></div>
 							{%endif%}						
 						
 						</div>
@@ -125,7 +125,7 @@
 							{%if casting.imagen_2 == '' %}						
 							<div class="col-sm-6 col-md-6 ivo-casting-imagen2" style="background-image:url('{% static 'img/incubus2.jpg'%}');"></div>
 							{% else %}
-							<div class="col-sm-6 col-md-6 ivo-casting-imagen2" style="background-image:url(/media/{{ casting.imagen_2 }});"></div>
+							<div class="col-sm-6 col-md-6 ivo-casting-imagen2"  style="background: transparent url(/media/{{ casting.imagen_2 }}) left center no-repeat; background-size:cover"></div>
 							{%endif%}
 							
 							<div class="col-sm-6 col-md-6 ivo-casting-infoLat">
