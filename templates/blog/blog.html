@@ -19,12 +19,12 @@
 {% block content %}
 <!-- Full Page Image Background Carousel Header -->
 	    <header id="myCarousel" class="carousel slide">
-	        <!-- Indicators -->
+	        <!-- Indicators>
 	        <ol class="carousel-indicators">
 	            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
 	            <li data-target="#myCarousel" data-slide-to="1"></li>
 	            <li data-target="#myCarousel" data-slide-to="2"></li>
-	        </ol>
+	        </ol -->
 
 	        <!-- Wrapper for Slides -->
 	        <div class="carousel-inner">
@@ -38,28 +38,77 @@
 							</br>
 							Demuestra tu talento
 						</h1>
+						{% comment %}
 						<a href="#" class="ivo-boton ivo-catsting-carousel-boton">Hacer Casting / Audicion</a>
 						<div class="ivo-white-box"></div>
+						{% endcomment %}
 	                </div>
 	            </div>
-	            <div class="item">
+	           <div class="item">
 	                <!-- Set the second background image using inline CSS below. -->
-	                <div class="fill" style="background-image:url({% static 'img/Banner-3.jpg' %});"></div>
+	                <div class="fill" style="background-image:url({% static 'img/Banner3.png' %});"></div>
+
+	                <div class="carousel-caption ivo-intro-texto">
+	                	<h3 style="text-align: right;">Haz tu casting gratis aqui<br> y consigue el talento que necesitas</h3>
+						<h4 style="text-align: right;">Agencias de Casting, Agencias de publicidad</br>productores, empresas de eventos,</br> academias, teatros... </h4>
+						{% comment %}
+						{% if user.is_authenticated %}			
+							{% if user.tipo_usuario != 'F' %}			
+						<a href={% url 'casting:casting_inicio'%} class="ivo-boton ivo-home-boton pull-right" style="padding-left: 80px; padding-right: 80px;"> Descubre </a>
+							{% endif %}
+						{% else %}
+							<a href={% url 'seleccionregistro'%} class="ivo-boton ivo-home-boton pull-right" style="padding-left: 80px; padding-right: 80px;"> Unete </a>
+						{% endif %}
+						{% endcomment %}
+						<div class="ivo-white-box pull-right"></div>
+	                </div>
 	                
 	            </div>
 	            <div class="item">
 	                <!-- Set the third background image using inline CSS below. -->
-	                <div class="fill" style="background-image:url({% static 'img/Banner-2-Artistas.jpg' %});"></div>
-	                
-	            </div>
-	            <div class="item">
-	                <!-- Set the third background image using inline CSS below. -->
-	                <div class="fill" style="background-image:url({% static 'img/Banner-4-Provedor.jpg' %});"></div>
+	                <div class="fill" style="background-image:url({% static 'img/Banner-2-Artistas.png' %});"></div>
+	                <div class="carousel-caption ivo-intro-texto">
+	                	<h3 style="text-align: left;">forma parte de la base de datos<br>de talentos artisticos<br> mas grande de latinoamerica</h3>
+						<h4 style="text-align: left;">bailarines, cantantes, actores, y modelos </h4>
+						{% comment %}
+						{% if user.is_authenticated %}			
+								
+						<a href={% url 'listado:artistas'%}  class="ivo-boton ivo-home-boton pull-left" style="padding-left: 80px; padding-right: 80px;">Descubre     </a>
+							
+						{%else%}
+							<a href={% url 'seleccionregistro'%}  class="ivo-boton ivo-home-boton pull-left" style="padding-left: 80px; padding-right: 80px;">Unete     </a>
+						{%endif%}
+						{% endcomment %}	
+						<div class="ivo-white-box pull-right"></div>
+	                </div>
 	               
 	            </div>
+	             <div class="item">
+	                <!-- Set the third background image using inline CSS below. -->
+	                <div class="fill" style="background-image:url({% static 'img/Banner-4-Provedor.png' %});"></div>
+	                 <div class="carousel-caption ivo-intro-texto ">
+	                	<h3 style="text-align: right;">La mejor web que ofrece <br> lista de proveedores para tus proyectos</h3>
+						<h4 style="text-align: right;">fotografos, make up, peinados</br>director de arte, escenografo... </h4>
+						{% comment %}
+						{% if user.is_authenticated %}	
+							<a href={% url 'listado:proveedores'%}  class="ivo-boton ivo-home-boton pull-right" style="padding-left: 80px; padding-right: 80px;">Descubre     </a>
+						{%else%}
+							<a href={% url 'seleccionregistro'%}  class="ivo-boton ivo-home-boton pull-right" style="padding-left: 80px; padding-right: 80px;">Unete     </a>
+						{%endif%}
+						{% endcomment %}	
+						<div class="ivo-white-box pull-right"></div>
+	                </div>
+	                
+	            </div>
 	            <div class="item">
 	                <!-- Set the third background image using inline CSS below. -->
-	                <div class="fill" style="background-image:url({% static 'img/Banner1-3Casting.jpg' %});"></div>
+	                <div class="fill" style="background-image:url({% static 'img/Banner-1-3Casting.png' %});"></div>
+	                <div class="carousel-caption ivo-intro-texto ">
+	                	<h3 style="text-align: left;">Haz tu casting online</h3>
+						<h4 style="text-align: left;">desde tu celular</br>y envia de inmediato </h4>
+						<a href="#descarga" class="ivo-boton ivo-home-boton pull-left">Descarga la app de Ivo Talents</a>
+						<div class="ivo-white-box pull-right"></div>
+	                </div>
 	               
 	            </div>
 	        </div>

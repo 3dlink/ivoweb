@@ -32,6 +32,9 @@ class Casting(models.Model):
 
     def __str__(self):
         return self.titulo
+    @property    
+    def model_name(self):
+        return self._meta.verbose_name
 
 
 class Filtro(models.Model):

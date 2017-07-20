@@ -2,14 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 # Register your models here.
-from .models import ContactCo
-from .models import TipoArte
-from .models import GeneroArtistico
-from .models import User
-from .models import EventoCo
-from .models import UsuarioArte
-from .models import UsuarioArteGenero,Pais, Ciudad
-from .models import Seguidores,Cabellos, Ojos, Etnia, Intereses, InteresesUsuario, Industria, SectorIndustria, Proveedor, SectorProveedor
+from .models import *
 
 
 
@@ -36,3 +29,4 @@ admin.site.register(SectorProveedor)
 admin.site.register(Proveedor)
 admin.site.register(Pais)
 admin.site.register(Ciudad)
+admin.site.register(Pregunta)

@@ -1,3 +1,4 @@
+{% load notifications_tags %}
 {% load staticfiles %}
 <!-- Header -->
 
@@ -39,7 +40,7 @@
                         </li>
                          
                         <li id="id_perfil">                            
-                            <a href="/perfil/{{user.get_uuid}}/">Perfil</a>
+                            <a href="/perfil/{{user.id}}/">Perfil</a>
                         </li>
                         {%endif%}
                         <li id="id_configuracion">
@@ -58,11 +59,12 @@
                     </ul>
                         </div>
                         <div class="ivo-header-panelUsuario-notificacion ivo-header-panelUsuario-notificacion-carrito">
-                            <span id="ivo-notificaciones" class="icon-bell ivo-font-azulClaro" aria-hidden="true"></span>
+                            <span id="ivo-notificaciones" class="icon-bell ivo-font-azulClaro" aria-hidden="true"> </span>{% live_notify_badge  %}
                             <div class="ivo-notificaciones-triangulo">
                                 <img src="{% static 'img/triangulo.png' %}  ">
                             </div>
-                            <ul class="ivo-notificaciones-subMenu">
+                            {% live_notify_list classes="ivo-notificaciones-subMenu" %}
+                            <!--ul id='ul-notificaciones' class="ivo-notificaciones-subMenu">
                                 <li>
                                     <div>
                                         <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
@@ -71,71 +73,8 @@
                                     <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
                                     <br class="clear">
                                 </li>
-                                <li>
-                                    <div>
-                                        <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
-                                    </div>
-                                    <h6>Titulo Es Un</h6>
-                                    <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
-                                    <br class="clear">
-                                </li>
-                                <li>
-                                    <div>
-                                        <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
-                                    </div>
-                                    <h6>Titulo Es Un</h6>
-                                    <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
-                                    <br class="clear">
-                                </li>
-                                <li>
-                                    <div>
-                                         <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
-                                    </div>
-                                    <h6>Titulo Es Un</h6>
-                                    <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
-                                    <br class="clear">
-                                </li>
-                                <li>
-                                    <div>
-                                         <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
-                                    </div>
-                                    <h6>Titulo Es Un</h6>
-                                    <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
-                                    <br class="clear">
-                                </li>
-                                <li>
-                                    <div>
-                                        <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
-                                    </div>
-                                    <h6>Titulo Es Un</h6>
-                                    <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
-                                    <br class="clear">
-                                </li>
-                                <li>
-                                    <div>
-                                         <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
-                                    </div>
-                                    <h6>Titulo Es Un</h6>
-                                    <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
-                                    <br class="clear">
-                                </li>
-                                <li>
-                                    <div>
-                                         <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
-                                    </div>
-                                    <h6>Titulo Es Un</h6>
-                                    <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
-                                    <br class="clear">
-                                </li>
-                                <li>
-                                    <div>
-                                         <div style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
-                                    </div>
-                                    <h6>Titulo Es Un</h6>
-                                    <p>Contenido de la notificacion aqui, es un texto no tan largo y resumido</p>
-                                    <br class="clear">
-                                </li>
-                            </ul>
+                               
+                            </ul-->
                         </div>  
                         {% if user.get_tipo != 'F' %}
                         <div class="ivo-header-panelUsuario-notificacion ivo-header-carrito">

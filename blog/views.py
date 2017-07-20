@@ -77,7 +77,7 @@ def busqueda(request):
 
 	results = results.filter(qq)
 	
-	import pdb;pdb.set_trace()
+	#import pdb;pdb.set_trace()
 	paginator = Paginator(results, 6)
 	page = request.GET.get('page',1)
 	try:

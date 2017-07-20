@@ -12,6 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from datetime import date
 from django.db.models import Q
 from django.core.mail import send_mail, BadHeaderError
+from notifications.signals import notify
 
 
 # Create your views here.
@@ -212,7 +213,8 @@ def crear(request):
 				#import pdb; pdb.set_trace()
 				for element in correos:
 					try:
-						send_mail("Nuevo Casting en IvoTalents",element.id_usuario.first_name +' '+element.id_usuario.last_name +'\n\n  Se ha creado un casting que se ajusta a tus caracteristicas \n\n  Revisalo aqui: http://ivotalents.serveblog.net/casting/id/'+casting.id, 'correo@ivotalents.com', [str(element.id_usuario.email),'ati2mortiz@gmail.com'])
+						send_mail("Nuevo Casting en IvoTalents",element.id_usuario.first_name +' '+element.id_usuario.last_name +'\n\n  Se ha creado un casting que se ajusta a tus caracteristicas \n\n  Revisalo aqui: http://ivotalents.serveblog.net/casting/id/'+str(casting.id)+'/', 'correo@ivotalents.com', [str(element.id_usuario.email),'ati2mortiz@gmail.com'])
+						notify.send(casting.autor, recipient=element.id_usuario, verb='ha creado un Nuevo Casting')
 					except BadHeaderError:
 						pass
 				
@@ -322,7 +324,7 @@ def panel (request):
 	castings = Casting.objects.filter(fecha_fin__gte=date.today()).order_by("fecha_fin")[:6]
 	fincastings = Casting.objects.filter(autor=request.user, fecha_fin__lt=date.today())
 	usercastings = Casting.objects.filter(autor=request.user,fecha_fin__gte=date.today()).order_by("fecha_fin")[:6]
-	proveedores = SectorIndustria.objects.filter(id_sector=Industria.objects.filter(tipo='P'))[:4]
+	proveedores = SectorIndustria.objects.filter(id_sector__in=Industria.objects.filter(tipo='P').values_list('id',flat=True))[:4]
 	#import pdb; pdb.set_trace()
 	return render(request, 'casting/castingpanel.html',{'proveedores':proveedores,'castings':castings, 'usercastings':usercastings,'fincastings':fincastings})
 
@@ -408,7 +410,8 @@ def casting_aud(request,idaudicion):
 		# else:
 		# 	audi = ' <div class="row"><div class="col-md-12 ivo-mensaje-contenido ivo-mensaje-contenido-audicion"><img src="'
 		# 	audi += 'cualquier_imagen.jpg'
-		elif audicion.archivo.name.endswith('.mp3'):
+		
+		elif audicion.archivo.name.endswith('.mp3') or audicion.archivo.name.endswith('.wav') or audicion.archivo.name.endswith('.ogg') or audicion.archivo.name.endswith('.wma') or audicion.archivo.name.endswith('.aac') or audicion.archivo.name.endswith('.midi'):
 			audi = '<div class="row"><div class="col-md-12 ivo-mensaje-contenido ivo-mensaje-contenido-audicion">'
 			audi += '<div class="ivo-mensaje-contenedorAudio ivo-mensaje-contenedorAudio-noBorde ivo-contenedorAudio-bck1">'
 			audi += '<div class="ivo-mensaje-contenedorAudio-carga" id = "progreso_audio-1" style="width: 0%;"></div>'
@@ -423,7 +426,8 @@ def casting_aud(request,idaudicion):
 			audi += '</div>'
 			audi += '</div>'
 			audi += '</div>'
-		elif audicion.archivo.name.endswith('.mp4') or audicion.archivo.name.endswith('.ogg'):
+			
+		elif audicion.archivo.name.endswith('.mp4') or audicion.archivo.name.endswith('.mpg') or audicion.archivo.name.endswith('.mpge') or audicion.archivo.name.endswith('.avi') or audicion.archivo.name.endswith('.mov'):
 			audi = ' <div class="row"><div class="col-md-12 ivo-mensaje-contenido ivo-mensaje-contenido-audicion"><video width="300px" height="300px" controls><source src="'
 			audi += audicion.archivo.url
 			audi += '"> </video>'

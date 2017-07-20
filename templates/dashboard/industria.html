@@ -316,7 +316,7 @@
 										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
 									</li>
 									<li class="ivo-dashboard-infoBasica-enlace">
-										<a href="/perfil/{{request.user.get_uuid}}">Ver Mi Perfil</a>
+										<a href="/perfil/{{request.user.id}}">Ver Mi Perfil</a>
 									</li>
 								</ul>
 							</div>
@@ -507,7 +507,7 @@
 									{%endfor%}
 
 									<li class="row ivo-dashboard-tope ivo-dashboard-listaPersonas ivo-dashboard-inferior text-center ivo-dashboard-listaPersonas-boton">
-										<a class="ivo-dashboard-verTodo" href="/perfil/{{request.user.get_uuid}}/seguidores/">Ver Todos</a>
+										<a class="ivo-dashboard-verTodo" href="/perfil/{{request.user.id}}/seguidores/">Ver Todos</a>
 									</li>
 								</ul>
 							</div>
@@ -535,7 +535,7 @@
 								{%endfor%}
 									
 									<li class="row ivo-dashboard-tope ivo-dashboard-listaPersonas ivo-dashboard-inferior text-center ivo-dashboard-listaPersonas-boton">
-										<a class="ivo-dashboard-verTodo" href="/perfil/{{request.user.get_uuid}}/siguiendo/">Ver Todos</a>
+										<a class="ivo-dashboard-verTodo" href="/perfil/{{request.user.id}}/siguiendo/">Ver Todos</a>
 									</li>
 								</ul>
 							</div>
@@ -629,7 +629,7 @@
 
 								<!-- Seccion Resumen de Artistas -->
 								{% for talento in talentos %}
-								<a href="/perfil/{{talento.id_usuario.get_uuid}}/">
+								<a href="/perfil/{{talento.id_usuario.id}}/">
 								<div class="col-sm-4 ivo-artistas-panel-item" >								
 								{% if talento.id_usuario.avatar == ''%}
 						        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
@@ -655,7 +655,7 @@
 								</div>
 							</div>
 							{% for proveedor in proveedores %}
-							<a href="/perfil/{{proveedor.id_usuario.get_uuid}}/">
+							<a href="/perfil/{{proveedor.id_usuario.id}}/">
 					        <div class="col-sm-4 ivo-artistas-panel-item" >
 					        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
 					            <h3 class="ivo-font-negro">{{proveedor.id_sector}}</h3>

@@ -62,7 +62,7 @@
 
 					       	{% for tipoarte in tipoartes %}
 
-							  <li> <a style="text-decoration: none; color: white;" href={% url 'listado:artista_categoria' idcategoria=tipoarte.name %} >{{tipoarte.name}}</a>  </li>
+							  <li> <a style="text-decoration: none; color: white;" href={% url 'listado:artista_categoria' idcategoria=tipoarte.id %} >{{tipoarte.name}}</a>  </li>
 							
 							 
 							 {% endfor %}
@@ -85,7 +85,7 @@
 					        	{% if artista.id_usuario.avatar %}
 					        	
 					        	<!--img src="{{ artista.id_usuario.avatar.url }}/" class="img-responsive"-->
-					        	<a href="/perfil/{{artista.id_usuario.get_uuid}}/">
+					        	<a href="/perfil/{{artista.id_usuario.id}}/">
 								<div class="ivo-imgListado" style="background-image: url(/media/{{artista.id_usuario.avatar}});"></div>
 					        		</a>
 
@@ -94,7 +94,7 @@
 						<!-- REVISAR ESTO ... NECESITO IMAGEN POR DEFECTO PARA USUARIO -->
 					        	
 					        	<!--img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive"-->
-								<a href="/perfil/{{artista.id_usuario.get_uuid}}/">
+								<a href="/perfil/{{artista.id_usuario.id}}/">
 					        	<div class="ivo-imgListado" style="background-image: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg);"></div>
 					        		</a>
 

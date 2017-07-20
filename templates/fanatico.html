@@ -58,11 +58,11 @@
 							<div class="row">
 								<div class="col-md-6 col-lg-6">
 									<input type="text" name="first_name" mensaje="{% trans 'Nombre es un campo requerido' %}"
-                                   placeholder="{% trans 'Nombre' %}" required = "required" >
+                                   placeholder="{% trans 'Nombre' %}" required = "required" id='nombre' >
 								</div>
 								<div class="col-md-6 col-lg-6">
 									<input type="text" name="last_name" mensaje="{% trans 'Apellido es un campo requerido' %}"
-                                   placeholder="{% trans 'Apellido' %}" required = "required">
+                                   placeholder="{% trans 'Apellido' %}" required = "required" id='apellido'>
 								</div>
 							</div>
 							<div class="row">
@@ -222,39 +222,71 @@
 
         });
         */
-        $(document).on('click', '#btn_registrar', function(){
-        
-            if( !$('#checkbox-terminos').is(':checked') ) {
-                    //alert('Debe aceptar los terminos y condiciones');
-                    $('#texto_mensaje').text('Debe aceptar los terminos y condiciones');
-                    $('#mensajes').modal('show');
+      $('#btn_registrar').click(function(){
 
-                    return;
-                }
             if( $('#password1').val().trim() != $('#password2').val().trim()){
                 //alert(' {% trans 'Las contraseñas no coinciden' %} ')
-                 $('#texto_mensaje').text('Las contraseñas no coinciden');
-                    $('#mensajes').show();
-                return;
+                $('#texto_mensaje').text('Las contraseñas no coinciden');
+                $('#mensajes').modal('show');
+                return false;
             }
+          
+            if (!$('#checkbox-terminos').is(':checked') ||  $('#password1').val().trim() != $('#password2').val().trim() || $('#password1').val().trim()=='' || $('#password2').val().trim()=='' || $('#fecha_a_o').val() < 1900 || $('#fecha_a_o').val() > new Date().getFullYear() || $('#nombre').val().trim()=='' || $('#apellido').val().trim()==''){
+
+
+                if($('#nombre').val().trim()==''){
+                    $('#texto_mensaje').text('El campo Nombre es obligatorio');
+                $('#mensajes').modal('show');
+                return false;    
+            }
+            if($('#apellido').val().trim()==''){
+                    $('#texto_mensaje').text('E campo Apellido es obligatorio');
+                $('#mensajes').modal('show');
+                return false;    
+            }
+
+                 if( !$('#checkbox-terminos').is(':checked') ) {
+                //alert('Debe aceptar los terminos y condiciones');
+                $('#texto_mensaje').text('Debe aceptar los terminos y condiciones');
+                $('#mensajes').modal('show');
+                return false;
+            }
+            
             if( $('#password1').val().trim()=='' || $('#password2').val().trim()==''){
                 //alert(' {% trans 'el campo contraseña es requerido' %} ')
                 $('#texto_mensaje').text('el campo contraseña es requerido');
-                    $('#mensajes').show();
-
-                return;
+                $('#mensajes').modal('show');
+                return false;
             }
             if( $('#password1').val().trim().length<8 || $('#password2').val().trim().length<8){
-                alert(' {% trans 'el campo contraseña debe ser mayor a ocho caracteres' %} ')
-                return;
+                //alert(' {% trans 'el campo contraseña debe ser mayor a ocho caracteres' %} ')
+                $('#texto_mensaje').text('el campo contraseña \ndebe ser mayor a ocho caracteres');
+                $('#mensajes').modal('show');
+                return false;
+            }
+            
+            if( $('#fecha_a_o').val() < 1900 || $('#fecha_a_o').val() > new Date().getFullYear()){
+                //alert(' {% trans 'el campo contraseña debe ser mayor a ocho caracteres' %} ')
+                $('#texto_mensaje').text('Ingrese un año valido');
+                $('#mensajes').modal('show');
+                return false;            
             }
 
             
-
-        $('#fecha_nacimiento').val($('#fecha_a_o').val()+"-"+$('#fecha_mes').val()+'-'+$('#fecha_dia').val());
-        registrar();    
             
-               
+            }else{
+
+                if(validarForm($('#ivo-form input'))){
+                    $('#fecha_nacimiento').val($('#fecha_a_o').val()+"-"+$('#fecha_mes').val()+'-'+$('#fecha_dia').val());
+        registrar();    
+                
+            }else{
+                console.log('false');
+            }
+            }
+           
+
+            
             
         });
     })
@@ -272,13 +304,14 @@ function registrar(){
                 NProgress.done();
                 if(data.success == false){
                     //alert(data.mensaje);
-                    $('#texto_mensaje').text(data.mensaje);
-                    $('#mensajes').show();
                     $.each(data.errors.fields, function(i, item) {
-                        alert(item);
+                        //alert(item);
+                        $('#texto_mensaje').text(i+' '+item);
+                        $('#mensajes').modal('show');
                     });
                 }else{
-                    alert(data.mensaje);
+                   $('#texto_mensaje').text(data.mensaje);
+                    $('#mensajes').modal('show');
                     setTimeout(function(){
                       location.href  ='/perfil/configuraciongeneral/'
                     }, 1500);

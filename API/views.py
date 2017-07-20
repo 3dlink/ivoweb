@@ -1,8 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import RegistroSerializer, TalentosSerializer, LoginSerializer, MultimediaSerializer, GeneroSerializer, UsuarioExpSerializer, UsuarioImgSerializer, MenuArtistaSerializer, MenuIndustriaSerializer
-from frontend.models import User, TipoArte, GeneroArtistico,generateUUID, UsuarioArteGenero, UsuarioArte
+from .serializers import *
+from frontend.models import *
 from django.contrib.auth import authenticate, login, logout
 from django.http import  JsonResponse
 from .forms import FormRegistro
@@ -44,14 +44,103 @@ class RegistroView(APIView):
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
      
-
+#LISTADO DE ARTISTAS GENERAL, POR CATEGORIA Y SUS GENEROS ARTISTICOS
 
 class TalentosView(APIView):
+    permission_classes = (AllowAny,)
+    parser_classes = (JSONParser,)
 
     def get(self,request):
         all_users = UsuarioArteGenero.objects.all()
-        serializer = TalentosSerializer(all_users, many = True)
+        serializer = GeneroSerializer(all_users, many = True)
         return Response(serializer.data)
+
+class TalentosTipoView(APIView):
+    permission_classes = (AllowAny,)
+    parser_classes = (JSONParser,)
+
+    def get(self,request,idcategoria):
+        categoria = TipoArte.objects.get(name=idcategoria)
+        generos = GeneroArtistico.objects.filter(id_tipo_arte=categoria).values('id')
+        all_users = UsuarioArteGenero.objects.filter(id_genero__in=generos)
+        serializer = GeneroSerializer(all_users, many = True)
+        return Response(serializer.data)
+
+class TipoArteView(APIView):
+    permission_classes = (AllowAny,)
+    parser_classes = (JSONParser,)  
+
+    def get(self,request):
+        tipo_arte = TipoArte.objects.all()
+        serializer= TipoArteSerializer(tipo_arte, many=True)
+        
+        return Response(serializer.data )
+
+
+# LISTADO DE PROVEEDORES GENERAL, POR CATEGORIA, Y SUS SECTORES
+class ProveedoresView(APIView):
+    permission_classes = (AllowAny,)
+    parser_classes = (JSONParser,)
+
+    def get(self,request):
+        industria = Industria.objects.filter(tipo='P').values_list('id',flat=True)
+        all_users = SectorIndustria.objects.filter(id_sector__in=industria)
+        serializer= MenuIndustriaSerializer(all_users, many=True)
+        return Response(serializer.data)
+
+class ProveedoresTipoView(APIView):
+    permission_classes = (AllowAny,)
+    parser_classes = (JSONParser,)
+
+    def get(self,request,idcategoria):
+        industria = Industria.objects.filter(nombre=idcategoria)
+        all_users = SectorIndustria.objects.filter(id_sector=industria)
+        serializer = MenuIndustriaSerializer(all_users, many = True)
+        return Response(serializer.data)
+
+
+
+class TipoIndustriaView(APIView):
+    permission_classes = (AllowAny,)
+    parser_classes = (JSONParser,)  
+
+    def get(self,request):
+        tipo_industria = Industria.objects.filter(tipo='P')
+        serializer= TipoIndustriaSerializer(tipo_industria, many=True)
+        
+        return Response(serializer.data )
+
+
+class CastingsView(APIView):
+    permission_classes = (AllowAny,)
+    parser_classes = (JSONParser,)
+
+    def get(self,request):
+        all_casting = Casting.objects.filter(fecha_fin__gte=date.today())       
+        serializer= CastingSerializer(all_casting, many=True)
+        return Response(serializer.data)
+
+class CastingsTipoView(APIView):
+    permission_classes = (AllowAny,)
+    parser_classes = (JSONParser,)
+
+    def get(self,request,idcategoria):
+        categoria = Filtro.objects.filter(id_talento=idcategoria).values_list('id_casting',flat=True)
+        all_casting = Casting.objects.filter(id__in=categoria,fecha_fin__gte=date.today())
+        serializer= CastingSerializer(all_casting, many=True)
+        return Response(serializer.data)
+
+
+
+class TipoArteView(APIView):
+    permission_classes = (AllowAny,)
+    parser_classes = (JSONParser,)  
+
+    def get(self,request):
+        tipo_arte = TipoArte.objects.all()
+        serializer= TipoArteSerializer(tipo_arte, many=True)
+        
+        return Response(serializer.data )
 
 
 
@@ -83,15 +172,14 @@ class ExampleView(APIView):
 
 class GenerosView(APIView):
 # User.objects.get(email=UsuarioArte.objects.get(id=1).id_usuario).first_name
-    permission_classes = (IsAuthenticated,)
-    authentication_classes = (JSONWebTokenAuthentication, )
-    parser_classes = (JSONParser,)  
 
     def get(self,request):
         user_genero= UsuarioArteGenero.objects.all()
         serializer= GeneroSerializer(user_genero, many=True)
         
         return Response(serializer.data )
+
+
 
 
 class UserCategoriaView(APIView):
@@ -111,8 +199,7 @@ class UserCategoriaView(APIView):
 
 class UsuarioView(APIView):
     permission_classes = (AllowAny,)
-    parser_classes = (JSONParser,)  
-
+    parser_classes = (JSONParser,)
 
     def get(self,request,email,tab):
         Usuario = User.objects.get(email=email)   
@@ -136,11 +223,21 @@ class MenuUsuarioView(APIView):
     parser_classes = (JSONParser,)  
 
     def get(self,request,email):
-        Usuario = User.objects.get(email=email)
-        if Usuario.tipo_usuario == 'A':
+        Us = User.objects.get(email=email)       
+        if Us.tipo_usuario == 'A':
+            Usuario = UsuarioArteGenero.objects.get(id_usuario=Us.id)
             serializer= MenuArtistaSerializer(Usuario, many=False)        
         else:
+            Usuario = SectorIndustria.objects.get(id_usuario=Us.id)
             serializer= MenuIndustriaSerializer(Usuario, many=False)
         return Response(serializer.data) 
         
+class NumeroSeguidoresView(APIView):
+    permission_classes = (AllowAny,)
+    parser_classes = (JSONParser,)
+    def get(self,request,email):
+            user = User.objects.get(email=email)
+            numero_seguidores = len(Seguidores.objects.filter(destino=user))
+            return Response({'numero_seguidores': numero_seguidores}) 
 
+#FALTA DEVOLVER EL NUMERO DE MENSAJES

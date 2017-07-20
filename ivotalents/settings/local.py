@@ -27,7 +27,7 @@ SECRET_KEY = '+%9s@#y896jvmp9415d1-=0%($73^t!0k8c+b-1j_^fu5v+#2y'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+NOTIFICATIONS_SOFT_DELETE=True
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'ati2mortiz@gmail.com'
@@ -65,7 +65,8 @@ INSTALLED_APPS = [
     'blog',
     'listado',
     'API',
-    'casting'
+    'casting',
+    'notifications'
 
 ]
 
@@ -155,12 +156,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'IvoTalentsDB',
         'USER': 'root',
-        'PASSWORD': '3v0t4l3nt5',
+        'PASSWORD': '3v0t4l3nt5///ivotalents1!',
         'HOST': '127.0.0.1',
     }
 }
 """
-
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -173,13 +174,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'IvoTalentsDB',
-        'USER': 'postgres',
-        'PASSWORD': 'ivotalents1!',
+        'USER': "wa-p",
+        'PASSWORD': '...',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
-"""
+
 
 
 # Password validation

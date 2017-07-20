@@ -19,7 +19,9 @@ from itertools import chain
 from django.core.mail import send_mail, BadHeaderError
 from django.conf import settings
 from datetime import date
-
+from casting.models import Filtro
+from itertools import chain
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 
@@ -606,7 +608,33 @@ def pagar(request):
     return render(request, "compras/pagar.html", {})
 
 def faq(request):
-    return render(request, "estaticas/faq.html", {})
+    preguntas = Pregunta.objects.all()
+    return render(request, "estaticas/faq.html", {'preguntas':preguntas})
+
+
+def busqueda_pregunta(request):
+    
+    terms = request.GET['q']
+    term_list = terms.split(' ')
+
+    results = Pregunta.objects.all()
+
+    qq = Q(pregunta__icontains=term_list[0]) | Q(respuesta__icontains=term_list[0])
+    for term in term_list[1:]:
+        qq.add((Q(pregunta__icontains=term) | Q(respuesta__icontains=term)), qq.connector)
+
+    results = results.filter(qq)
+    
+    #import pdb;pdb.set_trace()
+    paginator = Paginator(results, 6)
+    page = request.GET.get('page',1)
+    try:
+        preguntas = paginator.page(page)
+    except PageNotAnInteger:           
+        preguntas = paginator.page(1)
+    except EmptyPage:          
+        preguntas = paginator.page(paginator.num_pages)         
+    return render(request, "estaticas/faq.html", {'preguntas':preguntas})
 
 def faqpregunta(request):
     return render(request, "estaticas/faq-pregunta.html", {})
@@ -628,9 +656,112 @@ def contacto(request):
             message = form.cleaned_data['mensaje']
             name= form.cleaned_data['nombre']
             try:
-                send_mail(subject, name+'\n\n'+message, from_email, ['ivotalents@gmail.com','ati2mortiz@gmail.com'])
+                send_mail(subject, name+'  '+from_email+'\n\n'+message, from_email, ['ivotalents@gmail.com','ati2mortiz@gmail.com'])
                 return redirect('/corporativa/')
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')           
 
     return render(request, "estaticas/corporativa.html", {'form':form})
+
+
+
+def busqueda(request):
+
+    
+    terms = request.GET['q']
+    term_list = terms.split(' ')
+
+   
+
+    q_castings = Q()
+    q_castings.connector=Q.OR
+    for term in term_list:
+        q_castings.add((Q(titulo__icontains=term) | Q(descripcion__icontains=term)), q_castings.connector)   
+
+    q_pais = Q()
+    q_pais.connector=Q.OR
+    for term in term_list:
+        q_pais.add((Q(nombre__icontains=term) | Q(nacionalidad__icontains=term)), q_pais.connector)
+
+    q_ojos = Q()
+    for term in term_list:
+        q_ojos.add(Q(color__icontains=term), Q.OR)
+
+    q_cabellos = Q()
+    for term in term_list:
+        q_cabellos.add(Q(color__icontains=term), Q.OR)
+
+    q_etnias = Q()
+    for term in term_list:
+        q_etnias.add(Q(etnia__icontains=term), Q.OR)
+
+    q_generos = Q()
+    for term in term_list:
+        q_generos.add(Q(name__icontains=term), Q.OR)
+
+    q_talentos = Q()
+    for term in term_list:
+        q_talentos.add(Q(name__icontains=term), Q.OR)
+
+    q_proveedores = Q()
+    for term in term_list:
+        q_proveedores.add(Q(nombre__icontains=term), Q.OR)
+
+    q_nombre = Q(first_name='anfcgnfcgyu') | Q(last_name='sdfgssdgvsinu')
+    q_nombre.connector=Q.OR
+    for term in term_list:
+        q_nombre.add((Q(first_name__icontains=term) | Q(last_name__icontains=term) | Q(empresa_provedor__icontains=term) | Q(razon_social__icontains=term) ), q_nombre.connector) 
+
+    pais = Pais.objects.filter(q_pais).values_list('id',flat=True)
+    color_ojos = Ojos.objects.filter(q_ojos).values_list('id',flat=True)
+    color_cabello = Cabellos.objects.filter(q_cabellos).values_list('id',flat=True)
+    etnias = Etnia.objects.filter(q_etnias).values_list('id',flat=True)
+    generos = GeneroArtistico.objects.filter(q_generos).values_list('id',flat=True)
+    tipo_talentos = TipoArte.objects.filter(q_talentos).values_list('id',flat=True)
+    usuarios = User.objects.filter(q_nombre).values_list('id', flat=True)
+    q_proveedores.add(Q(tipo='P'),Q.AND)
+    tipo_proveedores = Industria.objects.filter(q_proveedores).values_list('id',flat=True)
+    #LISTA DE TIPOS DE PROVEEDORES (ACTIVIDAD ECONOMICA)
+    castings = Casting.objects.filter(fecha_fin__gte=date.today()).filter(q_castings)
+
+    #castings = castings.filter(pais__in=pais, color_ojos__in=color_ojos, color_cabello__in=color_cabello, etnia__in=etnias)
+    #TODOS LOS TALENTOS QUE CUMPLEN CON LAS CONDICIONES
+    artistas_p = User.objects.filter(pais__in=pais).filter(tipo_usuario='A')
+    artistas_o = User.objects.filter( color_ojos__in=color_ojos).filter(tipo_usuario='A')
+    artistas_c = User.objects.filter( color_cabello__in=color_cabello).filter(tipo_usuario='A')
+    artistas_e = User.objects.filter( etnia__in=etnias).filter(tipo_usuario='A')
+    artistas = artistas_e | artistas_c | artistas_o | artistas_p | usuarios.filter(tipo_usuario='A')
+    artistas = UsuarioArteGenero.objects.filter(id_usuario__in=artistas.values_list('id',flat=True)) | UsuarioArteGenero.objects.filter(id_genero__in=generos) | UsuarioArteGenero.objects.filter(id_genero__in=GeneroArtistico.objects.filter(id_tipo_arte__in=tipo_talentos).values_list('id',flat=True))
+    artistas = artistas.distinct()
+
+    #TODOS LOS PROVEEDORES QUE CUMPLEN CON LAS CONDICIONES    // el filter de usuario, no tiene demasiado sentido
+    proveedores_p =  User.objects.filter(pais__in=pais).filter(tipo_usuario='P').values_list('id',flat=True) | usuarios.filter(tipo_usuario='P')
+    proveedores = SectorIndustria.objects.filter(id_sector__in=tipo_proveedores) | SectorIndustria.objects.filter(id_usuario__in=proveedores_p)
+    proveedores = proveedores.distinct()
+    #TODOS LOS CASTINGS QUE CUMPLEN LAS CONDICIONES // falta el filtro por genero
+    castings_p = Casting.objects.filter(pais__in=pais)
+    castings_o = Casting.objects.filter(color_ojos__in=color_ojos)
+    castings_c = Casting.objects.filter(color_cabello__in=color_cabello)
+    castings_e = Casting.objects.filter(etnia__in=etnias)
+    filtros_t = Filtro.objects.filter(id_talento__in=tipo_talentos).values_list('id_casting',flat=True)
+    castings = castings_p | castings_o | castings_c | castings_e | Casting.objects.filter(id__in=filtros_t) | castings 
+    castings = castings.filter(fecha_fin__gte=date.today()).distinct()
+
+
+    result = list(chain(castings, artistas,proveedores))
+    numero = len(artistas) + len(castings) + len(proveedores)
+
+    #import pdb; pdb.set_trace()
+    
+   
+    paginator = Paginator(result, 3)
+    page = request.GET.get('page',1)
+    try:
+        results = paginator.page(page)
+    except PageNotAnInteger:           
+        results = paginator.page(1)
+    except EmptyPage:          
+        results = paginator.page(paginator.num_pages)   
+    criterio=request.GET['q'].replace(" ", "+")
+    #import pdb; pdb.set_trace()
+    return render(request,"resultados.html", {'numero':numero, 'results':results,'criterio':criterio})

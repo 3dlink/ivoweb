@@ -21,7 +21,6 @@
             .cropper-crop-box, .cropper-view-box {
     border-radius: 50%;
 }
-
 .cropper-view-box {
     box-shadow: 0 0 0 1px #39f;
     outline: 0;
@@ -31,6 +30,27 @@
 {% endblock %}
 
 {% block content %}
+
+{% if messages %}
+
+
+				<div class="modal fade bs-example-modal-sm in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display:block; top: 15%;">
+							  <div class="modal-dialog" role="document">
+							    <div class="modal-content" style="background:rgba(0,0,0,0.7); color:white;">
+							      
+							      <div class="modal-body">
+							        {% for message in messages %}
+								            <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ message }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+								        {% endfor %}
+								     <span id="close"  class="close"  style="color:white; opacity:0.9">X</span>
+							      </div>
+							      
+							    </div>
+							  </div>
+							</div>
+				
+				    
+				{% endif %}
 
 <!-- Barra lateral -->
 <div class="container">
@@ -49,7 +69,7 @@
 
 				<li class="ivo-configuracion-menu-separador"></li>
 				<li id="show_form_bio">
-					<a href="#">Bio</a>
+					<a href="#bio">Bio</a>
 				</li>
 					{% if user.get_tipo_usuario == "A" %}
 					<li id="show_form_experiencia">
@@ -653,11 +673,19 @@
 						<label>Breve Biografia</label>
 					</div>
 					<div class="col-md-10">
-						{% if datos.biografia != None %}
-							<textarea class="ivo-formularioConfText" name="biografia" required="required">{{datos.biografia}}</textarea>
+					{% if user.tipo_usuario == 'A' %}
+						{% if datos.biografia != None or datos.biografia != '' %}
+							<textarea class="ivo-formularioConfText" name="biografia" required="required"  placeholder='Comparte que has realizado a lo largo de tu carrera y que te encuentras realizando ahora.'>{{datos.biografia}}</textarea>
 						{% else %}
-							<textarea class="ivo-formularioConfText" name="biografia" required="required"></textarea>
+							<textarea class="ivo-formularioConfText" name="biografia" required="required" placeholder='Comparte que has realizado a lo largo de tu carrera y que te encuentras realizando ahora.'></textarea>
 						{% endif %}
+					{% elif user.tipo_usuario == 'I' or user.tipo_usuario == 'P' %}
+						{% if datos.biografia != None or datos.biografia != '' %}
+							<textarea class="ivo-formularioConfText" name="biografia" required="required"  placeholder='Para poder conocerte mejor cuéntanos quién eres, qué servicios ofreces y a qué mercado de la industria perteneces.'>{{datos.biografia}}</textarea>
+						{% else %}
+							<textarea class="ivo-formularioConfText" name="biografia" required="required" placeholder='Para poder conocerte mejor cuéntanos quién eres, qué servicios ofreces y a qué mercado de la industria perteneces.'></textarea>
+						{% endif %}
+					{% endif %}
 
 					</div>
 				</div>
@@ -824,7 +852,6 @@
 
 <script type="text/javascript" defer>
         
-
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -856,17 +883,13 @@
         $('#editar').css('display: inline-block;border:1px solid blue;max-width:700px;max-height:700px;');
         // On crop button clicked
       $('#crop_button').on('click', function(){
-
         var result = image.cropper("getCroppedCanvas", image);
-
                 image.cropper("getCroppedCanvas", image).toBlob(function (blob) {
                       //var formData = new FormData();
                       //formData.append('croppedImage', blob);
-
             var formData = new FormData('croppedImage',blob);
             formData.append('csrfmiddlewaretoken','{{csrf_token}}')
             formData.append('foto',blob)
-
                       $.ajax({
            url: '/perfil/configuraciongeneral/foto-perfil/',
             type: 'post',
@@ -878,13 +901,9 @@
                 NProgress.done();
                 console.log(data)
                 window.location.reload(true);
-
                 
-
             }
-
         });
-
                       
                 });
             
@@ -895,6 +914,10 @@
 
 
 <script>
+$(document).on('click', '#close', function(){
+			 		$('#myModal').hide();
+			 });
+
 $('#pais_emp').on('change', function () {
     if ($( "#pais_emp option:selected" ).data('pre')!='None'){
         $('#telefono_emp').val($( "#pais_emp option:selected" ).data('pre'));
@@ -904,12 +927,8 @@ $('#pais_emp').on('change', function () {
     
     
       
-
 });
-
-
 $(document).on('change', '#pais', function(){
-
             variable= $(this).val();
             $.ajax({
                             url: '/ciudad/',
@@ -919,11 +938,9 @@ $(document).on('change', '#pais', function(){
                             success: function (data) {
                                 if(data.success == false){
                                    
-
                                 }else{
                                     
                                     $('#ciudad').html(data.xHTML);
-
                                    
                                   
                                 }
@@ -936,7 +953,6 @@ $(document).on('change', '#pais', function(){
 	$(function(){
 		$('.ivo-usuario-subMenu').removeClass("activo");
         $('#id_configuracion').addClass("activo");
-
         $('#radio-1-2').on("change",function(){			    
 			    if ( $(this).is(":checked") ){			    	
 			    	$('#dia_hasta2').removeAttr('required')
@@ -955,7 +971,6 @@ $(document).on('change', '#pais', function(){
 			    }
 				
 			});
-
         $('#radio-1-1').on("change",function(){			    
 			    if ( $(this).is(":checked") ){			    	
 			    	$('#dia_hasta').removeAttr('required')
@@ -989,12 +1004,9 @@ $(document).on('change', '#pais', function(){
                 guardarExperiencia();
             }
         });
-
-
 	    $(document).on('click', '#send_form_educacion', function(){
 	    	console.log("SEND FORM EDUCACION")
             var fecha_desde = $('#dia_desde').val()+'/'+$('#mes_desde').val()+'/'+$('#anno_desde').val();
-
             if( !$('#radio-1-1').is(":checked")){
             	
             	var fecha_hasta =$('#anno_hasta').val()+'-'+$('#mes_hasta').val()+'-'+ $('#dia_hasta').val();
@@ -1008,18 +1020,10 @@ $(document).on('change', '#pais', function(){
                 guardarEducacion();
             }
         });
-
-
 	    $('#agregar_experiencia').click(function(){
             $('#ModalExperiencia').modal('show');
-
         });
-
-
-
-
         $(document).on('click', '.editar_experiencia', function(){
-
         	variable= $(this).data('id');
         	$.ajax({
 				            url: '/perfil/configuraciongeneral/buscar-experiencia/',
@@ -1031,7 +1035,6 @@ $(document).on('change', '#pais', function(){
 				                    //alert(data.mensaje);
 				                    $('#texto_mensaje').text(data.mensaje)
             						$('#mensajes').modal('show');
-
 				                }else{
 				                    $('#id_empresa').val(data.empresa);
 				                    $('#id_cargo').val(data.cargo);
@@ -1050,8 +1053,6 @@ $(document).on('change', '#pais', function(){
 								    	$('#mes_hasta2').attr('disabled','true')
 								    	$('#anno_hasta2').attr('disabled','true')
 				                    }
-
-
 				                    /*setTimeout(function(){
 				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
 				                    }, 1500);
@@ -1069,7 +1070,6 @@ $(document).on('change', '#pais', function(){
 			 
         	
         });
-
          $('#update_experiencia').click(function(){
             var fecha_desde = $('#dia_desde2').val()+'/'+$('#mes_desde2').val()+'/'+$('#anno_desde2').val();
             if( !$('#radio-1-2').is(":checked")){
@@ -1096,9 +1096,7 @@ $(document).on('change', '#pais', function(){
 	    $('#agregar_educacion').click(function(){
             $('#ModalEducacion').modal('show');
            });
-
              $(document).on('click', '.editar_educacion', function(){
-
         	variable= $(this).data('id');
         	$.ajax({
 				            url: '/perfil/configuraciongeneral/buscar-educacion/',
@@ -1128,8 +1126,6 @@ $(document).on('change', '#pais', function(){
 								    	$('#mes_hasta').attr('disabled','true')
 								    	$('#anno_hasta').attr('disabled','true')
 				                    }
-
-
 				                    /*setTimeout(function(){
 				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
 				                    }, 1500);
@@ -1147,7 +1143,6 @@ $(document).on('change', '#pais', function(){
 			 
         	
         });
-
 		$('#update_educacion').click(function(){
             var fecha_desde = $('#dia_desde').val()+'/'+$('#mes_desde').val()+'/'+$('#anno_desde').val();
             if( !$('#radio-1-1').is(":checked")){
@@ -1163,8 +1158,6 @@ $(document).on('change', '#pais', function(){
                 updateEducacion();
             }
         });
-
-
       
 	    $('#cerrar_modal_educacion').click(function(){
 	    	$('#update_educacion').hide();
@@ -1210,17 +1203,12 @@ $(document).on('change', '#pais', function(){
 										$('#tbody_idiomas').append(data.html)
 									
 									
-
 				                }
 				            }
 				        });			        	
 			    });
-
-
 		$('#send_form_general').click(function(){	
-
 			if (validarForm( $('#form_general input') ) ) {
-
 				{% if user.get_tipo_usuario == "A"%}
 					
 				if( $('#fecha_a_o').val() < 1900 || $('#fecha_a_o').val() > new Date().getFullYear()){
@@ -1228,7 +1216,6 @@ $(document).on('change', '#pais', function(){
                 $('#texto_mensaje').text('Ingrese un año valido');
                 $('#mensajes').modal('show');
                 return;
-
             }
 				    if( $('#fecha_a_o').val().trim() != ''  && $('#fecha_mes').val().trim() != ''  && $('#fecha_dia').val().trim() != ''   ){
 				        $('#fecha_nacimiento').val($('#fecha_a_o').val()+"-"+$('#fecha_mes').val()+'-'+$('#fecha_dia').val());
@@ -1239,8 +1226,8 @@ $(document).on('change', '#pais', function(){
 		});
 		$('#send_form_bio').click(function(){
 			if (validarForm( $('#form_bio input') ) ) {
-				
-				 $.ajax({
+				$('#form_bio').submit();
+				/* $.ajax({
 				            url: '/perfil/configuraciongeneral/actualizar-general/',
 				            type: 'post',
 				            dataType: 'json',
@@ -1257,19 +1244,17 @@ $(document).on('change', '#pais', function(){
 				                    //alert(data.mensaje);
 				                    $('#texto_mensaje').text(data.mensaje)
             						$('#mensajes').modal('show');
-				                    /*setTimeout(function(){
+				                    setTimeout(function(){
 				                      location.href  ='/perfil/{{datos_personales.get_uuid}}/'
 				                    }, 1500);
-									*/				
+													
 									
 									
-
 				                }
 				            }
-				        });	
+				        });	*/
 			}
 		})
-
 		$('#send_form_cita').click(function(){
 			console.log("en la cita")
 			if (validarForm( $('#form_cita input') ) ) {
@@ -1297,7 +1282,6 @@ $(document).on('change', '#pais', function(){
 				        });	
 			}
 		})
-
 		$('#send_form_interes').click(function(){
 			
 			if (validarForm( $('#form_interes1 input') ) ) {
@@ -1324,8 +1308,6 @@ $(document).on('change', '#pais', function(){
 				        });	
 			}
 		});
-
-
 		$('#send_form_seguridad').click(function(){
 			var enviar = true;
 			if( $('#new_password1').val().trim() == '' && $('#correo1').val().trim() == '' ){
@@ -1376,7 +1358,6 @@ $(document).on('change', '#pais', function(){
 	        handleImage(e)
 	    });*/
 	});
-
 	function updateExperiencia(){
        
         $.ajax({
@@ -1391,7 +1372,6 @@ $(document).on('change', '#pais', function(){
                         if(i != 'undefined')
                             alert(i+ " "+item);
                     });
-
                     $('#update_experiencia').attr('id','send_form_experiencia')
 	    			$('#formExperiencia').remove('#id_experiencia');
         			$('#ModalExperiencia').modal('hide');
@@ -1406,7 +1386,6 @@ $(document).on('change', '#pais', function(){
         			//alert("se modifico la experiencia");
         			$('#texto_mensaje').text("se modifico la experiencia")
             		$('#mensajes').modal('show');
-
         			$('#update_experiencia').hide();
         			$('#send_form_experiencia').show();
         			variable=$('#id_experiencia').val();
@@ -1417,12 +1396,10 @@ $(document).on('change', '#pais', function(){
         			//MODIFICAR EL DOM CON LOS DATOS NUEVOS DE EXP
         			//$('#tbody_experiencia').append(data.xHTML)
         			$('#formExperiencia').trigger("reset");
-
                 }
             }
         });
     }
-
     function guardarExperiencia(){
        
         $.ajax({
@@ -1445,19 +1422,13 @@ $(document).on('change', '#pais', function(){
         			//alert("se guardo la experiencia");
         			$('#texto_mensaje').text("se guardo la experiencia")
             		$('#mensajes').modal('show');
-
-
         			$('#ModalExperiencia').modal('hide');
         			$('#tbody_experiencia').append(data.xHTML)
         			$('#formExperiencia').trigger("reset");
-
                 }
             }
         });
     }
-
-
-
     function updateEducacion(){
        
         $.ajax({
@@ -1472,7 +1443,6 @@ $(document).on('change', '#pais', function(){
                         if(i != 'undefined')
                             alert(i+ " "+item);
                     });
-
                     $('#update_educacion').hide();
         			$('#send_form_educacion').show();
         			$('#ModalEducacion').modal('hide');
@@ -1487,7 +1457,6 @@ $(document).on('change', '#pais', function(){
         			//alert("se modifico la educacion");
         			$('#texto_mensaje').text("se modifico la educacion")
             		$('#mensajes').modal('show');
-
         			$('#update_educacion').hide();
         			$('#send_form_educacion').show();
         			variable=$('#id_educacion').val();
@@ -1498,13 +1467,10 @@ $(document).on('change', '#pais', function(){
         			//MODIFICAR EL DOM CON LOS DATOS NUEVOS DE EXP
         			//$('#tbody_experiencia').append(data.xHTML)
         			$('#form_educacion').trigger("reset");
-
                 }
             }
         });
     }
-
-
     function guardarEducacion(){
        console.log("DENTRO DE LA FUNCION")
         $.ajax({
@@ -1529,7 +1495,6 @@ $(document).on('change', '#pais', function(){
         			$('#ModalEducacion').modal('hide');
         			$('#tbody_educacion').append(data.xHTML)
         			$('#form_educacion').trigger("reset");
-
                 }
             }
         });
@@ -1620,7 +1585,6 @@ $(document).on('change', '#pais', function(){
         			
         			
         			$('#form_seguridad').trigger("reset");
-
                 }
             }
         });
@@ -1630,11 +1594,8 @@ $('#talento').on('change', function () {
     $('#arte-'+this.value).show()  
       
 });
-
-
 $(document).on('click', '.borrar-idioma', function(){ 
         var idioma= $(this).data('ididioma')
-
         $.ajax({
            url: '/perfil/configuraciongeneral/idioma/borrar/',
             type: 'post',
@@ -1643,7 +1604,6 @@ $(document).on('click', '.borrar-idioma', function(){
             success: function (data) {
                
                if(data.success == false){
-
                }else{
                 
                     $('#td_idioma_'+idioma).remove();
@@ -1654,11 +1614,9 @@ $(document).on('click', '.borrar-idioma', function(){
             }
         });
  });
-
 $(document).on('click', '.dropdown .dropdown-menu', function (e) {
   e.stopPropagation();
 });
-
 </script>
 
 {% endblock %}

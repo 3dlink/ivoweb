@@ -1,17 +1,14 @@
 #serializer.py
 
 from rest_framework import serializers
-from frontend.models import TipoArte, User, UsuarioArte, UsuarioArteGenero, GeneroArtistico,generateUUID
-from perfiles.models import Experiencia, Educacion, Multimedia
+from frontend.models import *
+from perfiles.models import *
+from casting.models import *
 from rest_framework.validators import UniqueValidator
+from datetime import date
 
 #QUERYLOCO
 # User.objects.get(email=UsuarioArte.objects.get(id=1).id_usuario).first_name
-
-class TalentosSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = TipoArte
-		fields = ("__all__")
 
 
 class LoginSerializer (serializers.ModelSerializer):
@@ -20,17 +17,18 @@ class LoginSerializer (serializers.ModelSerializer):
 		fields = ("__all__")
 
 
-class UsuarioArteSerializer (serializers.ModelSerializer):
+
+class TipoArteSerializer (serializers.ModelSerializer):
+
 	class Meta:
-		model = UsuarioArte
-		fields = ("id_usuario",)
+		model = TipoArte
+		fields = ("__all__")
 
+class TipoIndustriaSerializer (serializers.ModelSerializer):
 
-class RelacionSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = UsuarioArteGenero
-		fields = ('id_usuario', 'id_genero')
-
+		model = Industria
+		fields = ("__all__")	
 
 
 class GeneroSerializer(serializers.ModelSerializer):
@@ -38,13 +36,17 @@ class GeneroSerializer(serializers.ModelSerializer):
 	genero= serializers.ReadOnlyField(source='id_genero.name', read_only=True)
 	arte= serializers.ReadOnlyField(source='id_genero.id_tipo_arte.name', read_only=True)
 	url=  serializers.ReadOnlyField(source='id_usuario.get_api_url', read_only=True)
-	avatar= serializers.ReadOnlyField(source='id_usuario.avatar.url', read_only=True)
+	#avatar= serializers.ReadOnlyField(source='id_usuario.avatar.url', read_only=True)
 	class Meta:
 		model= UsuarioArteGenero
-		fields=('genero', 'user_name', 'arte', 'url', 'avatar')
-		
+		fields=('genero', 'user_name', 'arte', 'url')
 
 
+class CastingSerializer(serializers.ModelSerializer):
+	#avatar= serializers.ReadOnlyField(source='id_usuario.avatar.url', read_only=True)
+	class Meta:
+		model= Casting
+		fields=('titulo','descripcion','imagen_1')
 
 
 class RegistroSerializer(serializers.ModelSerializer):
@@ -107,16 +109,25 @@ class UsuarioImgSerializer(serializers.ModelSerializer):
 		fields=("__all__")	
 
 
+#DATOS BASICOS ARTISTA
 class MenuArtistaSerializer(serializers.ModelSerializer):
-	
+	user_name=serializers.ReadOnlyField(source='id_usuario.get_full_name', read_only=True)
+	genero= serializers.ReadOnlyField(source='id_genero.name', read_only=True)
+	arte= serializers.ReadOnlyField(source='id_genero.id_tipo_arte.name', read_only=True)
+	url=  serializers.ReadOnlyField(source='id_usuario.get_api_url', read_only=True)
+	avatar= serializers.ReadOnlyField(source='id_usuario.avatar.url', read_only=True)
 	class Meta:
-		model = User
-		fields=('first_name','last_name','tipo_usuario','avatar')
-
+		model= UsuarioArteGenero
+		fields=('genero', 'user_name', 'arte', 'url', 'avatar')
 
 class MenuIndustriaSerializer(serializers.ModelSerializer):	
+	user_name=serializers.ReadOnlyField(source='id_usuario.empresa_provedor', read_only=True)
+	sector= serializers.ReadOnlyField(source='id_sector.nombre', read_only=True)
+	tipo= serializers.ReadOnlyField(source='id_genero.id_tipo_arte.name', read_only=True)
+	url=  serializers.ReadOnlyField(source='id_usuario.get_api_url', read_only=True)
+	#avatar= serializers.ReadOnlyField(source='id_usuario.avatar.url', read_only=True)
 	class Meta:
-		model = User
-		fields=('razon_social','empresa_provedor','tipo_usuario','avatar')
+		model= UsuarioArteGenero
+		fields=('sector', 'user_name', 'url', 'tipo')
 		
 

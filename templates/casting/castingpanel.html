@@ -143,7 +143,7 @@
 						</div>
 					</div>
 					<!-- Lista de Participantes -->
-					<div class="row ivo-casting-listaParticipantes">
+					<div class="row ivo-casting-listaParticipantes" hidden>
 					{% if proveedores.count != 0 %}
 						<div class="col-md-12">
 							<h3 class="ivo-dashboard-seccion-titulo ivo-casting-listaParticipantes-titulo">
@@ -152,7 +152,7 @@
 						</div>
 					{% endif %}
 					{% for proveedor in proveedores %}
-				        <div class="col-sm-3 ivo-artistas-panel-item" >
+				        <div class="col-sm-3 ivo-artistas-panel-item" hidden>
 				        	<img src="http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg" class="img-responsive">
 				            <h3 class="ivo-font-negro">Proveedor</h3>
 				    		<h4 class="ivo-font-negro"><b>{{proveedor.id_usuario.empresa_provedor}}</b></h4>

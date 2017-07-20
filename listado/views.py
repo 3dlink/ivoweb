@@ -32,8 +32,8 @@ def artistas(request):
 
 def artista_por_categoria(request, idcategoria):
 	posts = Post.objects.all().order_by("-fecha_creacion")[:5]
-	categoria = TipoArte.objects.get(name=idcategoria)
-	generos = GeneroArtistico.objects.filter(id_tipo_arte=categoria).values('id')
+	#categoria = TipoArte.objects.get(name=idcategoria)
+	generos = GeneroArtistico.objects.filter(id_tipo_arte=idcategoria).values('id')
 	all_users = UsuarioArteGenero.objects.filter(id_genero__in=generos)
 	tipoartes= TipoArte.objects.all()
 	paginator = Paginator(all_users, 12) # Show 25 contacts per page	

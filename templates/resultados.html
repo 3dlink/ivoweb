@@ -1,0 +1,569 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+
+{% block cssblock %}
+
+		<style type="text/css">
+			.ivo-pregunta { height: auto;}
+			.ivo-form  select {width: 100%}
+			body {
+				background-color: white;
+			}
+		</style>
+{% endblock %}
+
+ {% block content%}
+<!-- Castings -->
+<div class="container-fluid">
+			<div class="container">
+				<!-- Titulo Panel Listado de Perfiles -->
+				<div class="row">
+					<div class="row">
+						<div class="col-md-12 col-lg-12 ivo-blog-resultado">
+							<h1>Busqueda</h1>
+					    </div>
+					</div>
+				</div>
+
+				 {% if numero == 0 %}
+								<h4> No se encontraron resultados</h4>
+							{% endif %}
+
+			{% for result in results %}
+				<!-- Fila Listado de Perfiles -->
+		{% if forloop.counter0 == 0 %}
+		<div class="row ivo-perfil-busqueda-row">
+		{%endif%}
+
+				{%if forloop.counter0 < 3 %}
+
+
+				
+					{% if result.model_name == 'casting' %}
+					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+							
+							{%if result.imagen_1 == None or result.imagen_1 == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil"  style="background: url('{{result.imagen_1.url}}');"></div>
+							{% endif %}
+							</div>
+							<!--casting -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+							
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.titulo}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{result.categoria.nombre}}</li>
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href={% url 'casting:casting_detalle' idcasting=result.id %} class="ivo-font-azulClaro">Ver Casting</a></li>
+								</ul>
+								</div>
+								</div>				
+					</div>
+			
+				{% elif result.model_name == 'RelacionGeneroARTE' %}
+					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+							
+							{%if result.id_usuario.avatar == None or result.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							{% endif %}
+							</div>
+							<!-- USUARIO -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+								{%if result.id_usuario.tipo_usuario == 'A'%}
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.get_full_name}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{result.id_genero.id_tipo_arte.name}}</li>
+									
+							
+								{%endif%}
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.id}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+								</ul>
+								</div>
+								</div>				
+					</div>
+					
+					
+				
+				{% elif result.model_name == 'sector industria' %}
+				<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+							
+							{%if result.id_usuario.avatar == None or result.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							{% endif %}
+							</div>
+							<!-- PROVEEDOR -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+								{%if result.id_usuario.tipo_usuario == 'P'%}
+									
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.empresa_provedor}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{result.id_sector}}</li>
+									
+
+								{%endif%}
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.id}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+								</ul>
+								</div>
+							</div>				
+					</div>
+					<!-- Item Listado de Perfiles -->
+					
+				
+				{% endif %}
+					<!-- Item Listado de Perfiles -->
+					{% if forloop.counter0 == 2 or numero == forloop.counter %}
+				</div>
+				
+				{%endif%}
+				
+				{% elif forloop.counter0 > 2 or forloop.counter0 < 6 %}
+				{% if forloop.counter0 == 3 %}
+				
+				<div class="row ivo-perfil-busqueda-row">
+				{%endif%}
+
+				
+					<!-- Item Listado de Perfiles -->
+					{% if result.model_name == 'casting' %}
+					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+							
+							{%if result.imagen_1 == None or result.imagen_1 == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil"  style="background: url('{{result.imagen_1.url}}');"></div>
+							{% endif %}
+							</div>
+							<!--casting -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+							
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.titulo}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{result.categoria.nombre}}</li>
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href={% url 'casting:casting_detalle' idcasting=result.id %} class="ivo-font-azulClaro">Ver Casting</a></li>
+								</ul>
+								</div>
+								</div>				
+					</div>
+			
+				{% elif result.model_name == 'RelacionGeneroARTE' %}
+					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+							
+							{%if result.id_usuario.avatar == None or result.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							{% endif %}
+							</div>
+							<!-- USUARIO -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+								{%if result.id_usuario.tipo_usuario == 'A'%}
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.get_full_name}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{result.id_genero.id_tipo_arte.name}}</li>
+									
+							
+								{%endif%}
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.id}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+								</ul>
+								</div>
+								</div>				
+					</div>
+					
+					
+				
+				{% elif result.model_name == 'sector industria' %}
+				<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+							
+							{%if result.id_usuario.avatar == None or result.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							{% endif %}
+							</div>
+							<!-- PROVEEDOR -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+								{%if result.id_usuario.tipo_usuario == 'P'%}
+									
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.empresa_provedor}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{result.id_sector}}</li>
+									
+
+								{%endif%}
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.id}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+								</ul>
+								</div>
+							</div>				
+					</div>
+					<!-- Item Listado de Perfiles -->
+					
+				
+				{% endif %}
+					<!-- Item Listado de Perfiles -->
+					
+				{% if forloop.counter0 == 5 or numero == forloop.counter %}
+				</div>
+				
+				{%endif%}
+				{% elif forloop.counter0 > 5 or forloop.counter0 < 9 %}
+				{% if forloop.counter0 == 6 %}
+				
+				<div class="row ivo-perfil-busqueda-row">
+				{%endif%}
+
+				
+					<!-- Item Listado de Perfiles -->
+					{% if result.model_name == 'casting' %}
+					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+							
+							{%if result.imagen_1 == None or result.imagen_1 == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil"  style="background: url('{{result.imagen_1.url}}');"></div>
+							{% endif %}
+							</div>
+							<!--casting -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+							
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.titulo}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{result.categoria.nombre}}</li>
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href={% url 'casting:casting_detalle' idcasting=result.id %} class="ivo-font-azulClaro">Ver Casting</a></li>
+								</ul>
+								</div>
+								</div>				
+					</div>
+			
+				{% elif result.model_name == 'RelacionGeneroARTE' %}
+					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+							
+							{%if result.id_usuario.avatar == None or result.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							{% endif %}
+							</div>
+							<!-- USUARIO -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+								{%if result.id_usuario.tipo_usuario == 'A'%}
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.get_full_name}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{result.id_genero.id_tipo_arte.name}}</li>
+									
+							
+								{%endif%}
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.id}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+								</ul>
+								</div>
+								</div>				
+					</div>
+					
+					
+				
+				{% elif result.model_name == 'sector industria' %}
+				<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+							
+							{%if result.id_usuario.avatar == None or result.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							{% endif %}
+							</div>
+							<!-- PROVEEDOR -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+								{%if result.id_usuario.tipo_usuario == 'P'%}
+									
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.empresa_provedor}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{result.id_sector}}</li>
+									
+
+								{%endif%}
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.id}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+								</ul>
+								</div>
+							</div>				
+					</div>
+					<!-- Item Listado de Perfiles -->
+					
+				
+				{% endif %}
+					<!-- Item Listado de Perfiles -->
+					
+				{% if forloop.counter0 == 8 or numero == forloop.counter %}
+				</div>
+				
+				{%endif%}
+
+				{% elif forloop.counter0 > 8 or forloop.counter0 < 12 %}
+				{% if forloop.counter0 == 8 %}
+				
+				<div class="row ivo-perfil-busqueda-row">
+				{%endif%}
+
+				
+					<!-- Item Listado de Perfiles -->
+					{% if result.model_name == 'casting' %}
+					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+							
+							{%if result.imagen_1 == None or result.imagen_1 == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil"  style="background: url('{{result.imagen_1.url}}');"></div>
+							{% endif %}
+							</div>
+							<!--casting -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+							
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.titulo}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{result.categoria.nombre}}</li>
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href={% url 'casting:casting_detalle' idcasting=result.id %} class="ivo-font-azulClaro">Ver Casting</a></li>
+								</ul>
+								</div>
+								</div>				
+					</div>
+			
+				{% elif result.model_name == 'RelacionGeneroARTE' %}
+					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+							
+							{%if result.id_usuario.avatar == None or result.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							{% endif %}
+							</div>
+							<!-- USUARIO -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+								{%if result.id_usuario.tipo_usuario == 'A'%}
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.get_full_name}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{result.id_genero.id_tipo_arte.name}}</li>
+									
+							
+								{%endif%}
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.id}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+								</ul>
+								</div>
+								</div>				
+					</div>
+					
+					
+				
+				{% elif result.model_name == 'sector industria' %}
+				<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+							
+							{%if result.id_usuario.avatar == None or result.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							{% endif %}
+							</div>
+							<!-- PROVEEDOR -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+								{%if result.id_usuario.tipo_usuario == 'P'%}
+									
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.empresa_provedor}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{result.id_sector}}</li>
+									
+
+								{%endif%}
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.id}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+								</ul>
+								</div>
+							</div>				
+					</div>
+					<!-- Item Listado de Perfiles -->
+					
+				
+				{% endif %}
+					<!-- Item Listado de Perfiles -->
+					
+				{% if forloop.counter0 == 11 or numero == forloop.counter %}
+				</div>
+				
+				{%endif%}
+
+				{% elif forloop.counter0 > 11 or forloop.counter0 < 15 %}
+				{% if forloop.counter0 == 11 %}
+				
+				<div class="row ivo-perfil-busqueda-row">
+				{%endif%}
+
+				
+					<!-- Item Listado de Perfiles -->
+					{% if result.model_name == 'casting' %}
+					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+							
+							{%if result.imagen_1 == None or result.imagen_1 == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil"  style="background: url('{{result.imagen_1.url}}');"></div>
+							{% endif %}
+							</div>
+							<!--casting -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+							
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.titulo}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{result.categoria.nombre}}</li>
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href={% url 'casting:casting_detalle' idcasting=result.id %} class="ivo-font-azulClaro">Ver Casting</a></li>
+								</ul>
+								</div>
+								</div>				
+					</div>
+			
+				{% elif result.model_name == 'RelacionGeneroARTE' %}
+					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+							
+							{%if result.id_usuario.avatar == None or result.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							{% endif %}
+							</div>
+							<!-- USUARIO -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+								{%if result.id_usuario.tipo_usuario == 'A'%}
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.get_full_name}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{result.id_genero.id_tipo_arte.name}}</li>
+									
+							
+								{%endif%}
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.id}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+								</ul>
+								</div>
+								</div>				
+					</div>
+					
+					
+				
+				{% elif result.model_name == 'sector industria' %}
+				<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+							
+							{%if result.id_usuario.avatar == None or result.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{result.id_usuario.get_avatar}});"></div>
+							{% endif %}
+							</div>
+							<!-- PROVEEDOR -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+								{%if result.id_usuario.tipo_usuario == 'P'%}
+									
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{result.id_usuario.empresa_provedor}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{result.id_sector}}</li>
+									
+
+								{%endif%}
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{result.id_usuario.id}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+								</ul>
+								</div>
+							</div>				
+					</div>
+					<!-- Item Listado de Perfiles -->
+					
+				
+				{% endif %}
+					<!-- Item Listado de Perfiles -->
+					
+				{% if forloop.counter0 == 14 or numero == forloop.counter %}
+				</div>
+				
+				{%endif%}
+			
+				{%endif%}
+			{% endfor %}
+
+
+
+		
+
+				
+</div>
+
+			   <div class="col-md-6 col-lg-6 col-md-offset-3 ivo-blog-paginas">
+				    {% if results.has_other_pages %}
+				    	<ul>
+				    		{% if results.has_previous %}
+					    			<li class="ivo-blog-paginas-move">
+					    			<a href="?q={{ criterio }}&page={{ results.previous_page_number }}">&laquo;</a></li>
+							    
+				    			{% endif %}
+
+							    {% for i in results.paginator.page_range %}
+							      {% if results.number == i %}
+						    		<li class="ivo-blog-paginas-activo">
+						    			<span>{{ i }} <span class="sr-only">(current)</span></span>
+						    		</li>
+				    			 {% else %}
+				    		<li>
+				    			<a href="?q={{ criterio }}&page={{ i }}">{{ i }}</a>
+				    		</li>
+				    		{% endif %}
+							    {% endfor %}
+							    {% if results.has_next %}
+							      <li><a href="?q={{ criterio }}&page={{ results.next_page_number }}">&raquo;</a></li>
+							    
+							    {% endif %}
+							  </ul>
+							{% endif %}
+				    </div>
+				</div>
+			</div>
+		</div>
+		{% endblock %}

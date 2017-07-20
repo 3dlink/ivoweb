@@ -21,6 +21,7 @@ from django.conf import settings
 from rest_framework.urlpatterns import format_suffix_patterns
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import views as auth_views
+import notifications.urls
 
 
 
@@ -51,6 +52,7 @@ urlpatterns = [
     url(r'^planes/$', views.planes, name='planes'),
     url(r'^pagar/$', views.pagar, name='pagar'),
     url(r'^faq/$', views.faq, name='faq'),
+    url(r'^faq-busqueda/$', views.busqueda_pregunta, name='busqueda_pregunta'),
     url(r'^faq-pregunta/$', views.faqpregunta, name='faqpregunta'),
     url(r'^corporativa/$', views.corporativa, name='corporativa'),
     url(r'^corporativa/contacto/$', views.contacto, name='contacto'),
@@ -62,6 +64,7 @@ urlpatterns = [
     url(r'^reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
 
     url(r'^mensaje/get_user/', views.get_user, name='get_user'),
+    url(r'^busqueda/$', views.busqueda, name='busqueda'),
     
     #url(r'^artistas/$', views.artistas, name='listado'),
 
@@ -73,6 +76,7 @@ urlpatterns = [
     url(r'^blog/', include('blog.urls', namespace='blog')),
     url(r'^casting/', include('casting.urls', namespace='casting')),
     url(r'^api/v1/', include('API.urls', namespace='api')),
+    url('^inbox/notifications/', include(notifications.urls, namespace='notifications'))
     
 
     

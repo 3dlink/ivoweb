@@ -22,6 +22,7 @@ from datetime import date
 from casting.models import Casting
 from django.utils import formats
 from django.utils.dateparse import parse_date
+from itertools import chain
 
 
 # Create your views here.
@@ -129,6 +130,7 @@ def Configuracion_General_Actualizar(request):
             User.objects.filter(uuid=request.user.uuid).update(disponible_viajes=(request.POST['disponible_viajes'] == 'True'))
                 
         #import pdb; pdb.set_trace()
+        messages.success(request, 'Datos guardados exitosamente')
         return HttpResponseRedirect('/perfil/configuraciongeneral/') 
         #return HttpResponse(json.dumps({'mensaje':'Datos guardados exitosamente','success':True}), content_type="application/json")    
 
@@ -136,11 +138,11 @@ def Configuracion_Cita(request):
     
    if request.method == 'POST':
         datos = getDatosActualizar(User, request)
-        
+        user = User.objects.filter(uuid=request.user.uuid).update(**datos)
                 
         #import pdb; pdb.set_trace()
         #return HttpResponseRedirect('/perfil/configuraciongeneral/') 
-        return HttpResponse(json.dumps({'mensaje':'Datos guardados exitosamente','success':True}), content_type="application/json")    
+        return HttpResponse(json.dumps({'mensaje':'Cita guardados exitosamente','success':True}), content_type="application/json")    
 
 
 def Configuracion_General(request):
@@ -359,7 +361,7 @@ def Buscar_Educacion(request):
 
 
 def Perfil(request, uuid):
-    usuario = Usuario(uuid)
+    usuario = Usuario(User.objects.get(id=uuid).uuid)
     
     datos_personales = usuario.getDatosPersonales()
     seguir =len(Seguidores.objects.filter(destino=request.user))
@@ -448,10 +450,10 @@ def Buscar_fotos(request, tipo_archivo):
 
         #import pdb; pdb.set_trace()
         indicador=False
-        if request.user.id == User.objects.get(uuid=request.META['HTTP_REFERER'].split('/')[4]).id:
+        if request.user.id == User.objects.get(id=request.META['HTTP_REFERER'].split('/')[4]).id:
             indicador = True
 
-        archivo_list = Multimedia.objects.filter(usuario=User.objects.get(uuid=request.META['HTTP_REFERER'].split('/')[4]), tipo_archivo=archivo)
+        archivo_list = Multimedia.objects.filter(usuario=User.objects.get(id=request.META['HTTP_REFERER'].split('/')[4]), tipo_archivo=archivo)
         paginator = Paginator(archivo_list, 9)
         page = request.GET.get('page')
         try:
@@ -470,9 +472,7 @@ def Buscar_fotos(request, tipo_archivo):
         if tipo_archivo == 'video':
             respuesta = paginar_videos(archivo_paginacion, indicador)
 
-        #FALTA PAGINAR VIDEOS
-        #FALTA PAGINAR VIDEOS
-        #FALTA PAGINAR VIDEOS
+        
 
         return HttpResponse(json.dumps({'mensaje': '', 'archivos':respuesta['contenido_paginacion'],
                                         'item_paginas' : respuesta['pie_paginacion']}), content_type="application/json")
@@ -580,8 +580,7 @@ def detalle_mensajes(request):
     return HttpResponse(json.dumps({'mensaje':'desde el ajax','destino':destino, 'mensaje':mensaje.mensaje,'imagen':imagen,'archivo':archivo,'avatar':avatar,'success':True}), content_type="application/json")    
 
 
-# OJO   OJO    OJO     OJO     OJO   OJO 
-# NECESITO QUE SEA AJAX PARA PODER MANTENERME EN LA MISMA PAG¿INA
+
 def enviar_mensajes(request):
     if request.method == 'POST':   
        
@@ -600,8 +599,7 @@ def enviar_mensajes(request):
 
 
 
-# OJO   OJO    OJO     OJO     OJO   OJO 
-# NECESITO QUE SEA AJAX PARA PODER MANTENERME EN LA MISMA PAG¿INA
+
 def eliminar_mensajes(request):
     if request.method == 'POST':         
         mensaje=''
@@ -616,8 +614,13 @@ def eliminar_mensajes(request):
 
 def seguidores(request,uuid):
 
-    lista = Seguidores.objects.filter(destino=User.objects.get(uuid=uuid))
-    paginator = Paginator(lista, 15)
+    lista = Seguidores.objects.filter(destino=User.objects.get(id=uuid)).values_list('origen', flat=True)
+    talentos = User.objects.filter(id__in=lista, tipo_usuario='A').values_list('id', flat=True)
+    industrias = User.objects.filter(id__in=lista, tipo_usuario='P').values_list('id', flat=True)
+    usuarios = UsuarioArteGenero.objects.filter(id_usuario__in=talentos)
+    industriass = SectorIndustria.objects.filter(id_usuario__in=industrias)
+    aux = list(chain(usuarios,industriass))
+    paginator = Paginator(aux, 3)
     page = request.GET.get('page',1)
     try:
         seguidores = paginator.page(page)
@@ -628,18 +631,23 @@ def seguidores(request,uuid):
         # If page is out of range (e.g. 9999), deliver last page of results.
         seguidores = paginator.page(paginator.num_pages)
         #import pdb;   pdb.set_trace()
+
+    #seguidores = chain(usuarios,industrias)
+    #import pdb; pdb.set_trace()
     return render(request,"seguidores/seguidores.html", {"seguidores": seguidores })
 
 
 def siguiendo(request,uuid):
 
-    lista = Seguidores.objects.filter(origen=User.objects.get(uuid=uuid)).values_list('destino', flat=True)
+    lista = Seguidores.objects.filter(origen=User.objects.get(id=uuid)).values_list('destino', flat=True)
     talentos = User.objects.filter(id__in=lista, tipo_usuario='A').values_list('id', flat=True)
-    industrias = User.objects.filter(id__in=lista, tipo_usuario='I').values_list('id', flat=True)
+    industrias = User.objects.filter(id__in=lista, tipo_usuario='P').values_list('id', flat=True)
     usuarios = UsuarioArteGenero.objects.filter(id_usuario__in=talentos)
     industriass = SectorIndustria.objects.filter(id_usuario__in=industrias)
     #import pdb;   pdb.set_trace()
-    paginator = Paginator(usuarios, 15)
+
+    aux = list(chain(usuarios,industriass))
+    paginator = Paginator(aux, 3)
     page = request.GET.get('page',1)
     try:
         seguidores = paginator.page(page)
@@ -650,7 +658,8 @@ def siguiendo(request,uuid):
         # If page is out of range (e.g. 9999), deliver last page of results.
         seguidores = paginator.page(paginator.num_pages)
         
-    return render(request,"seguidores/siguiendo.html", {"seguidores": seguidores , 'industriass':industriass})
+
+    return render(request,"seguidores/siguiendo.html", {"seguidores": seguidores})
 
 
 

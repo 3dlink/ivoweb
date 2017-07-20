@@ -20,6 +20,9 @@
                     <li>
                         <a href="/terminos/">terminos y condiciones</a>
                     </li>
+                    <li>
+                        <a href="/faq/">preguntas frecuentes</a>
+                    </li>
                 </ul>
             </div>
 
@@ -136,9 +139,22 @@
                 <li>
                     <a id="enlace-blog" href={% url 'blog:todos' %} class="negro">Blog</a>
                 </li>
-                <li>
-                    <a href="#" class="azulClaro"><span class="glyphicon glyphicon-search" aria-hidden="true"> </span> Encuentra</a>
+                 {% if user.is_authenticated %}
+                <li id='li_encuentra'>
+                    <a id='encuentra' href="#" class="azulClaro"><span class="glyphicon glyphicon-search" aria-hidden="true"> </span> Encuentra</a>
                 </li>
+     <li id='form_encuentra' >
+                    <form id='input_encuentra' action="{% url 'busqueda' %}" method="GET" >                           
+                        <input type="text" name="q">
+
+                        <button type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                        
+                    </form>
+                    
+                </li>
+                 {% endif %}
                 <li class="ivo-menu-principal-panel-buttonAp">
                     <button class="ivo-boton-fondoInpt" style="margin-top: 8px">
                         <span class="ivo-borde-transparente ivo-menu-buttonAP">

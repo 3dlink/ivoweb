@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+
+
 	$(document).on('click', '#close_mensajes', function(){
 			 		$('#mensajes').modal('hide');
 			 });
@@ -89,7 +91,7 @@ $(document).ready(function(){
 	        if (elemento.hasClass('icon_menu') || elemento.attr('id')=="ivo-boton-menu"){
 	        	
 	        }else {	
-	        	$('.ivo-menu-principal-panel').removeClass('ivo-menu-principal-mostrar');
+	        	//$('.ivo-menu-principal-panel').removeClass('ivo-menu-principal-mostrar');
 	        	
 		  		
 	        }

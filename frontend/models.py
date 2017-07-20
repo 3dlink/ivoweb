@@ -11,7 +11,12 @@ from django.core.mail import send_mail
 from uuid import uuid4
 # Create your models here.
 
-
+class Pregunta (models.Model):
+    pregunta = models.CharField(max_length=200)    
+    respuesta = models.TextField()
+    
+    def __str__(self):              # __unicode__ on Python 2
+        return self.pregunta
 
 
 
@@ -162,7 +167,12 @@ class User(AbstractBaseUser,PermissionsMixin):
 
     @property
     def get_avatar(self):
-        return str(self.avatar)
+
+        if self.avatar:
+            return str(self.avatar)
+        else:
+            return '/static/img/avatar-ivo.jpg'
+        
         #.replace('avatar/', 'avatar/sm_')
 
     def get_portada(self):
@@ -172,10 +182,10 @@ class User(AbstractBaseUser,PermissionsMixin):
         return self.uuid
 
     def get_absolute_url(self):
-        return "/perfil/%s/" % (self.uuid)
+        return "/perfil/%s/" % (self.id)
 
     def get_api_url(self):
-       return "/api/v1/%s/" % (self.uuid)
+       return "/api/v1/perfil/%s/" % (self.id)
 
 
     def get_full_name(self):
@@ -306,8 +316,13 @@ class UsuarioArteGenero(models.Model):
     def get_usuario(self):
         return self.id_usuario
 
+    def model_name(self):
+        return self._meta.verbose_name
+
     def __unicode__(self):
         return '%s' % (self.id_genero.name)
+
+    
 
 
 class Seguidores(models.Model):
@@ -340,13 +355,19 @@ class Industria (models.Model):
     nombre = models.CharField(_('Sector Industria'), max_length=255, blank=True)
     tipo = models.CharField(max_length=1, null=False, blank=False, default='I', choices=TIPO)
 
-
     def __str__(self):              # __unicode__ on Python 2
         return self.nombre
+
+    def model_name(self):
+        return self.model._meta.verbose_name
 
 class SectorIndustria(models.Model):
     id_sector = models.ForeignKey(Industria, on_delete=models.CASCADE)
     id_usuario = models.ForeignKey(User, on_delete=models.CASCADE,related_name="sectorindustria")
+
+    @property    
+    def model_name(self):
+        return self._meta.verbose_name
 
 class Proveedor (models.Model):
     nombre = models.CharField(_('Sector Proveedor'), max_length=255, blank=True)

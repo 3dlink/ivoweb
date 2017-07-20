@@ -33,89 +33,253 @@
 
 			{% for seguidor in seguidores %}
 				<!-- Fila Listado de Perfiles -->
+		{% if forloop.counter0 == 0 %}
+		<div class="row ivo-perfil-busqueda-row">
+		{%endif%}
+
 				{%if forloop.counter0 < 3 %}
-				<div class="row ivo-perfil-busqueda-row">
+				
 					<!-- Item Listado de Perfiles -->
 					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
 						<div class="row">
 							<!-- Imagen del perfil -->
 							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+								{%if seguidor.id_usuario.avatar == None or seguidor.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
 								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{seguidor.id_usuario.get_avatar}});"></div>
+							{% endif %}
 							</div>
 							<!-- Informacion del perfil -->
 							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
 								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
 								
+									{%if seguidor.id_usuario.tipo_usuario == 'A' %}
 									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.id_usuario.get_full_name}}</li>
 									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{seguidor.id_genero.id_tipo_arte.name}}</li>
 									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{seguidor.id_genero.name}}</li>
-									<!--li class="ivo-perfil-busqueda-fans">
-										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
-									</li-->
+
+								{% else %}
+
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.id_usuario.empresa_provedor}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Proveedor</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{seguidor.id_sector.nombre}}</li>
+
+								{% endif %}
 								
-								<!-- NO TENGO MANERA DE VER ESA PUNTUACION -->
-									<!--li class="ivo-perfil-busqueda-estrellas">
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
-									</li-->
-									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{seguidor.id_usuario.get_uuid}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{seguidor.id_usuario.id}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
 								</ul>
 							</div>
 						</div>				
 					</div>
 					<!-- Item Listado de Perfiles -->
-					
+					{% if forloop.counter0 == 2 or seguidores.object_list|length == forloop.counter %}
 				</div>
-			
+				
 				{%endif%}
-			{% endfor %}
-
-
-			{% for industria in industriass %}
-				<!-- Fila Listado de Perfiles -->
-				{%if forloop.counter0 < 3 %}
+				
+				{% elif forloop.counter0 > 2 or forloop.counter0 < 6 %}
+				{% if forloop.counter0 == 3 %}
+				
 				<div class="row ivo-perfil-busqueda-row">
+				{%endif%}
+
+				
 					<!-- Item Listado de Perfiles -->
 					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
 						<div class="row">
 							<!-- Imagen del perfil -->
 							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
-								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{industria.id_usuario.get_avatar}});"></div>
+								{%if seguidor.id_usuario.avatar == None or seguidor.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{seguidor.id_usuario.get_avatar}});"></div>
+							{% endif %}
 							</div>
 							<!-- Informacion del perfil -->
 							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
 								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
 								
-									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{industria.id_usuario.empresa_provedor}}</li>
-									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Industria</li>
-									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{industria.id_sector}}</li>
-									<!--li class="ivo-perfil-busqueda-fans">
-										<span class="glyphicon glyphicon-heart ivo-font-naranja"></span> <font>500 fans</font>
-									</li-->
+									{%if seguidor.id_usuario.tipo_usuario == 'A' %}
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.id_usuario.get_full_name}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{seguidor.id_genero.id_tipo_arte.name}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{seguidor.id_genero.name}}</li>
+
+								{% else %}
+
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.id_usuario.empresa_provedor}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Proveedor</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{seguidor.id_sector.nombre}}</li>
+
+								{% endif %}
 								
-								<!-- NO TENGO MANERA DE VER ESA PUNTUACION -->
-									<!--li class="ivo-perfil-busqueda-estrellas">
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star ivo-font-naranja"></span>
-										<span class="glyphicon glyphicon-star-empty ivo-font-naranja"></span>
-									</li-->
-									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{industria.id_usuario.get_uuid}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{seguidor.id_usuario.id}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
 								</ul>
 							</div>
 						</div>				
 					</div>
 					<!-- Item Listado de Perfiles -->
 					
+				{% if forloop.counter0 == 5 or seguidores.object_list|length == forloop.counter %}
 				</div>
+				
+				{%endif%}
+
+				{% elif forloop.counter0 > 5 or forloop.counter0 < 9 %}
+				{% if forloop.counter0 == 6 %}
+				
+				<div class="row ivo-perfil-busqueda-row">
+				{%endif%}
+
+				
+					<!-- Item Listado de Perfiles -->
+					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<!-- Imagen del perfil -->
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+								{%if seguidor.id_usuario.avatar == None or seguidor.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{seguidor.id_usuario.get_avatar}});"></div>
+							{% endif %}
+							</div>
+							<!-- Informacion del perfil -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+								
+									{%if seguidor.id_usuario.tipo_usuario == 'A' %}
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.id_usuario.get_full_name}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{seguidor.id_genero.id_tipo_arte.name}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{seguidor.id_genero.name}}</li>
+
+								{% else %}
+
+									<<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.id_usuario.empresa_provedor}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Proveedor</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{seguidor.id_sector.nombre}}</li>
+
+
+								{% endif %}
+								
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{seguidor.id_usuario.id}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+								</ul>
+							</div>
+						</div>				
+					</div>
+					<!-- Item Listado de Perfiles -->
+					
+				{% if forloop.counter0 == 8 or seguidores.object_list|length == forloop.counter %}
+				</div>
+				
+				{%endif%}
+			{% elif forloop.counter0 > 8 or forloop.counter0 < 12 %}
+				{% if forloop.counter0 == 9 %}
+				
+				<div class="row ivo-perfil-busqueda-row">
+				{%endif%}
+
+				
+					<!-- Item Listado de Perfiles -->
+					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<!-- Imagen del perfil -->
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+								{%if seguidor.id_usuario.avatar == None or seguidor.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{seguidor.id_usuario.get_avatar}});"></div>
+							{% endif %}
+							</div>
+							<!-- Informacion del perfil -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+								{%if seguidor.id_usuario.tipo_usuario == 'A' %}
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.id_usuario.get_full_name}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{seguidor.id_genero.id_tipo_arte.name}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{seguidor.id_genero.name}}</li>
+
+								{% else %}
+
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.id_usuario.empresa_provedor}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Proveedor</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{seguidor.id_sector.nombre}}</li>
+
+
+								{% endif %}
+								
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{seguidor.id_usuario.id}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+								</ul>
+							</div>
+						</div>				
+					</div>
+					<!-- Item Listado de Perfiles -->
+					
+				{% if forloop.counter0 == 11 or seguidores.object_list|length == forloop.counter %}
+				</div>
+				
+				{%endif%}
+			
+				{% elif forloop.counter0 > 11 or forloop.counter0 < 15 %}
+				{% if forloop.counter0 == 12 %}
+				
+				<div class="row ivo-perfil-busqueda-row">
+				{%endif%}
+
+				
+					<!-- Item Listado de Perfiles -->
+					<div class="col-xs-12 col-sm-4 col-md-4 ivo-perfil-busqueda-informacionItem">
+						<div class="row">
+							<!-- Imagen del perfil -->
+							<div class="col-xs-4 col-sm-12 col-md-5 col-lg-5  col-xs-offset-2 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 ivo-perfil-busqueda-informacionImagen">
+								{%if seguidor.id_usuario.avatar == None or seguidor.id_usuario.avatar == '' %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url({% static 'img/avatar-ivo.jpg' %});"></div>
+							{% else %}
+								<div class="ivo-perfil-busqueda-imgPerfil" style="background-image: url(/media/{{seguidor.id_usuario.get_avatar}});"></div>
+							{% endif %}
+							</div>
+							<!-- Informacion del perfil -->
+							<div class="col-xs-6 col-sm-12 col-md-7 ivo-perfil-busqueda-informacionLista">
+								<ul class="ivo-dashboard-infoBasica ivo-perfil-info ivo-perfil-busquedaPanel">
+								
+								{%if seguidor.id_usuario.tipo_usuario == 'A' %}
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.id_usuario.get_full_name}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{seguidor.id_genero.id_tipo_arte.name}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{seguidor.id_genero.name}}</li>
+
+								{% else %}
+
+									<li class="ivo-dashboard-infoBasica-nombre ivo-perfil-nombre ivo-perfil-busqueda-nombre">{{seguidor.id_usuario.empresa_provedor}}</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">Proveedor</li>
+									<li class="ivo-perfil-talento ivo-perfil-busqueda-talento">{{seguidor.id_sector.nombre}}</li>
+
+
+								{% endif %}
+								
+									
+									<li class="ivo-perfil-busqueda-enlace"><a href="/perfil/{{seguidor.id_usuario.id}}/" class="ivo-font-azulClaro">Ver Perfil</a></li>
+								</ul>
+							</div>
+						</div>				
+					</div>
+					<!-- Item Listado de Perfiles -->
+					
+				{% if forloop.counter0 == 15 or seguidores.object_list|length == forloop.counter %}
+				</div>
+				
+				{%endif%}
+			
+				
+				
 			
 				{%endif%}
 			{% endfor %}
 
+
+			
 				<!-- Numero de Paginas del Listado de Perfiles -->
 				<div class="row">
 					<div class="col-md-6 col-lg-6 col-md-offset-3 ivo-blog-paginas ivo-blog-paginas-invertido">

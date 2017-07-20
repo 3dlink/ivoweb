@@ -65,7 +65,7 @@
                         </div>
                         <div class="col-sm-12 col-md-4 col-lg-4">
                             <div>Fecha de Nacimiento</div>
-                            <input class="fechad" type="date" id="fecha_dia" minlength="2" maxlength="2"
+                            <input class="fechad" type="text" id="fecha_dia" minlength="2" maxlength="2"
                                    onkeypress="return soloNumeros(event)" required = "required"
                                    mensaje="{% trans 'Día de la fecha es un campo requerido' %}">
                             <div class="resaltar-separador">/</div>
@@ -445,7 +445,7 @@ $('#btn_registrar').click(function(){
 
                 if(validarForm($('#ivo-form input'))){
                     $('#fecha_nacimiento').val($('#fecha_a_o').val()+"-"+$('#fecha_mes').val()+'-'+$('#fecha_dia').val());
-        //registrar();    
+        registrar();    
                 
             }else{
                 console.log('false');
@@ -503,7 +503,7 @@ $('#talento').on('change', function () {
 
 });
 
- $('#facebook,#fb-fan').click(function(){
+ $('#fb-fan').click(function(){
                 FB.login(function(response) {
                   if (response.status === 'connected') {
                     // Logged into your app and Facebook.
@@ -563,5 +563,86 @@ function updateSigninStatus(isSignedIn) {
         gapi.auth2.getAuthInstance().signIn();
       }
 
+
+
+
+      function handleSignOutClick(event) {
+        gapi.auth2.getAuthInstance().signOut();
+        console.log('nos salimos')
+      }
+             $(document).on('click', '#close', function(){
+                    $('#myModal').hide();
+             });
+
+            $('.carousel').carousel({
+                interval: 5000 //changes the speed
+            })
+
+          $('#facebook').click(function(){
+                FB.login(function(response) {
+                  if (response.status === 'connected') {
+                    // Logged into your app and Facebook.
+                    console.log('Welcome!  Fetching your information.... ');
+                        FB.api('/me?fields=first_name, last_name, id, picture, gender, email,name', function(response) {
+                           console.log(response)
+                            
+                                 var genero='';
+                              if (response.gender=='male'){
+                                genero='M';
+                              }else{
+                                genero='F';
+                              };
+                            
+
+                           $.ajax({
+                            url: '/facebook-login/',
+                            type: 'post',
+                            dataType: 'json',
+                            data: {'name':response.name,'genero':genero,'first_name':response.first_name, 'last_name':response.last_name,'email':response.email,'picture':'http:///graph.facebook.com/'+response.id+'/picture?type=large','tipo_usuario':'A', 'csrfmiddlewaretoken':'{{csrf_token}}'},
+                            success: function (data) {
+                                if(data.success == false){
+
+                                  }else{
+                                    
+                                   
+                                   
+                                      location.href  ='/artistadashboard/'
+                                      
+                                                  
+                                                                      
+                                }
+                            }
+                        });
+
+                        });
+
+                  } else {
+                    // The person is not logged into this app or we are unable to tell.
+                  }
+                },{scope:'email'});
+
+        })
+
+
+
+    /*function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+}
+
+
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }*/
+
+
+        
 </script>
 {% endblock javascript %}

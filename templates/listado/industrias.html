@@ -85,13 +85,13 @@
 					        	{% if industria.id_usuario.avatar %}
 					        	
 					        	<!--img src="{{ industria.id_usuario.avatar.url }}/" class="img-responsive"-->
-					        	<a href="/perfil/{{industria.id_usuario.get_uuid}}/">
+					        	<a href="/perfil/{{industria.id_usuario.id}}/">
 								<div class="ivo-imgListado" style="background-image: url(/media/{{industria.id_usuario.avatar}});"></div>
 					        		</a>
 
 					        	{%  else %}	
 
-								<a href="/perfil/{{industria.id_usuario.get_uuid}}/">
+								<a href="/perfil/{{industria.id_usuario.id}}/">
 					        	<div class="ivo-imgListado" style="background-image: url(http://www.prepbootstrap.com/Content/images/template/ResponsiveImageTiles/city4.jpg);"></div>
 					        		</a>
 
