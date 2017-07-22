@@ -321,12 +321,58 @@ function registrar(){
         });
     }
 
-     $('#facebook,#fb-fan').click(function(){
+     $('#fb-fan').click(function(){
                 FB.login(function(response) {
                   if (response.status === 'connected') {
                     // Logged into your app and Facebook.
                     console.log('Welcome!  Fetching your information.... ');
-                        FB.api('/me?fields=first_name, last_name, id, picture, gender, email', function(response) {
+                        FB.api('/me?fields=first_name, last_name, id, picture, gender, email,name', function(response) {
+                           console.log(response)
+                            
+                                 var genero='';
+                              if (response.gender=='male'){
+                                genero='M';
+                              }else{
+                                genero='F';
+                              };
+                            
+
+                           $.ajax({
+                            url: '/facebook-registro/',
+                            type: 'post',
+                            dataType: 'json',
+                            data: {'first_name':response.first_name,'last_name':response.last_name,'genero':genero ,'tipo_usuario':'F','name':response.name,'email':response.email,'picture':'http:///graph.facebook.com/'+response.id+'/picture?type=large', 'csrfmiddlewaretoken':'{{csrf_token}}'},
+                            success: function (data) {
+                                if(data.success == false){
+                                     $('#texto_mensaje').text('no se pudo crear la cuenta');
+                                     $('#mensajes').modal('show');
+                                  }else{
+                                    
+                                   
+                                   
+                                      location.href  ='/perfil/configuraciongeneral/'
+                                        
+                                                  
+                                                                      
+                                }
+                            }
+                        });
+                              
+                        });
+
+                  } else {
+                    // The person is not logged into this app or we are unable to tell.
+                  }
+                },{scope:'email'});
+
+        })
+
+ $('#facebook').click(function(){
+                FB.login(function(response) {
+                  if (response.status === 'connected') {
+                    // Logged into your app and Facebook.
+                    console.log('Welcome!  Fetching your information.... ');
+                        FB.api('/me?fields=first_name, last_name, id, picture, gender, email,name', function(response) {
                            console.log(response)
                             
                                  var genero='';
@@ -344,12 +390,13 @@ function registrar(){
                             data: {'first_name':response.first_name,'last_name':response.last_name,'gender':response.gender ,'tipo_usuario':'F','name':response.name,'email':response.email,'picture':'http:///graph.facebook.com/'+response.id+'/picture?type=large', 'csrfmiddlewaretoken':'{{csrf_token}}'},
                             success: function (data) {
                                 if(data.success == false){
-
+                                     $('#texto_mensaje').text('Ud no posee cuenta de usuario');
+                                     $('#mensajes').modal('show');
                                   }else{
                                     
                                    
-                                    
-                                      location.href  ='/perfil/configuraciongeneral/'
+                                   
+                                      location.href  ='/artistadashboard/'
                                         
                                                   
                                                                       
@@ -370,7 +417,7 @@ function updateSigninStatus(isSignedIn) {
         // When signin status changes, this function is called.
         // If the signin status is changed to signedIn, we make an API call.
         if (isSignedIn) {
-          makeApiCall('I');
+          makeApiCallReg('F');
         }
       }
 

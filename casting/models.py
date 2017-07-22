@@ -7,6 +7,12 @@ class Categoria(models.Model):
     def __str__(self):
     	return self.nombre
 
+    class Meta:
+        verbose_name = 'Categoria'
+        verbose_name_plural = 'Categorias'
+        app_label = 'casting'
+
+
 class Casting(models.Model):
     titulo = models.CharField(max_length=255, blank=False)  # Field name made lowercase.
     fecha_inicio = models.DateTimeField(null=False)  # Field name made lowercase.
@@ -36,11 +42,19 @@ class Casting(models.Model):
     def model_name(self):
         return self._meta.verbose_name
 
+    class Meta:
+        verbose_name = 'Casting'
+        verbose_name_plural = 'Castings'
+        app_label = 'casting'
+
 
 class Filtro(models.Model):
     id_casting = models.ForeignKey(Casting, on_delete = models.CASCADE)
     id_talento = models.ForeignKey(TipoArte, on_delete = models.CASCADE)
     id_generos = models.ManyToManyField(GeneroArtistico)
+
+    class Meta:        
+        app_label = 'casting'
 
 
 class Audicion(models.Model):
@@ -50,6 +64,8 @@ class Audicion(models.Model):
     cuentanos = models.TextField()
     archivo =  models.FileField(upload_to='audiciones', blank=False)
     ganador = models.BooleanField(default=False)
+    class Meta:        
+        app_label = 'casting'
 
     
 

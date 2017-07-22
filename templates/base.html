@@ -92,7 +92,9 @@
                             data: {'name':response.result.names[0].displayName,'genero':genero,'first_name':response.result.names[0].givenName, 'last_name':response.result.names[0].familyName,'email':response.result.emailAddresses[0].value,'picture':response.result.photos[0].url,'tipo_usuario':tipo_usuario, 'csrfmiddlewaretoken':'{{csrf_token}}'},
                             success: function (data) {
                                 if(data.success == false){
-
+                                  gapi.auth2.getAuthInstance().signOut();
+                                    $('#texto_mensaje').text('No Posees una cuenta de usuario');
+                                     $('#mensajes').modal('show');
                                   }else{
                                     
                                    
@@ -101,6 +103,57 @@
                                       
                                                   
 				                                                      
+                                }
+                            }
+                        });
+
+
+
+        }, function(reason) {
+          console.log('Error: ' + reason.result.error.message);
+        });
+      }
+
+
+       function makeApiCallReg(tipo_usuario) {
+        // Make an API call to the People API, and print the user's given name.
+        gapi.client.people.people.get({
+          'resourceName': 'people/me',
+          'requestMask.includeField': 'person.names,person.emailAddresses,person.genders,person.birthdays,person.photos'
+        }).then(function(response) {
+            alert(response.result.emailAddresses[0].value)
+           var genero='';
+         /* if (response.result.genders[0].value=='male'){
+            genero='M';
+          }else{
+            genero='F';
+          };
+          console.log('Nombre, ' + response.result.names[0].givenName);
+          console.log('Apellido, ' + response.result.names[0].familyName);
+          console.log('N-Completo, ' + response.result.names[0].displayName);
+          console.log('Genero, ' + response.result.names[0].displayName);
+          console.log('Email, ' + response.result.emailAddresses[0].value);
+          console.log('Foto, ' + response.result.photos[0].url);*/
+
+          //console.log(response)
+          $.ajax({
+                            url: '/facebook-registro/',
+                            type: 'post',
+                            dataType: 'json',
+                            data: {'name':response.result.names[0].displayName,'genero':genero,'first_name':response.result.names[0].givenName, 'last_name':response.result.names[0].familyName,'email':response.result.emailAddresses[0].value,'picture':response.result.photos[0].url,'tipo_usuario':tipo_usuario, 'csrfmiddlewaretoken':'{{csrf_token}}'},
+                            success: function (data) {
+                                if(data.success == false){
+                                  gapi.auth2.getAuthInstance().signOut();
+                                    $('#texto_mensaje').text('No Posees una cuenta de usuario');
+                                     $('#mensajes').modal('show');
+                                  }else{
+                                    
+                                   
+                                      gapi.auth2.getAuthInstance().signOut();
+                                      location.href  ='/perfil/configuraciongeneral/'
+                                      
+                                                  
+                                                              
                                 }
                             }
                         });

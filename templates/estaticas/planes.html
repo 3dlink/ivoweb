@@ -25,8 +25,10 @@
 					</div>
 				</div>
 				<!-- Contenedor Planes -->
+				{% if user.tipo_usuario == 'A' %}
 				<div class="row">
 					<!-- Item Plan -->
+					{% comment %}
 					<div class="col-xs-6 col-sm-6 col-md-3 ivo-plan-paquete">
 						<div class="row ivo-plan-row">
 							<div class="col-md-12 ivo-plan-paquete-tipo ivo-back-azulClaro ivo-borde-azulClaro-drk">
@@ -46,20 +48,21 @@
 							</div>
 						</div>
 					</div>
+					{% endcomment %}
 					<!-- Item Plan -->
 					<div class="col-xs-6 col-sm-6 col-md-3 ivo-plan-paquete">
 						<div class="row ivo-plan-row">
 							<div class="col-md-12 ivo-plan-paquete-tipo ivo-back-azul ivo-borde-azul-drk">
-								<h4>B&aacute;sico</h4>
+								<h4>Silver</h4>
 							</div>	
 							<div class="col-md-12 ivo-plan-paquete-monto ivo-back-azul">
-								<div class="ivo-back-azul-drk">$8.99/mo</div>
+								<div class="ivo-back-azul-drk">$0.0/mo</div>
 							</div>
 							<div class="col-md-12 ivo-plan-paquete-caracteristicas">
 								<ul>
-									<li>1 GB space</li>
-									<li>12 audiciones por mes</li>
-									<li>contrato minimo por 3 meses</li>
+									<li>500 MB space</li>
+									<li>4 audiciones por mes</li>
+									
 								</ul>
 							</div>
 							<div class="col-md-12 ivo-plan-paquete-enlace ivo-back-azul">
@@ -71,18 +74,17 @@
 					<div class="col-xs-6 col-sm-6 col-md-3 ivo-plan-paquete">
 						<div class="row ivo-plan-row">
 							<div class="col-md-12 ivo-plan-paquete-tipo ivo-back-naranja ivo-borde-naranja-drk">
-								<h4>Premium</h4>
+								<h4>Gold</h4>
 							</div>	
 							<div class="col-md-12 ivo-plan-paquete-monto ivo-back-naranja">
-								<div class="ivo-back-naranja-drk">$50/mo</div>
+								<div class="ivo-back-naranja-drk">$8.99/mo</div>
 							</div>
 							<div class="col-md-12 ivo-plan-paquete-caracteristicas">
 								<ul>
-									<li>5 GB space</li>
-									<li>50 GB Bandwidth</li>
-									<li>70 Portfolio Items</li>
-									<li>10 Video Uploads</li>
-									<li>24/7 Support</li>
+									<li>1 GB space</li>
+									<li>12 audiciones por mes</li>		
+									
+									<li>Contrato minimo por 3 meses</li>
 								</ul>
 							</div>
 							<div class="col-md-12 ivo-plan-paquete-enlace ivo-back-naranja">
@@ -94,20 +96,20 @@
 					<div class="col-xs-6 col-sm-6 col-md-3 ivo-plan-paquete">
 						<div class="row ivo-plan-row">
 							<div class="col-md-12 ivo-plan-paquete-tipo ivo-back-verde ivo-borde-verde-drk">
-								<h4>Vip</h4>
+								<h4>Diamond</h4>
 							</div>	
 							<div class="col-md-12 ivo-plan-paquete-monto ivo-back-verde">
-								<div class="ivo-back-verde-drk">$80/mo</div>
+								<div class="ivo-back-verde-drk">$14.99/mo</div>
 							</div>
 							<div class="col-md-12 ivo-plan-paquete-caracteristicas">
 								<ul>
-									<li>10 GB space</li>
-									<li>Unlimited Bandwidth</li>
-									<li>200 Portfolio Items</li>
-									<li>20 Video Uploads</li>
-									<li>Premium Email Support</li>
-									<li>Premium Phone Support</li>
-									<li>24/7 Support</li>
+									<li>3 GB space</li>
+									<li>Audiciones ilimitadas</li>
+									<li>Una asesoria de mentorias al año</li>
+									<li>Asignacion de un mentor</li>
+									<li>Contrato minimo por 6 meses</li>
+									
+									
 								</ul>
 							</div>
 							<div class="col-md-12 ivo-plan-paquete-enlace ivo-back-verde">
@@ -116,6 +118,202 @@
 						</div>
 					</div>
 				</div>
+				{% elif user.tipo_usuario == 'I' %}
+				<div class="row">
+					<!-- Item Plan -->
+					<div class="col-md-3"> </div>
+					<div class="col-xs-6 col-sm-6 col-md-3  ivo-plan-paquete">
+						<div class="row ivo-plan-row">
+							<div class="col-md-12 ivo-plan-paquete-tipo ivo-back-azulClaro ivo-borde-azulClaro-drk">
+								<h4>Costo por casting</h4>
+							</div>	
+							<div class="col-md-12 ivo-plan-paquete-monto ivo-back-azulClaro">
+								<div class="ivo-back-azulClaro-drk">$9.99</div>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-caracteristicas">
+								<ul>
+									<li>Si no estas afiliado al plan de membresias Ivo</li>
+									<li>Te permite hacer un casting selectivo</li>
+								</ul>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-enlace ivo-back-azulClaro">
+								<a href="#">Seleccionar</a>
+							</div>
+						</div>
+					</div>
+					{% comment %}
+					<!-- Item Plan -->
+					<div class="col-xs-6 col-sm-6 col-md-6 ivo-plan-paquete">
+						<div class="row ivo-plan-row">
+							<div class="col-md-12 ivo-plan-paquete-tipo ivo-back-azul ivo-borde-azul-drk">
+								<h4>Silver</h4>
+							</div>	
+							<div class="col-md-12 ivo-plan-paquete-monto ivo-back-azul">
+								<div class="ivo-back-azul-drk">$0.0/mo</div>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-caracteristicas">
+								<ul>
+									<li>500 MB space</li>
+									<li>4 audiciones por mes</li>
+									
+								</ul>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-enlace ivo-back-azul">
+								<a href="#">Seleccionar</a>
+							</div>
+						</div>
+					</div>
+					{% endcomment %}
+					<!-- Item Plan -->
+					<div class="col-md-1"> </div>
+					<div class="col-xs-6 col-sm-6 col-md-3  ivo-plan-paquete">
+						<div class="row ivo-plan-row">
+							<div class="col-md-12 ivo-plan-paquete-tipo ivo-back-naranja ivo-borde-naranja-drk">
+								<h4>Membresia Anual</h4>
+							</div>	
+							<div class="col-md-12 ivo-plan-paquete-monto ivo-back-naranja">
+								<div class="ivo-back-naranja-drk">$180</div>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-caracteristicas">
+								<ul>
+									<li>Acceso a la base de datos de IvoTalents</li>
+									<li>Herramienta de selección y búsqueda
+especializada</li>		
+									
+									<li>Realizar casting o audición selectiva</li>
+								</ul>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-enlace ivo-back-naranja">
+								<a href="#">Seleccionar</a>
+							</div>
+						</div>
+					</div>
+					<!-- Item Plan -->
+					{% comment %}
+					<div class="col-xs-6 col-sm-6 col-md-6 ivo-plan-paquete">
+						<div class="row ivo-plan-row">
+							<div class="col-md-12 ivo-plan-paquete-tipo ivo-back-verde ivo-borde-verde-drk">
+								<h4>Diamond</h4>
+							</div>	
+							<div class="col-md-12 ivo-plan-paquete-monto ivo-back-verde">
+								<div class="ivo-back-verde-drk">$14.99/mo</div>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-caracteristicas">
+								<ul>
+									<li>3 GB space</li>
+									<li>Audiciones ilimitadas</li>
+									<li>Una asesoria de mentorias al año</li>
+									<li>Asignacion de un mentor</li>
+									<li>Contrato minimo por 6 meses</li>
+									
+									
+								</ul>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-enlace ivo-back-verde">
+								<a href="#">Seleccionar</a>
+							</div>
+						</div>
+					</div>
+					{% endcomment %}
+				</div>
+
+				{%elif user.tipo_usuario == 'P' %}
+				<div class="row">
+					<!-- Item Plan -->
+					{% comment %}
+					<div class="col-xs-6 col-sm-6 col-md-3 ivo-plan-paquete">
+						<div class="row ivo-plan-row">
+							<div class="col-md-12 ivo-plan-paquete-tipo ivo-back-azulClaro ivo-borde-azulClaro-drk">
+								<h4>Gratis</h4>
+							</div>	
+							<div class="col-md-12 ivo-plan-paquete-monto ivo-back-azulClaro">
+								<div class="ivo-back-azulClaro-drk">$00/mo</div>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-caracteristicas">
+								<ul>
+									<li>500 MB space</li>
+									<li>4 audiciones por mes</li>
+								</ul>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-enlace ivo-back-azulClaro">
+								<a href="#">Seleccionar</a>
+							</div>
+						</div>
+					</div>
+					{% endcomment %}
+					<!-- Item Plan -->
+					<div class="col-md-4"></div>
+					<div class="col-xs-6 col-sm-6 col-md-3 ivo-plan-paquete">
+						<div class="row ivo-plan-row">
+							<div class="col-md-12 ivo-plan-paquete-tipo ivo-back-azul ivo-borde-azul-drk">
+								<h4>Membresia anual</h4>
+							</div>	
+							<div class="col-md-12 ivo-plan-paquete-monto ivo-back-azul">
+								<div class="ivo-back-azul-drk">$19.99</div>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-caracteristicas">
+								<ul>
+									<li>1 GB space</li>
+									<li>Acceso a la base de datos de los talentos artísticos,</li>
+									
+								</ul>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-enlace ivo-back-azul">
+								<a href="#">Seleccionar</a>
+							</div>
+						</div>
+					</div>
+					<!-- Item Plan -->
+					{%comment %}
+					<div class="col-xs-6 col-sm-6 col-md-3 ivo-plan-paquete">
+						<div class="row ivo-plan-row">
+							<div class="col-md-12 ivo-plan-paquete-tipo ivo-back-naranja ivo-borde-naranja-drk">
+								<h4>Gold</h4>
+							</div>	
+							<div class="col-md-12 ivo-plan-paquete-monto ivo-back-naranja">
+								<div class="ivo-back-naranja-drk">$8.99/mo</div>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-caracteristicas">
+								<ul>
+									<li>1 GB space</li>
+									<li>12 audiciones por mes</li>		
+									
+									<li>Contrato minimo por 3 meses</li>
+								</ul>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-enlace ivo-back-naranja">
+								<a href="#">Seleccionar</a>
+							</div>
+						</div>
+					</div>
+					<!-- Item Plan -->
+					<div class="col-xs-6 col-sm-6 col-md-3 ivo-plan-paquete">
+						<div class="row ivo-plan-row">
+							<div class="col-md-12 ivo-plan-paquete-tipo ivo-back-verde ivo-borde-verde-drk">
+								<h4>Diamond</h4>
+							</div>	
+							<div class="col-md-12 ivo-plan-paquete-monto ivo-back-verde">
+								<div class="ivo-back-verde-drk">$14.99/mo</div>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-caracteristicas">
+								<ul>
+									<li>3 GB space</li>
+									<li>Audiciones ilimitadas</li>
+									<li>Una asesoria de mentorias al año</li>
+									<li>Asignacion de un mentor</li>
+									<li>Contrato minimo por 6 meses</li>
+									
+									
+								</ul>
+							</div>
+							<div class="col-md-12 ivo-plan-paquete-enlace ivo-back-verde">
+								<a href="#">Seleccionar</a>
+							</div>
+						</div>
+					</div>
+					{%endcomment %}
+				</div>
+				{% endif %}
 			</div>
 		</div>
 	{%endblock%}

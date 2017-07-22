@@ -2,6 +2,7 @@ from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate, login, logout
+from django.conf import settings
 from django.contrib import messages
 from django.db import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
@@ -26,16 +27,47 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
-def facebook(request):
+def facebook_login(request):
+    if request.method=='POST':
+        nuevo=False;     
+        exist = True
+         
+        
+        #obj, created =User.objects.get_or_create(email=request.POST['email'])
+
+       #genero=request.POST['genero'],empresa_provedor=request.POST['name'],razon_social=request.POST['name'],first_name=request.POST['first_name'], last_name=request.POST['last_name'],tipo_usuario=request.POST['tipo_usuario']
+            
+        try:
+            user =User.objects.get(email=request.POST['email'])
+        except User.DoesNotExist:
+            print('NO TIENE CUENTA')
+            exist = False
+                    
+        if exist:      
+            print('NO ME SALI')      
+            user.backend = settings.AUTHENTICATION_BACKENDS[0]
+            
+            login(request, user)
+            return HttpResponse(json.dumps({'nuevo':nuevo,'success':True}), content_type="application/json")  
+        else:
+            nuevo=True
+            print('ANTES DE SALIRNOS')
+            return HttpResponse(json.dumps({'nuevo':nuevo,'success':False}), content_type="application/json")   
+        #return redirect('/perfil/configuraciongeneral/')
+          
+
+
+def facebook_registro(request):
     if request.method=='POST':
         nuevo=True;        
+        import pdb; pdb.set_trace()
         obj, created =User.objects.get_or_create(email=request.POST['email'])
        #genero=request.POST['genero'],empresa_provedor=request.POST['name'],razon_social=request.POST['name'],first_name=request.POST['first_name'], last_name=request.POST['last_name'],tipo_usuario=request.POST['tipo_usuario']
             
         
         
         if created:
-            User.objects.filter(email=obj.email).update(genero=request.POST['genero'],empresa_provedor=request.POST['name'],razon_social=request.POST['name'],first_name=request.POST['first_name'], last_name=request.POST['last_name'],tipo_usuario=request.POST['tipo_usuario'])
+            User.objects.filter(email=obj.email).update(genero=request.POST['genero'],empresa_provedor=request.POST['name'],razon_social=request.POST['name'],first_name=request.POST['first_name'], last_name=request.POST['last_name'],tipo_usuario=request.POST['tipo_usuario'],fecha_nacimiento='1990-01-01')
             
             if request.POST['tipo_usuario']=='A':
                 UsuarioArteGenero.objects.create(id_genero=GeneroArtistico.objects.get(id=1), id_usuario=obj)
@@ -57,7 +89,7 @@ def facebook(request):
             
         
         #return redirect('/perfil/configuraciongeneral/')
-        return HttpResponse(json.dumps({'nuevo':nuevo,'succes':True}), content_type="application/json")    
+        return HttpResponse(json.dumps({'nuevo':nuevo,'success':True}), content_type="application/json")    
 
 
 def home(request):

@@ -546,10 +546,11 @@
                             url: '/facebook-login/',
                             type: 'post',
                             dataType: 'json',
-                            data: {'name':response.name,'genero':genero,'first_name':response.first_name, 'last_name':response.last_name,'email':response.email,'picture':'http:///graph.facebook.com/'+response.id+'/picture?type=large','tipo_usuario':'A', 'csrfmiddlewaretoken':'{{csrf_token}}'},
+                            data: {'email':response.email, 'csrfmiddlewaretoken':'{{csrf_token}}'},
                             success: function (data) {
                                 if(data.success == false){
-
+                                	$('#texto_mensaje').text('No Posees una cuenta de usuario');
+                                     $('#mensajes').modal('show');
                                   }else{
                                     
                                    

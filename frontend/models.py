@@ -72,6 +72,7 @@ class CustomUserManager(BaseUserManager):
                           is_superuser=is_superuser, last_login=now,
                           date_joined=now, **extra_fields)
         user.set_password(password)
+        uudi = uuid4()
         user.save(using=self._db)
         return user
 

@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response, render, redirect
 from django.core.urlresolvers import reverse
-from .models import *
+from .models import Casting, Filtro, Audicion
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import  FormRegistro, FormAudicion
 from frontend.models import User, SectorIndustria, Industria, UsuarioArteGenero

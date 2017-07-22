@@ -589,7 +589,7 @@
 
 				<div class="row">
 					<div class="col-md-3">
-						<label>Estatura</label>
+						<label>Estatura<br> (en centimetros)</label>
 					</div>
 					<div class="col-md-9">
 						{% if datos.estatura != None %}
@@ -602,7 +602,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-3">
-						<label>Medida Busto</label>
+						<label>Medida Busto<br> (en centimetros)</label>
 					</div>
 					<div class="col-md-9">
 						{% if datos.busto != None %}
@@ -615,7 +615,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-3">
-						<label>Medida Cintura</label>
+						<label>Medida Cintura<br> (en centimetros)</label>
 					</div>
 					<div class="col-md-9">
 						{% if datos.cintura != None %}
@@ -628,7 +628,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-3">
-						<label>Medida Cadera</label>
+						<label>Medida Cadera <br>(en centimetros)</label>
 					</div>
 					<div class="col-md-9">
 						{% if datos.cadera != None %}
@@ -773,10 +773,25 @@
 			<div class="ivo-formularioConf-form ivo-formularioConf-form-nf from-principal" style="display:none" action="/perfil/configuraciongeneral/actualizar-experiencia/"   id="form_experiencia">
 				
                 <h1>Idiomas</h1>
+                <div class="col-md-12">
+						<table class="table ivo-table">
+				<thead>
+				    <tr>
+
+				        <th>Idioma</th>
+				        
+				        
+				    </tr>
+				</thead>
+				</table>
+					</div>
 				<div class="row">
 					<div class="col-md-3">
 						<label>Idiomas</label>
+
 					</div>
+
+
 					<div class="col-md-9">
 						<select id="idioma" name="idioma">
                             
@@ -793,14 +808,7 @@
 				</div>
 				</div>
 				<table class="table ivo-table">
-				<thead>
-				    <tr>
-
-				        <th>Idioma</th>
-				        
-				        
-				    </tr>
-				</thead>
+				
 				<tbody id='tbody_idiomas'>
 				    {% for idioma_user in idiomas_user %}
 				    <tr >

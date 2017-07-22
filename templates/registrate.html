@@ -520,13 +520,14 @@ $('#talento').on('change', function () {
                             
 
                            $.ajax({
-                            url: '/facebook-login/',
+                            url: '/facebook-registro/',
                             type: 'post',
                             dataType: 'json',
-                            data: {'first_name':response.first_name,'last_name':response.last_name,'gender':response.gender ,'tipo_usuario':'P','name':response.name,'email':response.email,'picture':'http:///graph.facebook.com/'+response.id+'/picture?type=large', 'csrfmiddlewaretoken':'{{csrf_token}}'},
+                            data: {'first_name':response.first_name,'last_name':response.last_name,'genero':genero ,'tipo_usuario':'A','name':response.name,'email':response.email,'picture':'http:///graph.facebook.com/'+response.id+'/picture?type=large', 'csrfmiddlewaretoken':'{{csrf_token}}'},
                             success: function (data) {
                                 if(data.success == false){
-
+                                     $('#texto_mensaje').text('no se pudo crear la cuenta');
+                                     $('#mensajes').modal('show');
                                   }else{
                                     
                                    
@@ -548,12 +549,58 @@ $('#talento').on('change', function () {
 
         })
 
+ $('#facebook').click(function(){
+                FB.login(function(response) {
+                  if (response.status === 'connected') {
+                    // Logged into your app and Facebook.
+                    console.log('Welcome!  Fetching your information.... ');
+                        FB.api('/me?fields=first_name, last_name, id, picture, gender, email,name', function(response) {
+                           console.log(response)
+                            
+                                 var genero='';
+                              if (response.gender=='male'){
+                                genero='M';
+                              }else{
+                                genero='F';
+                              };
+                            
+
+                           $.ajax({
+                            url: '/facebook-login/',
+                            type: 'post',
+                            dataType: 'json',
+                            data: {'first_name':response.first_name,'last_name':response.last_name,'gender':response.gender ,'tipo_usuario':'A','name':response.name,'email':response.email,'picture':'http:///graph.facebook.com/'+response.id+'/picture?type=large', 'csrfmiddlewaretoken':'{{csrf_token}}'},
+                            success: function (data) {
+                                if(data.success == false){
+                                     $('#texto_mensaje').text('Ud no posee cuenta de usuario');
+                                     $('#mensajes').modal('show');
+                                  }else{
+                                    
+                                   
+                                   
+                                      location.href  ='/artistadashboard/'
+                                        
+                                                  
+                                                                      
+                                }
+                            }
+                        });
+                              
+                        });
+
+                  } else {
+                    // The person is not logged into this app or we are unable to tell.
+                  }
+                },{scope:'email'});
+
+        })
+
 
 function updateSigninStatus(isSignedIn) {
         // When signin status changes, this function is called.
         // If the signin status is changed to signedIn, we make an API call.
         if (isSignedIn) {
-          makeApiCall('A');
+          makeApiCallReg('A');
         }
       }
 
@@ -598,7 +645,7 @@ function updateSigninStatus(isSignedIn) {
                             url: '/facebook-login/',
                             type: 'post',
                             dataType: 'json',
-                            data: {'name':response.name,'genero':genero,'first_name':response.first_name, 'last_name':response.last_name,'email':response.email,'picture':'http:///graph.facebook.com/'+response.id+'/picture?type=large','tipo_usuario':'A', 'csrfmiddlewaretoken':'{{csrf_token}}'},
+                            data: {'email':response.email, 'csrfmiddlewaretoken':'{{csrf_token}}'},
                             success: function (data) {
                                 if(data.success == false){
 
